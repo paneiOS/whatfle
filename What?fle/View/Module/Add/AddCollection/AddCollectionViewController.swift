@@ -30,7 +30,7 @@ enum AddCollectionType {
 final class AddCollectionViewController: UIViewController, AddCollectionPresentable, AddCollectionViewControllable {
     private enum Constants {
         static let bottomPadding: CGFloat = 8.0
-        static let maximumCount: Int = 8
+        static let maximumCount: Int = 4
     }
 
     weak var listener: AddCollectionPresentableListener?
