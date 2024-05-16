@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		390504782BE4296400575DF1 /* CustomPresentHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 390504772BE4296400575DF1 /* CustomPresentHeader.swift */; };
+		39171CFD2BF664BF00DF5B8D /* SwitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39171CFC2BF664BF00DF5B8D /* SwitchView.swift */; };
 		39195FFD2BAB40D900CC7A2E /* SelectLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39195FFC2BAB40D900CC7A2E /* SelectLocationCell.swift */; };
 		39195FFF2BAC51EA00CC7A2E /* RecentSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39195FFE2BAC51EA00CC7A2E /* RecentSearchCell.swift */; };
 		391960022BAC542B00CC7A2E /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391960012BAC542B00CC7A2E /* UserDefaultsManager.swift */; };
@@ -104,6 +105,7 @@
 
 /* Begin PBXFileReference section */
 		390504772BE4296400575DF1 /* CustomPresentHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPresentHeader.swift; sourceTree = "<group>"; };
+		39171CFC2BF664BF00DF5B8D /* SwitchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchView.swift; sourceTree = "<group>"; };
 		39195FFC2BAB40D900CC7A2E /* SelectLocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLocationCell.swift; sourceTree = "<group>"; };
 		39195FFE2BAC51EA00CC7A2E /* RecentSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchCell.swift; sourceTree = "<group>"; };
 		391960012BAC542B00CC7A2E /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
@@ -361,6 +363,7 @@
 				39CF56AE2BC0FD8D00E718C8 /* CustomNavigationBar.swift */,
 				390504772BE4296400575DF1 /* CustomPresentHeader.swift */,
 				399974192BD00CDE009AF937 /* AddPhotoControl.swift */,
+				39171CFC2BF664BF00DF5B8D /* SwitchView.swift */,
 			);
 			path = "What?fleUIKit";
 			sourceTree = "<group>";
@@ -774,6 +777,7 @@
 				39333D732B89A3AA005F295A /* AppComponent.swift in Sources */,
 				39333D142B88AE19005F295A /* RootViewController.swift in Sources */,
 				39333D712B8993B1005F295A /* HomeInteractor.swift in Sources */,
+				39171CFD2BF664BF00DF5B8D /* SwitchView.swift in Sources */,
 				3939FFD82B8F750D007E58F6 /* NetworkService.swift in Sources */,
 				39EBCDF82B8A26B200599D58 /* AddBuilder.swift in Sources */,
 				3999741A2BD00CDE009AF937 /* AddPhotoControl.swift in Sources */,

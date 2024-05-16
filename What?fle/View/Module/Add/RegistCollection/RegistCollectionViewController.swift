@@ -40,27 +40,6 @@ final class RegistCollectionViewController: UIVCWithKeyboard, RegistCollectionPr
     }()
     private let subView: UIView = .init()
 
-    private let addPhotoButton: AddPhotoControl = {
-        let control: AddPhotoControl = .init()
-        control.hideCountLabel()
-        control.layer.cornerRadius = 4
-        return control
-    }()
-
-    private let imageView: UIImageView = {
-        let imageView: UIImageView = .init()
-        imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = 8
-        imageView.layer.masksToBounds = true
-        return imageView
-    }()
-
-    private let deleteButton: UIButton = {
-        let button: UIButton = .init()
-        button.setImage(.xCircleFilled, for: .normal)
-        return button
-    }()
-
     private let collectionTitle: CustomTextView = {
         let view: CustomTextView = .init(type: .withoutTitle)
         view.updateUI(placehold: "컬렉션 이름")
@@ -103,6 +82,40 @@ final class RegistCollectionViewController: UIVCWithKeyboard, RegistCollectionPr
         )
         return button
     }()
+    
+    private let coverRegistView: SwitchView = {
+        let view: SwitchView = .init()
+        view.draw(title: "표지 직접 등록")
+        return view
+    }()
+    
+    private let isPublicView: SwitchView = {
+        let view: SwitchView = .init()
+        view.draw(title: "전체공개")
+        view.switchControl.isOn = true
+        return view
+    }()
+
+    private let addPhotoButton: AddPhotoControl = {
+        let control: AddPhotoControl = .init()
+        control.hideCountLabel()
+        control.layer.cornerRadius = 4
+        return control
+    }()
+
+    private let imageView: UIImageView = {
+        let imageView: UIImageView = .init()
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 8
+        imageView.layer.masksToBounds = true
+        return imageView
+    }()
+
+    private let deleteButton: UIButton = {
+        let button: UIButton = .init()
+        button.setImage(.xCircleFilled, for: .normal)
+        return button
+    }()
 
     deinit {
         print("\(self) is being deinit")
@@ -138,28 +151,9 @@ final class RegistCollectionViewController: UIVCWithKeyboard, RegistCollectionPr
             $0.edges.equalToSuperview()
             $0.width.equalTo(UIApplication.shared.width - 48)
         }
-
-        subView.addSubview(imageView)
-        self.imageView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
-            $0.height.equalTo(160)
-        }
-
-        view.addSubview(deleteButton)
-        self.deleteButton.snp.makeConstraints {
-            $0.top.trailing.equalTo(self.imageView)
-            $0.size.equalTo(50)
-        }
-
-        view.addSubview(addPhotoButton)
-        self.addPhotoButton.snp.makeConstraints {
-            $0.top.leading.trailing.equalTo(self.imageView)
-            $0.height.equalTo(160)
-        }
-
         self.subView.addSubview(collectionTitle)
         self.collectionTitle.snp.makeConstraints {
-            $0.top.equalTo(self.imageView.snp.bottom).offset(24)
+            $0.top.leading.trailing.equalToSuperview()
             $0.leading.trailing.equalToSuperview()
         }
 
@@ -185,6 +179,36 @@ final class RegistCollectionViewController: UIVCWithKeyboard, RegistCollectionPr
             $0.leading.equalTo(self.selectedLocationCollectionView.snp.trailing).offset(8)
             $0.bottom.equalToSuperview().inset(25)
             $0.size.equalTo(64)
+        }
+        
+        self.subView.addSubview(coverRegistView)
+        self.coverRegistView.snp.makeConstraints {
+            $0.top.equalTo(self.selectedLocationSubView.snp.bottom).offset(40)
+            $0.leading.trailing.equalToSuperview()
+        }
+
+        self.subView.addSubview(imageView)
+        self.imageView.snp.makeConstraints {
+            $0.top.equalTo(self.coverRegistView.snp.bottom).offset(40)
+            $0.height.equalTo(160)
+        }
+
+        view.addSubview(deleteButton)
+        self.deleteButton.snp.makeConstraints {
+            $0.top.trailing.equalTo(self.imageView)
+            $0.size.equalTo(50)
+        }
+
+        view.addSubview(addPhotoButton)
+        self.addPhotoButton.snp.makeConstraints {
+            $0.top.leading.trailing.equalTo(self.imageView)
+            $0.height.equalTo(160)
+        }
+
+        self.subView.addSubview(isPublicView)
+        self.isPublicView.snp.makeConstraints {
+            $0.top.equalTo(self.imageView.snp.bottom).offset(24)
+            $0.leading.trailing.equalToSuperview()
         }
     }
 
@@ -242,6 +266,23 @@ final class RegistCollectionViewController: UIVCWithKeyboard, RegistCollectionPr
             .subscribe(onNext: { [weak self] in
                 guard let self else { return }
                 self.listener?.showEditCollection()
+            })
+            .disposed(by: disposeBag)
+
+//        self.coverRegistView.switchControl.rx.controlEvent(.valueChanged)
+//            .subscribe(onNext: { [weak self] in
+//                guard let self else { return }
+//                self.coverRegistView.switchControl.isOn.toggle()
+//            })
+//            .disposed(by: disposeBag)
+
+        self.coverRegistView.switchControl.rx.isOn
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] bool in
+                guard let self else { return }
+//                self.imageView.snp.updateConstraints {
+//                    $0.height.equalTo(bool ? 160 : 0)
+//                }
             })
             .disposed(by: disposeBag)
     }
