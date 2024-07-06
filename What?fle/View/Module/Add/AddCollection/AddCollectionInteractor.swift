@@ -82,7 +82,7 @@ final class AddCollectionInteractor: PresentableInteractor<AddCollectionPresenta
                 guard let self else { return }
                 let data = result.groupedByDate()
                 self.registeredLocations.accept(data)
-                self.locationTotalCount.accept(data.flatMap { $0.places }.filter { $0.isEmptyImageURLs }.count)
+                self.locationTotalCount.accept(data.flatMap { $0.places }.count)
                 self.presenter.reloadData()
                 LoadingIndicatorService.shared.hideLoading()
             }, onFailure: { error in
