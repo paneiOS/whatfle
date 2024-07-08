@@ -64,6 +64,11 @@ class UIVCWithKeyboard: UIViewController {
 
 extension UIVCWithKeyboard: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        return !(touch.view is UIControl)
+        if let touchView = touch.view {
+            if touchView is UIControl || touchView is UICollectionView || touchView.superview is UICollectionViewCell {
+                return false
+            }
+        }
+        return true
     }
 }

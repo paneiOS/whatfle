@@ -12,7 +12,7 @@ import UIKit
 protocol AddRouting: ViewableRouting {
     var navigationController: UINavigationController { get }
     func routeToRegistLocation()
-    func routeToRegistCollection(data: EditSelectedCollectionData)
+    func routeToRegistCollection(data: EditSelectedCollectionData, tags: [RecommendHashTagModel])
     func routeToAddCollection(data: EditSelectedCollectionData?)
     func closeCurrentRIB()
 }
@@ -44,8 +44,8 @@ extension AddInteractor: AddInteractable {
         listener?.closeAddRIB()
     }
 
-    func sendDataToRegistCollection(data: EditSelectedCollectionData) {
-        router?.routeToRegistCollection(data: data)
+    func sendDataToRegistCollection(data: EditSelectedCollectionData, tags: [RecommendHashTagModel]) {
+        router?.routeToRegistCollection(data: data, tags: tags)
     }
 
     func sendDataToAddCollection(data: EditSelectedCollectionData) {

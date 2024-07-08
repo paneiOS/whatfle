@@ -26,7 +26,9 @@ final class RegistCollectionInteractor: PresentableInteractor<RegistCollectionPr
                                         RegistCollectionPresentableListener {
     weak var router: RegistCollectionRouting?
     weak var listener: RegistCollectionListener?
+
     var selectedImage: BehaviorRelay<UIImage?> = .init(value: nil)
+    var tags: BehaviorRelay<[TagType]>
     let selectedLocations: BehaviorRelay<[PlaceRegistration]>
     var editSelectedCollectionData: EditSelectedCollectionData
 
@@ -41,13 +43,23 @@ final class RegistCollectionInteractor: PresentableInteractor<RegistCollectionPr
     init(
         presenter: RegistCollectionPresentable,
         networkService: NetworkServiceDelegate,
-        data: EditSelectedCollectionData
+        data: EditSelectedCollectionData,
+        tags: [RecommendHashTagModel]
     ) {
         self.networkService = networkService
         self.editSelectedCollectionData = data
+        self.tags = .init(value: tags.map { .deselected($0.hashtagName) } + [.button("태그 선택")])
         self.selectedLocations = .init(value: data.map { $0.1 })
         super.init(presenter: presenter)
         presenter.listener = self
+    }
+
+    func buttonTapped(index: Int) {
+        var currentTags: [TagType] = tags.value
+        if let tag = currentTags[safe: index]?.toggle() {
+            currentTags[index] = tag
+            tags.accept(currentTags)
+        }
     }
 
     func addImage(_ image: UIImage) {
@@ -58,6 +70,18 @@ final class RegistCollectionInteractor: PresentableInteractor<RegistCollectionPr
         self.selectedImage.accept(nil)
     }
 
+    func insertTag(type: TagType) {
+        var currentTags: [TagType] = tags.value
+        currentTags.insert(type, at: 0)
+        tags.accept(currentTags)
+    }
+
+    func remove(index: Int) {
+        var currentTags: [TagType] = tags.value
+        currentTags.remove(at: index)
+        tags.accept(currentTags)
+    }
+
     func showEditCollection() {
         self.router?.routeToRegistCollection(data: editSelectedCollectionData)
     }
@@ -66,7 +90,7 @@ final class RegistCollectionInteractor: PresentableInteractor<RegistCollectionPr
         self.router?.closeCurrentRIB()
     }
 
-    func sendDataToRegistCollection(data: EditSelectedCollectionData) {}
+    func sendDataToRegistCollection(data: EditSelectedCollectionData, tags: [RecommendHashTagModel]) {}
 
     func closeAddCollection() {
         self.router?.closeCurrentRIB()

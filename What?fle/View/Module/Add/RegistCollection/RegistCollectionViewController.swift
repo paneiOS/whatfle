@@ -15,6 +15,8 @@ import UIKit
 protocol RegistCollectionPresentableListener: AnyObject {
     var selectedImage: BehaviorRelay<UIImage?> { get }
     var selectedLocations: BehaviorRelay<[PlaceRegistration]> { get }
+    var tags: BehaviorRelay<[TagType]> { get }
+    func buttonTapped(index: Int)
     func addImage(_ image: UIImage)
     func removeImage()
     func showEditCollection()
@@ -22,9 +24,6 @@ protocol RegistCollectionPresentableListener: AnyObject {
 }
 
 final class RegistCollectionViewController: UIVCWithKeyboard, RegistCollectionPresentable, RegistCollectionViewControllable {
-    weak var listener: RegistCollectionPresentableListener?
-    private let disposeBag = DisposeBag()
-
     private lazy var customNavigationBar: CustomNavigationBar = {
         let view: CustomNavigationBar = .init()
         view.setNavigationTitle("컬랙션 생성")
@@ -40,7 +39,7 @@ final class RegistCollectionViewController: UIVCWithKeyboard, RegistCollectionPr
     }()
     private let subView: UIView = .init()
 
-    private let collectionTitle: CustomTextView = {
+    private let collectionTitleView: CustomTextView = {
         let view: CustomTextView = .init(type: .withoutTitle)
         view.updateUI(placehold: "컬렉션 이름")
         return view
@@ -53,6 +52,22 @@ final class RegistCollectionViewController: UIVCWithKeyboard, RegistCollectionPr
     }()
 
     private let selectedLocationSubView: UIView = .init()
+
+    private let tagTitleView: CustomTextView = {
+        let view: CustomTextView = .init(type: .onlyTitle)
+        view.updateUI(title: "태그", isRequired: true)
+        return view
+    }()
+
+    private lazy var tagCollectionView: TagCollectionView = {
+        let collectionView: TagCollectionView = .init()
+
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(TagCell.self, forCellWithReuseIdentifier: TagCell.identifier)
+        collectionView.backgroundColor = .white
+        return collectionView
+    }()
 
     private lazy var selectedLocationCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -82,13 +97,13 @@ final class RegistCollectionViewController: UIVCWithKeyboard, RegistCollectionPr
         )
         return button
     }()
-    
+
     private let coverRegistView: SwitchView = {
         let view: SwitchView = .init()
         view.draw(title: "표지 직접 등록")
         return view
     }()
-    
+
     private let isPublicView: SwitchView = {
         let view: SwitchView = .init()
         view.draw(title: "전체공개")
@@ -117,8 +132,29 @@ final class RegistCollectionViewController: UIVCWithKeyboard, RegistCollectionPr
         return button
     }()
 
+    weak var listener: RegistCollectionPresentableListener?
+    private var tags: [TagType] = []
+    private var contentSizeObservation: NSKeyValueObservation?
+    private let disposeBag = DisposeBag()
+
     deinit {
         print("\(self) is being deinit")
+        self.contentSizeObservation?.invalidate()
+
+        contentSizeObservation?.invalidate()
+        tagCollectionView.removeObserver(self, forKeyPath: "contentSize")
+    }
+
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "contentSize" {
+            if let newSize = change?[.newKey] as? CGSize {
+                tagCollectionView.snp.updateConstraints {
+                    $0.height.equalTo(newSize.height)
+                }
+            }
+        } else {
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+        }
     }
 
     override func viewDidLoad() {
@@ -151,21 +187,34 @@ final class RegistCollectionViewController: UIVCWithKeyboard, RegistCollectionPr
             $0.edges.equalToSuperview()
             $0.width.equalTo(UIApplication.shared.width - 48)
         }
-        self.subView.addSubview(collectionTitle)
-        self.collectionTitle.snp.makeConstraints {
+        self.subView.addSubview(collectionTitleView)
+        self.collectionTitleView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
             $0.leading.trailing.equalToSuperview()
         }
 
         self.subView.addSubview(descriptionTextView)
         self.descriptionTextView.snp.makeConstraints {
-            $0.top.equalTo(self.collectionTitle.snp.bottom).offset(24)
+            $0.top.equalTo(self.collectionTitleView.snp.bottom).offset(24)
             $0.leading.trailing.equalToSuperview()
+        }
+
+        self.subView.addSubview(tagTitleView)
+        self.tagTitleView.snp.makeConstraints {
+            $0.top.equalTo(self.descriptionTextView.snp.bottom).offset(40)
+            $0.leading.trailing.equalToSuperview()
+        }
+
+        self.subView.addSubview(tagCollectionView)
+        self.tagCollectionView.snp.makeConstraints {
+            $0.top.equalTo(self.tagTitleView.snp.bottom).offset(8)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(32)
         }
 
         self.subView.addSubview(selectedLocationSubView)
         self.selectedLocationSubView.snp.makeConstraints {
-            $0.top.equalTo(self.descriptionTextView.snp.bottom).offset(40)
+            $0.top.equalTo(self.tagCollectionView.snp.bottom).offset(40)
             $0.leading.trailing.bottom.equalToSuperview()
         }
         [selectedLocationCollectionView, editButton].forEach {
@@ -180,7 +229,7 @@ final class RegistCollectionViewController: UIVCWithKeyboard, RegistCollectionPr
             $0.bottom.equalToSuperview().inset(25)
             $0.size.equalTo(64)
         }
-        
+
         self.subView.addSubview(coverRegistView)
         self.coverRegistView.snp.makeConstraints {
             $0.top.equalTo(self.selectedLocationSubView.snp.bottom).offset(40)
@@ -214,15 +263,26 @@ final class RegistCollectionViewController: UIVCWithKeyboard, RegistCollectionPr
 
     private func setupViewBinding() {
         guard let listener else { return }
+        listener.tags
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] tags in
+                guard let self else { return }
+                self.tags = tags
+                self.tagCollectionView.reloadData()
+            })
+            .disposed(by: disposeBag)
+
         listener.selectedImage
-            .compactMap { $0 }
+            .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] image in
                 guard let self else { return }
                 self.imageView.image = image
                 self.addPhotoButton.isHidden = true
             })
             .disposed(by: disposeBag)
+
         listener.selectedLocations
+            .observe(on: MainScheduler.instance)
             .bind(to: selectedLocationCollectionView.rx.items(
                 cellIdentifier: SelectLocationResultCell.reuseIdentifier,
                 cellType: SelectLocationResultCell.self)
@@ -230,6 +290,14 @@ final class RegistCollectionViewController: UIVCWithKeyboard, RegistCollectionPr
                 cell.drawCell(model: model)
             }
             .disposed(by: disposeBag)
+
+        tagCollectionView.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
+        self.contentSizeObservation = tagCollectionView.observe(\.contentSize, options: [.new]) { [weak self] _, change in
+            guard let self = self, let newSize = change.newValue else { return }
+            self.tagCollectionView.snp.updateConstraints {
+                $0.height.equalTo(newSize.height)
+            }
+        }
     }
 
     private func setupActionBinding() {
@@ -301,5 +369,36 @@ extension RegistCollectionViewController: PHPickerViewControllerDelegate {
                 }
             }
         }
+    }
+}
+
+extension RegistCollectionViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.tags.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TagCell.identifier, for: indexPath) as? TagCell,
+              let cellType = self.tags[safe: indexPath.row] else { return UICollectionViewCell() }
+        cell.drawCell(cellType: cellType)
+        return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cellType = self.tags[safe: indexPath.item] else { return }
+        switch cellType {
+        case .button:
+            print("button tapped")
+        case .addedSelectedButton:
+            print("addedSelectedButton tapped")
+        case .selected, .deselected:
+            listener?.buttonTapped(index: indexPath.item)
+            collectionView.reloadItems(at: [indexPath])
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        guard let cellType = tags[safe: indexPath.item] else { return .zero }
+        return CGSize(width: cellType.width, height: cellType.height)
     }
 }

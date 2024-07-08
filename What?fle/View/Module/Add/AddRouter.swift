@@ -56,8 +56,8 @@ extension AddRouter: AddRouting {
         }
     }
 
-    func routeToRegistCollection(data: EditSelectedCollectionData) {
-        let router = self.component.registCollectionBuilder.build(withListener: self.interactor, withData: data)
+    func routeToRegistCollection(data: EditSelectedCollectionData, tags: [RecommendHashTagModel]) {
+        let router = self.component.registCollectionBuilder.build(withListener: self.interactor, withData: data, tags: tags)
         self.navigationController.setNavigationBarHidden(true, animated: false)
         self.navigationController.pushViewController(router.viewControllable.uiviewController, animated: true)
         self.attachChild(router)

@@ -21,7 +21,7 @@ protocol AddCollectionPresentable: Presentable {
 protocol AddCollectionListener: AnyObject {
     func closeAddCollection()
     func popCurrentRIB()
-    func sendDataToRegistCollection(data: EditSelectedCollectionData)
+    func sendDataToRegistCollection(data: EditSelectedCollectionData, tags: [RecommendHashTagModel])
 }
 
 typealias EditSelectedCollectionData = [(IndexPath, PlaceRegistration)]
@@ -103,8 +103,21 @@ final class AddCollectionInteractor: PresentableInteractor<AddCollectionPresenta
     }
 
     func showRegistCollection() {
-        let data: EditSelectedCollectionData = selectedLocations.value
-        self.listener?.sendDataToRegistCollection(data: data)
+        guard !LoadingIndicatorService.shared.isLoading() else { return }
+        LoadingIndicatorService.shared.showLoading()
+
+        networkService.requestDecodable(WhatfleAPI.getRecommendHashtag, type: [RecommendHashTagModel].self)
+            .subscribe(onSuccess: { [weak self] tags in
+                LoadingIndicatorService.shared.hideLoading()
+
+                guard let self else { return }
+                let data: EditSelectedCollectionData = selectedLocations.value
+                self.listener?.sendDataToRegistCollection(data: data, tags: tags)
+            }, onFailure: { error in
+                LoadingIndicatorService.shared.hideLoading()
+                print("Error: \(error)")
+            })
+            .disposed(by: disposeBag)
     }
 }
 

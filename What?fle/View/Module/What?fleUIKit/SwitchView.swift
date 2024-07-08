@@ -10,7 +10,7 @@ import UIKit
 
 final class SwitchView: UIView {
     private let label: UILabel = .init()
-    
+
     lazy var switchControl: UISwitch = {
         let control: UISwitch = .init()
         control.onTintColor = .Core.primary
@@ -38,9 +38,8 @@ final class SwitchView: UIView {
             $0.width.equalTo(52)
         }
     }
-    
+
     @objc private func onClickSwitch(sender: UISwitch) {
-        print("눌림.")
         switchControl.isOn.toggle()
     }
 }

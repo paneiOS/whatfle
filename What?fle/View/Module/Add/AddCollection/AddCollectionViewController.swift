@@ -304,9 +304,6 @@ final class AddCollectionViewController: UIViewController, AddCollectionPresenta
     private func updateSelectionOrder() {
         guard let indexPaths = listener?.selectedLocations.value.map({ $0.0 }) else { return }
         for indexPath in indexPaths {
-            guard let cell = self.registLocationTableView.cellForRow(at: indexPath) as? SelectLocationCell else {
-                return
-            }
             registLocationTableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
         }
     }

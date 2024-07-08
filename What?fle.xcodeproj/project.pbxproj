@@ -97,6 +97,11 @@
 		39EF11B12BB6DE73000E1996 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39EF11B02BB6DE73000E1996 /* String+.swift */; };
 		39EF11B62BBADCF0000E1996 /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 39EF11B52BBADCF0000E1996 /* Secrets.plist */; };
 		39EF11B82BBAE182000E1996 /* Array+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39EF11B72BBAE182000E1996 /* Array+.swift */; };
+		4540B43B2C3983CF0010E5DF /* TagCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4540B43A2C3983CF0010E5DF /* TagCollectionView.swift */; };
+		4540B43E2C39847A0010E5DF /* TagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4540B43D2C39847A0010E5DF /* TagCell.swift */; };
+		4540B4402C3A6FE70010E5DF /* LeftAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4540B43F2C3A6FE70010E5DF /* LeftAlignedCollectionViewFlowLayout.swift */; };
+		4540B4422C3A95750010E5DF /* RecomandHashTag.json in Resources */ = {isa = PBXBuildFile; fileRef = 4540B4412C3A95750010E5DF /* RecomandHashTag.json */; };
+		4540B4442C3A97050010E5DF /* RecommendHashTagModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4540B4432C3A97050010E5DF /* RecommendHashTagModel.swift */; };
 		456B09CC2BB9520100920C54 /* TextFieldWithUnderline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456B09CB2BB9520100920C54 /* TextFieldWithUnderline.swift */; };
 		456B09CE2BB953B200920C54 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456B09CD2BB953B200920C54 /* UITextField+.swift */; };
 		456B09D22BB954DA00920C54 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456B09D12BB954DA00920C54 /* Date+.swift */; };
@@ -192,6 +197,11 @@
 		39EF11B02BB6DE73000E1996 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		39EF11B52BBADCF0000E1996 /* Secrets.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
 		39EF11B72BBAE182000E1996 /* Array+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+.swift"; sourceTree = "<group>"; };
+		4540B43A2C3983CF0010E5DF /* TagCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionView.swift; sourceTree = "<group>"; };
+		4540B43D2C39847A0010E5DF /* TagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCell.swift; sourceTree = "<group>"; };
+		4540B43F2C3A6FE70010E5DF /* LeftAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
+		4540B4412C3A95750010E5DF /* RecomandHashTag.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = RecomandHashTag.json; sourceTree = "<group>"; };
+		4540B4432C3A97050010E5DF /* RecommendHashTagModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendHashTagModel.swift; sourceTree = "<group>"; };
 		456B09CB2BB9520100920C54 /* TextFieldWithUnderline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldWithUnderline.swift; sourceTree = "<group>"; };
 		456B09CD2BB953B200920C54 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		456B09D12BB954DA00920C54 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
@@ -356,6 +366,7 @@
 		3939FFCC2B8DFD0E007E58F6 /* What?fleUIKit */ = {
 			isa = PBXGroup;
 			children = (
+				4540B43C2C3983D40010E5DF /* TagCollectionView */,
 				3961ADDA2BB05CE200977C4B /* LoadingIndicator */,
 				3939FFCA2B8DFD01007E58F6 /* SearchBar.swift */,
 				456B09D32BB9566C00920C54 /* CustomTextView.swift */,
@@ -480,6 +491,7 @@
 			children = (
 				398347832BC1819B00C25F63 /* SearchMock.json */,
 				398347852BC1862400C25F63 /* RetriveRegistLocationMock.json */,
+				4540B4412C3A95750010E5DF /* RecomandHashTag.json */,
 			);
 			path = MockData;
 			sourceTree = "<group>";
@@ -488,6 +500,7 @@
 			isa = PBXGroup;
 			children = (
 				398347882BC1885400C25F63 /* RegisteredLocationModel.swift */,
+				4540B4432C3A97050010E5DF /* RecommendHashTagModel.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -607,6 +620,16 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		4540B43C2C3983D40010E5DF /* TagCollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				4540B43F2C3A6FE70010E5DF /* LeftAlignedCollectionViewFlowLayout.swift */,
+				4540B43A2C3983CF0010E5DF /* TagCollectionView.swift */,
+				4540B43D2C39847A0010E5DF /* TagCell.swift */,
+			);
+			path = TagCollectionView;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -683,6 +706,7 @@
 				398347842BC1819B00C25F63 /* SearchMock.json in Resources */,
 				39333D032B864EF9005F295A /* SUIT-ExtraBold.otf in Resources */,
 				39333D012B864EF9005F295A /* SUIT-ExtraLight.otf in Resources */,
+				4540B4422C3A95750010E5DF /* RecomandHashTag.json in Resources */,
 				39333CFC2B864EF9005F295A /* SUIT-Medium.otf in Resources */,
 				39EF11B62BBADCF0000E1996 /* Secrets.plist in Resources */,
 				39333D022B864EF9005F295A /* SUIT-Regular.otf in Resources */,
@@ -724,7 +748,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4540B43E2C39847A0010E5DF /* TagCell.swift in Sources */,
 				39EBCE0C2B8A484000599D58 /* SelecteLocationRouter.swift in Sources */,
+				4540B4442C3A97050010E5DF /* RecommendHashTagModel.swift in Sources */,
 				39EBCE0F2B8A484000599D58 /* SelecteLocationInteractor.swift in Sources */,
 				3983478B2BC1B56100C25F63 /* UIViewController+.swift in Sources */,
 				39333D072B865132005F295A /* UIFont+Design.swift in Sources */,
@@ -733,6 +759,7 @@
 				39333CD02B864786005F295A /* AppDelegate.swift in Sources */,
 				39333D6E2B8993B1005F295A /* HomeRouter.swift in Sources */,
 				39195FFF2BAC51EA00CC7A2E /* RecentSearchCell.swift in Sources */,
+				4540B43B2C3983CF0010E5DF /* TagCollectionView.swift in Sources */,
 				3939FFF52B9451E3007E58F6 /* UIApplication+.swift in Sources */,
 				39EBCDF92B8A26B200599D58 /* AddInteractor.swift in Sources */,
 				456B09CC2BB9520100920C54 /* TextFieldWithUnderline.swift in Sources */,
@@ -760,6 +787,7 @@
 				456B09D42BB9566C00920C54 /* CustomTextView.swift in Sources */,
 				393900002B961BBA007E58F6 /* RegistLocationBuilder.swift in Sources */,
 				39CBE1182BC6289D003CB3F0 /* SplashBuilder.swift in Sources */,
+				4540B4402C3A6FE70010E5DF /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 				39EBCDFF2B8A26BF00599D58 /* MapViewController.swift in Sources */,
 				391960022BAC542B00CC7A2E /* UserDefaultsManager.swift in Sources */,
 				3919BA652B988C0000E2A3CC /* UIView+.swift in Sources */,

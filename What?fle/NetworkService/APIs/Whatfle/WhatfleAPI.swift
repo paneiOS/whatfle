@@ -13,6 +13,7 @@ enum WhatfleAPI {
     case registerPlace(PlaceRegistration)
     case retriveRegistLocation
     case getAllMyPlace
+    case getRecommendHashtag
 }
 
 extension WhatfleAPI: TargetType {
@@ -60,6 +61,7 @@ extension WhatfleAPI: TargetType {
                 }
             }
             return .uploadMultipart(multipartData)
+
         default:
             return .requestPlain
         }
@@ -76,12 +78,9 @@ extension WhatfleAPI: TargetType {
 
     var baseURL: URL {
         switch self {
-        case .registerPlace,
-             .getAllMyPlace:
-            return URL(string: AppConfigs.API.BaseURL.dev)!
         case .retriveRegistLocation:
             return URL(string: AppConfigs.API.BaseURL.Kakao.search)!
-        case .uploadPlaceImage:
+        default:
             return URL(string: AppConfigs.API.BaseURL.dev)!
         }
     }
@@ -94,6 +93,8 @@ extension WhatfleAPI: TargetType {
             return "/image/place"
         case .getAllMyPlace:
             return "/places"
+        case .getRecommendHashtag:
+            return "/hashtag/recommend"
         default:
             return ""
         }
@@ -103,6 +104,12 @@ extension WhatfleAPI: TargetType {
         switch self {
         case .retriveRegistLocation:
             guard let path = Bundle.main.path(forResource: "RetriveRegistLocationMock", ofType: "json"),
+                  let data = try? Data(contentsOf: URL(fileURLWithPath: path)) else {
+                return Data()
+            }
+            return data
+        case .getRecommendHashtag:
+            guard let path = Bundle.main.path(forResource: "RecomandHashTag", ofType: "json"),
                   let data = try? Data(contentsOf: URL(fileURLWithPath: path)) else {
                 return Data()
             }

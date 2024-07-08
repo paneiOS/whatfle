@@ -26,7 +26,7 @@ extension RegistCollectionComponent: AddCollectionDependency {
 // MARK: - Builder
 
 protocol RegistCollectionBuildable: Buildable {
-    func build(withListener listener: RegistCollectionListener, withData data: EditSelectedCollectionData) -> RegistCollectionRouting
+    func build(withListener listener: RegistCollectionListener, withData data: EditSelectedCollectionData, tags: [RecommendHashTagModel]) -> RegistCollectionRouting
 }
 
 final class RegistCollectionBuilder: Builder<RegistCollectionDependency>, RegistCollectionBuildable {
@@ -39,13 +39,14 @@ final class RegistCollectionBuilder: Builder<RegistCollectionDependency>, Regist
         super.init(dependency: dependency)
     }
 
-    func build(withListener listener: RegistCollectionListener, withData data: EditSelectedCollectionData) -> RegistCollectionRouting {
+    func build(withListener listener: RegistCollectionListener, withData data: EditSelectedCollectionData, tags: [RecommendHashTagModel]) -> RegistCollectionRouting {
         let component = RegistCollectionComponent(dependency: dependency)
         let viewController = RegistCollectionViewController()
         let interactor = RegistCollectionInteractor(
             presenter: viewController,
             networkService: component.networkService,
-            data: data
+            data: data,
+            tags: tags
         )
         interactor.listener = listener
         return RegistCollectionRouter(
