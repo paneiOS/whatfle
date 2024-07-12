@@ -100,6 +100,26 @@
 		456B09CE2BB953B200920C54 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456B09CD2BB953B200920C54 /* UITextField+.swift */; };
 		456B09D22BB954DA00920C54 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456B09D12BB954DA00920C54 /* Date+.swift */; };
 		456B09D42BB9566C00920C54 /* CustomTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456B09D32BB9566C00920C54 /* CustomTextView.swift */; };
+		6C78590B2C3428C500C352CF /* LoginRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7859072C3428C500C352CF /* LoginRouter.swift */; };
+		6C78590C2C3428C500C352CF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7859082C3428C500C352CF /* LoginViewController.swift */; };
+		6C78590D2C3428C500C352CF /* LoginBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7859092C3428C500C352CF /* LoginBuilder.swift */; };
+		6C78590E2C3428C500C352CF /* LoginInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C78590A2C3428C500C352CF /* LoginInteractor.swift */; };
+		6C7859132C35047A00C352CF /* RxKakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 6C7859122C35047A00C352CF /* RxKakaoSDK */; };
+		6C7859152C35047A00C352CF /* RxKakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 6C7859142C35047A00C352CF /* RxKakaoSDKAuth */; };
+		6C7859172C35047A00C352CF /* RxKakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = 6C7859162C35047A00C352CF /* RxKakaoSDKCommon */; };
+		6C78591A2C35380700C352CF /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7859192C35380700C352CF /* LoginModel.swift */; };
+		6C7859202C353C0C00C352CF /* ProfileSettingRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C78591C2C353C0C00C352CF /* ProfileSettingRouter.swift */; };
+		6C7859212C353C0C00C352CF /* ProfileSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C78591D2C353C0C00C352CF /* ProfileSettingViewController.swift */; };
+		6C7859222C353C0C00C352CF /* ProfileSettingBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C78591E2C353C0C00C352CF /* ProfileSettingBuilder.swift */; };
+		6C7859232C353C0C00C352CF /* ProfileSettingInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C78591F2C353C0C00C352CF /* ProfileSettingInteractor.swift */; };
+		6CDCC7552C364CC7007D545D /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = 6CDCC7542C364CC7007D545D /* Auth */; };
+		6CDCC7572C364CC7007D545D /* Functions in Frameworks */ = {isa = PBXBuildFile; productRef = 6CDCC7562C364CC7007D545D /* Functions */; };
+		6CDCC7592C364CC7007D545D /* PostgREST in Frameworks */ = {isa = PBXBuildFile; productRef = 6CDCC7582C364CC7007D545D /* PostgREST */; };
+		6CDCC75B2C364CC7007D545D /* Realtime in Frameworks */ = {isa = PBXBuildFile; productRef = 6CDCC75A2C364CC7007D545D /* Realtime */; };
+		6CDCC75D2C364CC7007D545D /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = 6CDCC75C2C364CC7007D545D /* Storage */; };
+		6CDCC75F2C364CC7007D545D /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 6CDCC75E2C364CC7007D545D /* Supabase */; };
+		6CEBF7122C3D078100D393C4 /* SupabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CEBF7112C3D078100D393C4 /* SupabaseService.swift */; };
+		6CEBF7152C3D200000D393C4 /* AppleLoginHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CEBF7142C3D200000D393C4 /* AppleLoginHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -194,6 +214,19 @@
 		456B09CD2BB953B200920C54 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		456B09D12BB954DA00920C54 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		456B09D32BB9566C00920C54 /* CustomTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextView.swift; sourceTree = "<group>"; };
+		6C7859072C3428C500C352CF /* LoginRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRouter.swift; sourceTree = "<group>"; };
+		6C7859082C3428C500C352CF /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		6C7859092C3428C500C352CF /* LoginBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginBuilder.swift; sourceTree = "<group>"; };
+		6C78590A2C3428C500C352CF /* LoginInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInteractor.swift; sourceTree = "<group>"; };
+		6C7859192C35380700C352CF /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
+		6C78591C2C353C0C00C352CF /* ProfileSettingRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingRouter.swift; sourceTree = "<group>"; };
+		6C78591D2C353C0C00C352CF /* ProfileSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingViewController.swift; sourceTree = "<group>"; };
+		6C78591E2C353C0C00C352CF /* ProfileSettingBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingBuilder.swift; sourceTree = "<group>"; };
+		6C78591F2C353C0C00C352CF /* ProfileSettingInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingInteractor.swift; sourceTree = "<group>"; };
+		6C7859242C35445100C352CF /* What?fle.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "What?fle.entitlements"; sourceTree = "<group>"; };
+		6CDCC7462C358F7F007D545D /* What?fleRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "What?fleRelease.entitlements"; sourceTree = "<group>"; };
+		6CEBF7112C3D078100D393C4 /* SupabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseService.swift; sourceTree = "<group>"; };
+		6CEBF7142C3D200000D393C4 /* AppleLoginHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,10 +234,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6CDCC75D2C364CC7007D545D /* Storage in Frameworks */,
 				39333CEE2B864998005F295A /* RIBs in Frameworks */,
 				39333CEB2B864979005F295A /* SnapKit in Frameworks */,
 				39333CE82B86496C005F295A /* Moya in Frameworks */,
+				6CDCC7572C364CC7007D545D /* Functions in Frameworks */,
+				6CDCC7592C364CC7007D545D /* PostgREST in Frameworks */,
+				6C7859172C35047A00C352CF /* RxKakaoSDKCommon in Frameworks */,
+				6C7859152C35047A00C352CF /* RxKakaoSDKAuth in Frameworks */,
 				39333CE52B86494C005F295A /* RxCocoa in Frameworks */,
+				6CDCC7552C364CC7007D545D /* Auth in Frameworks */,
+				6C7859132C35047A00C352CF /* RxKakaoSDK in Frameworks */,
+				6CDCC75B2C364CC7007D545D /* Realtime in Frameworks */,
+				6CDCC75F2C364CC7007D545D /* Supabase in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -238,13 +280,17 @@
 		39333CCE2B864786005F295A /* What?fle */ = {
 			isa = PBXGroup;
 			children = (
+				6CDCC7462C358F7F007D545D /* What?fleRelease.entitlements */,
+				6C7859242C35445100C352CF /* What?fle.entitlements */,
 				39333D722B89A3AA005F295A /* AppComponent.swift */,
 				39333CCF2B864786005F295A /* AppDelegate.swift */,
 				39333CD12B864786005F295A /* SceneDelegate.swift */,
 				39333CD32B864786005F295A /* ViewController.swift */,
 				3939FFD52B8F6EF3007E58F6 /* AppConfigs.swift */,
 				39CBE1112BC62869003CB3F0 /* Splash */,
+				6C7859062C34289200C352CF /* Login */,
 				3983477D2BC17C4700C25F63 /* View */,
+				6CEBF7102C3D076F00D393C4 /* SupabaseService */,
 				3939FFD02B8F6B91007E58F6 /* NetworkService */,
 				39333D042B865110005F295A /* Extension */,
 				39333CDA2B864787005F295A /* LaunchScreen.storyboard */,
@@ -331,6 +377,7 @@
 			children = (
 				39D562B82BD69EC600111E9C /* Common */,
 				3939FFDF2B943612007E58F6 /* HelperModuld */,
+				6C78591B2C353BE300C352CF /* Profile */,
 				39333D0E2B88AD81005F295A /* Root */,
 				39333D692B899395005F295A /* Home */,
 				39EBCDF12B8A268B00599D58 /* Add */,
@@ -604,6 +651,54 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		6C7859062C34289200C352CF /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				6CEBF7132C3D1FF100D393C4 /* AppleLogin */,
+				6C7859182C3537F400C352CF /* Entity */,
+				6C7859072C3428C500C352CF /* LoginRouter.swift */,
+				6C7859082C3428C500C352CF /* LoginViewController.swift */,
+				6C7859092C3428C500C352CF /* LoginBuilder.swift */,
+				6C78590A2C3428C500C352CF /* LoginInteractor.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		6C7859182C3537F400C352CF /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				6C7859192C35380700C352CF /* LoginModel.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		6C78591B2C353BE300C352CF /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				6C78591C2C353C0C00C352CF /* ProfileSettingRouter.swift */,
+				6C78591D2C353C0C00C352CF /* ProfileSettingViewController.swift */,
+				6C78591E2C353C0C00C352CF /* ProfileSettingBuilder.swift */,
+				6C78591F2C353C0C00C352CF /* ProfileSettingInteractor.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		6CEBF7102C3D076F00D393C4 /* SupabaseService */ = {
+			isa = PBXGroup;
+			children = (
+				6CEBF7112C3D078100D393C4 /* SupabaseService.swift */,
+			);
+			path = SupabaseService;
+			sourceTree = "<group>";
+		};
+		6CEBF7132C3D1FF100D393C4 /* AppleLogin */ = {
+			isa = PBXGroup;
+			children = (
+				6CEBF7142C3D200000D393C4 /* AppleLoginHelper.swift */,
+			);
+			path = AppleLogin;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -626,6 +721,15 @@
 				39333CE72B86496C005F295A /* Moya */,
 				39333CEA2B864979005F295A /* SnapKit */,
 				39333CED2B864998005F295A /* RIBs */,
+				6C7859122C35047A00C352CF /* RxKakaoSDK */,
+				6C7859142C35047A00C352CF /* RxKakaoSDKAuth */,
+				6C7859162C35047A00C352CF /* RxKakaoSDKCommon */,
+				6CDCC7542C364CC7007D545D /* Auth */,
+				6CDCC7562C364CC7007D545D /* Functions */,
+				6CDCC7582C364CC7007D545D /* PostgREST */,
+				6CDCC75A2C364CC7007D545D /* Realtime */,
+				6CDCC75C2C364CC7007D545D /* Storage */,
+				6CDCC75E2C364CC7007D545D /* Supabase */,
 			);
 			productName = "What?fle";
 			productReference = 39333CCC2B864786005F295A /* What?fle.app */;
@@ -660,6 +764,8 @@
 				39333CE62B86496C005F295A /* XCRemoteSwiftPackageReference "Moya" */,
 				39333CE92B864979005F295A /* XCRemoteSwiftPackageReference "SnapKit" */,
 				39333CEC2B864998005F295A /* XCRemoteSwiftPackageReference "RIBs" */,
+				6C7859112C35047A00C352CF /* XCRemoteSwiftPackageReference "kakao-ios-sdk-rx" */,
+				6CDCC7532C364CC7007D545D /* XCRemoteSwiftPackageReference "supabase-swift" */,
 			);
 			productRefGroup = 39333CCD2B864786005F295A /* Products */;
 			projectDirPath = "";
@@ -721,6 +827,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6C78590B2C3428C500C352CF /* LoginRouter.swift in Sources */,
+				6CEBF7122C3D078100D393C4 /* SupabaseService.swift in Sources */,
+				6C78590C2C3428C500C352CF /* LoginViewController.swift in Sources */,
+				6C78590D2C3428C500C352CF /* LoginBuilder.swift in Sources */,
+				6C78590E2C3428C500C352CF /* LoginInteractor.swift in Sources */,
 				39EBCE0C2B8A484000599D58 /* SelecteLocationRouter.swift in Sources */,
 				39EBCE0F2B8A484000599D58 /* SelecteLocationInteractor.swift in Sources */,
 				3983478B2BC1B56100C25F63 /* UIViewController+.swift in Sources */,
@@ -776,6 +887,7 @@
 				39333D712B8993B1005F295A /* HomeInteractor.swift in Sources */,
 				3939FFD82B8F750D007E58F6 /* NetworkService.swift in Sources */,
 				39EBCDF82B8A26B200599D58 /* AddBuilder.swift in Sources */,
+				6C78591A2C35380700C352CF /* LoginModel.swift in Sources */,
 				3999741A2BD00CDE009AF937 /* AddPhotoControl.swift in Sources */,
 				39333D702B8993B1005F295A /* HomeBuilder.swift in Sources */,
 				39411B352BBC3AC200A54EA7 /* LocationImageCell.swift in Sources */,
@@ -787,6 +899,11 @@
 				39CBE1192BC6289D003CB3F0 /* SplashInteractor.swift in Sources */,
 				39CF56AF2BC0FD8D00E718C8 /* CustomNavigationBar.swift in Sources */,
 				39195FFD2BAB40D900CC7A2E /* SelectLocationCell.swift in Sources */,
+				6C7859202C353C0C00C352CF /* ProfileSettingRouter.swift in Sources */,
+				6C7859212C353C0C00C352CF /* ProfileSettingViewController.swift in Sources */,
+				6C7859222C353C0C00C352CF /* ProfileSettingBuilder.swift in Sources */,
+				6CEBF7152C3D200000D393C4 /* AppleLoginHelper.swift in Sources */,
+				6C7859232C353C0C00C352CF /* ProfileSettingInteractor.swift in Sources */,
 				399974172BCFFEDE009AF937 /* RegistCollectionBuilder.swift in Sources */,
 				39EEFD7F2BC22D2300A39833 /* SelectLocationResultCell.swift in Sources */,
 				39D562BA2BD69ED900111E9C /* UIVCWithKeyboard.swift in Sources */,
@@ -936,9 +1053,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_ENTITLEMENTS = "What?fle/What?fle.entitlements";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = CB95NTZJ5Z;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = CB95NTZJ5Z;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "What?fle/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -951,8 +1071,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.Pane.What-fle";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.Whatfle.What-fle";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "What?fle";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -964,9 +1086,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_ENTITLEMENTS = "What?fle/What?fleRelease.entitlements";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = CB95NTZJ5Z;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = CB95NTZJ5Z;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "What?fle/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -979,8 +1104,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.Pane.What-fle";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.Whatfle.What-fle";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "What?fle";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1043,6 +1170,22 @@
 				minimumVersion = 0.9.2;
 			};
 		};
+		6C7859112C35047A00C352CF /* XCRemoteSwiftPackageReference "kakao-ios-sdk-rx" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kakao/kakao-ios-sdk-rx";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.22.3;
+			};
+		};
+		6CDCC7532C364CC7007D545D /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase/supabase-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1065,6 +1208,51 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 39333CEC2B864998005F295A /* XCRemoteSwiftPackageReference "RIBs" */;
 			productName = RIBs;
+		};
+		6C7859122C35047A00C352CF /* RxKakaoSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6C7859112C35047A00C352CF /* XCRemoteSwiftPackageReference "kakao-ios-sdk-rx" */;
+			productName = RxKakaoSDK;
+		};
+		6C7859142C35047A00C352CF /* RxKakaoSDKAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6C7859112C35047A00C352CF /* XCRemoteSwiftPackageReference "kakao-ios-sdk-rx" */;
+			productName = RxKakaoSDKAuth;
+		};
+		6C7859162C35047A00C352CF /* RxKakaoSDKCommon */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6C7859112C35047A00C352CF /* XCRemoteSwiftPackageReference "kakao-ios-sdk-rx" */;
+			productName = RxKakaoSDKCommon;
+		};
+		6CDCC7542C364CC7007D545D /* Auth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6CDCC7532C364CC7007D545D /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Auth;
+		};
+		6CDCC7562C364CC7007D545D /* Functions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6CDCC7532C364CC7007D545D /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Functions;
+		};
+		6CDCC7582C364CC7007D545D /* PostgREST */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6CDCC7532C364CC7007D545D /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = PostgREST;
+		};
+		6CDCC75A2C364CC7007D545D /* Realtime */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6CDCC7532C364CC7007D545D /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Realtime;
+		};
+		6CDCC75C2C364CC7007D545D /* Storage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6CDCC7532C364CC7007D545D /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Storage;
+		};
+		6CDCC75E2C364CC7007D545D /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6CDCC7532C364CC7007D545D /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

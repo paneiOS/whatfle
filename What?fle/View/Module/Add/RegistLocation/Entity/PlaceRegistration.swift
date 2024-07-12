@@ -19,11 +19,11 @@ struct PlaceRegistration: Decodable {
     var imageURLs: [String]?
     var latitude: Double
     var longitude: Double
-    
+
     var isEmptyImageURLs: Bool {
         self.imageURLs?.isEmpty ?? true
     }
-    
+
     private enum CodingKeys: String, CodingKey {
         case id = "id"
         case accountID = "accountId"

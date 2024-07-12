@@ -13,7 +13,7 @@ extension Date {
         formatter.dateFormat = "yy.MM.dd"
         return formatter.string(from: self)
     }
-    
+
     var formattedWithhyphen: String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"

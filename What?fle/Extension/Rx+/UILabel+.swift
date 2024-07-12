@@ -5,11 +5,11 @@
 //  Created by 이정환 on 4/2/24.
 //
 
-//import RxSwift
-//import RxCocoa
-//import UIKit
+// import RxSwift
+// import RxCocoa
+// import UIKit
 //
-//extension Reactive where Base: UILabel {
+// extension Reactive where Base: UILabel {
 //    public var text: ControlProperty<String?> {
 //        let source: Observable<String?> = self.observe(String.self, "text")
 //            .map { $0 }
@@ -20,4 +20,4 @@
 //        
 //        return ControlProperty(values: source, valueSink: observer)
 //    }
-//}
+// }

@@ -28,9 +28,9 @@ final class SplashRouter: LaunchRouter<SplashInteractable, SplashViewControllabl
         interactor.router = self
     }
 
-    func routeToRoot() {
+    func routeToLogin() {
         if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
-            sceneDelegate.switchToRoot()
+            sceneDelegate.switchToLogin()
         }
     }
 }
