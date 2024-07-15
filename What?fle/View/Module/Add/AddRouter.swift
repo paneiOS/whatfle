@@ -20,6 +20,10 @@ final class AddRouter: ViewableRouter<AddInteractable, AddViewControllable> {
     let navigationController: UINavigationController
     private weak var currentChild: ViewableRouting?
 
+    weak var addCollectionRouter: AddCollectionRouting?
+    weak var registCollectionRouter: RegistCollectionRouting?
+    weak var editRegistCollectionRouter: RegistCollectionRouting?
+
     deinit {
         print("\(self) is being deinit")
     }
@@ -39,12 +43,12 @@ final class AddRouter: ViewableRouter<AddInteractable, AddViewControllable> {
 
 extension AddRouter: AddRouting {
     func routeToAddCollection(data: EditSelectedCollectionData?) {
-        if self.currentChild == nil {
+        if self.addCollectionRouter == nil {
             let router = self.component.addCollectionBuilder.build(withListener: self.interactor, withData: data)
             self.navigationController.setNavigationBarHidden(true, animated: false)
             self.navigationController.pushViewController(router.viewControllable.uiviewController, animated: true)
             self.attachChild(router)
-            self.currentChild = router
+            self.addCollectionRouter = router
         }
     }
 
@@ -59,11 +63,29 @@ extension AddRouter: AddRouting {
     }
 
     func routeToRegistCollection(data: EditSelectedCollectionData, tags: [RecommendHashTagModel]) {
-        let router = self.component.registCollectionBuilder.build(withListener: self.interactor, withData: data, tags: tags)
-        self.navigationController.setNavigationBarHidden(true, animated: false)
-        self.navigationController.pushViewController(router.viewControllable.uiviewController, animated: true)
-        self.attachChild(router)
-        self.currentChild = router
+        if self.registCollectionRouter == nil {
+            let router = self.component.registCollectionBuilder.build(withListener: self.interactor, withData: data, tags: tags)
+            self.navigationController.setNavigationBarHidden(true, animated: false)
+            self.navigationController.pushViewController(router.viewControllable.uiviewController, animated: true)
+            self.attachChild(router)
+            self.registCollectionRouter = router
+        }
+    }
+    
+    func popToAddCollection() {
+        if let router = self.addCollectionRouter {
+            self.navigationController.popViewController(animated: true)
+            self.detachChild(router)
+            self.addCollectionRouter = nil
+        }
+    }
+
+    func popToRegistCollection() {
+        if let router = self.registCollectionRouter {
+            self.navigationController.popViewController(animated: true)
+            self.detachChild(router)
+            self.registCollectionRouter = nil
+        }
     }
 
     func terminateCurrentRIB() {
@@ -73,8 +95,6 @@ extension AddRouter: AddRouting {
                 self.detachChild(currentChild)
                 self.currentChild = nil
             }
-//            self.navigationController.popViewController(animated: true)
-            
         }
     }
 }

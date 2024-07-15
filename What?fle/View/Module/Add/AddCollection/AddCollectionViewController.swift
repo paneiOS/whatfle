@@ -14,7 +14,8 @@ protocol AddCollectionPresentableListener: AnyObject {
     var locationTotalCount: BehaviorRelay<Int> { get }
     var registeredLocations: BehaviorRelay<[(String, [PlaceRegistration])]> { get }
     var selectedLocations: BehaviorRelay<[(IndexPath, PlaceRegistration)]> { get }
-    func closeAddCollection()
+    func popToAddCollection()
+    func dismissAddCollection()
     func showRegistLocation()
     func retriveRegistLocation()
     func selectItem(with: IndexPath)
@@ -276,8 +277,7 @@ final class AddCollectionViewController: UIViewController, AddCollectionPresenta
         self.customNavigationBar.backButton.rx.controlEvent(.touchUpInside)
             .subscribe(onNext: { [weak self] in
                 guard let self else { return }
-                self.navigationController?.popViewController(animated: true)
-                self.listener?.closeAddCollection()
+                self.listener?.popToAddCollection()
             })
             .disposed(by: disposeBag)
 
@@ -291,8 +291,7 @@ final class AddCollectionViewController: UIViewController, AddCollectionPresenta
         self.customPresentHeader.closeButton.rx.controlEvent(.touchUpInside)
             .subscribe(onNext: { [weak self] in
                 guard let self else { return }
-                self.dismiss(animated: true)
-                self.listener?.closeAddCollection()
+                self.listener?.dismissAddCollection()
             })
             .disposed(by: disposeBag)
     }

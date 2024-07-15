@@ -19,8 +19,10 @@ protocol AddCollectionPresentable: Presentable {
 }
 
 protocol AddCollectionListener: AnyObject {
+    func popToAddCollection()
+    func dismissAddCollection()
     func closeAddCollection()
-    func popToCurrentRIB()
+    func popToRegistCollection()
     func sendDataToRegistCollection(data: EditSelectedCollectionData, tags: [RecommendHashTagModel])
 }
 
@@ -29,7 +31,6 @@ typealias EditSelectedCollectionData = [(IndexPath, PlaceRegistration)]
 final class AddCollectionInteractor: PresentableInteractor<AddCollectionPresentable>,
                                      AddCollectionInteractable,
                                      AddCollectionPresentableListener {
-    
     weak var router: AddCollectionRouting?
     weak var listener: AddCollectionListener?
     private let networkService: NetworkServiceDelegate
@@ -59,16 +60,20 @@ final class AddCollectionInteractor: PresentableInteractor<AddCollectionPresenta
         presenter.listener = self
     }
 
-    func closeAddCollection() {
-        listener?.closeAddCollection()
+    func popToAddCollection() {
+        listener?.popToAddCollection()
+    }
+
+    func dismissAddCollection() {
+        listener?.dismissAddCollection()
     }
 
     func completeRegistCollection() {
         listener?.closeAddCollection()
     }
 
-    func popToCurrentRIB() {
-        listener?.popToCurrentRIB()
+    func popToRegistCollection() {
+        listener?.popToRegistCollection()
     }
 
     func showRegistLocation() {

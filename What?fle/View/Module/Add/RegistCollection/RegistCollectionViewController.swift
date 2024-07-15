@@ -24,7 +24,7 @@ protocol RegistCollectionPresentableListener: AnyObject {
     func showEditCollection()
     func showAddTagRIB(tags: [TagType])
     func registCollection(data: CollectionData)
-    func popToCurrentRIB()
+    func popToRegistCollection()
 }
 
 final class RegistCollectionViewController: UIVCWithKeyboard, RegistCollectionPresentable, RegistCollectionViewControllable {
@@ -419,7 +419,7 @@ extension RegistCollectionViewController {
         self.customNavigationBar.backButton.rx.tap
             .subscribe(onNext: { [weak self] in
                 guard let self else { return }
-                listener?.popToCurrentRIB()
+                listener?.popToRegistCollection()
             })
             .disposed(by: disposeBag)
 

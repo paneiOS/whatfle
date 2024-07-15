@@ -12,8 +12,9 @@ import RxCocoa
 import UIKit
 
 protocol RegistCollectionRouting: ViewableRouting {
-    func routeToRegistCollection(data: EditSelectedCollectionData)
+    func routeToAddCollection(data: EditSelectedCollectionData)
     func routeToAddTag(tags: [TagType])
+    func dismissAddCollection()
     func closeCurrentRIB()
     func confirmTags(tags: [TagType])
 }
@@ -23,7 +24,7 @@ protocol RegistCollectionPresentable: Presentable {
 }
 
 protocol RegistCollectionListener: AnyObject {
-    func popToCurrentRIB()
+    func popToRegistCollection()
     func completeRegistCollection()
 }
 
@@ -83,7 +84,11 @@ final class RegistCollectionInteractor: PresentableInteractor<RegistCollectionPr
     }
 
     func showEditCollection() {
-        self.router?.routeToRegistCollection(data: editSelectedCollectionData)
+        self.router?.routeToAddCollection(data: editSelectedCollectionData)
+    }
+    
+    func dismissAddCollection() {
+        self.router?.dismissAddCollection()
     }
 
     func showAddTagRIB(tags: [TagType]) {
@@ -110,8 +115,8 @@ final class RegistCollectionInteractor: PresentableInteractor<RegistCollectionPr
         self.closeAddTagView()
     }
 
-    func popToCurrentRIB() {
-        self.listener?.popToCurrentRIB()
+    func popToRegistCollection() {
+        self.listener?.popToRegistCollection()
     }
 
     func registCollection(data: CollectionData ) {
@@ -149,5 +154,7 @@ final class RegistCollectionInteractor: PresentableInteractor<RegistCollectionPr
 
     func sendDataToRegistCollection(data: EditSelectedCollectionData, tags: [RecommendHashTagModel]) {}
 
+    func popToAddCollection() {}
+    
     func closeAddCollection() {}
 }
