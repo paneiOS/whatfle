@@ -251,7 +251,7 @@ final class AddCollectionViewController: UIViewController, AddCollectionPresenta
             })
             .disposed(by: disposeBag)
 
-        let isEnabledObservable = listener.selectedLocations.map { $0.count >= Constants.maximumCount }.share()
+        let isEnabledObservable = listener.selectedLocations.map { $0.count >= Constants.maximumCount }.distinctUntilChanged().share()
         isEnabledObservable
             .bind(to: customNavigationBar.rightButton.rx.isEnabled)
             .disposed(by: disposeBag)
@@ -277,14 +277,14 @@ final class AddCollectionViewController: UIViewController, AddCollectionPresenta
             .subscribe(onNext: { [weak self] in
                 guard let self else { return }
                 self.navigationController?.popViewController(animated: true)
-                listener?.closeAddCollection()
+                self.listener?.closeAddCollection()
             })
             .disposed(by: disposeBag)
 
         self.customNavigationBar.rightButton.rx.controlEvent(.touchUpInside)
             .subscribe(onNext: { [weak self] in
                 guard let self else { return }
-                listener?.showRegistCollection()
+                self.listener?.showRegistCollection()
             })
             .disposed(by: disposeBag)
 
@@ -292,7 +292,7 @@ final class AddCollectionViewController: UIViewController, AddCollectionPresenta
             .subscribe(onNext: { [weak self] in
                 guard let self else { return }
                 self.dismiss(animated: true)
-                listener?.closeAddCollection()
+                self.listener?.closeAddCollection()
             })
             .disposed(by: disposeBag)
     }

@@ -20,7 +20,7 @@ protocol AddCollectionPresentable: Presentable {
 
 protocol AddCollectionListener: AnyObject {
     func closeAddCollection()
-    func popCurrentRIB()
+    func popToCurrentRIB()
     func sendDataToRegistCollection(data: EditSelectedCollectionData, tags: [RecommendHashTagModel])
 }
 
@@ -29,6 +29,7 @@ typealias EditSelectedCollectionData = [(IndexPath, PlaceRegistration)]
 final class AddCollectionInteractor: PresentableInteractor<AddCollectionPresentable>,
                                      AddCollectionInteractable,
                                      AddCollectionPresentableListener {
+    
     weak var router: AddCollectionRouting?
     weak var listener: AddCollectionListener?
     private let networkService: NetworkServiceDelegate
@@ -62,8 +63,12 @@ final class AddCollectionInteractor: PresentableInteractor<AddCollectionPresenta
         listener?.closeAddCollection()
     }
 
-    func popCurrentRIB() {
-        listener?.popCurrentRIB()
+    func completeRegistCollection() {
+        listener?.closeAddCollection()
+    }
+
+    func popToCurrentRIB() {
+        listener?.popToCurrentRIB()
     }
 
     func showRegistLocation() {
@@ -109,7 +114,6 @@ final class AddCollectionInteractor: PresentableInteractor<AddCollectionPresenta
         networkService.requestDecodable(WhatfleAPI.getRecommendHashtag, type: [RecommendHashTagModel].self)
             .subscribe(onSuccess: { [weak self] tags in
                 LoadingIndicatorService.shared.hideLoading()
-
                 guard let self else { return }
                 let data: EditSelectedCollectionData = selectedLocations.value
                 self.listener?.sendDataToRegistCollection(data: data, tags: tags)

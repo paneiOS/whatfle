@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct RecommendHashTagModel: Decodable {
+struct RecommendHashTagModel: Decodable, Equatable {
     let id: Int
     let hashtagName: String
 }

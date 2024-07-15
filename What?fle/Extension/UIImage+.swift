@@ -18,13 +18,13 @@ extension UIImage {
 
         var resizeRatio = CGFloat(maxBytes / Double(imageData.count))
         var compressedData = imageData
-        
+
         while Double(compressedData.count) > maxBytes && resizeRatio > 0 {
             guard let resizedImageData = self.jpegData(compressionQuality: resizeRatio) else { break }
             compressedData = resizedImageData
             resizeRatio -= 0.1
         }
-        
+
         return compressedData
     }
 }

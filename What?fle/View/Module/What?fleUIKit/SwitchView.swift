@@ -18,6 +18,15 @@ final class SwitchView: UIView {
         return control
     }()
 
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        makeUI()
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+
     func draw(title: String) {
         label.attributedText = .makeAttributedString(
             text: title,
@@ -25,15 +34,19 @@ final class SwitchView: UIView {
             textColor: .textDefault,
             lineHeight: 24
         )
+    }
 
-        self.addSubview(label)
-        label.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview().inset(4)
+    func makeUI() {
+        [label, switchControl].forEach {
+            self.addSubview($0)
+        }
+
+        self.label.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
             $0.leading.equalToSuperview()
         }
 
-        self.addSubview(switchControl)
-        switchControl.snp.makeConstraints {
+        self.switchControl.snp.makeConstraints {
             $0.top.bottom.trailing.equalToSuperview()
             $0.width.equalTo(52)
         }

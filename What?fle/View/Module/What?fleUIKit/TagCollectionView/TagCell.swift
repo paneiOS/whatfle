@@ -5,44 +5,12 @@
 //  Created by JeongHwan Lee on 7/6/24.
 //
 
+import RxSwift
 import SnapKit
 import UIKit
 
-enum TagType {
-    case button(String)
-    case addedSelectedButton(String)
-    case selected(String)
-    case deselected(String)
-
-    var title: String {
-        switch self {
-        case .button(let title), .addedSelectedButton(let title), .selected(let title), .deselected(let title):
-        return title
-        }
-    }
-
-    var font: UIFont {
-        return .body14MD
-    }
-
-    var width: CGFloat {
-        let attributedString = NSAttributedString(string: self.title, attributes: [.font: self.font])
-        return ceil(attributedString.size().width) + 24
-    }
-
-    var height: CGFloat {
-        return 32
-    }
-
-    func toggle() -> TagType {
-        switch self {
-        case .selected(let title):
-            return .deselected(title)
-        case .deselected(let title):
-            return .selected(title)
-        default: return self
-        }
-    }
+protocol TagCellDelegate: AnyObject {
+    func didTapCloseButton(in cell: TagCell)
 }
 
 final class TagCell: UICollectionViewCell {
@@ -52,44 +20,44 @@ final class TagCell: UICollectionViewCell {
     private let closeButton: UIButton = {
         let button: UIButton = .init()
         button.setImage(.xLineMd, for: .normal)
+        button.tintColor = .GrayScale.g300
         return button
     }()
+
+    weak var delegate: TagCellDelegate?
+    private let disposeBag = DisposeBag()
 
     override var intrinsicContentSize: CGSize {
         let labelSize = label.intrinsicContentSize
         return CGSize(width: labelSize.width, height: labelSize.height)
     }
 
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+
+        setupBinding()
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+
     func drawCell(cellType: TagType) {
+        contentView.subviews.forEach { $0.removeFromSuperview() }
         contentView.layer.cornerRadius = 16
         contentView.clipsToBounds = true
 
-        contentView.subviews.forEach { $0.removeFromSuperview() }
-        
         contentView.addSubview(label)
         label.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(6)
-            $0.leading.equalToSuperview().inset(12)
-            switch cellType {
-            case .addedSelectedButton:
-                break
-            default:
-                $0.trailing.equalToSuperview().inset(12)
+            if case .addedSelectedButton = cellType {
+                $0.leading.equalToSuperview().inset(10)
+            } else {
+                $0.leading.equalToSuperview().inset(12)
             }
         }
 
         switch cellType {
-        case .button(let title):
-            label.attributedText = .makeAttributedString(
-                text: title,
-                font: cellType.font,
-                textColor: .textLight,
-                lineHeight: 20
-            )
-            contentView.backgroundColor = .white
-            contentView.layer.borderWidth = 1
-            contentView.layer.borderColor = UIColor.lineDefault.cgColor
-
         case .addedSelectedButton(let title):
             label.attributedText = .makeAttributedString(
                 text: title,
@@ -97,17 +65,20 @@ final class TagCell: UICollectionViewCell {
                 textColor: .Core.p400,
                 lineHeight: 20
             )
-
+            contentView.addSubview(closeButton)
             self.closeButton.snp.makeConstraints {
                 $0.centerY.equalToSuperview()
-                $0.leading.equalTo(self.label.snp.trailing).offset(4)
-                $0.trailing.equalToSuperview().inset(12)
+                $0.leading.equalTo(label.snp.trailing).offset(4)
+                $0.trailing.equalToSuperview().inset(10)
                 $0.size.equalTo(24)
             }
+            contentView.backgroundColor = .Core.p100
+            contentView.layer.borderWidth = 1
+            contentView.layer.borderColor = UIColor.Core.primary.cgColor
 
-        case .selected(let title):
+        case .selected(let model):
             label.attributedText = .makeAttributedString(
-                text: title,
+                text: model.hashtagName,
                 font: cellType.font,
                 textColor: .Core.p400,
                 lineHeight: 20
@@ -116,9 +87,9 @@ final class TagCell: UICollectionViewCell {
             contentView.layer.borderWidth = 1
             contentView.layer.borderColor = UIColor.Core.primary.cgColor
 
-        case .deselected(let title):
+        case .deselected(let model):
             label.attributedText = .makeAttributedString(
-                text: title,
+                text: model.hashtagName,
                 font: .body14MD,
                 textColor: .textExtralight,
                 lineHeight: 20
@@ -127,5 +98,14 @@ final class TagCell: UICollectionViewCell {
             contentView.layer.borderWidth = 1
             contentView.layer.borderColor = UIColor.GrayScale.g100.cgColor
         }
+    }
+
+    private func setupBinding() {
+        closeButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self else { return }
+                delegate?.didTapCloseButton(in: self)
+            })
+            .disposed(by: disposeBag)
     }
 }

@@ -85,7 +85,7 @@ final class RegistLocationInteractor: PresentableInteractor<RegistLocationPresen
             .disposed(by: disposeBag)
     }
 
-    func uploadPlaceImages(images: [UIImage]) -> Single<[String]> {
+    private func uploadPlaceImages(images: [UIImage]) -> Single<[String]> {
         guard !images.isEmpty else {
             return Single.just([])
         }

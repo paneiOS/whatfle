@@ -23,6 +23,12 @@ extension RegistCollectionComponent: AddCollectionDependency {
     }
 }
 
+extension RegistCollectionComponent: AddTagDependency {
+    var addTagBuilder: AddTagBuildable {
+        return AddTagBuilder(dependency: self)
+    }
+}
+
 // MARK: - Builder
 
 protocol RegistCollectionBuildable: Buildable {

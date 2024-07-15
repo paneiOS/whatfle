@@ -11,6 +11,7 @@ import Moya
 enum WhatfleAPI {
     case uploadPlaceImage(images: [UIImage])
     case registerPlace(PlaceRegistration)
+    case registCollectionData(CollectionDataModel)
     case retriveRegistLocation
     case getAllMyPlace
     case getRecommendHashtag
@@ -20,6 +21,7 @@ extension WhatfleAPI: TargetType {
     var method: Moya.Method {
         switch self {
         case .registerPlace,
+             .registCollectionData,
              .uploadPlaceImage:
             return .post
         default:
@@ -40,6 +42,19 @@ extension WhatfleAPI: TargetType {
                 "imageUrls": registration.imageURLs ?? [],
                 "latitude": registration.latitude,
                 "longitude": registration.longitude
+            ]
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+
+        case .registCollectionData(let model):
+            let parameters: [String: Any] = [
+                "accountId": model.accountID,
+                "title": model.title,
+                "description": model.description,
+                "isPublic": model.isPublic,
+                "hashtags": model.hashtags,
+                "places": model.places,
+                "imageUrls": model.imageURls,
+                "isActiveCover": model.isActiveCover
             ]
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
 
@@ -89,6 +104,8 @@ extension WhatfleAPI: TargetType {
         switch self {
         case .registerPlace:
             return "/place"
+        case .registCollectionData:
+            return "/collection"
         case .uploadPlaceImage:
             return "/image/place"
         case .getAllMyPlace:
@@ -109,7 +126,7 @@ extension WhatfleAPI: TargetType {
             }
             return data
         case .getRecommendHashtag:
-            guard let path = Bundle.main.path(forResource: "RecomandHashTag", ofType: "json"),
+            guard let path = Bundle.main.path(forResource: "RecommendHashTag", ofType: "json"),
                   let data = try? Data(contentsOf: URL(fileURLWithPath: path)) else {
                 return Data()
             }

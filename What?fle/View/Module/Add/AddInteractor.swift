@@ -14,7 +14,7 @@ protocol AddRouting: ViewableRouting {
     func routeToRegistLocation()
     func routeToRegistCollection(data: EditSelectedCollectionData, tags: [RecommendHashTagModel])
     func routeToAddCollection(data: EditSelectedCollectionData?)
-    func closeCurrentRIB()
+    func terminateCurrentRIB()
 }
 
 protocol AddPresentable: Presentable {
@@ -40,7 +40,11 @@ final class AddInteractor: PresentableInteractor<AddPresentable> {
 }
 
 extension AddInteractor: AddInteractable {
-    func popCurrentRIB() {
+    func completeRegistCollection() {
+        listener?.closeAddRIB()
+    }
+
+    func popToCurrentRIB() {
         listener?.closeAddRIB()
     }
 
@@ -54,16 +58,14 @@ extension AddInteractor: AddInteractable {
 
     func closeRegistLocation() {
         self.router?.navigationController.popViewController(animated: true)
-        router?.closeCurrentRIB()
     }
 
     func completeRegistLocation() {
-        closeRegistLocation()
-        popCurrentRIB()
+        router?.terminateCurrentRIB()
     }
 
     func closeAddCollection() {
-        router?.closeCurrentRIB()
+        self.router?.navigationController.popViewController(animated: true)
     }
 }
 

@@ -39,11 +39,13 @@ final class AddRouter: ViewableRouter<AddInteractable, AddViewControllable> {
 
 extension AddRouter: AddRouting {
     func routeToAddCollection(data: EditSelectedCollectionData?) {
-        let router = self.component.addCollectionBuilder.build(withListener: self.interactor, withData: data)
-        self.navigationController.setNavigationBarHidden(true, animated: false)
-        self.navigationController.pushViewController(router.viewControllable.uiviewController, animated: true)
-        self.attachChild(router)
-        self.currentChild = router
+        if self.currentChild == nil {
+            let router = self.component.addCollectionBuilder.build(withListener: self.interactor, withData: data)
+            self.navigationController.setNavigationBarHidden(true, animated: false)
+            self.navigationController.pushViewController(router.viewControllable.uiviewController, animated: true)
+            self.attachChild(router)
+            self.currentChild = router
+        }
     }
 
     func routeToRegistLocation() {
@@ -61,12 +63,18 @@ extension AddRouter: AddRouting {
         self.navigationController.setNavigationBarHidden(true, animated: false)
         self.navigationController.pushViewController(router.viewControllable.uiviewController, animated: true)
         self.attachChild(router)
+        self.currentChild = router
     }
 
-    func closeCurrentRIB() {
+    func terminateCurrentRIB() {
         if let currentChild {
-            self.detachChild(currentChild)
-            self.currentChild = nil
+            self.navigationController.dismiss(animated: true) { [weak self] in
+                guard let self else { return }
+                self.detachChild(currentChild)
+                self.currentChild = nil
+            }
+//            self.navigationController.popViewController(animated: true)
+            
         }
     }
 }

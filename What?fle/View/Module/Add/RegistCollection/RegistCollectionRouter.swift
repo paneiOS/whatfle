@@ -7,7 +7,7 @@
 
 import RIBs
 
-protocol RegistCollectionInteractable: Interactable, AddCollectionListener {
+protocol RegistCollectionInteractable: Interactable, AddCollectionListener, AddTagListener {
     var router: RegistCollectionRouting? { get set }
     var listener: RegistCollectionListener? { get set }
 }
@@ -34,18 +34,41 @@ final class RegistCollectionRouter: ViewableRouter<RegistCollectionInteractable,
 }
 
 extension RegistCollectionRouter: RegistCollectionRouting {
+    func closeAddTag() {
+        self.closeCurrentRIB()
+    }
+
+    func closeAddCollection() {
+        if let currentChild = self.currentChild {
+            self.viewController.uiviewController.dismiss(animated: true) {
+                self.detachChild(currentChild)
+            }
+        }
+    }
+
     func routeToRegistCollection(data: EditSelectedCollectionData) {
         let router = self.component.addCollectionBuilder.build(withListener: self.interactor, withData: data)
         router.viewControllable.uiviewController.modalPresentationStyle = .fullScreen
-        self.viewControllable.uiviewController.present(router.viewControllable.uiviewController, animated: true, completion: nil)
+        self.viewControllable.uiviewController.present(router.viewControllable.uiviewController, animated: true)
         self.attachChild(router)
         self.currentChild = router
     }
 
     func closeCurrentRIB() {
-        if let currentChild {
-            self.detachChild(currentChild)
-            self.currentChild = nil
+        if let currentChild = self.currentChild {
+            self.viewController.uiviewController.dismiss(animated: true) {
+                self.detachChild(currentChild)
+            }
         }
     }
+
+    func routeToAddTag(tags: [TagType]) {
+        let router = self.component.addTagBuilder.build(withListener: self.interactor, tags: tags)
+        router.viewControllable.uiviewController.modalPresentationStyle = .overCurrentContext
+        self.viewControllable.uiviewController.present(router.viewControllable.uiviewController, animated: true)
+        self.attachChild(router)
+        self.currentChild = router
+    }
+
+    func confirmTags(tags: [TagType]) {}
 }
