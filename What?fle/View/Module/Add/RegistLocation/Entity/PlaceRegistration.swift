@@ -19,15 +19,24 @@ struct PlaceRegistration: Decodable {
     var imageURLs: [String]?
     var latitude: Double
     var longitude: Double
+    var categoryGroupCode: CategoryGroupCode
 
     var isEmptyImageURLs: Bool {
         self.imageURLs?.isEmpty ?? false
     }
 
     private enum CodingKeys: String, CodingKey {
-        case id, description, visitDate, placeName, address, roadAddress, latitude, longitude
+        case id
+        case description
+        case visitDate
+        case placeName
+        case address
+        case roadAddress
         case accountID = "accountId"
         case imageURLs = "imageUrls"
+        case categoryGroupCode
+        case longitude = "longitude"
+        case latitude = "latitude"
     }
 
     init(from decoder: Decoder) throws {
@@ -42,6 +51,7 @@ struct PlaceRegistration: Decodable {
         imageURLs = try container.decodeIfPresent([String].self, forKey: .imageURLs)
         latitude = try container.decode(Double.self, forKey: .latitude)
         longitude = try container.decode(Double.self, forKey: .longitude)
+        categoryGroupCode = try container.decode(CategoryGroupCode.self, forKey: .categoryGroupCode)
         images = []
     }
 
@@ -56,7 +66,8 @@ struct PlaceRegistration: Decodable {
         images: [UIImage],
         imageURLs: [String]? = nil,
         latitude: Double,
-        longitude: Double
+        longitude: Double,
+        categoryGroupCode: CategoryGroupCode
     ) {
         self.id = id
         self.accountID = accountID
@@ -69,6 +80,7 @@ struct PlaceRegistration: Decodable {
         self.imageURLs = imageURLs
         self.latitude = latitude
         self.longitude = longitude
+        self.categoryGroupCode = categoryGroupCode
     }
 
     init(imageURLs: [String], registration: PlaceRegistration) {
@@ -83,5 +95,6 @@ struct PlaceRegistration: Decodable {
         self.imageURLs = imageURLs
         self.latitude = registration.latitude
         self.longitude = registration.longitude
+        self.categoryGroupCode = registration.categoryGroupCode
     }
 }
