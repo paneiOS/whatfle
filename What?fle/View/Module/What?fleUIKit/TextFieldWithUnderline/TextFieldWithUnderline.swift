@@ -8,8 +8,8 @@
 import SnapKit
 import UIKit
 
-class TextFieldWithUnderline: UITextField {
-    private let underlineView: UIView = {
+class TextFieldWithUnderline: UITextField, TextFieldWithUnderlineProtocol {
+    let underlineView: UIView = {
         let view: UIView = .init()
         view.backgroundColor = .lineDefault
         return view
@@ -23,24 +23,6 @@ class TextFieldWithUnderline: UITextField {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupUI()
-    }
-
-    private func setupUI() {
-        self.delegate = self
-
-        addSubview(underlineView)
-        underlineView.snp.makeConstraints {
-            $0.height.equalTo(1)
-            $0.leading.trailing.bottom.equalToSuperview()
-        }
-    }
-
-    private func activateUnderline() {
-        underlineView.backgroundColor = .Core.primary
-    }
-
-    private func deactivateUnderline() {
-        underlineView.backgroundColor = .lineDefault
     }
 }
 

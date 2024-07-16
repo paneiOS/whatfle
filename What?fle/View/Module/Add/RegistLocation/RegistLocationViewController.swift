@@ -367,7 +367,8 @@ final class RegistLocationViewController: UIVCWithKeyboard, RegistLocationViewCo
                         roadAddress: model.roadAddressName,
                         images: listener.imageArray.value,
                         latitude: model.latitude,
-                        longitude: model.longitude
+                        longitude: model.longitude,
+                        categoryGroupCode: model.categoryGroupCode
                     )
                 )
             })

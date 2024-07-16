@@ -11,16 +11,12 @@ import UIKit
 final class SelectLocationCell: UITableViewCell {
     static let reuseIdentifier = "SelectLocationCell"
 
-    private let placeImage: UIView = {
-        let view: UIView = .init()
-        let imageView: UIImageView = .init(image: .placehold)
-        view.addSubview(imageView)
-        imageView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
+    private let placeImage: UIImageView = {
+        let view: UIImageView = .init(image: .placehold)
         view.layer.cornerRadius = 4
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.lineExtralight.cgColor
+        view.layer.masksToBounds = true
         return view
     }()
 
@@ -31,6 +27,7 @@ final class SelectLocationCell: UITableViewCell {
         label.font = .body14SB
         return label
     }()
+
     private let subTitleLabel: UILabel = {
         let label: UILabel = .init()
         label.font = .caption12RG
@@ -107,6 +104,7 @@ final class SelectLocationCell: UITableViewCell {
     func drawCell(model: KakaoSearchDocumentsModel) {
         titleLabel.text = model.placeName
         subTitleLabel.text = model.addressName
+        placeImage.image = model.categoryGroupCode.image
     }
 
     func drawCheckTypeCell(model: KakaoSearchDocumentsModel) {

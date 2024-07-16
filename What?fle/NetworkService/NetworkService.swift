@@ -11,6 +11,7 @@ import RxSwift
 
 protocol NetworkServiceDelegate: AnyObject {
     func request<T: TargetType>(_ target: T) -> Single<Response>
+    func requestDecodable<T: TargetType, U: Decodable>(_ target: T, type: U.Type) -> Single<U>
 }
 
 final class NetworkService: NetworkServiceDelegate {
@@ -40,4 +41,10 @@ final class NetworkService: NetworkServiceDelegate {
             }
         }
     }
+
+    func requestDecodable<T: TargetType, U: Decodable>(_ target: T, type: U.Type) -> Single<U> {
+            return request(target).map { response in
+                return try JSONDecoder().decode(U.self, from: response.data)
+            }
+        }
 }

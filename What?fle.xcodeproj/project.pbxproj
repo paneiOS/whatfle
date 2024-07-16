@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		390504782BE4296400575DF1 /* CustomPresentHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 390504772BE4296400575DF1 /* CustomPresentHeader.swift */; };
+		39171CFD2BF664BF00DF5B8D /* SwitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39171CFC2BF664BF00DF5B8D /* SwitchView.swift */; };
 		39195FFD2BAB40D900CC7A2E /* SelectLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39195FFC2BAB40D900CC7A2E /* SelectLocationCell.swift */; };
 		39195FFF2BAC51EA00CC7A2E /* RecentSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39195FFE2BAC51EA00CC7A2E /* RecentSearchCell.swift */; };
 		391960022BAC542B00CC7A2E /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391960012BAC542B00CC7A2E /* UserDefaultsManager.swift */; };
@@ -59,12 +60,17 @@
 		3939FFFE2B961BBA007E58F6 /* RegistLocationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3939FFFA2B961BBA007E58F6 /* RegistLocationRouter.swift */; };
 		3939FFFF2B961BBA007E58F6 /* RegistLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3939FFFB2B961BBA007E58F6 /* RegistLocationViewController.swift */; };
 		39411B352BBC3AC200A54EA7 /* LocationImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39411B342BBC3AC200A54EA7 /* LocationImageCell.swift */; };
+		395E22EF2C3C242E001BB755 /* AddTagRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395E22EB2C3C242E001BB755 /* AddTagRouter.swift */; };
+		395E22F02C3C242E001BB755 /* AddTagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395E22EC2C3C242E001BB755 /* AddTagViewController.swift */; };
+		395E22F12C3C242E001BB755 /* AddTagBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395E22ED2C3C242E001BB755 /* AddTagBuilder.swift */; };
+		395E22F22C3C242E001BB755 /* AddTagInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395E22EE2C3C242E001BB755 /* AddTagInteractor.swift */; };
 		3961ADDC2BB05CF900977C4B /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3961ADDB2BB05CF900977C4B /* LoadingIndicator.swift */; };
 		398347822BC17F2100C25F63 /* WhatfleAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398347812BC17F2100C25F63 /* WhatfleAPI.swift */; };
 		398347842BC1819B00C25F63 /* SearchMock.json in Resources */ = {isa = PBXBuildFile; fileRef = 398347832BC1819B00C25F63 /* SearchMock.json */; };
 		398347862BC1862400C25F63 /* RetriveRegistLocationMock.json in Resources */ = {isa = PBXBuildFile; fileRef = 398347852BC1862400C25F63 /* RetriveRegistLocationMock.json */; };
 		398347892BC1885400C25F63 /* RegisteredLocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398347882BC1885400C25F63 /* RegisteredLocationModel.swift */; };
 		3983478B2BC1B56100C25F63 /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3983478A2BC1B56100C25F63 /* UIViewController+.swift */; };
+		39915FA12C3DA1D7000B3730 /* TagType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39915FA02C3DA1D7000B3730 /* TagType.swift */; };
 		399974152BCFFEDE009AF937 /* RegistCollectionRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399974112BCFFEDE009AF937 /* RegistCollectionRouter.swift */; };
 		399974162BCFFEDE009AF937 /* RegistCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399974122BCFFEDE009AF937 /* RegistCollectionViewController.swift */; };
 		399974172BCFFEDE009AF937 /* RegistCollectionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399974132BCFFEDE009AF937 /* RegistCollectionBuilder.swift */; };
@@ -84,6 +90,9 @@
 		39CF56AF2BC0FD8D00E718C8 /* CustomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CF56AE2BC0FD8D00E718C8 /* CustomNavigationBar.swift */; };
 		39D562B72BD69A9C00111E9C /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 39D562B62BD69A9C00111E9C /* .swiftlint.yml */; };
 		39D562BA2BD69ED900111E9C /* UIVCWithKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D562B92BD69ED900111E9C /* UIVCWithKeyboard.swift */; };
+		39E9F0CF2C402C670085961C /* TextFieldWithUnderlineProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E9F0CE2C402C670085961C /* TextFieldWithUnderlineProtocol.swift */; };
+		39E9F0D22C402EA20085961C /* TextFieldWithErrorUnderlineProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E9F0D12C402EA20085961C /* TextFieldWithErrorUnderlineProtocol.swift */; };
+		39E9F0D52C4037500085961C /* TextFieldWithErrorUnderline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E9F0D42C4037500085961C /* TextFieldWithErrorUnderline.swift */; };
 		39EBCDF62B8A26B200599D58 /* AddRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39EBCDF22B8A26B200599D58 /* AddRouter.swift */; };
 		39EBCDF72B8A26B200599D58 /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39EBCDF32B8A26B200599D58 /* AddViewController.swift */; };
 		39EBCDF82B8A26B200599D58 /* AddBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39EBCDF42B8A26B200599D58 /* AddBuilder.swift */; };
@@ -100,14 +109,21 @@
 		39EF11B12BB6DE73000E1996 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39EF11B02BB6DE73000E1996 /* String+.swift */; };
 		39EF11B62BBADCF0000E1996 /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 39EF11B52BBADCF0000E1996 /* Secrets.plist */; };
 		39EF11B82BBAE182000E1996 /* Array+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39EF11B72BBAE182000E1996 /* Array+.swift */; };
+		4540B43B2C3983CF0010E5DF /* TagCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4540B43A2C3983CF0010E5DF /* TagCollectionView.swift */; };
+		4540B43E2C39847A0010E5DF /* TagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4540B43D2C39847A0010E5DF /* TagCell.swift */; };
+		4540B4402C3A6FE70010E5DF /* LeftAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4540B43F2C3A6FE70010E5DF /* LeftAlignedCollectionViewFlowLayout.swift */; };
+		4540B4422C3A95750010E5DF /* RecommendHashTag.json in Resources */ = {isa = PBXBuildFile; fileRef = 4540B4412C3A95750010E5DF /* RecommendHashTag.json */; };
+		4540B4442C3A97050010E5DF /* RecommendHashTagModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4540B4432C3A97050010E5DF /* RecommendHashTagModel.swift */; };
 		456B09CC2BB9520100920C54 /* TextFieldWithUnderline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456B09CB2BB9520100920C54 /* TextFieldWithUnderline.swift */; };
 		456B09CE2BB953B200920C54 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456B09CD2BB953B200920C54 /* UITextField+.swift */; };
 		456B09D22BB954DA00920C54 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456B09D12BB954DA00920C54 /* Date+.swift */; };
 		456B09D42BB9566C00920C54 /* CustomTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456B09D32BB9566C00920C54 /* CustomTextView.swift */; };
+		45DD4C7D2C43989C00AA508D /* CollectionDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45DD4C7C2C43989C00AA508D /* CollectionDataModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		390504772BE4296400575DF1 /* CustomPresentHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPresentHeader.swift; sourceTree = "<group>"; };
+		39171CFC2BF664BF00DF5B8D /* SwitchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchView.swift; sourceTree = "<group>"; };
 		39195FFC2BAB40D900CC7A2E /* SelectLocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLocationCell.swift; sourceTree = "<group>"; };
 		39195FFE2BAC51EA00CC7A2E /* RecentSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchCell.swift; sourceTree = "<group>"; };
 		391960012BAC542B00CC7A2E /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
@@ -157,12 +173,17 @@
 		3939FFFC2B961BBA007E58F6 /* RegistLocationBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistLocationBuilder.swift; sourceTree = "<group>"; };
 		3939FFFD2B961BBA007E58F6 /* RegistLocationInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistLocationInteractor.swift; sourceTree = "<group>"; };
 		39411B342BBC3AC200A54EA7 /* LocationImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationImageCell.swift; sourceTree = "<group>"; };
+		395E22EB2C3C242E001BB755 /* AddTagRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTagRouter.swift; sourceTree = "<group>"; };
+		395E22EC2C3C242E001BB755 /* AddTagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTagViewController.swift; sourceTree = "<group>"; };
+		395E22ED2C3C242E001BB755 /* AddTagBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTagBuilder.swift; sourceTree = "<group>"; };
+		395E22EE2C3C242E001BB755 /* AddTagInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTagInteractor.swift; sourceTree = "<group>"; };
 		3961ADDB2BB05CF900977C4B /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
 		398347812BC17F2100C25F63 /* WhatfleAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatfleAPI.swift; sourceTree = "<group>"; };
 		398347832BC1819B00C25F63 /* SearchMock.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SearchMock.json; sourceTree = "<group>"; };
 		398347852BC1862400C25F63 /* RetriveRegistLocationMock.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = RetriveRegistLocationMock.json; sourceTree = "<group>"; };
 		398347882BC1885400C25F63 /* RegisteredLocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisteredLocationModel.swift; sourceTree = "<group>"; };
 		3983478A2BC1B56100C25F63 /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
+		39915FA02C3DA1D7000B3730 /* TagType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagType.swift; sourceTree = "<group>"; };
 		399974112BCFFEDE009AF937 /* RegistCollectionRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistCollectionRouter.swift; sourceTree = "<group>"; };
 		399974122BCFFEDE009AF937 /* RegistCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistCollectionViewController.swift; sourceTree = "<group>"; };
 		399974132BCFFEDE009AF937 /* RegistCollectionBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistCollectionBuilder.swift; sourceTree = "<group>"; };
@@ -182,6 +203,9 @@
 		39CF56AE2BC0FD8D00E718C8 /* CustomNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBar.swift; sourceTree = "<group>"; };
 		39D562B62BD69A9C00111E9C /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		39D562B92BD69ED900111E9C /* UIVCWithKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIVCWithKeyboard.swift; sourceTree = "<group>"; };
+		39E9F0CE2C402C670085961C /* TextFieldWithUnderlineProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldWithUnderlineProtocol.swift; sourceTree = "<group>"; };
+		39E9F0D12C402EA20085961C /* TextFieldWithErrorUnderlineProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldWithErrorUnderlineProtocol.swift; sourceTree = "<group>"; };
+		39E9F0D42C4037500085961C /* TextFieldWithErrorUnderline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldWithErrorUnderline.swift; sourceTree = "<group>"; };
 		39EBCDF22B8A26B200599D58 /* AddRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRouter.swift; sourceTree = "<group>"; };
 		39EBCDF32B8A26B200599D58 /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
 		39EBCDF42B8A26B200599D58 /* AddBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBuilder.swift; sourceTree = "<group>"; };
@@ -198,10 +222,16 @@
 		39EF11B02BB6DE73000E1996 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		39EF11B52BBADCF0000E1996 /* Secrets.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
 		39EF11B72BBAE182000E1996 /* Array+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+.swift"; sourceTree = "<group>"; };
+		4540B43A2C3983CF0010E5DF /* TagCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionView.swift; sourceTree = "<group>"; };
+		4540B43D2C39847A0010E5DF /* TagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCell.swift; sourceTree = "<group>"; };
+		4540B43F2C3A6FE70010E5DF /* LeftAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
+		4540B4412C3A95750010E5DF /* RecommendHashTag.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = RecommendHashTag.json; sourceTree = "<group>"; };
+		4540B4432C3A97050010E5DF /* RecommendHashTagModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendHashTagModel.swift; sourceTree = "<group>"; };
 		456B09CB2BB9520100920C54 /* TextFieldWithUnderline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldWithUnderline.swift; sourceTree = "<group>"; };
 		456B09CD2BB953B200920C54 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		456B09D12BB954DA00920C54 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		456B09D32BB9566C00920C54 /* CustomTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextView.swift; sourceTree = "<group>"; };
+		45DD4C7C2C43989C00AA508D /* CollectionDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionDataModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -373,13 +403,17 @@
 		3939FFCC2B8DFD0E007E58F6 /* What?fleUIKit */ = {
 			isa = PBXGroup;
 			children = (
+				4540B43C2C3983D40010E5DF /* TagCollectionView */,
 				3961ADDA2BB05CE200977C4B /* LoadingIndicator */,
 				3939FFCA2B8DFD01007E58F6 /* SearchBar.swift */,
 				456B09D32BB9566C00920C54 /* CustomTextView.swift */,
-				456B09CB2BB9520100920C54 /* TextFieldWithUnderline.swift */,
+				39E9F0CB2C402C170085961C /* TextFieldWithUnderline */,
+				39E9F0D32C4037450085961C /* TextFieldWithErrorUnderlineProtocol */,
+				39E9F0D02C402E850085961C /* TextFieldWithErrorUnderline */,
 				39CF56AE2BC0FD8D00E718C8 /* CustomNavigationBar.swift */,
 				390504772BE4296400575DF1 /* CustomPresentHeader.swift */,
 				399974192BD00CDE009AF937 /* AddPhotoControl.swift */,
+				39171CFC2BF664BF00DF5B8D /* SwitchView.swift */,
 			);
 			path = "What?fleUIKit";
 			sourceTree = "<group>";
@@ -459,6 +493,17 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		395E22EA2C3C2414001BB755 /* AddTag */ = {
+			isa = PBXGroup;
+			children = (
+				395E22EB2C3C242E001BB755 /* AddTagRouter.swift */,
+				395E22EC2C3C242E001BB755 /* AddTagViewController.swift */,
+				395E22ED2C3C242E001BB755 /* AddTagBuilder.swift */,
+				395E22EE2C3C242E001BB755 /* AddTagInteractor.swift */,
+			);
+			path = AddTag;
+			sourceTree = "<group>";
+		};
 		3961ADDA2BB05CE200977C4B /* LoadingIndicator */ = {
 			isa = PBXGroup;
 			children = (
@@ -497,6 +542,7 @@
 			children = (
 				398347832BC1819B00C25F63 /* SearchMock.json */,
 				398347852BC1862400C25F63 /* RetriveRegistLocationMock.json */,
+				4540B4412C3A95750010E5DF /* RecommendHashTag.json */,
 			);
 			path = MockData;
 			sourceTree = "<group>";
@@ -505,6 +551,7 @@
 			isa = PBXGroup;
 			children = (
 				398347882BC1885400C25F63 /* RegisteredLocationModel.swift */,
+				4540B4432C3A97050010E5DF /* RecommendHashTagModel.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -512,6 +559,8 @@
 		399974102BCFFEAB009AF937 /* RegistCollection */ = {
 			isa = PBXGroup;
 			children = (
+				45DD4C7B2C43988E00AA508D /* Entity */,
+				395E22EA2C3C2414001BB755 /* AddTag */,
 				399974112BCFFEDE009AF937 /* RegistCollectionRouter.swift */,
 				399974122BCFFEDE009AF937 /* RegistCollectionViewController.swift */,
 				399974132BCFFEDE009AF937 /* RegistCollectionBuilder.swift */,
@@ -562,6 +611,31 @@
 				39D562B92BD69ED900111E9C /* UIVCWithKeyboard.swift */,
 			);
 			path = CommonUI;
+			sourceTree = "<group>";
+		};
+		39E9F0CB2C402C170085961C /* TextFieldWithUnderline */ = {
+			isa = PBXGroup;
+			children = (
+				39E9F0CE2C402C670085961C /* TextFieldWithUnderlineProtocol.swift */,
+				456B09CB2BB9520100920C54 /* TextFieldWithUnderline.swift */,
+			);
+			path = TextFieldWithUnderline;
+			sourceTree = "<group>";
+		};
+		39E9F0D02C402E850085961C /* TextFieldWithErrorUnderline */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = TextFieldWithErrorUnderline;
+			sourceTree = "<group>";
+		};
+		39E9F0D32C4037450085961C /* TextFieldWithErrorUnderlineProtocol */ = {
+			isa = PBXGroup;
+			children = (
+				39E9F0D12C402EA20085961C /* TextFieldWithErrorUnderlineProtocol.swift */,
+				39E9F0D42C4037500085961C /* TextFieldWithErrorUnderline.swift */,
+			);
+			path = TextFieldWithErrorUnderlineProtocol;
 			sourceTree = "<group>";
 		};
 		39EBCDF02B8A268500599D58 /* Map */ = {
@@ -622,6 +696,25 @@
 				39EEFD7E2BC22D2300A39833 /* SelectLocationResultCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		4540B43C2C3983D40010E5DF /* TagCollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				4540B43F2C3A6FE70010E5DF /* LeftAlignedCollectionViewFlowLayout.swift */,
+				4540B43A2C3983CF0010E5DF /* TagCollectionView.swift */,
+				4540B43D2C39847A0010E5DF /* TagCell.swift */,
+				39915FA02C3DA1D7000B3730 /* TagType.swift */,
+			);
+			path = TagCollectionView;
+			sourceTree = "<group>";
+		};
+		45DD4C7B2C43988E00AA508D /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				45DD4C7C2C43989C00AA508D /* CollectionDataModel.swift */,
+			);
+			path = Entity;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -700,6 +793,7 @@
 				398347842BC1819B00C25F63 /* SearchMock.json in Resources */,
 				39333D032B864EF9005F295A /* SUIT-ExtraBold.otf in Resources */,
 				39333D012B864EF9005F295A /* SUIT-ExtraLight.otf in Resources */,
+				4540B4422C3A95750010E5DF /* RecommendHashTag.json in Resources */,
 				39333CFC2B864EF9005F295A /* SUIT-Medium.otf in Resources */,
 				39EF11B62BBADCF0000E1996 /* Secrets.plist in Resources */,
 				39333D022B864EF9005F295A /* SUIT-Regular.otf in Resources */,
@@ -741,15 +835,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39E9F0CF2C402C670085961C /* TextFieldWithUnderlineProtocol.swift in Sources */,
+				4540B43E2C39847A0010E5DF /* TagCell.swift in Sources */,
 				39EBCE0C2B8A484000599D58 /* SelecteLocationRouter.swift in Sources */,
+				4540B4442C3A97050010E5DF /* RecommendHashTagModel.swift in Sources */,
 				39EBCE0F2B8A484000599D58 /* SelecteLocationInteractor.swift in Sources */,
 				3983478B2BC1B56100C25F63 /* UIViewController+.swift in Sources */,
+				39E9F0D22C402EA20085961C /* TextFieldWithErrorUnderlineProtocol.swift in Sources */,
 				39333D072B865132005F295A /* UIFont+Design.swift in Sources */,
+				39915FA12C3DA1D7000B3730 /* TagType.swift in Sources */,
 				39333CD42B864786005F295A /* ViewController.swift in Sources */,
 				39EBCDF72B8A26B200599D58 /* AddViewController.swift in Sources */,
 				39333CD02B864786005F295A /* AppDelegate.swift in Sources */,
 				39333D6E2B8993B1005F295A /* HomeRouter.swift in Sources */,
 				39195FFF2BAC51EA00CC7A2E /* RecentSearchCell.swift in Sources */,
+				4540B43B2C3983CF0010E5DF /* TagCollectionView.swift in Sources */,
 				3939FFF52B9451E3007E58F6 /* UIApplication+.swift in Sources */,
 				39EBCDF92B8A26B200599D58 /* AddInteractor.swift in Sources */,
 				456B09CC2BB9520100920C54 /* TextFieldWithUnderline.swift in Sources */,
@@ -771,6 +871,8 @@
 				39CF56AB2BC0F0A300E718C8 /* AddCollectionInteractor.swift in Sources */,
 				398347892BC1885400C25F63 /* RegisteredLocationModel.swift in Sources */,
 				3939FFDB2B90D063007E58F6 /* KakaoAPI.swift in Sources */,
+				395E22F22C3C242E001BB755 /* AddTagInteractor.swift in Sources */,
+				395E22F02C3C242E001BB755 /* AddTagViewController.swift in Sources */,
 				456B09D22BB954DA00920C54 /* Date+.swift in Sources */,
 				39333D152B88AE19005F295A /* RootBuilder.swift in Sources */,
 				39EBCE0D2B8A484000599D58 /* SelecteLocationViewController.swift in Sources */,
@@ -780,9 +882,11 @@
 				456B09D42BB9566C00920C54 /* CustomTextView.swift in Sources */,
 				393900002B961BBA007E58F6 /* RegistLocationBuilder.swift in Sources */,
 				39CBE1182BC6289D003CB3F0 /* SplashBuilder.swift in Sources */,
+				4540B4402C3A6FE70010E5DF /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 				39EBCDFF2B8A26BF00599D58 /* MapViewController.swift in Sources */,
 				391960022BAC542B00CC7A2E /* UserDefaultsManager.swift in Sources */,
 				3919BA652B988C0000E2A3CC /* UIView+.swift in Sources */,
+				395E22F12C3C242E001BB755 /* AddTagBuilder.swift in Sources */,
 				39A81E6E2BEE53870009C43F /* PlaceRegistration.swift in Sources */,
 				39EBCE0E2B8A484000599D58 /* SelecteLocationBuilder.swift in Sources */,
 				39EBCDFE2B8A26BF00599D58 /* MapRouter.swift in Sources */,
@@ -791,15 +895,18 @@
 				39333D6F2B8993B1005F295A /* HomeViewController.swift in Sources */,
 				39CF56A92BC0F0A300E718C8 /* AddCollectionViewController.swift in Sources */,
 				39EBCE012B8A26BF00599D58 /* MapInteractor.swift in Sources */,
+				395E22EF2C3C242E001BB755 /* AddTagRouter.swift in Sources */,
 				39333CD22B864786005F295A /* SceneDelegate.swift in Sources */,
 				3939FFFE2B961BBA007E58F6 /* RegistLocationRouter.swift in Sources */,
 				39A81E732BF3BC460009C43F /* CustomError.swift in Sources */,
 				39333D732B89A3AA005F295A /* AppComponent.swift in Sources */,
 				39333D142B88AE19005F295A /* RootViewController.swift in Sources */,
 				39333D712B8993B1005F295A /* HomeInteractor.swift in Sources */,
+				39171CFD2BF664BF00DF5B8D /* SwitchView.swift in Sources */,
 				3939FFD82B8F750D007E58F6 /* NetworkService.swift in Sources */,
 				392DAEA12C4696FF000F2B94 /* CustomAlbumRouter.swift in Sources */,
 				39EBCDF82B8A26B200599D58 /* AddBuilder.swift in Sources */,
+				39E9F0D52C4037500085961C /* TextFieldWithErrorUnderline.swift in Sources */,
 				3999741A2BD00CDE009AF937 /* AddPhotoControl.swift in Sources */,
 				39333D702B8993B1005F295A /* HomeBuilder.swift in Sources */,
 				39411B352BBC3AC200A54EA7 /* LocationImageCell.swift in Sources */,
@@ -815,6 +922,7 @@
 				39EEFD7F2BC22D2300A39833 /* SelectLocationResultCell.swift in Sources */,
 				39D562BA2BD69ED900111E9C /* UIVCWithKeyboard.swift in Sources */,
 				393900012B961BBA007E58F6 /* RegistLocationInteractor.swift in Sources */,
+				45DD4C7D2C43989C00AA508D /* CollectionDataModel.swift in Sources */,
 				456B09CE2BB953B200920C54 /* UITextField+.swift in Sources */,
 				39EBCDF62B8A26B200599D58 /* AddRouter.swift in Sources */,
 				399974162BCFFEDE009AF937 /* RegistCollectionViewController.swift in Sources */,

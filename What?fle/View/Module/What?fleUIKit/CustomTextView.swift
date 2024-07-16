@@ -11,32 +11,28 @@ final class CustomTextView: UIView {
     enum TextViewType {
         case basic
         case withoutTitle
+        case onlyTitle
 
         var insets: UIEdgeInsets {
             switch self {
-            case .basic:
-                return UIEdgeInsets(top: 14, left: 0, bottom: 14, right: 0)
             case .withoutTitle:
                 return UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
+            default:
+                return UIEdgeInsets(top: 14, left: 0, bottom: 14, right: 0)
             }
         }
 
         var font: UIFont {
             switch self {
-            case .basic:
-                return .body14MD
             case .withoutTitle:
                 return .title20XBD
+            default:
+                return .body14MD
             }
         }
 
         var lineHeight: CGFloat {
-            switch self {
-            case .basic:
-                return 20
-            case .withoutTitle:
-                return 28
-            }
+            return 20
         }
     }
 
@@ -61,12 +57,10 @@ final class CustomTextView: UIView {
     }()
 
     init(type: TextViewType? = .basic) {
-        if let type {
-            self.type = type
-        }
-
         super.init(frame: .zero)
 
+        guard let type else { return }
+        self.type = type
         self.setupUI()
     }
 
@@ -83,28 +77,44 @@ final class CustomTextView: UIView {
         [titleLabel, textView, placeholdLabel, underlineView].forEach {
             addSubview($0)
         }
-        if type == .basic {
+        switch type {
+        case .basic:
             titleLabel.snp.makeConstraints {
                 $0.top.leading.equalToSuperview()
                 $0.height.equalTo(24)
             }
-        }
-        textView.snp.makeConstraints {
-            if type == .basic {
+            textView.snp.makeConstraints {
                 $0.top.equalTo(titleLabel.snp.bottom)
-            } else {
-                $0.top.equalToSuperview()
+                $0.leading.trailing.bottom.equalToSuperview()
+                $0.height.equalTo(48)
             }
-            $0.leading.trailing.bottom.equalToSuperview()
-            $0.height.equalTo(48)
-        }
-        placeholdLabel.snp.makeConstraints {
-            $0.centerY.equalTo(textView)
-            $0.leading.equalToSuperview()
-        }
-        underlineView.snp.makeConstraints {
-            $0.leading.trailing.bottom.equalToSuperview()
-            $0.height.equalTo(1)
+            placeholdLabel.snp.makeConstraints {
+                $0.centerY.equalTo(textView)
+                $0.leading.equalToSuperview()
+            }
+            underlineView.snp.makeConstraints {
+                $0.leading.trailing.bottom.equalToSuperview()
+                $0.height.equalTo(1)
+            }
+        case .withoutTitle:
+            textView.snp.makeConstraints {
+                $0.top.equalToSuperview()
+                $0.leading.trailing.bottom.equalToSuperview()
+                $0.height.equalTo(48)
+            }
+            placeholdLabel.snp.makeConstraints {
+                $0.centerY.equalTo(textView)
+                $0.leading.equalToSuperview()
+            }
+            underlineView.snp.makeConstraints {
+                $0.leading.trailing.bottom.equalToSuperview()
+                $0.height.equalTo(1)
+            }
+        case .onlyTitle:
+            titleLabel.snp.makeConstraints {
+                $0.top.leading.bottom.equalToSuperview()
+                $0.height.equalTo(24)
+            }
         }
     }
 
@@ -152,6 +162,7 @@ extension CustomTextView: UITextViewDelegate {
             textView.snp.updateConstraints {
                 $0.height.equalTo(Int(type.lineHeight) * (numberOfLines >= 2 ? 2 : numberOfLines) + 28)
             }
+        default: return
         }
     }
 }

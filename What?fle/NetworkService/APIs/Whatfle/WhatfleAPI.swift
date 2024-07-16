@@ -11,14 +11,17 @@ import Moya
 enum WhatfleAPI {
     case uploadPlaceImage(images: [UIImage])
     case registerPlace(PlaceRegistration)
+    case registCollectionData(CollectionDataModel)
     case retriveRegistLocation
     case getAllMyPlace
+    case getRecommendHashtag
 }
 
 extension WhatfleAPI: TargetType {
     var method: Moya.Method {
         switch self {
         case .registerPlace,
+             .registCollectionData,
              .uploadPlaceImage:
             return .post
         default:
@@ -42,6 +45,19 @@ extension WhatfleAPI: TargetType {
             ]
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
 
+        case .registCollectionData(let model):
+            let parameters: [String: Any] = [
+                "accountId": model.accountID,
+                "title": model.title,
+                "description": model.description,
+                "isPublic": model.isPublic,
+                "hashtags": model.hashtags,
+                "places": model.places,
+                "imageUrls": model.imageURls,
+                "isActiveCover": model.isActiveCover
+            ]
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+
         case .retriveRegistLocation:
             let parameters: [String: Any] = [:]
             return .requestParameters(parameters: parameters, encoding: URLEncoding.queryString)
@@ -60,6 +76,7 @@ extension WhatfleAPI: TargetType {
                 }
             }
             return .uploadMultipart(multipartData)
+
         default:
             return .requestPlain
         }
@@ -76,12 +93,9 @@ extension WhatfleAPI: TargetType {
 
     var baseURL: URL {
         switch self {
-        case .registerPlace,
-             .getAllMyPlace:
-            return URL(string: AppConfigs.API.BaseURL.dev)!
         case .retriveRegistLocation:
             return URL(string: AppConfigs.API.BaseURL.Kakao.search)!
-        case .uploadPlaceImage:
+        default:
             return URL(string: AppConfigs.API.BaseURL.dev)!
         }
     }
@@ -90,10 +104,14 @@ extension WhatfleAPI: TargetType {
         switch self {
         case .registerPlace:
             return "/place"
+        case .registCollectionData:
+            return "/collection"
         case .uploadPlaceImage:
             return "/image/place"
         case .getAllMyPlace:
             return "/places"
+        case .getRecommendHashtag:
+            return "/hashtag/recommend"
         default:
             return ""
         }
@@ -103,6 +121,12 @@ extension WhatfleAPI: TargetType {
         switch self {
         case .retriveRegistLocation:
             guard let path = Bundle.main.path(forResource: "RetriveRegistLocationMock", ofType: "json"),
+                  let data = try? Data(contentsOf: URL(fileURLWithPath: path)) else {
+                return Data()
+            }
+            return data
+        case .getRecommendHashtag:
+            guard let path = Bundle.main.path(forResource: "RecommendHashTag", ofType: "json"),
                   let data = try? Data(contentsOf: URL(fileURLWithPath: path)) else {
                 return Data()
             }

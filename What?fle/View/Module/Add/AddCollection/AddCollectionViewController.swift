@@ -14,7 +14,8 @@ protocol AddCollectionPresentableListener: AnyObject {
     var locationTotalCount: BehaviorRelay<Int> { get }
     var registeredLocations: BehaviorRelay<[(String, [PlaceRegistration])]> { get }
     var selectedLocations: BehaviorRelay<[(IndexPath, PlaceRegistration)]> { get }
-    func closeAddCollection()
+    func popToAddCollection()
+    func dismissAddCollection()
     func showRegistLocation()
     func retriveRegistLocation()
     func selectItem(with: IndexPath)
@@ -30,7 +31,7 @@ enum AddCollectionType {
 final class AddCollectionViewController: UIViewController, AddCollectionPresentable, AddCollectionViewControllable {
     private enum Constants {
         static let bottomPadding: CGFloat = 8.0
-        static let maximumCount: Int = 8
+        static let maximumCount: Int = 4
     }
 
     weak var listener: AddCollectionPresentableListener?
@@ -251,7 +252,7 @@ final class AddCollectionViewController: UIViewController, AddCollectionPresenta
             })
             .disposed(by: disposeBag)
 
-        let isEnabledObservable = listener.selectedLocations.map { $0.count >= Constants.maximumCount }.share()
+        let isEnabledObservable = listener.selectedLocations.map { $0.count >= Constants.maximumCount }.distinctUntilChanged().share()
         isEnabledObservable
             .bind(to: customNavigationBar.rightButton.rx.isEnabled)
             .disposed(by: disposeBag)
@@ -276,23 +277,21 @@ final class AddCollectionViewController: UIViewController, AddCollectionPresenta
         self.customNavigationBar.backButton.rx.controlEvent(.touchUpInside)
             .subscribe(onNext: { [weak self] in
                 guard let self else { return }
-                self.navigationController?.popViewController(animated: true)
-                listener?.closeAddCollection()
+                self.listener?.popToAddCollection()
             })
             .disposed(by: disposeBag)
 
         self.customNavigationBar.rightButton.rx.controlEvent(.touchUpInside)
             .subscribe(onNext: { [weak self] in
                 guard let self else { return }
-                listener?.showRegistCollection()
+                self.listener?.showRegistCollection()
             })
             .disposed(by: disposeBag)
 
         self.customPresentHeader.closeButton.rx.controlEvent(.touchUpInside)
             .subscribe(onNext: { [weak self] in
                 guard let self else { return }
-                self.dismiss(animated: true)
-                listener?.closeAddCollection()
+                self.listener?.dismissAddCollection()
             })
             .disposed(by: disposeBag)
     }
@@ -304,9 +303,6 @@ final class AddCollectionViewController: UIViewController, AddCollectionPresenta
     private func updateSelectionOrder() {
         guard let indexPaths = listener?.selectedLocations.value.map({ $0.0 }) else { return }
         for indexPath in indexPaths {
-            guard let cell = self.registLocationTableView.cellForRow(at: indexPath) as? SelectLocationCell else {
-                return
-            }
             registLocationTableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
         }
     }
