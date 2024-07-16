@@ -47,4 +47,12 @@ extension String {
     func replaceHyphensWithDots() -> String {
         return self.replacingOccurrences(of: "-", with: ".")
     }
+
+    func isValidLength(to min: Int, from max: Int) -> Bool {
+        return self.count >= min && self.count <= max
+    }
+
+    func isValidRegistTag() -> Bool {
+        return NSPredicate(format: "SELF MATCHES %@", "^[가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9]*$").evaluate(with: self)
+    }
 }

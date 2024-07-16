@@ -12,9 +12,11 @@ import UIKit
 protocol AddRouting: ViewableRouting {
     var navigationController: UINavigationController { get }
     func routeToRegistLocation()
-    func routeToRegistCollection(data: EditSelectedCollectionData)
+    func routeToRegistCollection(data: EditSelectedCollectionData, tags: [RecommendHashTagModel])
     func routeToAddCollection(data: EditSelectedCollectionData?)
-    func closeCurrentRIB()
+    func popToAddCollection()
+    func popToRegistCollection()
+    func terminateCurrentRIB()
 }
 
 protocol AddPresentable: Presentable {
@@ -40,12 +42,20 @@ final class AddInteractor: PresentableInteractor<AddPresentable> {
 }
 
 extension AddInteractor: AddInteractable {
-    func popCurrentRIB() {
+    func completeRegistCollection() {
         listener?.closeAddRIB()
     }
 
-    func sendDataToRegistCollection(data: EditSelectedCollectionData) {
-        router?.routeToRegistCollection(data: data)
+    func popToAddCollection() {
+        self.router?.popToAddCollection()
+    }
+
+    func popToRegistCollection() {
+        self.router?.popToRegistCollection()
+    }
+
+    func sendDataToRegistCollection(data: EditSelectedCollectionData, tags: [RecommendHashTagModel]) {
+        router?.routeToRegistCollection(data: data, tags: tags)
     }
 
     func sendDataToAddCollection(data: EditSelectedCollectionData) {
@@ -54,17 +64,17 @@ extension AddInteractor: AddInteractable {
 
     func closeRegistLocation() {
         self.router?.navigationController.popViewController(animated: true)
-        router?.closeCurrentRIB()
     }
 
     func completeRegistLocation() {
-        closeRegistLocation()
-        popCurrentRIB()
+        router?.terminateCurrentRIB()
     }
 
     func closeAddCollection() {
-        router?.closeCurrentRIB()
+        self.router?.navigationController.popViewController(animated: true)
     }
+
+    func dismissAddCollection() {}
 }
 
 extension AddInteractor: AddPresentableListener {
