@@ -19,11 +19,12 @@ struct PlaceRegistration: Decodable {
     var imageURLs: [String]?
     var latitude: Double
     var longitude: Double
-    
+    var categoryGroupCode: CategoryGroupCode
+
     var isEmptyImageURLs: Bool {
         self.imageURLs?.isEmpty ?? true
     }
-    
+
     private enum CodingKeys: String, CodingKey {
         case id = "id"
         case accountID = "accountId"
@@ -35,6 +36,7 @@ struct PlaceRegistration: Decodable {
         case imageURLs = "imageUrls"
         case latitude = "latitude"
         case longitude = "longitude"
+        case categoryGroupCode
     }
 
     init(from decoder: Decoder) throws {
@@ -49,6 +51,7 @@ struct PlaceRegistration: Decodable {
         imageURLs = try container.decodeIfPresent([String].self, forKey: .imageURLs)
         latitude = try container.decode(Double.self, forKey: .latitude)
         longitude = try container.decode(Double.self, forKey: .longitude)
+        categoryGroupCode = try container.decode(CategoryGroupCode.self, forKey: .categoryGroupCode)
         images = []
     }
 
@@ -63,7 +66,8 @@ struct PlaceRegistration: Decodable {
         images: [UIImage],
         imageURLs: [String]? = nil,
         latitude: Double,
-        longitude: Double
+        longitude: Double,
+        categoryGroupCode: CategoryGroupCode
     ) {
         self.id = id
         self.accountID = accountID
@@ -76,6 +80,7 @@ struct PlaceRegistration: Decodable {
         self.imageURLs = imageURLs
         self.latitude = latitude
         self.longitude = longitude
+        self.categoryGroupCode = categoryGroupCode
     }
 
     init(imageURLs: [String], registration: PlaceRegistration) {
@@ -90,5 +95,6 @@ struct PlaceRegistration: Decodable {
         self.imageURLs = imageURLs
         self.latitude = registration.latitude
         self.longitude = registration.longitude
+        self.categoryGroupCode = registration.categoryGroupCode
     }
 }
