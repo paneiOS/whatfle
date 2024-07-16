@@ -19,27 +19,20 @@ struct PlaceRegistration: Decodable {
     var imageURLs: [String]?
     var latitude: Double
     var longitude: Double
-    
+
     var isEmptyImageURLs: Bool {
-        self.imageURLs?.isEmpty ?? true
+        self.imageURLs?.isEmpty ?? false
     }
-    
+
     private enum CodingKeys: String, CodingKey {
-        case id = "id"
+        case id, description, visitDate, placeName, address, roadAddress, latitude, longitude
         case accountID = "accountId"
-        case description = "description"
-        case visitDate = "visitDate"
-        case placeName = "placeName"
-        case address = "address"
-        case roadAddress = "roadAddress"
         case imageURLs = "imageUrls"
-        case latitude = "latitude"
-        case longitude = "longitude"
     }
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        id = try container.decode(Int.self, forKey: .id)
+        id = try container.decodeIfPresent(Int.self, forKey: .id)
         accountID = try container.decode(Int.self, forKey: .accountID)
         description = try container.decode(String.self, forKey: .description)
         visitDate = try container.decode(String.self, forKey: .visitDate)

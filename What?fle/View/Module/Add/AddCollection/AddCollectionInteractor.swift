@@ -19,9 +19,11 @@ protocol AddCollectionPresentable: Presentable {
 }
 
 protocol AddCollectionListener: AnyObject {
+    func popToAddCollection()
+    func dismissAddCollection()
     func closeAddCollection()
-    func popCurrentRIB()
-    func sendDataToRegistCollection(data: EditSelectedCollectionData)
+    func popToRegistCollection()
+    func sendDataToRegistCollection(data: EditSelectedCollectionData, tags: [RecommendHashTagModel])
 }
 
 typealias EditSelectedCollectionData = [(IndexPath, PlaceRegistration)]
@@ -58,12 +60,20 @@ final class AddCollectionInteractor: PresentableInteractor<AddCollectionPresenta
         presenter.listener = self
     }
 
-    func closeAddCollection() {
+    func popToAddCollection() {
+        listener?.popToAddCollection()
+    }
+
+    func dismissAddCollection() {
+        listener?.dismissAddCollection()
+    }
+
+    func completeRegistCollection() {
         listener?.closeAddCollection()
     }
 
-    func popCurrentRIB() {
-        listener?.popCurrentRIB()
+    func popToRegistCollection() {
+        listener?.popToRegistCollection()
     }
 
     func showRegistLocation() {
@@ -82,7 +92,7 @@ final class AddCollectionInteractor: PresentableInteractor<AddCollectionPresenta
                 guard let self else { return }
                 let data = result.groupedByDate()
                 self.registeredLocations.accept(data)
-                self.locationTotalCount.accept(data.flatMap { $0.places }.filter { $0.isEmptyImageURLs }.count)
+                self.locationTotalCount.accept(data.flatMap { $0.places }.count)
                 self.presenter.reloadData()
                 LoadingIndicatorService.shared.hideLoading()
             }, onFailure: { error in
@@ -103,8 +113,20 @@ final class AddCollectionInteractor: PresentableInteractor<AddCollectionPresenta
     }
 
     func showRegistCollection() {
-        let data: EditSelectedCollectionData = selectedLocations.value
-        self.listener?.sendDataToRegistCollection(data: data)
+        guard !LoadingIndicatorService.shared.isLoading() else { return }
+        LoadingIndicatorService.shared.showLoading()
+
+        networkService.requestDecodable(WhatfleAPI.getRecommendHashtag, type: [RecommendHashTagModel].self)
+            .subscribe(onSuccess: { [weak self] tags in
+                LoadingIndicatorService.shared.hideLoading()
+                guard let self else { return }
+                let data: EditSelectedCollectionData = selectedLocations.value
+                self.listener?.sendDataToRegistCollection(data: data, tags: tags)
+            }, onFailure: { error in
+                LoadingIndicatorService.shared.hideLoading()
+                print("Error: \(error)")
+            })
+            .disposed(by: disposeBag)
     }
 }
 

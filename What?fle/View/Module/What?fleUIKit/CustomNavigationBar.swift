@@ -6,11 +6,9 @@
 //
 
 import UIKit
-import RxSwift
 import SnapKit
 
 final class CustomNavigationBar: UIView {
-    private let disposeBag = DisposeBag()
 
     let backButton: UIButton = {
         let button: UIButton = .init()
