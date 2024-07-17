@@ -8,11 +8,14 @@
 import UIKit
 
 extension UIImage {
-    func resizedImageWithinMegabytes(megabytes: Double = 10.0) -> Data? {
+    func resizedImageWithinMegabytes(kilobytes: Double = 10.0) -> Data? {
         guard let imageData = self.jpegData(compressionQuality: 1.0) else { return nil }
 
-        let maxBytes = megabytes * 1024 * 1024
+        let maxBytes = kilobytes * 1024
+//        print("Original Image Size: \(Double(imageData.count) / 1024 / 1024) MB")
+
         if Double(imageData.count) < maxBytes {
+//            print("No resizing needed as the original image is within the limit.")
             return imageData
         }
 
@@ -24,7 +27,7 @@ extension UIImage {
             compressedData = resizedImageData
             resizeRatio -= 0.1
         }
-
+//        print("Resized Image Size: \(Double(compressedData.count) / 1024 / 1024) MB")
         return compressedData
     }
 }

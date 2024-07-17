@@ -79,7 +79,7 @@ final class RegistLocationInteractor: PresentableInteractor<RegistLocationPresen
                 if let error = error as? CustomError {
                     print("Error in registration process: \(error.localizedDescription)")
                 } else {
-                    print("Unknown error occurred")
+                    print("Unknown error occurred", error.localizedDescription)
                 }
             })
             .disposed(by: disposeBag)
