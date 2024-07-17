@@ -16,7 +16,7 @@ protocol AddRouting: ViewableRouting {
     func routeToAddCollection(data: EditSelectedCollectionData?)
     func popToAddCollection()
     func popToRegistCollection()
-    func terminateCurrentRIB()
+    func popToRegistLocation()
 }
 
 protocol AddPresentable: Presentable {
@@ -63,11 +63,11 @@ extension AddInteractor: AddInteractable {
     }
 
     func closeRegistLocation() {
-        self.router?.navigationController.popViewController(animated: true)
+        router?.popToRegistLocation()
     }
 
     func completeRegistLocation() {
-        router?.terminateCurrentRIB()
+        router?.popToRegistLocation()
     }
 
     func closeAddCollection() {
