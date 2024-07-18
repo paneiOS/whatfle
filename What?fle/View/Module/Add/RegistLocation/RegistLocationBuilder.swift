@@ -13,13 +13,17 @@ protocol RegistLocationDependency: Dependency {
 
 final class RegistLocationComponent: Component<RegistLocationDependency> {}
 
-extension RegistLocationComponent: SelectLocationDependency {
+extension RegistLocationComponent: SelectLocationDependency, CustomAlbumDependency {
     var networkService: NetworkServiceDelegate {
         return dependency.networkService
     }
 
     var selectLocationBuilder: SelectLocationBuildable {
         return SelectLocationBuilder(dependency: self)
+    }
+
+    var customAlbumBuilder: CustomAlbumBuildable {
+        return CustomAlbumBuilder(dependency: self)
     }
 }
 

@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct PlaceRegistration: Decodable {
+struct PlaceRegistration: Codable {
     var id: Int?
     var accountID: Int
     var description: String
@@ -53,6 +53,21 @@ struct PlaceRegistration: Decodable {
         longitude = try container.decode(Double.self, forKey: .longitude)
         categoryGroupCode = try container.decode(CategoryGroupCode.self, forKey: .categoryGroupCode)
         images = []
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        try container.encode(accountID, forKey: .accountID)
+        try container.encode(description, forKey: .description)
+        try container.encode(visitDate, forKey: .visitDate)
+        try container.encode(placeName, forKey: .placeName)
+        try container.encode(address, forKey: .address)
+        try container.encode(roadAddress, forKey: .roadAddress)
+        try container.encode(imageURLs, forKey: .imageURLs)
+        try container.encode(latitude, forKey: .latitude)
+        try container.encode(longitude, forKey: .longitude)
+        try container.encode(categoryGroupCode.rawValue, forKey: .categoryGroupCode)
     }
 
     init(

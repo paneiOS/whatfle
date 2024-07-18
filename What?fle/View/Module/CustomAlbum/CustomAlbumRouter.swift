@@ -12,14 +12,21 @@ protocol CustomAlbumInteractable: Interactable {
     var listener: CustomAlbumListener? { get set }
 }
 
-protocol CustomAlbumViewControllable: ViewControllable {
-    // TODO: Declare methods the router invokes to manipulate the view hierarchy.
-}
+protocol CustomAlbumViewControllable: ViewControllable {}
 
 final class CustomAlbumRouter: ViewableRouter<CustomAlbumInteractable, CustomAlbumViewControllable>, CustomAlbumRouting {
+    private let component: CustomAlbumComponent
 
-    // TODO: Constructor inject child builder protocols to allow building children.
-    override init(interactor: CustomAlbumInteractable, viewController: CustomAlbumViewControllable) {
+    deinit {
+        print("\(self) is being deinit")
+    }
+
+    init(
+        interactor: CustomAlbumInteractable,
+        viewController: CustomAlbumViewControllable,
+        component: CustomAlbumComponent
+    ) {
+        self.component = component
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }

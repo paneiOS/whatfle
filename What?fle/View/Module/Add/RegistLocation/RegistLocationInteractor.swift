@@ -14,6 +14,8 @@ import UIKit
 protocol RegistLocationRouting: ViewableRouting {
     func routeToSelectLocation()
     func closeSelectLocation()
+    func showCustomAlbum()
+    func closeCustomAlbum()
 }
 
 protocol RegistLocationPresentable: Presentable {
@@ -56,10 +58,18 @@ final class RegistLocationInteractor: PresentableInteractor<RegistLocationPresen
         router?.closeSelectLocation()
     }
 
-    func addImage(_ image: UIImage) {
-        var currentImages = imageArray.value
-        currentImages.append(image)
+    func showCustomAlbum() {
+        router?.showCustomAlbum()
+    }
+
+    func closeCustomAlbum() {
+        router?.closeCustomAlbum()
+    }
+
+    func addPhotos(images: [UIImage]) {
+        let currentImages = imageArray.value + images
         imageArray.accept(currentImages)
+        router?.closeCustomAlbum()
     }
 
     func registPlace(_ registration: PlaceRegistration) {

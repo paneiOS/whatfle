@@ -8,32 +8,64 @@
 import RIBs
 
 protocol CustomAlbumDependency: Dependency {
-    // TODO: Declare the set of dependencies required by this RIB, but cannot be
-    // created by this RIB.
+    var networkService: NetworkServiceDelegate { get }
 }
 
 final class CustomAlbumComponent: Component<CustomAlbumDependency> {
-
-    // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
+    var networkService: NetworkServiceDelegate {
+        return dependency.networkService
+    }
 }
 
 // MARK: - Builder
 
 protocol CustomAlbumBuildable: Buildable {
-    func build(withListener listener: CustomAlbumListener) -> CustomAlbumRouting
+    func buildSingleSelect(withListener listener: CustomAlbumListener) -> CustomAlbumRouting
+    func buildMultiSelect(withListener listener: CustomAlbumListener) -> CustomAlbumRouting
 }
 
 final class CustomAlbumBuilder: Builder<CustomAlbumDependency>, CustomAlbumBuildable {
+
+    deinit {
+        print("\(self) is being deinit")
+    }
 
     override init(dependency: CustomAlbumDependency) {
         super.init(dependency: dependency)
     }
 
-    func build(withListener listener: CustomAlbumListener) -> CustomAlbumRouting {
+//    func build(withListener listener: CustomAlbumListener) -> CustomAlbumRouting {
+//        let component = CustomAlbumComponent(dependency: dependency)
+//        let viewController = CustomAlbumViewController()
+//        let interactor = CustomAlbumInteractor(presenter: viewController)
+//        interactor.listener = listener
+//        return CustomAlbumRouter(
+//            interactor: interactor,
+//            viewController: viewController,
+//            component: component
+//        )
+//    }
+    func buildSingleSelect(withListener listener: CustomAlbumListener) -> CustomAlbumRouting {
         let component = CustomAlbumComponent(dependency: dependency)
-        let viewController = CustomAlbumViewController()
+        let viewController = CustomAlbumViewController(isSingleSelect: true)
         let interactor = CustomAlbumInteractor(presenter: viewController)
         interactor.listener = listener
-        return CustomAlbumRouter(interactor: interactor, viewController: viewController)
+        return CustomAlbumRouter(
+            interactor: interactor,
+            viewController: viewController,
+            component: component
+        )
+    }
+
+    func buildMultiSelect(withListener listener: CustomAlbumListener) -> CustomAlbumRouting {
+        let component = CustomAlbumComponent(dependency: dependency)
+        let viewController = CustomAlbumViewController(isSingleSelect: false)
+        let interactor = CustomAlbumInteractor(presenter: viewController)
+        interactor.listener = listener
+        return CustomAlbumRouter(
+            interactor: interactor,
+            viewController: viewController,
+            component: component
+        )
     }
 }

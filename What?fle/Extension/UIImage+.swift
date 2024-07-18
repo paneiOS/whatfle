@@ -8,7 +8,7 @@
 import UIKit
 
 extension UIImage {
-    func resizedImageWithinMegabytes(kilobytes: Double = 10.0) -> Data? {
+    func resizedImageWithinKilobytes(kilobytes: Double = 10.0) -> Data? {
         guard let imageData = self.jpegData(compressionQuality: 1.0) else { return nil }
 
         let maxBytes = kilobytes * 1024

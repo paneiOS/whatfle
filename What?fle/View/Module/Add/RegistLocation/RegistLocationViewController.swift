@@ -5,7 +5,7 @@
 //  Created by 이정환 on 3/5/24.
 //
 
-import PhotosUI
+//import PhotosUI
 import RIBs
 import RxCocoa
 import RxSwift
@@ -18,7 +18,8 @@ protocol RegistLocationPresentableListener: AnyObject {
     func showSelectLocation()
     func registPlace(_ registration: PlaceRegistration)
     func closeRegistLocation()
-    func addImage(_ image: UIImage)
+//    func addImage(_ image: UIImage)
+    func showCustomAlbum()
 }
 
 final class RegistLocationViewController: UIVCWithKeyboard, RegistLocationViewControllable {
@@ -341,12 +342,7 @@ final class RegistLocationViewController: UIVCWithKeyboard, RegistLocationViewCo
             .subscribe(onNext: { [weak self] in
                 guard let self else { return }
                 self.view.endEditing(true)
-                var configuration = PHPickerConfiguration()
-                configuration.selectionLimit = 10 - (self.listener?.imageArray.value.count ?? 0)
-                configuration.filter = .any(of: [.images])
-                let picker = PHPickerViewController(configuration: configuration)
-                picker.delegate = self
-                self.present(picker, animated: true, completion: nil)
+                listener?.showCustomAlbum()
             })
             .disposed(by: disposeBag)
 
@@ -410,22 +406,5 @@ extension RegistLocationViewController: RegistLocationPresentable {
         )
         addLocationImageView.image = .change
         listener?.isSelectLocation.accept(true)
-    }
-}
-
-extension RegistLocationViewController: PHPickerViewControllerDelegate {
-    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        picker.dismiss(animated: true)
-        guard !results.isEmpty else { return }
-
-        for itemProvider in results.map({ $0.itemProvider }) where itemProvider.canLoadObject(ofClass: UIImage.self) {
-            itemProvider.loadObject(ofClass: UIImage.self) { [weak self] image, _ in
-                guard let self, let image = image as? UIImage, let listener = self.listener else { return }
-                DispatchQueue.main.async {
-                    listener.addImage(image)
-                    self.addPhotoButton.updatePhoto(count: listener.imageArray.value.count)
-                }
-            }
-        }
     }
 }

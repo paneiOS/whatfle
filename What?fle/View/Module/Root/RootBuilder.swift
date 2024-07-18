@@ -6,6 +6,7 @@
 //
 
 import RIBs
+import UIKit
 
 // MARK: - Component
 
@@ -15,9 +16,13 @@ protocol RootDependency: Dependency {
 
 final class RootComponent: Component<RootDependency> {}
 
-extension RootComponent: HomeDependency, AddDependency, MapDependency {
+extension RootComponent: HomeDependency, AddDependency, MapDependency, RegistLocationDependency {
     var networkService: NetworkServiceDelegate {
         return dependency.networkService
+    }
+
+    var navigationController: UINavigationController {
+        return UINavigationController()
     }
 
     var homeBuilder: HomeBuildable {
@@ -30,6 +35,10 @@ extension RootComponent: HomeDependency, AddDependency, MapDependency {
 
     var mapBuilder: MapBuildable {
         return MapBuilder(dependency: self)
+    }
+    
+    var registLocationBuilder: RegistLocationBuildable {
+        return RegistLocationBuilder(dependency: self)
     }
 }
 

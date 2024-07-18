@@ -27,6 +27,7 @@ final class AddViewController: UIViewController, AddPresentable, AddViewControll
     private let dimmedView: UIView = {
         let view: UIView = .init()
         view.backgroundColor = .Core.dimmed20
+        view.isHidden = true
         return view
     }()
 
@@ -121,7 +122,8 @@ final class AddViewController: UIViewController, AddPresentable, AddViewControll
 
         self.setupUI()
         self.setupTapGesture()
-        self.setupBinding()
+        self.setupViewBinding()
+        self.setupActionBinding()
     }
 }
 
@@ -153,7 +155,25 @@ extension AddViewController {
         }
     }
 
-    private func setupBinding() {
+    private func setupViewBinding() {
+        self.rx.viewWillAppear
+            .take(1)
+            .subscribe(onNext: { [weak self] in
+                guard let self else { return }
+                self.dimmedView.isHidden = false
+            })
+            .disposed(by: disposeBag)
+
+        self.rx.viewWillDisappear
+            .take(1)
+            .subscribe(onNext: { [weak self] in
+                guard let self else { return }
+                self.dimmedView.isHidden = true
+            })
+            .disposed(by: disposeBag)
+    }
+
+    private func setupActionBinding() {
         registLocationControl.rx.controlEvent(.touchUpInside).bind { [weak self] in
             guard let self else { return }
             listener?.showRegistLocation()
@@ -173,6 +193,7 @@ extension AddViewController {
     }
 
     @objc func dimmedViewTapped() {
+        self.dimmedView.isHidden = true
         listener?.closeView()
     }
 }

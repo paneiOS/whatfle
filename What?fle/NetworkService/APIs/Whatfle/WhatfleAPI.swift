@@ -44,7 +44,7 @@ extension WhatfleAPI: TargetType {
         case .uploadPlaceImage(let images):
             var multipartData: [MultipartFormData] = []
             for (index, image) in images.enumerated() {
-                if let imageData = image.resizedImageWithinMegabytes(kilobytes: 10) {
+                if let imageData = image.resizedImageWithinKilobytes(kilobytes: 10) {
                     let formData = MultipartFormData(
                         provider: .data(imageData),
                         name: "file\(index)",
