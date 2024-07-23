@@ -13,6 +13,7 @@ protocol AddRouting: ViewableRouting {
     var navigationController: UINavigationController { get }
     func routeToRegistCollection(data: EditSelectedCollectionData, tags: [RecommendHashTagModel])
     func routeToAddCollection(data: EditSelectedCollectionData?)
+    func showRegistLocation()
     func popToAddCollection()
     func popToRegistCollection()
     func popToRegistLocation()
@@ -23,7 +24,6 @@ protocol AddPresentable: Presentable {
 }
 
 protocol AddListener: AnyObject {
-    func showRegistLocation()
     func closeAddRIB()
 }
 
@@ -71,7 +71,7 @@ extension AddInteractor: AddInteractable {
 
 extension AddInteractor: AddPresentableListener {
     func showRegistLocation() {
-        listener?.showRegistLocation()
+        self.router?.showRegistLocation()
     }
 
     func completeRegistLocation() {

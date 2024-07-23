@@ -54,7 +54,7 @@ extension AddRouter: AddRouting {
 
     func routeToRegistLocation() {
         if self.registLocationRouter == nil {
-            let router = self.component.registLocatiionBuilder.build(withListener: self.interactor)
+            let router = self.component.registLocationBuilder.build(withListener: self.interactor)
             self.navigationController.setNavigationBarHidden(true, animated: false)
             self.navigationController.pushViewController(router.viewControllable.uiviewController, animated: true)
             self.attachChild(router)
@@ -69,6 +69,16 @@ extension AddRouter: AddRouting {
             self.navigationController.pushViewController(router.viewControllable.uiviewController, animated: true)
             self.attachChild(router)
             self.registCollectionRouter = router
+        }
+    }
+
+    func showRegistLocation() {
+        if self.registLocationRouter == nil {
+            let router = self.component.registLocationBuilder.build(withListener: self.interactor)
+            self.navigationController.setNavigationBarHidden(true, animated: false)
+            self.navigationController.pushViewController(router.viewControllable.uiviewController, animated: true)
+            self.attachChild(router)
+            self.registLocationRouter = router
         }
     }
 

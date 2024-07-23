@@ -20,7 +20,7 @@ protocol RootViewControllable: ViewControllable {
 final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable> {
     private let component: RootComponent
     private var addNavigationController: UINavigationController?
-    
+
     weak var addRouter: AddRouting?
     weak var registLocationRouter: RegistLocationRouting?
 
@@ -71,18 +71,6 @@ extension RootRouter: RootRouting {
             self.viewController.present(router.navigationController, animated: false)
             self.attachChild(router)
             self.addRouter = router
-        }
-    }
-
-    func routeToRegistLocation() {
-        self.dismissAddTab()
-
-        if self.registLocationRouter == nil {
-            let router = self.component.registLocationBuilder.build(withListener: self.interactor)
-            router.viewControllable.uiviewController.modalPresentationStyle = .fullScreen
-            self.viewController.present(router.viewControllable, animated: true)
-            self.attachChild(router)
-            self.registLocationRouter = router
         }
     }
 

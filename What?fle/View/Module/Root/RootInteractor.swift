@@ -10,7 +10,6 @@ import RxSwift
 
 protocol RootRouting: ViewableRouting {
     func routeToAddTab()
-    func routeToRegistLocation()
     func dismissRegistLocation()
     func dismissAddTab()
 }
@@ -36,10 +35,6 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
 
     func closeAddRIB() {
         router?.dismissAddTab()
-    }
-
-    func showRegistLocation() {
-        router?.routeToRegistLocation()
     }
 
     func closeRegistLocation() {

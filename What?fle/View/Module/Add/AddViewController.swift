@@ -157,7 +157,6 @@ extension AddViewController {
 
     private func setupViewBinding() {
         self.rx.viewWillAppear
-            .take(1)
             .subscribe(onNext: { [weak self] in
                 guard let self else { return }
                 self.dimmedView.isHidden = false
