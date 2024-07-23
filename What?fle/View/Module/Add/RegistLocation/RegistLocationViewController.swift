@@ -285,6 +285,7 @@ final class RegistLocationViewController: UIVCWithKeyboard, RegistLocationViewCo
                             $0.bottom.equalTo(self.collectionView.snp.bottom).inset(16)
                         }
                     }
+                    self.addPhotoButton.updatePhoto(count: listener.imageArray.value.count)
                 }
                 addPhotoButton.updateButtonState(isImageEmpty: bool)
             })
@@ -392,7 +393,7 @@ extension RegistLocationViewController: LocationImageCellDelegate {
             .filter { index, _ in index != indexPath.row }
             .map { $0.1 }
         self.listener?.imageArray.accept(newData)
-        addPhotoButton.updatePhoto(count: listener.imageArray.value.count)
+        self.addPhotoButton.updatePhoto(count: listener.imageArray.value.count)
     }
 }
 
