@@ -55,7 +55,7 @@ final class CustomAlbumViewController: UIViewController, CustomAlbumPresentable,
 
     weak var listener: CustomAlbumPresentableListener?
     private let disposeBag = DisposeBag()
-    
+
     private var isSingleSelect: Bool = false
     private let imagePickerController = UIImagePickerController()
     private var images: [UIImage] = []
@@ -65,7 +65,7 @@ final class CustomAlbumViewController: UIViewController, CustomAlbumPresentable,
         self.isSingleSelect = isSingleSelect
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }

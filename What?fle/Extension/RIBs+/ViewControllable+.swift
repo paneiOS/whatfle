@@ -12,7 +12,7 @@ extension ViewControllable {
     var topViewController: UIViewController? {
         return self.uiviewController.topViewController()
     }
-    
+
     func setPresentationStyle(style: UIModalPresentationStyle) {
         self.uiviewController.modalPresentationStyle = style
     }

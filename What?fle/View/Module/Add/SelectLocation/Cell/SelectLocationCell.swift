@@ -59,7 +59,7 @@ final class SelectLocationCell: UITableViewCell {
         super.init(coder: coder)
         setupLayout()
     }
-    
+
     override func prepareForReuse() {
         super.prepareForReuse()
         checkBox.image = .selectOff

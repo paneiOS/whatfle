@@ -21,7 +21,7 @@ enum TagType: Equatable {
             return model.hashtagName
         }
     }
-    
+
     var id: Int {
         switch self {
         case .selected(let model),

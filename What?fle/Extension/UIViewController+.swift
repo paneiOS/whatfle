@@ -12,11 +12,11 @@ extension UIViewController {
         if let presentedViewController = self.presentedViewController {
             return presentedViewController.topViewController()
         }
-        
+
         if let navigationController = self as? UINavigationController {
             return navigationController.visibleViewController?.topViewController()
         }
-        
+
         if let tabBarController = self as? UITabBarController {
             if let selectedViewController = tabBarController.selectedViewController {
                 return selectedViewController.topViewController()

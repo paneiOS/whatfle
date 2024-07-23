@@ -5,7 +5,6 @@
 //  Created by 이정환 on 3/5/24.
 //
 
-//import PhotosUI
 import RIBs
 import RxCocoa
 import RxSwift
@@ -18,7 +17,6 @@ protocol RegistLocationPresentableListener: AnyObject {
     func showSelectLocation()
     func registPlace(_ registration: PlaceRegistration)
     func closeRegistLocation()
-//    func addImage(_ image: UIImage)
     func showCustomAlbum()
 }
 
@@ -257,8 +255,7 @@ final class RegistLocationViewController: UIVCWithKeyboard, RegistLocationViewCo
     }
 
     private func setupViewBinding() {
-        guard let listener else { return }
-        listener.imageArray
+        listener?.imageArray
             .bind(
                 to: collectionView.rx.items(
                     cellIdentifier: LocationImageCell.reuseIdentifier,
@@ -271,10 +268,10 @@ final class RegistLocationViewController: UIVCWithKeyboard, RegistLocationViewCo
             }
             .disposed(by: disposeBag)
 
-        listener.imageArray
+        listener?.imageArray
             .map { $0.isEmpty }
             .subscribe(onNext: { [weak self] bool in
-                guard let self else { return }
+                guard let self, let count = listener?.imageArray.value.count else { return }
                 addPhotoButton.snp.remakeConstraints {
                     if bool {
                         $0.edges.equalTo(self.collectionView.snp.edges)
@@ -285,14 +282,14 @@ final class RegistLocationViewController: UIVCWithKeyboard, RegistLocationViewCo
                             $0.bottom.equalTo(self.collectionView.snp.bottom).inset(16)
                         }
                     }
-                    self.addPhotoButton.updatePhoto(count: listener.imageArray.value.count)
+                    self.addPhotoButton.updatePhoto(count: count)
                 }
                 addPhotoButton.updateButtonState(isImageEmpty: bool)
             })
             .disposed(by: disposeBag)
 
         let isEnabledObservable = Observable.combineLatest(
-            listener.isSelectLocation,
+            listener?.isSelectLocation.asObservable() ?? Observable.just(false),
             memoView.textView.rx.text.orEmpty
         )
         .map { isSelectLocation, memoText in
