@@ -34,17 +34,6 @@ final class CustomAlbumBuilder: Builder<CustomAlbumDependency>, CustomAlbumBuild
         super.init(dependency: dependency)
     }
 
-//    func build(withListener listener: CustomAlbumListener) -> CustomAlbumRouting {
-//        let component = CustomAlbumComponent(dependency: dependency)
-//        let viewController = CustomAlbumViewController()
-//        let interactor = CustomAlbumInteractor(presenter: viewController)
-//        interactor.listener = listener
-//        return CustomAlbumRouter(
-//            interactor: interactor,
-//            viewController: viewController,
-//            component: component
-//        )
-//    }
     func buildSingleSelect(withListener listener: CustomAlbumListener) -> CustomAlbumRouting {
         let component = CustomAlbumComponent(dependency: dependency)
         let viewController = CustomAlbumViewController(isSingleSelect: true)

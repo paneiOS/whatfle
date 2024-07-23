@@ -21,10 +21,6 @@ extension RootComponent: HomeDependency, AddDependency, MapDependency, RegistLoc
         return dependency.networkService
     }
 
-    var navigationController: UINavigationController {
-        return UINavigationController()
-    }
-
     var homeBuilder: HomeBuildable {
         return HomeBuilder(dependency: self)
     }
@@ -36,7 +32,7 @@ extension RootComponent: HomeDependency, AddDependency, MapDependency, RegistLoc
     var mapBuilder: MapBuildable {
         return MapBuilder(dependency: self)
     }
-    
+
     var registLocationBuilder: RegistLocationBuildable {
         return RegistLocationBuilder(dependency: self)
     }

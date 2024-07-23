@@ -76,7 +76,7 @@ extension RootRouter: RootRouting {
 
     func routeToRegistLocation() {
         self.dismissAddTab()
-        
+
         if self.registLocationRouter == nil {
             let router = self.component.registLocationBuilder.build(withListener: self.interactor)
             router.viewControllable.uiviewController.modalPresentationStyle = .fullScreen
