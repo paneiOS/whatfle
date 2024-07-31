@@ -9,9 +9,9 @@ import RIBs
 import RxSwift
 
 protocol RootRouting: ViewableRouting {
-    func routeToAddList()
-    func routeToRegistLocation()
-    func detachCurrentView(animated: Bool, completion: (() -> Void)?)
+    func routeToAddTab()
+    func dismissRegistLocation()
+    func dismissAddTab()
 }
 
 protocol RootPresentable: Presentable {
@@ -20,8 +20,7 @@ protocol RootPresentable: Presentable {
 
 protocol RootListener: AnyObject {}
 
-final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteractable, RootPresentableListener {
-
+final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteractable, RootPresentableListener, AddListener {
     weak var router: RootRouting?
     weak var listener: RootListener?
 
@@ -31,12 +30,18 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
     }
 
     func didSelectAddTab() {
-        router?.routeToAddList()
+        router?.routeToAddTab()
     }
-}
 
-extension RootInteractor: AddListener {
     func closeAddRIB() {
-        router?.detachCurrentView(animated: false, completion: nil)
+        router?.dismissAddTab()
+    }
+
+    func closeRegistLocation() {
+        self.router?.dismissRegistLocation()
+    }
+
+    func completeRegistLocation() {
+        self.router?.dismissRegistLocation()
     }
 }

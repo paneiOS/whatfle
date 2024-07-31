@@ -167,22 +167,11 @@ final class AddTagViewController: UIVCWithKeyboard, AddTagPresentable, AddTagVie
         setupViewBinding()
         setupAction()
     }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-//        self.dimmedView.isHidden = false
-    }
 }
 
 extension AddTagViewController {
     private func setupUI() {
         view.backgroundColor = .clear
-
-//        self.view.addSubview(dimmedView)
-//        dimmedView.snp.makeConstraints {
-//            $0.edges.equalToSuperview()
-//        }
 
         self.view.addSubview(contentsView)
         contentsView.snp.makeConstraints {

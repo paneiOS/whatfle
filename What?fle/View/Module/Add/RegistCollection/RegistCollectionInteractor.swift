@@ -86,7 +86,7 @@ final class RegistCollectionInteractor: PresentableInteractor<RegistCollectionPr
     func showEditCollection() {
         self.router?.routeToAddCollection(data: editSelectedCollectionData)
     }
-    
+
     func dismissAddCollection() {
         self.router?.dismissAddCollection()
     }
@@ -155,6 +155,6 @@ final class RegistCollectionInteractor: PresentableInteractor<RegistCollectionPr
     func sendDataToRegistCollection(data: EditSelectedCollectionData, tags: [RecommendHashTagModel]) {}
 
     func popToAddCollection() {}
-    
+
     func closeAddCollection() {}
 }

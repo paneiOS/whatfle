@@ -8,7 +8,7 @@
 import RIBs
 import UIKit
 
-protocol RootInteractable: Interactable, HomeListener, MapListener, AddListener {
+protocol RootInteractable: Interactable, HomeListener, MapListener, AddListener, RegistLocationListener {
     var router: RootRouting? { get set }
     var listener: RootListener? { get set }
 }
@@ -19,8 +19,10 @@ protocol RootViewControllable: ViewControllable {
 
 final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable> {
     private let component: RootComponent
-    private weak var currentChild: ViewableRouting?
     private var addNavigationController: UINavigationController?
+
+    weak var addRouter: AddRouting?
+    weak var registLocationRouter: RegistLocationRouting?
 
     init(
         interactor: RootInteractable,
@@ -62,57 +64,29 @@ extension RootRouter {
 }
 
 extension RootRouter: RootRouting {
-    func routeToAddList() {
-        if self.currentChild == nil {
+    func routeToAddTab() {
+        if self.addRouter == nil {
             let router = self.component.addBuilder.build(withListener: self.interactor)
+            router.viewControllable.uiviewController.modalPresentationStyle = .overFullScreen
             self.viewController.present(router.navigationController, animated: false)
             self.attachChild(router)
-            self.currentChild = router
+            self.addRouter = router
         }
     }
 
-    func routeToSelectLocation() {
-//        detachCurrentView(animated: false) {
-//            if self.currentChild == nil {
-//                let router = self.component.selectLocationBuilder.build(withListener: self.interactor)
-//                let navigation = UINavigationController(root: router.viewControllable)
-//                self.viewController.present(navigation, animated: true)
-//                self.attachChild(router)
-//                self.currentChild = router
-//            }
-//        }
-    }
-
-//    if self.currentChild == nil {
-//        let addRouter = self.component.addBuilder.build(withListener: self.interactor)
-//        let addNavigation = UINavigationController(root: addRouter.viewControllable)
-//        self.viewController.present(addNavigation, animated: false)
-//        self.attachChild(addRouter)
-//        self.currentChild = addRouter
-//    }
-
-    func routeToRegistLocation() {
-        if let child = self.currentChild {
-            self.detachChild(child)
-            self.currentChild = nil
-        }
-
-        if self.currentChild == nil {
-//            let router = self.component.registLocatiionBuilder.build(withListener: self.interactor)
-//            self.addNavigationController?.pushViewController(router.viewControllable.uiviewController, animated: true)
-//            self.attachChild(router)
-//            self.currentChild = router
+    func dismissAddTab() {
+        if let router = self.addRouter {
+            self.viewController.uiviewController.dismiss(animated: true)
+            self.detachChild(router)
+            self.addRouter = nil
         }
     }
 
-    func detachCurrentView(animated: Bool, completion: (() -> Void)? = nil) {
-        self.viewController.uiviewController.dismiss(animated: animated) { [weak self] in
-            guard let self = self else { return }
-            if let child = self.currentChild {
-                self.detachChild(child)
-                self.currentChild = nil
-            }
-            completion?()
+    func dismissRegistLocation() {
+        if let router = self.registLocationRouter {
+            self.viewController.uiviewController.dismiss(animated: true)
+            self.detachChild(router)
+            self.registLocationRouter = nil
         }
     }
 }

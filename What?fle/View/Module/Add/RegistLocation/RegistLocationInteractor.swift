@@ -14,6 +14,8 @@ import UIKit
 protocol RegistLocationRouting: ViewableRouting {
     func routeToSelectLocation()
     func closeSelectLocation()
+    func showCustomAlbum()
+    func closeCustomAlbum()
 }
 
 protocol RegistLocationPresentable: Presentable {
@@ -56,10 +58,18 @@ final class RegistLocationInteractor: PresentableInteractor<RegistLocationPresen
         router?.closeSelectLocation()
     }
 
-    func addImage(_ image: UIImage) {
-        var currentImages = imageArray.value
-        currentImages.append(image)
+    func showCustomAlbum() {
+        router?.showCustomAlbum()
+    }
+
+    func closeCustomAlbum() {
+        router?.closeCustomAlbum()
+    }
+
+    func addPhotos(images: [UIImage]) {
+        let currentImages = imageArray.value + images
         imageArray.accept(currentImages)
+        router?.closeCustomAlbum()
     }
 
     func registPlace(_ registration: PlaceRegistration) {
@@ -79,7 +89,7 @@ final class RegistLocationInteractor: PresentableInteractor<RegistLocationPresen
                 if let error = error as? CustomError {
                     print("Error in registration process: \(error.localizedDescription)")
                 } else {
-                    print("Unknown error occurred")
+                    print("Unknown error occurred", error.localizedDescription)
                 }
             })
             .disposed(by: disposeBag)

@@ -19,7 +19,7 @@ final class AddComponent: Component<AddDependency> {
 }
 
 extension AddComponent: RegistLocationDependency {
-    var registLocatiionBuilder: RegistLocationBuildable {
+    var registLocationBuilder: RegistLocationBuildable {
         return RegistLocationBuilder(dependency: self)
     }
 }

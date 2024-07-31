@@ -5,7 +5,6 @@
 //  Created by 이정환 on 3/5/24.
 //
 
-import PhotosUI
 import RIBs
 import RxCocoa
 import RxSwift
@@ -18,7 +17,7 @@ protocol RegistLocationPresentableListener: AnyObject {
     func showSelectLocation()
     func registPlace(_ registration: PlaceRegistration)
     func closeRegistLocation()
-    func addImage(_ image: UIImage)
+    func showCustomAlbum()
 }
 
 final class RegistLocationViewController: UIVCWithKeyboard, RegistLocationViewControllable {
@@ -256,8 +255,7 @@ final class RegistLocationViewController: UIVCWithKeyboard, RegistLocationViewCo
     }
 
     private func setupViewBinding() {
-        guard let listener else { return }
-        listener.imageArray
+        listener?.imageArray
             .bind(
                 to: collectionView.rx.items(
                     cellIdentifier: LocationImageCell.reuseIdentifier,
@@ -270,10 +268,10 @@ final class RegistLocationViewController: UIVCWithKeyboard, RegistLocationViewCo
             }
             .disposed(by: disposeBag)
 
-        listener.imageArray
+        listener?.imageArray
             .map { $0.isEmpty }
             .subscribe(onNext: { [weak self] bool in
-                guard let self else { return }
+                guard let self, let count = listener?.imageArray.value.count else { return }
                 addPhotoButton.snp.remakeConstraints {
                     if bool {
                         $0.edges.equalTo(self.collectionView.snp.edges)
@@ -284,13 +282,14 @@ final class RegistLocationViewController: UIVCWithKeyboard, RegistLocationViewCo
                             $0.bottom.equalTo(self.collectionView.snp.bottom).inset(16)
                         }
                     }
+                    self.addPhotoButton.updatePhoto(count: count)
                 }
                 addPhotoButton.updateButtonState(isImageEmpty: bool)
             })
             .disposed(by: disposeBag)
 
         let isEnabledObservable = Observable.combineLatest(
-            listener.isSelectLocation,
+            listener?.isSelectLocation.asObservable() ?? Observable.just(false),
             memoView.textView.rx.text.orEmpty
         )
         .map { isSelectLocation, memoText in
@@ -341,12 +340,7 @@ final class RegistLocationViewController: UIVCWithKeyboard, RegistLocationViewCo
             .subscribe(onNext: { [weak self] in
                 guard let self else { return }
                 self.view.endEditing(true)
-                var configuration = PHPickerConfiguration()
-                configuration.selectionLimit = 10 - (self.listener?.imageArray.value.count ?? 0)
-                configuration.filter = .any(of: [.images])
-                let picker = PHPickerViewController(configuration: configuration)
-                picker.delegate = self
-                self.present(picker, animated: true, completion: nil)
+                listener?.showCustomAlbum()
             })
             .disposed(by: disposeBag)
 
@@ -396,7 +390,7 @@ extension RegistLocationViewController: LocationImageCellDelegate {
             .filter { index, _ in index != indexPath.row }
             .map { $0.1 }
         self.listener?.imageArray.accept(newData)
-        addPhotoButton.updatePhoto(count: listener.imageArray.value.count)
+        self.addPhotoButton.updatePhoto(count: listener.imageArray.value.count)
     }
 }
 
@@ -410,22 +404,5 @@ extension RegistLocationViewController: RegistLocationPresentable {
         )
         addLocationImageView.image = .change
         listener?.isSelectLocation.accept(true)
-    }
-}
-
-extension RegistLocationViewController: PHPickerViewControllerDelegate {
-    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        picker.dismiss(animated: true)
-        guard !results.isEmpty else { return }
-
-        for itemProvider in results.map({ $0.itemProvider }) where itemProvider.canLoadObject(ofClass: UIImage.self) {
-            itemProvider.loadObject(ofClass: UIImage.self) { [weak self] image, _ in
-                guard let self, let image = image as? UIImage, let listener = self.listener else { return }
-                DispatchQueue.main.async {
-                    listener.addImage(image)
-                    self.addPhotoButton.updatePhoto(count: listener.imageArray.value.count)
-                }
-            }
-        }
     }
 }

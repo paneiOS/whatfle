@@ -11,12 +11,12 @@ import UIKit
 
 protocol AddRouting: ViewableRouting {
     var navigationController: UINavigationController { get }
-    func routeToRegistLocation()
     func routeToRegistCollection(data: EditSelectedCollectionData, tags: [RecommendHashTagModel])
     func routeToAddCollection(data: EditSelectedCollectionData?)
+    func showRegistLocation()
     func popToAddCollection()
     func popToRegistCollection()
-    func terminateCurrentRIB()
+    func popToRegistLocation()
 }
 
 protocol AddPresentable: Presentable {
@@ -42,10 +42,6 @@ final class AddInteractor: PresentableInteractor<AddPresentable> {
 }
 
 extension AddInteractor: AddInteractable {
-    func completeRegistCollection() {
-        listener?.closeAddRIB()
-    }
-
     func popToAddCollection() {
         self.router?.popToAddCollection()
     }
@@ -55,19 +51,15 @@ extension AddInteractor: AddInteractable {
     }
 
     func sendDataToRegistCollection(data: EditSelectedCollectionData, tags: [RecommendHashTagModel]) {
-        router?.routeToRegistCollection(data: data, tags: tags)
+        self.router?.routeToRegistCollection(data: data, tags: tags)
     }
 
     func sendDataToAddCollection(data: EditSelectedCollectionData) {
-        router?.routeToAddCollection(data: data)
+        self.router?.routeToAddCollection(data: data)
     }
 
     func closeRegistLocation() {
-        self.router?.navigationController.popViewController(animated: true)
-    }
-
-    func completeRegistLocation() {
-        router?.terminateCurrentRIB()
+        self.router?.popToRegistLocation()
     }
 
     func closeAddCollection() {
@@ -79,14 +71,22 @@ extension AddInteractor: AddInteractable {
 
 extension AddInteractor: AddPresentableListener {
     func showRegistLocation() {
-        router?.routeToRegistLocation()
+        self.router?.showRegistLocation()
+    }
+
+    func completeRegistLocation() {
+        listener?.closeAddRIB()
+    }
+
+    func closeView() {
+        listener?.closeAddRIB()
     }
 
     func showAddCollection() {
         router?.routeToAddCollection(data: nil)
     }
 
-    func closeView() {
+    func completeRegistCollection() {
         listener?.closeAddRIB()
     }
 }

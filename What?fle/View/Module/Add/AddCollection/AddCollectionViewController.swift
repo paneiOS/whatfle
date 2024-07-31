@@ -232,8 +232,7 @@ final class AddCollectionViewController: UIViewController, AddCollectionPresenta
     }
 
     private func setupViewBinding() {
-        guard let listener else { return }
-        listener.selectedLocations
+        listener?.selectedLocations
             .bind(to: selectLocationCollectionView.rx.items(
                 cellIdentifier: SelectLocationResultCell.reuseIdentifier,
                 cellType: SelectLocationResultCell.self)
@@ -242,7 +241,7 @@ final class AddCollectionViewController: UIViewController, AddCollectionPresenta
             }
             .disposed(by: disposeBag)
 
-        listener.locationTotalCount
+        listener?.locationTotalCount
             .subscribe(onNext: { [weak self] count in
                 guard let self else { return }
                 self.screenType = count >= 4 ? .available : .limated(count)
@@ -252,11 +251,11 @@ final class AddCollectionViewController: UIViewController, AddCollectionPresenta
             })
             .disposed(by: disposeBag)
 
-        let isEnabledObservable = listener.selectedLocations.map { $0.count >= Constants.maximumCount }.distinctUntilChanged().share()
-        isEnabledObservable
+        let isEnabledObservable = listener?.selectedLocations.map { $0.count >= Constants.maximumCount }.distinctUntilChanged().share()
+        isEnabledObservable?
             .bind(to: customNavigationBar.rightButton.rx.isEnabled)
             .disposed(by: disposeBag)
-        isEnabledObservable
+        isEnabledObservable?
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] isEnabled in
                 guard let self else { return }

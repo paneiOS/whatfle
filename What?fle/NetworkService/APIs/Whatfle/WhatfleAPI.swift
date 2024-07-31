@@ -31,32 +31,11 @@ extension WhatfleAPI: TargetType {
 
     var task: Moya.Task {
         switch self {
-        case .registerPlace(let registration):
-            let parameters: [String: Any] = [
-                "accountId": registration.accountID,
-                "description": registration.description,
-                "visitDate": registration.visitDate,
-                "placeName": registration.placeName,
-                "address": registration.address,
-                "roadAddress": registration.roadAddress,
-                "imageUrls": registration.imageURLs ?? [],
-                "latitude": registration.latitude,
-                "longitude": registration.longitude
-            ]
-            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+        case .registerPlace(let model):
+            return .requestJSONEncodable(model)
 
         case .registCollectionData(let model):
-            let parameters: [String: Any] = [
-                "accountId": model.accountID,
-                "title": model.title,
-                "description": model.description,
-                "isPublic": model.isPublic,
-                "hashtags": model.hashtags,
-                "places": model.places,
-                "imageUrls": model.imageURls,
-                "isActiveCover": model.isActiveCover
-            ]
-            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+            return .requestJSONEncodable(model)
 
         case .retriveRegistLocation:
             let parameters: [String: Any] = [:]
@@ -65,7 +44,7 @@ extension WhatfleAPI: TargetType {
         case .uploadPlaceImage(let images):
             var multipartData: [MultipartFormData] = []
             for (index, image) in images.enumerated() {
-                if let imageData = image.resizedImageWithinMegabytes(megabytes: 10) {
+                if let imageData = image.resizedImageWithinKilobytes(kilobytes: 10) {
                     let formData = MultipartFormData(
                         provider: .data(imageData),
                         name: "file\(index)",

@@ -10,15 +10,7 @@ import SnapKit
 
 final class CustomNavigationBar: UIView {
 
-    let backButton: UIButton = {
-        let button: UIButton = .init()
-        var config = UIButton.Configuration.plain()
-        config.image = .arrowLeftLine
-        config.imagePlacement = .all
-        config.imagePadding = 8
-        button.configuration = config
-        return button
-    }()
+    let backButton: UIButton = .init()
 
     private let navigationTitle: UILabel = .init()
 
@@ -58,13 +50,24 @@ final class CustomNavigationBar: UIView {
         }
     }
 
-    func setNavigationTitle(_ title: String) {
+    func setNavigationTitle(_ title: String, alignment: NSTextAlignment = .left, buttonImage: UIImage = .arrowLeftLine) {
         navigationTitle.attributedText = .makeAttributedString(
             text: title,
             font: .title16XBD,
             textColor: .GrayScale.g900,
-            lineHeight: 24
+            lineHeight: 24,
+            alignment: alignment
         )
+        var config = UIButton.Configuration.plain()
+        config.image = buttonImage
+        config.imagePlacement = .all
+        config.imagePadding = 8
+        backButton.configuration = config
+        if alignment == .center {
+            navigationTitle.snp.remakeConstraints {
+                $0.center.equalToSuperview()
+            }
+        }
     }
 
     func setRightButton(title: String, isEnabled: Bool = false) {

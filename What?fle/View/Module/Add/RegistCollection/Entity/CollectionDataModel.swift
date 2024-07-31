@@ -26,7 +26,7 @@ struct CollectionDataModel: Codable {
     let places: [Int]
     let imageURls: [String]
     let isActiveCover: Bool
-    
+
     enum CodingKeys: String, CodingKey {
         case accountID = "accountId"
         case title

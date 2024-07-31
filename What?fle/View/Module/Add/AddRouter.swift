@@ -18,8 +18,8 @@ protocol AddViewControllable: ViewControllable {}
 final class AddRouter: ViewableRouter<AddInteractable, AddViewControllable> {
     private let component: AddComponent
     let navigationController: UINavigationController
-    private weak var currentChild: ViewableRouting?
 
+    weak var registLocationRouter: RegistLocationRouting?
     weak var addCollectionRouter: AddCollectionRouting?
     weak var registCollectionRouter: RegistCollectionRouting?
     weak var editRegistCollectionRouter: RegistCollectionRouting?
@@ -53,12 +53,12 @@ extension AddRouter: AddRouting {
     }
 
     func routeToRegistLocation() {
-        if self.currentChild == nil {
-            let router = self.component.registLocatiionBuilder.build(withListener: self.interactor)
+        if self.registLocationRouter == nil {
+            let router = self.component.registLocationBuilder.build(withListener: self.interactor)
             self.navigationController.setNavigationBarHidden(true, animated: false)
             self.navigationController.pushViewController(router.viewControllable.uiviewController, animated: true)
             self.attachChild(router)
-            self.currentChild = router
+            self.registLocationRouter = router
         }
     }
 
@@ -71,7 +71,17 @@ extension AddRouter: AddRouting {
             self.registCollectionRouter = router
         }
     }
-    
+
+    func showRegistLocation() {
+        if self.registLocationRouter == nil {
+            let router = self.component.registLocationBuilder.build(withListener: self.interactor)
+            self.navigationController.setNavigationBarHidden(true, animated: false)
+            self.navigationController.pushViewController(router.viewControllable.uiviewController, animated: true)
+            self.attachChild(router)
+            self.registLocationRouter = router
+        }
+    }
+
     func popToAddCollection() {
         if let router = self.addCollectionRouter {
             self.navigationController.popViewController(animated: true)
@@ -88,13 +98,11 @@ extension AddRouter: AddRouting {
         }
     }
 
-    func terminateCurrentRIB() {
-        if let currentChild {
-            self.navigationController.dismiss(animated: true) { [weak self] in
-                guard let self else { return }
-                self.detachChild(currentChild)
-                self.currentChild = nil
-            }
+    func popToRegistLocation() {
+        if let router = self.registLocationRouter {
+            self.navigationController.popViewController(animated: true)
+            self.detachChild(router)
+            self.registLocationRouter = nil
         }
     }
 }

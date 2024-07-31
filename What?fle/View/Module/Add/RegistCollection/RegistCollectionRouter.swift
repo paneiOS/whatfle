@@ -17,7 +17,7 @@ protocol RegistCollectionViewControllable: ViewControllable {}
 final class RegistCollectionRouter: ViewableRouter<RegistCollectionInteractable, RegistCollectionViewControllable> {
     private let component: RegistCollectionComponent
     private weak var currentChild: ViewableRouting?
-    
+
     weak var addCollectionRouter: AddCollectionRouting?
     weak var addTagRouter: AddTagRouting?
 
@@ -81,7 +81,7 @@ extension RegistCollectionRouter: RegistCollectionRouting {
             self.addTagRouter = router
         }
     }
-    
+
     func closeAddTag() {
         if let router = self.addTagRouter {
             self.viewController.uiviewController.dismiss(animated: true) {
