@@ -19,8 +19,7 @@ protocol RootViewControllable: ViewControllable {
 
 final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable> {
     private let component: RootComponent
-    private var addNavigationController: UINavigationController?
-
+    
     weak var addRouter: AddRouting?
     weak var registLocationRouter: RegistLocationRouting?
 
@@ -40,7 +39,7 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable> {
 
     func attachChildRIBs() {
         let homeRouter = component.homeBuilder.build(withListener: interactor)
-        let homeNavigation = UINavigationController(root: homeRouter.viewControllable)
+        let homeNavigation = component.homeNavigationController
         homeNavigation.tabBarItem = tabBarItem(type: .home)
         attachChild(homeRouter)
 

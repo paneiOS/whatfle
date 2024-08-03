@@ -5,8 +5,8 @@
 //  Created by 이정환 on 2/24/24.
 //
 
-import UIKit
 import RIBs
+import UIKit
 
 protocol AddDependency: Dependency {
     var networkService: NetworkServiceDelegate { get }

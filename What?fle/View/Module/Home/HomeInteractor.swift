@@ -8,7 +8,9 @@
 import RIBs
 import RxSwift
 
-protocol HomeRouting: ViewableRouting {}
+protocol HomeRouting: ViewableRouting {
+    func routeToDetailCollection()
+}
 
 protocol HomePresentable: Presentable {
     var listener: HomePresentableListener? { get set }
@@ -16,7 +18,7 @@ protocol HomePresentable: Presentable {
 
 protocol HomeListener: AnyObject {}
 
-final class HomeInteractor: PresentableInteractor<HomePresentable>, HomeInteractable, HomePresentableListener {
+final class HomeInteractor: PresentableInteractor<HomePresentable> {
 
     weak var router: HomeRouting?
     weak var listener: HomeListener?
@@ -26,3 +28,12 @@ final class HomeInteractor: PresentableInteractor<HomePresentable>, HomeInteract
         presenter.listener = self
     }
 }
+
+extension HomeInteractor: HomeInteractable {}
+
+extension HomeInteractor: HomePresentableListener {
+    func showDetailCollection() {
+        self.router?.routeToDetailCollection()
+    }
+}
+

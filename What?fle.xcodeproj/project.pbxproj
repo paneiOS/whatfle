@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		390504782BE4296400575DF1 /* CustomPresentHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 390504772BE4296400575DF1 /* CustomPresentHeader.swift */; };
+		391134042C5BCA0200980190 /* DetailCollectionRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391134002C5BCA0200980190 /* DetailCollectionRouter.swift */; };
+		391134052C5BCA0200980190 /* DetailCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391134012C5BCA0200980190 /* DetailCollectionViewController.swift */; };
+		391134062C5BCA0200980190 /* DetailCollectionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391134022C5BCA0200980190 /* DetailCollectionBuilder.swift */; };
+		391134072C5BCA0200980190 /* DetailCollectionInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391134032C5BCA0200980190 /* DetailCollectionInteractor.swift */; };
 		39171CFD2BF664BF00DF5B8D /* SwitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39171CFC2BF664BF00DF5B8D /* SwitchView.swift */; };
 		39195FFD2BAB40D900CC7A2E /* SelectLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39195FFC2BAB40D900CC7A2E /* SelectLocationCell.swift */; };
 		39195FFF2BAC51EA00CC7A2E /* RecentSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39195FFE2BAC51EA00CC7A2E /* RecentSearchCell.swift */; };
@@ -127,6 +131,10 @@
 
 /* Begin PBXFileReference section */
 		390504772BE4296400575DF1 /* CustomPresentHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPresentHeader.swift; sourceTree = "<group>"; };
+		391134002C5BCA0200980190 /* DetailCollectionRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCollectionRouter.swift; sourceTree = "<group>"; };
+		391134012C5BCA0200980190 /* DetailCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCollectionViewController.swift; sourceTree = "<group>"; };
+		391134022C5BCA0200980190 /* DetailCollectionBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCollectionBuilder.swift; sourceTree = "<group>"; };
+		391134032C5BCA0200980190 /* DetailCollectionInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCollectionInteractor.swift; sourceTree = "<group>"; };
 		39171CFC2BF664BF00DF5B8D /* SwitchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchView.swift; sourceTree = "<group>"; };
 		39195FFC2BAB40D900CC7A2E /* SelectLocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLocationCell.swift; sourceTree = "<group>"; };
 		39195FFE2BAC51EA00CC7A2E /* RecentSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchCell.swift; sourceTree = "<group>"; };
@@ -257,6 +265,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		391133FF2C5BC9E600980190 /* DetailCollection */ = {
+			isa = PBXGroup;
+			children = (
+				391134002C5BCA0200980190 /* DetailCollectionRouter.swift */,
+				391134012C5BCA0200980190 /* DetailCollectionViewController.swift */,
+				391134022C5BCA0200980190 /* DetailCollectionBuilder.swift */,
+				391134032C5BCA0200980190 /* DetailCollectionInteractor.swift */,
+			);
+			path = DetailCollection;
+			sourceTree = "<group>";
+		};
 		391960002BAC541200CC7A2E /* UserDeafults */ = {
 			isa = PBXGroup;
 			children = (
@@ -420,6 +439,7 @@
 		39333D692B899395005F295A /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				391133FF2C5BC9E600980190 /* DetailCollection */,
 				39333D6A2B8993B1005F295A /* HomeRouter.swift */,
 				39333D6B2B8993B1005F295A /* HomeViewController.swift */,
 				39333D6C2B8993B1005F295A /* HomeBuilder.swift */,
@@ -879,6 +899,10 @@
 				4540B43B2C3983CF0010E5DF /* TagCollectionView.swift in Sources */,
 				3939FFF52B9451E3007E58F6 /* UIApplication+.swift in Sources */,
 				39EBCDF92B8A26B200599D58 /* AddInteractor.swift in Sources */,
+				391134042C5BCA0200980190 /* DetailCollectionRouter.swift in Sources */,
+				391134052C5BCA0200980190 /* DetailCollectionViewController.swift in Sources */,
+				391134062C5BCA0200980190 /* DetailCollectionBuilder.swift in Sources */,
+				391134072C5BCA0200980190 /* DetailCollectionInteractor.swift in Sources */,
 				456B09CC2BB9520100920C54 /* TextFieldWithUnderline.swift in Sources */,
 				39A81E702BF3A7550009C43F /* UIImage+.swift in Sources */,
 				39CBE1172BC6289D003CB3F0 /* SplashViewController.swift in Sources */,
