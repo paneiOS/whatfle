@@ -191,30 +191,29 @@ extension CAGradientLayer {
     }
 
     static func createGradient(type: GradientType) -> CAGradientLayer {
-            let gradientLayer = CAGradientLayer()
-            switch type {
-            case .firstGradient:
-                gradientLayer.colors = [
-                    UIColor(red: 255/255, green: 236/255, blue: 63/255, alpha: 1).cgColor,
-                    UIColor(red: 255/255, green: 191/255, blue: 94/255, alpha: 1).cgColor
-                ]
-                gradientLayer.locations = [0.0, 1.0]
-            case .secondGradient:
-                gradientLayer.colors = [
-                    UIColor(red: 255/255, green: 145/255, blue: 16/255, alpha: 0.1).cgColor,
-                    UIColor(red: 255/255, green: 145/255, blue: 16/255, alpha: 0).cgColor
-                ]
-                gradientLayer.locations = [0.0, 1.0]
-            case .thirdGradient:
-                gradientLayer.colors = [
-                    UIColor(red: 255/255, green: 145/255, blue: 16/255, alpha: 0.2).cgColor,
-                    UIColor(red: 255/255, green: 145/255, blue: 16/255, alpha: 0).cgColor
-                ]
-                gradientLayer.locations = [0.0, 1.0]
-            }
-
-            gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.0)
-            gradientLayer.endPoint = CGPoint(x: 1.0, y: 1.0)
-            return gradientLayer
+        let gradientLayer = CAGradientLayer()
+        switch type {
+        case .firstGradient:
+            gradientLayer.colors = [
+                UIColor(red: 255/255, green: 236/255, blue: 63/255, alpha: 1).cgColor,
+                UIColor(red: 255/255, green: 191/255, blue: 94/255, alpha: 1).cgColor
+            ]
+            gradientLayer.locations = [0.0, 1.0]
+        case .secondGradient:
+            gradientLayer.colors = [
+                UIColor(red: 255/255, green: 145/255, blue: 16/255, alpha: 0.1).cgColor,
+                UIColor(red: 255/255, green: 145/255, blue: 16/255, alpha: 0).cgColor
+            ]
+            gradientLayer.locations = [0.0, 1.0]
+        case .thirdGradient:
+            gradientLayer.colors = [
+                UIColor(red: 255/255, green: 145/255, blue: 16/255, alpha: 0.2).cgColor,
+                UIColor(red: 255/255, green: 145/255, blue: 16/255, alpha: 0).cgColor
+            ]
+            gradientLayer.locations = [0.0, 1.0]
         }
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.0)
+        gradientLayer.endPoint = CGPoint(x: 1.0, y: 1.0)
+        return gradientLayer
+    }
 }

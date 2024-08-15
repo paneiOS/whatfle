@@ -6,10 +6,28 @@
 //
 
 import RIBs
+import UIKit
 
-protocol HomeDependency: Dependency {}
+protocol HomeDependency: Dependency {
+    var networkService: NetworkServiceDelegate { get }
+    var homeNavigationController: UINavigationController { get }
+}
 
-final class HomeComponent: Component<HomeDependency> {}
+final class HomeComponent: Component<HomeDependency> {
+    var networkService: NetworkServiceDelegate {
+        return dependency.networkService
+    }
+
+    var navigationController: UINavigationController {
+        return dependency.homeNavigationController
+    }
+}
+
+extension HomeComponent: DetailCollectionDependency {
+    var detailCollectionBuilder: DetailCollectionBuildable {
+        return DetailCollectionBuilder(dependency: self)
+    }
+}
 
 // MARK: - Builder
 
@@ -26,8 +44,16 @@ final class HomeBuilder: Builder<HomeDependency>, HomeBuildable {
     func build(withListener listener: HomeListener) -> HomeRouting {
         let component = HomeComponent(dependency: dependency)
         let viewController = HomeViewController()
+        let navigationController = component.navigationController
+        navigationController.viewControllers = [viewController]
+        navigationController.modalPresentationStyle = .overFullScreen
         let interactor = HomeInteractor(presenter: viewController)
         interactor.listener = listener
-        return HomeRouter(interactor: interactor, viewController: viewController)
+        return HomeRouter(
+            interactor: interactor,
+            viewController: viewController,
+            navigationController: navigationController,
+            component: component
+        )
     }
 }

@@ -1,0 +1,110 @@
+{
+    "id": 67,
+    "accountId": 93,
+    "title": "ㅁ",
+    "description": "ㅁㅁㅁㅁㅁㅁㅁㅁ",
+    "createdAt": "2024-08-03T11:31:06.513+00:00",
+    "updatedAt": null,
+    "deletedAt": null,
+    "isPublic": false,
+    "imageUrls": [
+        "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/place/a6fa1351-4608-461c-8236-42989e0848e9-1722684664410"
+    ],
+    "isActiveCover": true,
+    "hashtags": [
+        {
+            "id": 27,
+            "hashtagName": "추천1"
+        },
+        {
+            "id": 30,
+            "hashtagName": "추천2"
+        },
+        {
+            "id": 31,
+            "hashtagName": "추천3"
+        },
+        {
+            "id": 65,
+            "hashtagName": "추천10"
+        },
+        {
+            "id": 66,
+            "hashtagName": "추천11"
+        }
+    ],
+    "places": [
+        {
+            "id": 115,
+            "address": "서울 동작구 상도1동 390",
+            "latitude": 37.5014477452177,
+            "longitude": 126.949552009383,
+            "accountId": 93,
+            "createdAt": "2024-07-24T15:03:54.08+00:00",
+            "deletedAt": null,
+            "imageUrls": [
+                "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/place/83f635bf-0b1f-4ee8-aedb-86a41a5caf1c-1721833432811"
+            ],
+            "placeName": "빽찐라면",
+            "updatedAt": null,
+            "visitDate": "2024-07-25",
+            "description": "zxf",
+            "roadAddress": "서울 동작구 상도로 295",
+            "categoryGroupCode": "FD6"
+        },
+        {
+            "id": 114,
+            "address": "서울 중구 을지로3가 302-3",
+            "latitude": 37.565243715031,
+            "longitude": 126.992034947953,
+            "accountId": 93,
+            "createdAt": "2024-07-24T15:03:40.592+00:00",
+            "deletedAt": null,
+            "imageUrls": [
+                "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/place/20f87a4b-df1e-4f4c-a12d-c07a80b76dbf-1721833419154"
+            ],
+            "placeName": "빽돈 을지로점",
+            "updatedAt": null,
+            "visitDate": "2024-07-25",
+            "description": "aas",
+            "roadAddress": "서울 중구 을지로14길 22",
+            "categoryGroupCode": "FD6"
+        },
+        {
+            "id": 92,
+            "address": "지번주소",
+            "latitude": 192.11414,
+            "longitude": 12525.11414,
+            "accountId": 93,
+            "createdAt": "2024-07-17T14:28:29.133+00:00",
+            "deletedAt": null,
+            "imageUrls": [
+                "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/place/1bb0cf3e-2172-4d01-864c-86be92080164-1715703512595"
+            ],
+            "placeName": "장소이름",
+            "updatedAt": null,
+            "visitDate": "2024-04-28",
+            "description": "메모",
+            "roadAddress": "도로명주소",
+            "categoryGroupCode": "test33"
+        },
+        {
+            "id": 101,
+            "address": "서울 중구 을지로3가 302-3",
+            "latitude": 37.565243715031,
+            "longitude": 126.992034947953,
+            "accountId": 93,
+            "createdAt": "2024-07-17T15:06:32.606+00:00",
+            "deletedAt": null,
+            "imageUrls": [
+                "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/place/f3209cfa-1baa-470c-b7b8-22d38640a88f-1721228790647"
+            ],
+            "placeName": "빽돈 을지로점",
+            "updatedAt": null,
+            "visitDate": "2024-07-18",
+            "description": "ㅠ",
+            "roadAddress": "서울 중구 을지로14길 22",
+            "categoryGroupCode": "FD6"
+        }
+    ]
+}

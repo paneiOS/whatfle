@@ -8,7 +8,10 @@
 import RIBs
 import RxSwift
 
-protocol HomeRouting: ViewableRouting {}
+protocol HomeRouting: ViewableRouting {
+    func routeToDetailCollection(id: Int)
+    func popToDetailCollection()
+}
 
 protocol HomePresentable: Presentable {
     var listener: HomePresentableListener? { get set }
@@ -16,7 +19,7 @@ protocol HomePresentable: Presentable {
 
 protocol HomeListener: AnyObject {}
 
-final class HomeInteractor: PresentableInteractor<HomePresentable>, HomeInteractable, HomePresentableListener {
+final class HomeInteractor: PresentableInteractor<HomePresentable> {
 
     weak var router: HomeRouting?
     weak var listener: HomeListener?
@@ -24,5 +27,17 @@ final class HomeInteractor: PresentableInteractor<HomePresentable>, HomeInteract
     override init(presenter: HomePresentable) {
         super.init(presenter: presenter)
         presenter.listener = self
+    }
+}
+
+extension HomeInteractor: HomeInteractable {
+    func popToDetailCollection() {
+        self.router?.popToDetailCollection()
+    }
+}
+
+extension HomeInteractor: HomePresentableListener {
+    func showDetailCollection(id: Int) {
+        self.router?.routeToDetailCollection(id: id)
     }
 }

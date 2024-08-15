@@ -50,7 +50,7 @@ final class CustomNavigationBar: UIView {
         }
     }
 
-    func setNavigationTitle(_ title: String, alignment: NSTextAlignment = .left, buttonImage: UIImage = .arrowLeftLine) {
+    func setNavigationTitle(_ title: String = "", alignment: NSTextAlignment = .left, buttonImage: UIImage = .arrowLeftLine, buttonColor: UIColor? = nil) {
         navigationTitle.attributedText = .makeAttributedString(
             text: title,
             font: .title16XBD,
@@ -59,7 +59,11 @@ final class CustomNavigationBar: UIView {
             alignment: alignment
         )
         var config = UIButton.Configuration.plain()
-        config.image = buttonImage
+        if let buttonColor {
+            config.image = buttonImage.withTintColor(buttonColor)
+        } else {
+            config.image = buttonImage
+        }
         config.imagePlacement = .all
         config.imagePadding = 8
         backButton.configuration = config

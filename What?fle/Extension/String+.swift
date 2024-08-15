@@ -41,6 +41,15 @@ extension NSAttributedString {
         }
         return NSAttributedString(string: text, attributes: baseAttributes)
     }
+
+    func height(containerWidth: CGFloat) -> CGFloat {
+            let constraintRect = CGSize(width: containerWidth, height: .greatestFiniteMagnitude)
+            let boundingBox = self.boundingRect(with: constraintRect, options: [.usesLineFragmentOrigin, .usesFontLeading], context: nil)
+            let paragraphStyle = self.attribute(.paragraphStyle, at: 0, effectiveRange: nil) as? NSParagraphStyle
+            let lineHeight = paragraphStyle?.minimumLineHeight ?? boundingBox.height
+            let numberOfLines = ceil(boundingBox.height / lineHeight)
+            return numberOfLines * lineHeight
+        }
 }
 
 extension String {

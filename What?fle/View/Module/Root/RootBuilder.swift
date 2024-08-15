@@ -14,13 +14,16 @@ protocol RootDependency: Dependency {
     var networkService: NetworkServiceDelegate { get }
 }
 
-final class RootComponent: Component<RootDependency> {}
-
-extension RootComponent: HomeDependency, AddDependency, MapDependency, RegistLocationDependency {
+final class RootComponent: Component<RootDependency> {
     var networkService: NetworkServiceDelegate {
         return dependency.networkService
     }
 
+    let homeNavigationController: UINavigationController = .init()
+    let mapNavigationController: UINavigationController = .init()
+}
+
+extension RootComponent: HomeDependency, AddDependency, MapDependency, RegistLocationDependency {
     var homeBuilder: HomeBuildable {
         return HomeBuilder(dependency: self)
     }

@@ -15,6 +15,7 @@ enum WhatfleAPI {
     case retriveRegistLocation
     case getAllMyPlace
     case getRecommendHashtag
+    case getDetailCollection(Int)
 }
 
 extension WhatfleAPI: TargetType {
@@ -91,6 +92,8 @@ extension WhatfleAPI: TargetType {
             return "/places"
         case .getRecommendHashtag:
             return "/hashtag/recommend"
+        case .getDetailCollection(let id):
+            return "/collection/\(id)"
         default:
             return ""
         }
@@ -106,6 +109,12 @@ extension WhatfleAPI: TargetType {
             return data
         case .getRecommendHashtag:
             guard let path = Bundle.main.path(forResource: "RecommendHashTag", ofType: "json"),
+                  let data = try? Data(contentsOf: URL(fileURLWithPath: path)) else {
+                return Data()
+            }
+            return data
+        case .getDetailCollection:
+            guard let path = Bundle.main.path(forResource: "DetailCollection", ofType: "json"),
                   let data = try? Data(contentsOf: URL(fileURLWithPath: path)) else {
                 return Data()
             }

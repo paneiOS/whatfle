@@ -125,19 +125,10 @@ final class AddCollectionViewController: UIViewController, AddCollectionPresenta
         return control
     }()
 
-    private lazy var selectLocationCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.minimumInteritemSpacing = 8
-        layout.itemSize = .init(width: 64, height: 88)
-        layout.sectionInset = UIEdgeInsets(top: 6, left: 8, bottom: 4, right: 8)
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(
-            SelectLocationResultCell.self,
-            forCellWithReuseIdentifier: SelectLocationResultCell.reuseIdentifier
-        )
-        collectionView.isHidden = true
+    private lazy var selectLocationCollectionView: SelectLocationCollectionView = {
+        let collectionView = SelectLocationCollectionView()
         collectionView.backgroundColor = .Core.background
+        collectionView.isHidden = true
         return collectionView
     }()
 
@@ -186,6 +177,7 @@ final class AddCollectionViewController: UIViewController, AddCollectionPresenta
         setupUI()
         setupViewBinding()
         setupActionBinding()
+
         self.listener?.retriveRegistLocation()
     }
 
@@ -233,15 +225,13 @@ final class AddCollectionViewController: UIViewController, AddCollectionPresenta
 
     private func setupViewBinding() {
         listener?.selectedLocations
-            .bind(to: selectLocationCollectionView.rx.items(
-                cellIdentifier: SelectLocationResultCell.reuseIdentifier,
-                cellType: SelectLocationResultCell.self)
-            ) { (_, model, cell) in
-                cell.drawCell(model: model.1)
-            }
+            .observe(on: MainScheduler.instance)
+            .map { $0.map { $0.1 } }
+            .bind(to: selectLocationCollectionView.items)
             .disposed(by: disposeBag)
 
         listener?.locationTotalCount
+            .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] count in
                 guard let self else { return }
                 self.screenType = count >= 4 ? .available : .limated(count)
@@ -253,6 +243,7 @@ final class AddCollectionViewController: UIViewController, AddCollectionPresenta
 
         let isEnabledObservable = listener?.selectedLocations.map { $0.count >= Constants.maximumCount }.distinctUntilChanged().share()
         isEnabledObservable?
+            .observe(on: MainScheduler.instance)
             .bind(to: customNavigationBar.rightButton.rx.isEnabled)
             .disposed(by: disposeBag)
         isEnabledObservable?
