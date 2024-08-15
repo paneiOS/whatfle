@@ -7,14 +7,20 @@
 
 import RIBs
 
-protocol DetailCollectionDependency: Dependency {}
+protocol DetailCollectionDependency: Dependency {
+    var networkService: NetworkServiceDelegate { get }
+}
 
-final class DetailCollectionComponent: Component<DetailCollectionDependency> {}
+final class DetailCollectionComponent: Component<DetailCollectionDependency> {
+    var networkService: NetworkServiceDelegate {
+        return dependency.networkService
+    }
+}
 
 // MARK: - Builder
 
 protocol DetailCollectionBuildable: Buildable {
-    func build(withListener listener: DetailCollectionListener) -> DetailCollectionRouting
+    func build(withListener listener: DetailCollectionListener, id: Int) -> DetailCollectionRouting
 }
 
 final class DetailCollectionBuilder: Builder<DetailCollectionDependency>, DetailCollectionBuildable {
@@ -23,10 +29,14 @@ final class DetailCollectionBuilder: Builder<DetailCollectionDependency>, Detail
         super.init(dependency: dependency)
     }
 
-    func build(withListener listener: DetailCollectionListener) -> DetailCollectionRouting {
+    func build(withListener listener: DetailCollectionListener, id: Int) -> DetailCollectionRouting {
         let component = DetailCollectionComponent(dependency: dependency)
         let viewController = DetailCollectionViewController()
-        let interactor = DetailCollectionInteractor(presenter: viewController)
+        let interactor = DetailCollectionInteractor(
+            presenter: viewController,
+            networkService: dependency.networkService,
+            collectionID: id
+        )
         interactor.listener = listener
         return DetailCollectionRouter(
             interactor: interactor,

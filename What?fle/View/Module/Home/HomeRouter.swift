@@ -39,14 +39,22 @@ final class HomeRouter: ViewableRouter<HomeInteractable, HomeViewControllable> {
 }
 
 extension HomeRouter: HomeRouting {
-    func routeToDetailCollection() {
+    func routeToDetailCollection(id: Int) {
         if self.detailCollectionRouter == nil {
-            let router = self.component.detailCollectionBuilder.build(withListener: self.interactor)
+            let router = self.component.detailCollectionBuilder.build(withListener: self.interactor, id: id)
             router.viewControllable.uiviewController.hidesBottomBarWhenPushed = true
             self.navigationController.setNavigationBarHidden(true, animated: false)
             self.navigationController.pushViewController(router.viewControllable.uiviewController, animated: true)
             self.attachChild(router)
             self.detailCollectionRouter = router
+        }
+    }
+    
+    func popToDetailCollection() {
+        if let router = self.detailCollectionRouter {
+            self.navigationController.popViewController(animated: true)
+            self.detachChild(router)
+            self.detailCollectionRouter = nil
         }
     }
 }

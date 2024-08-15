@@ -25,7 +25,7 @@ protocol CustomAlbumPresentableListener: AnyObject {
 
 final class CustomAlbumViewController: UIViewController, CustomAlbumPresentable, CustomAlbumViewControllable {
     enum Constants {
-        static let cellWidth: CGFloat = (UIScreen.main.bounds.width - 48.0) / 3
+        static let cellWidth: CGFloat = (UIApplication.shared.width - 48.0) / 3
     }
 
     // MARK: - UI

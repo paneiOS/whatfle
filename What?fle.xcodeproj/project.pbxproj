@@ -12,12 +12,25 @@
 		391134052C5BCA0200980190 /* DetailCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391134012C5BCA0200980190 /* DetailCollectionViewController.swift */; };
 		391134062C5BCA0200980190 /* DetailCollectionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391134022C5BCA0200980190 /* DetailCollectionBuilder.swift */; };
 		391134072C5BCA0200980190 /* DetailCollectionInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391134032C5BCA0200980190 /* DetailCollectionInteractor.swift */; };
+		391134092C5FBD9000980190 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391134082C5FBD9000980190 /* GradientView.swift */; };
+		3911340B2C5FC95900980190 /* DetailCollection.json in Resources */ = {isa = PBXBuildFile; fileRef = 3911340A2C5FC95900980190 /* DetailCollection.json */; };
+		391134142C63AB3E00980190 /* DetailCollectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391134132C63AB3E00980190 /* DetailCollectionModel.swift */; };
+		391134172C63C1D200980190 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 391134162C63C1D200980190 /* Kingfisher */; };
+		391134192C63CB8300980190 /* SelectLocationCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391134182C63CB8300980190 /* SelectLocationCollectionView.swift */; };
 		39171CFD2BF664BF00DF5B8D /* SwitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39171CFC2BF664BF00DF5B8D /* SwitchView.swift */; };
 		39195FFD2BAB40D900CC7A2E /* SelectLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39195FFC2BAB40D900CC7A2E /* SelectLocationCell.swift */; };
 		39195FFF2BAC51EA00CC7A2E /* RecentSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39195FFE2BAC51EA00CC7A2E /* RecentSearchCell.swift */; };
 		391960022BAC542B00CC7A2E /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391960012BAC542B00CC7A2E /* UserDefaultsManager.swift */; };
 		3919BA652B988C0000E2A3CC /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3919BA642B988C0000E2A3CC /* UIView+.swift */; };
 		3919BA6C2B9A1D2800E2A3CC /* ViewControllable+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3919BA6B2B9A1D2800E2A3CC /* ViewControllable+.swift */; };
+		392C1E212C64F55F00C03D82 /* UIImage+Design.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392C1E202C64F55F00C03D82 /* UIImage+Design.swift */; };
+		392C1E242C650B0500C03D82 /* CoverImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392C1E232C650B0500C03D82 /* CoverImageCell.swift */; };
+		392C1E262C650B3E00C03D82 /* DescriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392C1E252C650B3E00C03D82 /* DescriptionCell.swift */; };
+		392C1E282C650B7200C03D82 /* SelectionLocationVerticalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392C1E272C650B7200C03D82 /* SelectionLocationVerticalCell.swift */; };
+		392C1E2A2C651BAA00C03D82 /* SelectionLocationHorizontalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392C1E292C651BAA00C03D82 /* SelectionLocationHorizontalCell.swift */; };
+		392C1E2D2C6A3DDC00C03D82 /* TriangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392C1E2C2C6A3DDC00C03D82 /* TriangleView.swift */; };
+		392C1E2F2C6A41B200C03D82 /* SelectionLocationVerticalListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392C1E2E2C6A41B200C03D82 /* SelectionLocationVerticalListCell.swift */; };
+		392C1E322C6BAFEA00C03D82 /* PagerImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392C1E312C6BAFEA00C03D82 /* PagerImageCell.swift */; };
 		392DAEA12C4696FF000F2B94 /* CustomAlbumRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392DAE9D2C4696FF000F2B94 /* CustomAlbumRouter.swift */; };
 		392DAEA22C4696FF000F2B94 /* CustomAlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392DAE9E2C4696FF000F2B94 /* CustomAlbumViewController.swift */; };
 		392DAEA32C4696FF000F2B94 /* CustomAlbumBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392DAE9F2C4696FF000F2B94 /* CustomAlbumBuilder.swift */; };
@@ -135,12 +148,24 @@
 		391134012C5BCA0200980190 /* DetailCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCollectionViewController.swift; sourceTree = "<group>"; };
 		391134022C5BCA0200980190 /* DetailCollectionBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCollectionBuilder.swift; sourceTree = "<group>"; };
 		391134032C5BCA0200980190 /* DetailCollectionInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCollectionInteractor.swift; sourceTree = "<group>"; };
+		391134082C5FBD9000980190 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		3911340A2C5FC95900980190 /* DetailCollection.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DetailCollection.json; sourceTree = "<group>"; };
+		391134132C63AB3E00980190 /* DetailCollectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCollectionModel.swift; sourceTree = "<group>"; };
+		391134182C63CB8300980190 /* SelectLocationCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLocationCollectionView.swift; sourceTree = "<group>"; };
 		39171CFC2BF664BF00DF5B8D /* SwitchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchView.swift; sourceTree = "<group>"; };
 		39195FFC2BAB40D900CC7A2E /* SelectLocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLocationCell.swift; sourceTree = "<group>"; };
 		39195FFE2BAC51EA00CC7A2E /* RecentSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchCell.swift; sourceTree = "<group>"; };
 		391960012BAC542B00CC7A2E /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		3919BA642B988C0000E2A3CC /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		3919BA6B2B9A1D2800E2A3CC /* ViewControllable+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewControllable+.swift"; sourceTree = "<group>"; };
+		392C1E202C64F55F00C03D82 /* UIImage+Design.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Design.swift"; sourceTree = "<group>"; };
+		392C1E232C650B0500C03D82 /* CoverImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoverImageCell.swift; sourceTree = "<group>"; };
+		392C1E252C650B3E00C03D82 /* DescriptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionCell.swift; sourceTree = "<group>"; };
+		392C1E272C650B7200C03D82 /* SelectionLocationVerticalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionLocationVerticalCell.swift; sourceTree = "<group>"; };
+		392C1E292C651BAA00C03D82 /* SelectionLocationHorizontalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionLocationHorizontalCell.swift; sourceTree = "<group>"; };
+		392C1E2C2C6A3DDC00C03D82 /* TriangleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleView.swift; sourceTree = "<group>"; };
+		392C1E2E2C6A41B200C03D82 /* SelectionLocationVerticalListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionLocationVerticalListCell.swift; sourceTree = "<group>"; };
+		392C1E312C6BAFEA00C03D82 /* PagerImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagerImageCell.swift; sourceTree = "<group>"; };
 		392DAE9D2C4696FF000F2B94 /* CustomAlbumRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlbumRouter.swift; sourceTree = "<group>"; };
 		392DAE9E2C4696FF000F2B94 /* CustomAlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlbumViewController.swift; sourceTree = "<group>"; };
 		392DAE9F2C4696FF000F2B94 /* CustomAlbumBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlbumBuilder.swift; sourceTree = "<group>"; };
@@ -259,6 +284,7 @@
 				39333CEB2B864979005F295A /* SnapKit in Frameworks */,
 				39333CE82B86496C005F295A /* Moya in Frameworks */,
 				39333CE52B86494C005F295A /* RxCocoa in Frameworks */,
+				391134172C63C1D200980190 /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,6 +294,8 @@
 		391133FF2C5BC9E600980190 /* DetailCollection */ = {
 			isa = PBXGroup;
 			children = (
+				392C1E222C650AFA00C03D82 /* Cells */,
+				391134122C63AB1200980190 /* Entity */,
 				391134002C5BCA0200980190 /* DetailCollectionRouter.swift */,
 				391134012C5BCA0200980190 /* DetailCollectionViewController.swift */,
 				391134022C5BCA0200980190 /* DetailCollectionBuilder.swift */,
@@ -276,12 +304,33 @@
 			path = DetailCollection;
 			sourceTree = "<group>";
 		};
+		391134122C63AB1200980190 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				391134132C63AB3E00980190 /* DetailCollectionModel.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
 		391960002BAC541200CC7A2E /* UserDeafults */ = {
 			isa = PBXGroup;
 			children = (
 				391960012BAC542B00CC7A2E /* UserDefaultsManager.swift */,
 			);
 			path = UserDeafults;
+			sourceTree = "<group>";
+		};
+		392C1E222C650AFA00C03D82 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				392C1E232C650B0500C03D82 /* CoverImageCell.swift */,
+				392C1E252C650B3E00C03D82 /* DescriptionCell.swift */,
+				392C1E292C651BAA00C03D82 /* SelectionLocationHorizontalCell.swift */,
+				392C1E272C650B7200C03D82 /* SelectionLocationVerticalCell.swift */,
+				392C1E2E2C6A41B200C03D82 /* SelectionLocationVerticalListCell.swift */,
+				392C1E312C6BAFEA00C03D82 /* PagerImageCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		392DAE9C2C4696DB000F2B94 /* CustomAlbum */ = {
@@ -391,6 +440,7 @@
 			children = (
 				39333D062B865132005F295A /* UIFont+Design.swift */,
 				39333D0A2B8765A2005F295A /* UIColor+Design.swift */,
+				392C1E202C64F55F00C03D82 /* UIImage+Design.swift */,
 			);
 			path = DesignSystem;
 			sourceTree = "<group>";
@@ -462,6 +512,9 @@
 				390504772BE4296400575DF1 /* CustomPresentHeader.swift */,
 				399974192BD00CDE009AF937 /* AddPhotoControl.swift */,
 				39171CFC2BF664BF00DF5B8D /* SwitchView.swift */,
+				391134082C5FBD9000980190 /* GradientView.swift */,
+				391134182C63CB8300980190 /* SelectLocationCollectionView.swift */,
+				392C1E2C2C6A3DDC00C03D82 /* TriangleView.swift */,
 			);
 			path = "What?fleUIKit";
 			sourceTree = "<group>";
@@ -591,6 +644,7 @@
 				398347832BC1819B00C25F63 /* SearchMock.json */,
 				398347852BC1862400C25F63 /* RetriveRegistLocationMock.json */,
 				4540B4412C3A95750010E5DF /* RecommendHashTag.json */,
+				3911340A2C5FC95900980190 /* DetailCollection.json */,
 			);
 			path = MockData;
 			sourceTree = "<group>";
@@ -787,6 +841,7 @@
 				39333CE72B86496C005F295A /* Moya */,
 				39333CEA2B864979005F295A /* SnapKit */,
 				39333CED2B864998005F295A /* RIBs */,
+				391134162C63C1D200980190 /* Kingfisher */,
 			);
 			productName = "What?fle";
 			productReference = 39333CCC2B864786005F295A /* What?fle.app */;
@@ -821,6 +876,7 @@
 				39333CE62B86496C005F295A /* XCRemoteSwiftPackageReference "Moya" */,
 				39333CE92B864979005F295A /* XCRemoteSwiftPackageReference "SnapKit" */,
 				39333CEC2B864998005F295A /* XCRemoteSwiftPackageReference "RIBs" */,
+				391134152C63C1D200980190 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 39333CCD2B864786005F295A /* Products */;
 			projectDirPath = "";
@@ -846,6 +902,7 @@
 				39EF11B62BBADCF0000E1996 /* Secrets.plist in Resources */,
 				39333D022B864EF9005F295A /* SUIT-Regular.otf in Resources */,
 				39333CFD2B864EF9005F295A /* SUIT-Bold.otf in Resources */,
+				3911340B2C5FC95900980190 /* DetailCollection.json in Resources */,
 				39333CDC2B864787005F295A /* LaunchScreen.storyboard in Resources */,
 				39333D002B864EF9005F295A /* SUIT-Heavy.otf in Resources */,
 				39333CD92B864787005F295A /* Assets.xcassets in Resources */,
@@ -902,6 +959,7 @@
 				391134042C5BCA0200980190 /* DetailCollectionRouter.swift in Sources */,
 				391134052C5BCA0200980190 /* DetailCollectionViewController.swift in Sources */,
 				391134062C5BCA0200980190 /* DetailCollectionBuilder.swift in Sources */,
+				392C1E2F2C6A41B200C03D82 /* SelectionLocationVerticalListCell.swift in Sources */,
 				391134072C5BCA0200980190 /* DetailCollectionInteractor.swift in Sources */,
 				456B09CC2BB9520100920C54 /* TextFieldWithUnderline.swift in Sources */,
 				39A81E702BF3A7550009C43F /* UIImage+.swift in Sources */,
@@ -927,6 +985,8 @@
 				395E22F22C3C242E001BB755 /* AddTagInteractor.swift in Sources */,
 				395E22F02C3C242E001BB755 /* AddTagViewController.swift in Sources */,
 				456B09D22BB954DA00920C54 /* Date+.swift in Sources */,
+				392C1E242C650B0500C03D82 /* CoverImageCell.swift in Sources */,
+				391134092C5FBD9000980190 /* GradientView.swift in Sources */,
 				39333D152B88AE19005F295A /* RootBuilder.swift in Sources */,
 				39EBCE0D2B8A484000599D58 /* SelecteLocationViewController.swift in Sources */,
 				392DAEA42C4696FF000F2B94 /* CustomAlbumInteractor.swift in Sources */,
@@ -934,12 +994,17 @@
 				39EF11B82BBAE182000E1996 /* Array+.swift in Sources */,
 				456B09D42BB9566C00920C54 /* CustomTextView.swift in Sources */,
 				393900002B961BBA007E58F6 /* RegistLocationBuilder.swift in Sources */,
+				392C1E2A2C651BAA00C03D82 /* SelectionLocationHorizontalCell.swift in Sources */,
 				39CBE1182BC6289D003CB3F0 /* SplashBuilder.swift in Sources */,
 				4540B4402C3A6FE70010E5DF /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
+				392C1E2D2C6A3DDC00C03D82 /* TriangleView.swift in Sources */,
 				39EBCDFF2B8A26BF00599D58 /* MapViewController.swift in Sources */,
+				392C1E262C650B3E00C03D82 /* DescriptionCell.swift in Sources */,
 				391960022BAC542B00CC7A2E /* UserDefaultsManager.swift in Sources */,
 				3919BA652B988C0000E2A3CC /* UIView+.swift in Sources */,
 				395E22F12C3C242E001BB755 /* AddTagBuilder.swift in Sources */,
+				391134142C63AB3E00980190 /* DetailCollectionModel.swift in Sources */,
+				391134192C63CB8300980190 /* SelectLocationCollectionView.swift in Sources */,
 				39A81E6E2BEE53870009C43F /* PlaceRegistration.swift in Sources */,
 				39EBCE0E2B8A484000599D58 /* SelecteLocationBuilder.swift in Sources */,
 				392DAEAC2C46A921000F2B94 /* CustomAlbumCameraCell.swift in Sources */,
@@ -949,9 +1014,12 @@
 				39333D6F2B8993B1005F295A /* HomeViewController.swift in Sources */,
 				39CF56A92BC0F0A300E718C8 /* AddCollectionViewController.swift in Sources */,
 				39EBCE012B8A26BF00599D58 /* MapInteractor.swift in Sources */,
+				392C1E212C64F55F00C03D82 /* UIImage+Design.swift in Sources */,
 				395E22EF2C3C242E001BB755 /* AddTagRouter.swift in Sources */,
 				39333CD22B864786005F295A /* SceneDelegate.swift in Sources */,
+				392C1E322C6BAFEA00C03D82 /* PagerImageCell.swift in Sources */,
 				3939FFFE2B961BBA007E58F6 /* RegistLocationRouter.swift in Sources */,
+				392C1E282C650B7200C03D82 /* SelectionLocationVerticalCell.swift in Sources */,
 				39A81E732BF3BC460009C43F /* CustomError.swift in Sources */,
 				39333D732B89A3AA005F295A /* AppComponent.swift in Sources */,
 				39333D142B88AE19005F295A /* RootViewController.swift in Sources */,
@@ -1203,6 +1271,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		391134152C63C1D200980190 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.12.0;
+			};
+		};
 		39333CE32B86494C005F295A /* XCRemoteSwiftPackageReference "RxSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
@@ -1238,6 +1314,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		391134162C63C1D200980190 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 391134152C63C1D200980190 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
 		39333CE42B86494C005F295A /* RxCocoa */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 39333CE32B86494C005F295A /* XCRemoteSwiftPackageReference "RxSwift" */;

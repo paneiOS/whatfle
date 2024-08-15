@@ -21,7 +21,7 @@ extension UITextField {
 
     func addDoneButtonOnKeyboard() {
         let doneToolbar: UIToolbar = .init(
-            frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50)
+            frame: CGRect.init(x: 0, y: 0, width: UIApplication.shared.width, height: 50)
         )
         doneToolbar.barStyle = .default
 

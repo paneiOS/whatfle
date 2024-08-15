@@ -33,6 +33,7 @@ final class RegistLocationInteractor: PresentableInteractor<RegistLocationPresen
                                       RegistLocationPresentableListener {
     weak var router: RegistLocationRouting?
     weak var listener: RegistLocationListener?
+    
     private let networkService: NetworkServiceDelegate
     private let disposeBag = DisposeBag()
 

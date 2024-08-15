@@ -9,7 +9,8 @@ import RIBs
 import RxSwift
 
 protocol HomeRouting: ViewableRouting {
-    func routeToDetailCollection()
+    func routeToDetailCollection(id: Int)
+    func popToDetailCollection()
 }
 
 protocol HomePresentable: Presentable {
@@ -29,11 +30,14 @@ final class HomeInteractor: PresentableInteractor<HomePresentable> {
     }
 }
 
-extension HomeInteractor: HomeInteractable {}
-
-extension HomeInteractor: HomePresentableListener {
-    func showDetailCollection() {
-        self.router?.routeToDetailCollection()
+extension HomeInteractor: HomeInteractable {
+    func popToDetailCollection() {
+        self.router?.popToDetailCollection()
     }
 }
 
+extension HomeInteractor: HomePresentableListener {
+    func showDetailCollection(id: Int) {
+        self.router?.routeToDetailCollection(id: id)
+    }
+}
