@@ -22,6 +22,11 @@ protocol LoginPresentableListener: AnyObject {
 }
 
 final class LoginViewController: UIViewController, LoginPresentable, LoginViewControllable {
+    private let closeButton: UIButton = {
+        let button = UIButton()
+        button.setImage(.xLineLg, for: .normal)
+        return button
+    }()
     private let tutleView: UIView = .init()
     private let imageView: UIImageView = .init(image: .turfle)
     private let label: UILabel = {
@@ -128,6 +133,12 @@ extension LoginViewController {
         nonMemberButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalTo(kakaoLoginButton.snp.bottom).offset(16)
+        }
+
+        view.addSubview(closeButton)
+        closeButton.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
+            $0.trailing.equalToSuperview().inset(29)
         }
     }
 
