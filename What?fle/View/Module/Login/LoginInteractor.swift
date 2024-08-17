@@ -17,7 +17,9 @@ protocol LoginPresentable: Presentable {
     var listener: LoginPresentableListener? { get set }
 }
 
-protocol LoginListener: AnyObject {}
+protocol LoginListener: AnyObject {
+    func dismissLoginRIB()
+}
 
 final class LoginInteractor: PresentableInteractor<LoginPresentable>, LoginInteractable, LoginPresentableListener {
 
@@ -48,7 +50,6 @@ extension LoginInteractor {
                 !LoadingIndicatorService.shared.isLoading() else {
                     return Single.error(RxError.noElements)
                 }
-
                 LoadingIndicatorService.shared.showLoading()
 
                 let model: LoginRequestModel = .init(
@@ -75,5 +76,9 @@ extension LoginInteractor {
                 print("Login failed with error: \(error)")
             })
             .disposed(by: disposeBag)
+    }
+    
+    func closeLogin() {
+        listener?.dismissLoginRIB()
     }
 }

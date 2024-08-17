@@ -12,6 +12,7 @@ import UIKit
 
 protocol LoginPresentableListener: AnyObject {
     func appleLogin(idToken: String)
+    func closeLogin()
 }
 
 final class LoginViewController: UIViewController, LoginPresentable, LoginViewControllable {
@@ -135,8 +136,9 @@ final class LoginViewController: UIViewController, LoginPresentable, LoginViewCo
 
     private func setupActionBinding() {
         self.customNavigationBar.rightButton.rx.controlEvent(.touchUpInside)
-            .subscribe(onNext: {
-                
+            .subscribe(onNext: { [weak self] in
+                guard let self else { return }
+                self.listener?.closeLogin()
             })
             .disposed(by: disposeBag)
 
@@ -153,8 +155,9 @@ final class LoginViewController: UIViewController, LoginPresentable, LoginViewCo
             .disposed(by: disposeBag)
 
         self.noMemberButton.rx.controlEvent(.touchUpInside)
-            .subscribe(onNext: {
-                
+            .subscribe(onNext: { [weak self] in
+                guard let self else { return }
+                self.listener?.closeLogin()
             })
             .disposed(by: disposeBag)
     }

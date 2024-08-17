@@ -68,4 +68,12 @@ extension HomeRouter: HomeRouting {
             self.loginRouter = router
         }
     }
+
+    func dismissLoginRIB() {
+        if let router = self.loginRouter {
+            self.viewController.uiviewController.dismiss(animated: true)
+            self.detachChild(router)
+            self.loginRouter = nil
+        }
+    }
 }
