@@ -11,6 +11,7 @@ import RxSwift
 protocol HomeRouting: ViewableRouting {
     func routeToDetailCollection(id: Int)
     func popToDetailCollection()
+    func showLoginRIB()
 }
 
 protocol HomePresentable: Presentable {
@@ -39,5 +40,9 @@ extension HomeInteractor: HomeInteractable {
 extension HomeInteractor: HomePresentableListener {
     func showDetailCollection(id: Int) {
         self.router?.routeToDetailCollection(id: id)
+    }
+    
+    func showLoginRIB() {
+        self.router?.showLoginRIB()
     }
 }

@@ -86,4 +86,9 @@ final class CustomNavigationBar: UIView {
             for: .normal
         )
     }
+
+    func setRightButton(image: UIImage) {
+        self.rightButton.isHidden = false
+        self.rightButton.setImage(image, for: .normal)
+    }
 }

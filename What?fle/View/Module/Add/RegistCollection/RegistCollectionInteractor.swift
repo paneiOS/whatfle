@@ -5,11 +5,12 @@
 //  Created by 이정환 on 4/17/24.
 //
 
+import UIKit
+
 import Moya
 import RIBs
 import RxSwift
 import RxCocoa
-import UIKit
 
 protocol RegistCollectionRouting: ViewableRouting {
     func routeToAddCollection(data: EditSelectedCollectionData)

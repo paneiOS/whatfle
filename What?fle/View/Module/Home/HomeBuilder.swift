@@ -29,6 +29,12 @@ extension HomeComponent: DetailCollectionDependency {
     }
 }
 
+extension HomeComponent: LoginDependency {
+    var loginBuilder: LoginBuildable {
+        return LoginBuilder(dependency: self)
+    }
+}
+
 // MARK: - Builder
 
 protocol HomeBuildable: Buildable {

@@ -33,12 +33,12 @@ extension KakaoAPI: TargetType {
 
     var headers: [String: String]? {
         return [
-            "Authorization": "KakaoAK \(AppConfigs.API.Key.Kakao.kakaoRESTAPIKey)"
+            "Authorization": "KakaoAK \(AppConfigs.API.Kakao.key)"
         ]
     }
 
     var baseURL: URL {
-        return URL(string: AppConfigs.API.BaseURL.Kakao.search)!
+        return URL(string: AppConfigs.API.Kakao.searchURL)!
     }
 
     var path: String {

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+
 import Moya
 
 enum WhatfleAPI {
@@ -16,6 +17,7 @@ enum WhatfleAPI {
     case getAllMyPlace
     case getRecommendHashtag
     case getDetailCollection(Int)
+    case appleLogin(LoginRequestModel)
 }
 
 extension WhatfleAPI: TargetType {
@@ -23,7 +25,8 @@ extension WhatfleAPI: TargetType {
         switch self {
         case .registerPlace,
              .registCollectionData,
-             .uploadPlaceImage:
+             .uploadPlaceImage,
+             .appleLogin:
             return .post
         default:
             return .get
@@ -57,6 +60,14 @@ extension WhatfleAPI: TargetType {
             }
             return .uploadMultipart(multipartData)
 
+        case .appleLogin(let model):
+            let parameters: [String: Any] = [
+                "email": model.email,
+                "thirdPartyAuthType": "APPLE",
+                "thirdPartyAuthUid": model.uuid
+            ]
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+
         default:
             return .requestPlain
         }
@@ -67,33 +78,36 @@ extension WhatfleAPI: TargetType {
         case .retriveRegistLocation:
             return ["Authorization": ""]
         default:
-            return ["Authorization": "\(AppConfigs.API.Key.accessToken)"]
+            return ["Authorization": "Bearer " + KeychainManager.loadAccessToken()]
         }
     }
 
     var baseURL: URL {
         switch self {
         case .retriveRegistLocation:
-            return URL(string: AppConfigs.API.BaseURL.Kakao.search)!
+            return URL(string: AppConfigs.API.Kakao.searchURL)!
         default:
-            return URL(string: AppConfigs.API.BaseURL.dev)!
+            return URL(string: AppConfigs.API.Supabase.baseURL)!
         }
     }
 
     var path: String {
+        let basePath: String = "/functions/v1/whatfle"
         switch self {
         case .registerPlace:
-            return "/place"
+            return basePath + "/place"
         case .registCollectionData:
-            return "/collection"
+            return basePath + "/collection"
         case .uploadPlaceImage:
-            return "/image/place"
+            return basePath + "/image/place"
         case .getAllMyPlace:
-            return "/places"
+            return basePath + "/places"
         case .getRecommendHashtag:
-            return "/hashtag/recommend"
+            return basePath + "/hashtag/recommend"
         case .getDetailCollection(let id):
-            return "/collection/\(id)"
+            return basePath + "/collection/\(id)"
+        case .appleLogin:
+            return basePath + "/account/signin"
         default:
             return ""
         }
