@@ -152,6 +152,9 @@
 		456B09D42BB9566C00920C54 /* CustomTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456B09D32BB9566C00920C54 /* CustomTextView.swift */; };
 		45AF9E042C6F940B00160AC7 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45AF9E032C6F940B00160AC7 /* KeychainManager.swift */; };
 		45AF9E062C6F968800160AC7 /* LoginRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45AF9E052C6F968800160AC7 /* LoginRequestModel.swift */; };
+		45AF9E092C71964F00160AC7 /* RxKakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 45AF9E082C71964F00160AC7 /* RxKakaoSDK */; };
+		45AF9E0B2C71964F00160AC7 /* RxKakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 45AF9E0A2C71964F00160AC7 /* RxKakaoSDKAuth */; };
+		45AF9E0D2C71964F00160AC7 /* RxKakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = 45AF9E0C2C71964F00160AC7 /* RxKakaoSDKCommon */; };
 		45DD4C7D2C43989C00AA508D /* CollectionDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45DD4C7C2C43989C00AA508D /* CollectionDataModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -306,9 +309,12 @@
 				39333CEE2B864998005F295A /* RIBs in Frameworks */,
 				39333CEB2B864979005F295A /* SnapKit in Frameworks */,
 				398341942C6E53840083B5F8 /* Auth in Frameworks */,
+				45AF9E092C71964F00160AC7 /* RxKakaoSDK in Frameworks */,
+				45AF9E0B2C71964F00160AC7 /* RxKakaoSDKAuth in Frameworks */,
 				39333CE82B86496C005F295A /* Moya in Frameworks */,
 				398341982C6E53840083B5F8 /* PostgREST in Frameworks */,
 				398341962C6E53840083B5F8 /* Functions in Frameworks */,
+				45AF9E0D2C71964F00160AC7 /* RxKakaoSDKCommon in Frameworks */,
 				39333CE52B86494C005F295A /* RxCocoa in Frameworks */,
 				3983419C2C6E53840083B5F8 /* Storage in Frameworks */,
 				391134172C63C1D200980190 /* Kingfisher in Frameworks */,
@@ -891,6 +897,9 @@
 				398341992C6E53840083B5F8 /* Realtime */,
 				3983419B2C6E53840083B5F8 /* Storage */,
 				3983419E2C6E556A0083B5F8 /* Supabase */,
+				45AF9E082C71964F00160AC7 /* RxKakaoSDK */,
+				45AF9E0A2C71964F00160AC7 /* RxKakaoSDKAuth */,
+				45AF9E0C2C71964F00160AC7 /* RxKakaoSDKCommon */,
 			);
 			productName = "What?fle";
 			productReference = 39333CCC2B864786005F295A /* What?fle.app */;
@@ -927,6 +936,7 @@
 				39333CEC2B864998005F295A /* XCRemoteSwiftPackageReference "RIBs" */,
 				391134152C63C1D200980190 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				398341922C6E53840083B5F8 /* XCRemoteSwiftPackageReference "supabase-swift" */,
+				45AF9E072C71964F00160AC7 /* XCRemoteSwiftPackageReference "kakao-ios-sdk-rx" */,
 			);
 			productRefGroup = 39333CCD2B864786005F295A /* Products */;
 			projectDirPath = "";
@@ -1386,6 +1396,14 @@
 				minimumVersion = 2.5.1;
 			};
 		};
+		45AF9E072C71964F00160AC7 /* XCRemoteSwiftPackageReference "kakao-ios-sdk-rx" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kakao/kakao-ios-sdk-rx";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.22.5;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1443,6 +1461,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 398341922C6E53840083B5F8 /* XCRemoteSwiftPackageReference "supabase-swift" */;
 			productName = Supabase;
+		};
+		45AF9E082C71964F00160AC7 /* RxKakaoSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 45AF9E072C71964F00160AC7 /* XCRemoteSwiftPackageReference "kakao-ios-sdk-rx" */;
+			productName = RxKakaoSDK;
+		};
+		45AF9E0A2C71964F00160AC7 /* RxKakaoSDKAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 45AF9E072C71964F00160AC7 /* XCRemoteSwiftPackageReference "kakao-ios-sdk-rx" */;
+			productName = RxKakaoSDKAuth;
+		};
+		45AF9E0C2C71964F00160AC7 /* RxKakaoSDKCommon */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 45AF9E072C71964F00160AC7 /* XCRemoteSwiftPackageReference "kakao-ios-sdk-rx" */;
+			productName = RxKakaoSDKCommon;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

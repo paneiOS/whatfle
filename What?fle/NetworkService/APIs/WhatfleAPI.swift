@@ -17,7 +17,7 @@ enum WhatfleAPI {
     case getAllMyPlace
     case getRecommendHashtag
     case getDetailCollection(Int)
-    case appleLogin(LoginRequestModel)
+    case snsLogin(LoginRequestModel)
 }
 
 extension WhatfleAPI: TargetType {
@@ -26,7 +26,7 @@ extension WhatfleAPI: TargetType {
         case .registerPlace,
              .registCollectionData,
              .uploadPlaceImage,
-             .appleLogin:
+             .snsLogin:
             return .post
         default:
             return .get
@@ -60,10 +60,10 @@ extension WhatfleAPI: TargetType {
             }
             return .uploadMultipart(multipartData)
 
-        case .appleLogin(let model):
+        case .snsLogin(let model):
             let parameters: [String: Any] = [
                 "email": model.email,
-                "thirdPartyAuthType": "APPLE",
+                "thirdPartyAuthType": model.snsType,
                 "thirdPartyAuthUid": model.uuid
             ]
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
@@ -106,7 +106,7 @@ extension WhatfleAPI: TargetType {
             return basePath + "/hashtag/recommend"
         case .getDetailCollection(let id):
             return basePath + "/collection/\(id)"
-        case .appleLogin:
+        case .snsLogin:
             return basePath + "/account/signin"
         default:
             return ""

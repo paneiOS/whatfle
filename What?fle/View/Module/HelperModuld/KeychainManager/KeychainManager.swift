@@ -94,13 +94,7 @@ final class KeychainManager {
         guard let data = KeychainManager.shared.load(service: service) else {
             return ""
         }
-        do {
-            let model = try JSONDecoder().decode(LoginRequestModel.self, from: data)
-            return model.accessToken
-        } catch {
-            print("Failed to decode LoginRequestModel: \(error)")
-            return ""
-        }
+        return String(data: data, encoding: .utf8) ?? ""
     }
 
     private static func handleKeychainError(_ error: Error) -> KeychainError {

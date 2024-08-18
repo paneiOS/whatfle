@@ -15,7 +15,7 @@ final class CustomPresentHeader: UIView {
     let closeButton: UIButton = {
         let button: UIButton = .init()
         var config = UIButton.Configuration.plain()
-        config.image = .xLineLg
+        config.image = .Icon.xLineLg
         config.imagePlacement = .all
         config.imagePadding = 8
         button.configuration = config

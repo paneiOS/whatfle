@@ -12,7 +12,7 @@ final class CustomAlbumCameraCell: UICollectionViewCell {
 
     // MARK: - UI
 
-    private let cameraImageView: UIImageView = .init(image: .cameraIcon)
+    private let cameraImageView: UIImageView = .init(image: .Icon.cameraIcon)
 
     override init(frame: CGRect) {
         super.init(frame: frame)

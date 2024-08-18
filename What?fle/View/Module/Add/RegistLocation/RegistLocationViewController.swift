@@ -402,7 +402,7 @@ extension RegistLocationViewController: RegistLocationPresentable {
             textColor: .textDefault,
             lineHeight: 24
         )
-        addLocationImageView.image = .change
+        addLocationImageView.image = .Icon.change
         listener?.isSelectLocation.accept(true)
     }
 }

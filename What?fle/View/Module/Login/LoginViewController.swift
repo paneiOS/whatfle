@@ -6,12 +6,14 @@
 //
 
 import AuthenticationServices
+import UIKit
+
 import RIBs
 import RxSwift
-import UIKit
 
 protocol LoginPresentableListener: AnyObject {
     func appleLogin(idToken: String)
+    func kakaoLogin()
     func closeLogin()
 }
 
@@ -22,7 +24,7 @@ final class LoginViewController: UIViewController, LoginPresentable, LoginViewCo
 
     private lazy var customNavigationBar: CustomNavigationBar = {
         let view: CustomNavigationBar = .init()
-        view.setRightButton(image: .xLineLg)
+        view.setRightButton(image: .Icon.xLineLg)
         return view
     }()
 
@@ -54,6 +56,20 @@ final class LoginViewController: UIViewController, LoginPresentable, LoginViewCo
     private let loginViews: UIView = .init()
 
     private let appleLoginButton = ASAuthorizationAppleIDButton(type: .signIn, style: .black)
+
+    private let kakaoLoginButton: UIControl = {
+        let control: UIControl = .init()
+        control.backgroundColor = .init(hexCode: "FEE500")
+        control.layer.cornerRadius = 12
+        control.layer.masksToBounds = true
+        let imageView: UIImageView = .init(image: .Icon.kakaoLoginButton)
+        imageView.contentMode = .scaleAspectFit
+        control.addSubview(imageView)
+        imageView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        return control
+    }()
 
     private let noMemberButton: UIButton = {
         let button: UIButton = .init()
@@ -120,7 +136,7 @@ final class LoginViewController: UIViewController, LoginPresentable, LoginViewCo
             $0.top.equalTo(descriptionView.snp.bottom).offset(80)
             $0.leading.trailing.bottom.equalToSuperview()
         }
-        [self.appleLoginButton, noMemberButton].forEach {
+        [self.appleLoginButton, self.kakaoLoginButton, self.noMemberButton].forEach {
             self.loginViews.addSubview($0)
         }
         self.appleLoginButton.snp.makeConstraints {
@@ -128,8 +144,13 @@ final class LoginViewController: UIViewController, LoginPresentable, LoginViewCo
             $0.width.equalTo(327)
             $0.height.equalTo(56)
         }
+        self.kakaoLoginButton.snp.makeConstraints {
+            $0.top.equalTo(self.appleLoginButton.snp.bottom).offset(8)
+            $0.width.equalTo(327)
+            $0.height.equalTo(56)
+        }
         self.noMemberButton.snp.makeConstraints {
-            $0.top.equalTo(self.appleLoginButton.snp.bottom).offset(16)
+            $0.top.equalTo(self.kakaoLoginButton.snp.bottom).offset(16)
             $0.centerX.bottom.equalToSuperview()
         }
     }
@@ -144,13 +165,20 @@ final class LoginViewController: UIViewController, LoginPresentable, LoginViewCo
 
         self.appleLoginButton.rx.controlEvent(.touchUpInside)
             .subscribe(onNext: { [weak self] in
-                guard let self = self else { return }
+                guard let self else { return }
                 let request = ASAuthorizationAppleIDProvider().createRequest()
                 request.requestedScopes = [.fullName, .email]
                 let authorizationController = ASAuthorizationController(authorizationRequests: [request])
                 authorizationController.delegate = self
                 authorizationController.presentationContextProvider = self
                 authorizationController.performRequests()
+            })
+            .disposed(by: disposeBag)
+
+        self.kakaoLoginButton.rx.controlEvent(.touchUpInside)
+            .subscribe(onNext: { [weak self] in
+                guard let self else { return }
+                self.listener?.kakaoLogin()
             })
             .disposed(by: disposeBag)
 

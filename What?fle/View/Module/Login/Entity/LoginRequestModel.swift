@@ -7,8 +7,13 @@
 
 import Foundation
 
-struct LoginRequestModel: Codable {
+struct LoginRequestModel {
+    enum SNSType: String {
+        case APPLE
+        case KAKAO
+    }
     let email: String
     let uuid: String
     let accessToken: String
+    let snsType: SNSType
 }

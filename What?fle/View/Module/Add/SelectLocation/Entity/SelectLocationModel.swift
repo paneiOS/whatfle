@@ -61,19 +61,19 @@ enum CategoryGroupCode: String, Decodable {
 
     var image: UIImage? {
         switch self {
-        case .mt1: return .cart
-        case .cs2: return .store
-        case .sc4, .ac5: return .school
-        case .pk6: return .parking
-        case .ol7: return .vehicle
-        case .sw8: return .train
-        case .bk9: return .bank
-        case .ad5: return .lodging
-        case .fd6: return .food
-        case .ce7: return .cafe
-        case .hp8: return .hospital
-        case .pm9: return .pharmacy
-        default: return .placeholdCell
+        case .mt1: return .Icon.cart
+        case .cs2: return .Icon.store
+        case .sc4, .ac5: return .Icon.school
+        case .pk6: return .Icon.parking
+        case .ol7: return .Icon.vehicle
+        case .sw8: return .Icon.train
+        case .bk9: return .Icon.bank
+        case .ad5: return .Icon.lodging
+        case .fd6: return .Icon.food
+        case .ce7: return .Icon.cafe
+        case .hp8: return .Icon.hospital
+        case .pm9: return .Icon.pharmacy
+        default: return .Icon.placeholdCell
         }
     }
 

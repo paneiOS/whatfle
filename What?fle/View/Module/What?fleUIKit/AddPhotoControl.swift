@@ -19,7 +19,7 @@ final class AddPhotoControl: UIControl {
     }()
 
     private let imageView: UIImageView = {
-        let imageView: UIImageView = .init(image: .camera)
+        let imageView: UIImageView = .init(image: .Icon.camera)
         imageView.tintColor = .Core.primary
         return imageView
     }()

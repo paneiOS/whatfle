@@ -87,7 +87,7 @@ final class RegistCollectionViewController: UIVCWithKeyboard, RegistCollectionPr
             textColor: .textLight,
             lineHeight: 20
         )
-        let imageView: UIImageView = .init(image: .addButton)
+        let imageView: UIImageView = .init(image: .Icon.addButton)
         imageView.isUserInteractionEnabled = false
         [label, imageView].forEach {
             control.addSubview($0)
@@ -143,7 +143,7 @@ final class RegistCollectionViewController: UIVCWithKeyboard, RegistCollectionPr
 
     private let deleteButton: UIButton = {
         let button: UIButton = .init()
-        button.setImage(.xCircleFilled, for: .normal)
+        button.setImage(.Icon.xCircleFilled, for: .normal)
         button.isHidden = true
         return button
     }()
@@ -159,7 +159,7 @@ final class RegistCollectionViewController: UIVCWithKeyboard, RegistCollectionPr
         let view: UIView = .init()
         view.isUserInteractionEnabled = false
         let imageView: UIImageView = {
-            let imageView: UIImageView = .init(image: .camera)
+            let imageView: UIImageView = .init(image: .Icon.camera)
             imageView.tintColor = .textExtralight
             imageView.isUserInteractionEnabled = false
             return imageView
@@ -402,7 +402,7 @@ extension RegistCollectionViewController {
         listener?.isHiddenDimmedView
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] isHidden in
-                guard let self = self else { return }
+                guard let self else { return }
                 self.dimmedView.isHidden = isHidden
             })
             .disposed(by: disposeBag)

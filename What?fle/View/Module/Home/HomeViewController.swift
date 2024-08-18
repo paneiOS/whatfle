@@ -58,7 +58,7 @@ final class HomeViewController: UIViewController, HomePresentable, HomeViewContr
     private func setupActionBinding() {
         tempLoginButton.rx.controlEvent(.touchUpInside)
             .subscribe(onNext: { [weak self] in
-                guard let self = self else { return }
+                guard let self else { return }
                 // TODO: - 로그인 로직
                 self.listener?.showLoginRIB()
             })
@@ -66,7 +66,7 @@ final class HomeViewController: UIViewController, HomePresentable, HomeViewContr
         
         tempDetailButton.rx.controlEvent(.touchUpInside)
             .subscribe(onNext: { [weak self] in
-                guard let self = self else { return }
+                guard let self else { return }
                 // TODO: - 임시 아이디값
                 let tempID: Int = 69
                 self.listener?.showDetailCollection(id: tempID)

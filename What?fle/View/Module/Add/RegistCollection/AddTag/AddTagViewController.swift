@@ -38,7 +38,7 @@ final class AddTagViewController: UIVCWithKeyboard, AddTagPresentable, AddTagVie
 
     private let closeButton: UIButton = {
         let button: UIButton = .init()
-        button.setImage(.xLineLg, for: .normal)
+        button.setImage(.Icon.xLineLg, for: .normal)
         return button
     }()
 
@@ -281,7 +281,7 @@ extension AddTagViewController {
 
         closeButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
-                guard let self = self else { return }
+                guard let self else { return }
                 self.listener?.closeAddTagView()
             })
             .disposed(by: disposeBag)

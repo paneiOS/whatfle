@@ -72,7 +72,7 @@ final class SelectionLocationVerticalListCell: UICollectionViewCell {
 
     private let favoriteButton: UIButton = {
         let button: UIButton = .init()
-        button.setImage(.favoriteOff, for: .normal)
+        button.setImage(.Icon.favoriteOff, for: .normal)
         return button
     }()
 

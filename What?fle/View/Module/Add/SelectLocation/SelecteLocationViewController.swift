@@ -85,7 +85,7 @@ final class SelectLocationViewController: UIViewController, SelectLocationPresen
 
     private let searchButtonImageView: UIImageView = {
         let view: UIImageView = .init()
-        view.image = .search
+        view.image = .Icon.search
         view.tintColor = .textExtralight
         return view
     }()
@@ -94,7 +94,7 @@ final class SelectLocationViewController: UIViewController, SelectLocationPresen
         let control: UIControl = .init()
         let imageView: UIImageView = {
             let view: UIImageView = .init()
-            view.image = .xLineLg
+            view.image = .Icon.xLineLg
             return view
         }()
         control.addSubview(imageView)

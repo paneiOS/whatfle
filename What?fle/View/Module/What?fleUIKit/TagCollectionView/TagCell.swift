@@ -19,7 +19,7 @@ final class TagCell: UICollectionViewCell {
     private let label: UILabel = .init()
     private let closeButton: UIButton = {
         let button: UIButton = .init()
-        button.setImage(.xLineMd, for: .normal)
+        button.setImage(.Icon.xLineMd, for: .normal)
         button.tintColor = .GrayScale.g300
         return button
     }()

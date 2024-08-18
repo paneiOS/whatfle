@@ -32,7 +32,7 @@ final class CustomAlbumViewController: UIViewController, CustomAlbumPresentable,
 
     private lazy var customNavigationBar: CustomNavigationBar = {
         let navigationBar: CustomNavigationBar = .init()
-        navigationBar.setNavigationTitle("사진첩", alignment: .center, buttonImage: .xLineLg)
+        navigationBar.setNavigationTitle("사진첩", alignment: .center, buttonImage: .Icon.xLineLg)
         if !isSingleSelect {
             navigationBar.setRightButton(title: "완료")
         }

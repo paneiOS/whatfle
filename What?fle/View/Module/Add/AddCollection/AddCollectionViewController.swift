@@ -53,7 +53,7 @@ final class AddCollectionViewController: UIViewController, AddCollectionPresenta
 
     private lazy var limitedView: UIView = {
         let view: UIView = .init()
-        let imageView: UIImageView = .init(image: .warningCircleFilled)
+        let imageView: UIImageView = .init(image: .Icon.warningCircleFilled)
         imageView.tintColor = .textExtralight
         let placeholdLabel: UILabel = .init()
         placeholdLabel.numberOfLines = 2

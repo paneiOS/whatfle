@@ -53,7 +53,7 @@ final class SelectLocationInteractor: PresentableInteractor<SelectLocationPresen
                 return searchResults.documents
             }
             .subscribe(onSuccess: { [weak self] result in
-                guard let self = self else { return }
+                guard let self else { return }
                 UserDefaultsManager.recentSearchSave(searchText: query)
                 if more {
                     self.searchResultArray.accept(self.searchResultArray.value + result)

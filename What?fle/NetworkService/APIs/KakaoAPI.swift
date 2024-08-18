@@ -33,7 +33,7 @@ extension KakaoAPI: TargetType {
 
     var headers: [String: String]? {
         return [
-            "Authorization": "KakaoAK \(AppConfigs.API.Kakao.key)"
+            "Authorization": "KakaoAK \(AppConfigs.API.Kakao.restKey)"
         ]
     }
 

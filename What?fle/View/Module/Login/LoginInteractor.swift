@@ -7,9 +7,12 @@
 
 import AuthenticationServices
 
+import KakaoSDKUser
 import Moya
 import RIBs
 import RxSwift
+import RxKakaoSDKUser
+import Supabase
 
 protocol LoginRouting: ViewableRouting {}
 
@@ -55,9 +58,10 @@ extension LoginInteractor {
                 let model: LoginRequestModel = .init(
                     email: email,
                     uuid: response.user.id.uuidString.lowercased(),
-                    accessToken: response.accessToken
+                    accessToken: response.accessToken,
+                    snsType: .APPLE
                 )
-                return self.networkService.request(WhatfleAPI.appleLogin(model))
+                return self.networkService.request(WhatfleAPI.snsLogin(model))
                     .map { response in
                         do {
                             return try JSONDecoder().decode(UserInfo.self, from: response.data)
@@ -76,6 +80,20 @@ extension LoginInteractor {
                 print("Login failed with error: \(error)")
             })
             .disposed(by: disposeBag)
+    }
+
+    func kakaoLogin() {
+        if UserApi.isKakaoTalkLoginAvailable() {
+            UserApi.shared.rx.loginWithKakaoTalk()
+                .subscribe(onNext: {[weak self] oauthToken in
+                    // TODO: - 카아오 로그인 오스토큰 발급, 이걸 supabase에 전달해야함.
+                }, onError: {error in
+                    print(error)
+                })
+                .disposed(by: disposeBag)
+        } else {
+            // TODO: - 카카오톡 설치 안된 케이스
+        }
     }
     
     func closeLogin() {
