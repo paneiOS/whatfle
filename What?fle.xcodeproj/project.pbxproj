@@ -522,11 +522,11 @@
 		39333D652B8905A3005F295A /* Module */ = {
 			isa = PBXGroup;
 			children = (
+				45AF9E0E2C71F31800160AC7 /* User */,
 				39333D0E2B88AD81005F295A /* Root */,
 				39333D692B899395005F295A /* Home */,
 				39EBCDF12B8A268B00599D58 /* Add */,
 				39EBCDF02B8A268500599D58 /* Map */,
-				392C1E362C6DBC5600C03D82 /* Login */,
 				392DAE9C2C4696DB000F2B94 /* CustomAlbum */,
 				3939FFDF2B943612007E58F6 /* HelperModuld */,
 				3939FFCC2B8DFD0E007E58F6 /* What?fleUIKit */,
@@ -858,6 +858,22 @@
 				45AF9E032C6F940B00160AC7 /* KeychainManager.swift */,
 			);
 			path = KeychainManager;
+			sourceTree = "<group>";
+		};
+		45AF9E0E2C71F31800160AC7 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				45AF9E0F2C71F32000160AC7 /* Profile */,
+				392C1E362C6DBC5600C03D82 /* Login */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		45AF9E0F2C71F32000160AC7 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Profile;
 			sourceTree = "<group>";
 		};
 		45DD4C7B2C43988E00AA508D /* Entity */ = {

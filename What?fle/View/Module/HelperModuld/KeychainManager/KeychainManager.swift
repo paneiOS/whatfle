@@ -90,7 +90,7 @@ final class KeychainManager {
     }
 
     static func loadAccessToken() -> String {
-        let service = Service.loginRequest.identifier()
+        let service = Service.accessToken.identifier()
         guard let data = KeychainManager.shared.load(service: service) else {
             return ""
         }

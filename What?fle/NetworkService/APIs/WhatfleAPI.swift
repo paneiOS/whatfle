@@ -63,7 +63,7 @@ extension WhatfleAPI: TargetType {
         case .snsLogin(let model):
             let parameters: [String: Any] = [
                 "email": model.email,
-                "thirdPartyAuthType": model.snsType,
+                "thirdPartyAuthType": model.snsType.rawValue,
                 "thirdPartyAuthUid": model.uuid
             ]
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
