@@ -112,25 +112,14 @@ final class RegistLocationViewController: UIVCWithKeyboard, RegistLocationViewCo
         return label
     }()
 
-    private lazy var datePicker: UIDatePicker = {
-        let datePicker = UIDatePicker()
-        datePicker.datePickerMode = .date
-        datePicker.locale = Locale(identifier: "ko_KR")
-        datePicker.preferredDatePickerStyle = .wheels
-        datePicker.addTarget(self, action: #selector(dateChange), for: .valueChanged)
-        return datePicker
-    }()
-
-    private lazy var visitTextField: TextFieldWithUnderline = {
-        let textField: TextFieldWithUnderline = .init()
+    private lazy var visitTextField: DatePickerTextField = {
+        let textField: DatePickerTextField = .init()
         textField.attributedText = NSAttributedString.makeAttributedString(
             text: Date().formattedYYMMDDWithDot,
             font: .body14MD,
             textColor: .textDefault,
             lineHeight: 20
         )
-        textField.inputView = datePicker
-        textField.addDoneButtonOnKeyboard()
         return textField
     }()
 
@@ -198,9 +187,7 @@ final class RegistLocationViewController: UIVCWithKeyboard, RegistLocationViewCo
         locationView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
         }
-        [locationLabel, addLocationView].forEach {
-            locationView.addSubview($0)
-        }
+        locationView.addSubviews(locationLabel, addLocationView)
         locationLabel.snp.makeConstraints {
             $0.top.leading.equalToSuperview()
         }
@@ -226,9 +213,7 @@ final class RegistLocationViewController: UIVCWithKeyboard, RegistLocationViewCo
             $0.top.equalTo(collectionView.snp.bottom).offset(24)
             $0.leading.trailing.equalToSuperview()
         }
-        [visitLabel, visitTextField].forEach {
-            visitView.addSubview($0)
-        }
+        visitView.addSubviews(visitLabel, visitTextField)
         visitLabel.snp.makeConstraints {
             $0.top.leading.equalToSuperview()
         }
@@ -353,7 +338,7 @@ final class RegistLocationViewController: UIVCWithKeyboard, RegistLocationViewCo
                     .init(
                         accountID: AppConfigs.UserInfo.accountID,
                         description: memoView.textView.text,
-                        visitDate: datePicker.date.formattedWithhyphen,
+                        visitDate: visitTextField.attributedText?.string ?? "",
                         placeName: model.placeName,
                         address: model.addressName,
                         roadAddress: model.roadAddressName,
@@ -365,17 +350,6 @@ final class RegistLocationViewController: UIVCWithKeyboard, RegistLocationViewCo
                 )
             })
             .disposed(by: disposeBag)
-    }
-}
-
-extension RegistLocationViewController {
-    @objc private func dateChange(_ sender: UIDatePicker) {
-        visitTextField.attributedText = NSAttributedString.makeAttributedString(
-            text: sender.date.formattedYYMMDDWithDot,
-            font: .body14MD,
-            textColor: .textDefault,
-            lineHeight: 20
-        )
     }
 }
 

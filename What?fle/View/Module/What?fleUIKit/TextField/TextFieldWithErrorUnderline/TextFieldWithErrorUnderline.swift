@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TextFieldWithErrorUnderline: TextFieldWithUnderline, TextFieldWithErrorUnderlineProtocol {
+final class TextFieldWithErrorUnderline: TextFieldWithUnderline, TextFieldWithErrorUnderlineDelegate {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)

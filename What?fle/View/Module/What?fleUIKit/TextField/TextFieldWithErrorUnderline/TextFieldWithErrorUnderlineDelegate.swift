@@ -1,5 +1,5 @@
 //
-//  TextFieldWithErrorUnderlineProtocol.swift
+//  TextFieldWithErrorUnderlineDelegate.swift
 //  What?fle
 //
 //  Created by 이정환 on 7/12/24.
@@ -7,12 +7,12 @@
 
 import UIKit
 
-protocol TextFieldWithErrorUnderlineProtocol: TextFieldWithUnderlineProtocol {
+protocol TextFieldWithErrorUnderlineDelegate: TextFieldWithUnderlineDelegate {
     func activateErrorUnderline()
     func validateText(_ text: String)
 }
 
-extension TextFieldWithErrorUnderlineProtocol where Self: UITextField {
+extension TextFieldWithErrorUnderlineDelegate where Self: UITextField {
     func activateErrorUnderline() {
         underlineView.backgroundColor = .Core.warning
     }

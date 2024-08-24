@@ -8,7 +8,7 @@
 import SnapKit
 import UIKit
 
-class TextFieldWithUnderline: UITextField, TextFieldWithUnderlineProtocol {
+class TextFieldWithUnderline: UITextField, TextFieldWithUnderlineDelegate {
     let underlineView: UIView = {
         let view: UIView = .init()
         view.backgroundColor = .lineDefault
@@ -17,7 +17,7 @@ class TextFieldWithUnderline: UITextField, TextFieldWithUnderlineProtocol {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupUI()
+        self.setupUI()
     }
 
     required init?(coder: NSCoder) {
@@ -28,10 +28,10 @@ class TextFieldWithUnderline: UITextField, TextFieldWithUnderlineProtocol {
 
 extension TextFieldWithUnderline: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        activateUnderline()
+        self.activateUnderline()
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
-        deactivateUnderline()
+        self.deactivateUnderline()
     }
 }

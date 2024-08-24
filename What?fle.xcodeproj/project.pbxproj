@@ -112,7 +112,7 @@
 		39A81E702BF3A7550009C43F /* UIImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39A81E6F2BF3A7550009C43F /* UIImage+.swift */; };
 		39A81E732BF3BC460009C43F /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39A81E722BF3BC460009C43F /* CustomError.swift */; };
 		39A9F4E72C796904007A626B /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39A9F4E62C796904007A626B /* UIStackView+.swift */; };
-		39A9F4E92C796DA9007A626B /* TextFieldWithCheckButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39A9F4E82C796DA9007A626B /* TextFieldWithCheckButtonDelegate.swift */; };
+		39A9F4E92C796DA9007A626B /* TextFieldWithCheckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39A9F4E82C796DA9007A626B /* TextFieldWithCheckView.swift */; };
 		39A9F4EF2C799D29007A626B /* DatePickerTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39A9F4EE2C799D29007A626B /* DatePickerTextField.swift */; };
 		39CBE1162BC6289D003CB3F0 /* SplashRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CBE1122BC6289D003CB3F0 /* SplashRouter.swift */; };
 		39CBE1172BC6289D003CB3F0 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CBE1132BC6289D003CB3F0 /* SplashViewController.swift */; };
@@ -263,7 +263,7 @@
 		39A81E6F2BF3A7550009C43F /* UIImage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+.swift"; sourceTree = "<group>"; };
 		39A81E722BF3BC460009C43F /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
 		39A9F4E62C796904007A626B /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
-		39A9F4E82C796DA9007A626B /* TextFieldWithCheckButtonDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldWithCheckButtonDelegate.swift; sourceTree = "<group>"; };
+		39A9F4E82C796DA9007A626B /* TextFieldWithCheckView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldWithCheckView.swift; sourceTree = "<group>"; };
 		39A9F4EE2C799D29007A626B /* DatePickerTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerTextField.swift; sourceTree = "<group>"; };
 		39CBE1122BC6289D003CB3F0 /* SplashRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashRouter.swift; sourceTree = "<group>"; };
 		39CBE1132BC6289D003CB3F0 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
@@ -741,20 +741,12 @@
 			path = Entity;
 			sourceTree = "<group>";
 		};
-		39A9F4EA2C796E7F007A626B /* TextFieldWithCheckButton */ = {
-			isa = PBXGroup;
-			children = (
-				39A9F4E82C796DA9007A626B /* TextFieldWithCheckButtonDelegate.swift */,
-			);
-			path = TextFieldWithCheckButton;
-			sourceTree = "<group>";
-		};
 		39A9F4ED2C799D15007A626B /* TextField */ = {
 			isa = PBXGroup;
 			children = (
 				39E9F0CB2C402C170085961C /* TextFieldWithUnderline */,
 				39E9F0D02C402E850085961C /* TextFieldWithErrorUnderline */,
-				39A9F4EA2C796E7F007A626B /* TextFieldWithCheckButton */,
+				39A9F4E82C796DA9007A626B /* TextFieldWithCheckView.swift */,
 				39A9F4EE2C799D29007A626B /* DatePickerTextField.swift */,
 			);
 			path = TextField;
@@ -1162,7 +1154,7 @@
 				39D562BA2BD69ED900111E9C /* UIVCWithKeyboard.swift in Sources */,
 				393900012B961BBA007E58F6 /* RegistLocationInteractor.swift in Sources */,
 				45DD4C7D2C43989C00AA508D /* CollectionDataModel.swift in Sources */,
-				39A9F4E92C796DA9007A626B /* TextFieldWithCheckButtonDelegate.swift in Sources */,
+				39A9F4E92C796DA9007A626B /* TextFieldWithCheckView.swift in Sources */,
 				456B09CE2BB953B200920C54 /* UITextField+.swift in Sources */,
 				39EBCDF62B8A26B200599D58 /* AddRouter.swift in Sources */,
 				398341A22C6E5A490083B5F8 /* UserInfo.swift in Sources */,

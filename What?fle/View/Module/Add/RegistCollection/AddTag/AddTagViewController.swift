@@ -21,13 +21,6 @@ protocol AddTagPresentableListener: AnyObject {
 }
 
 final class AddTagViewController: UIVCWithKeyboard, AddTagPresentable, AddTagViewControllable {
-//    private let dimmedView: UIView = {
-//        let view: UIView = .init()
-//        view.backgroundColor = .Core.dimmed20
-//        view.isHidden = true
-//        return view
-//    }()
-
     private let contentsView: UIView = {
         let view: UIView = .init()
         view.backgroundColor = .white
@@ -53,42 +46,21 @@ final class AddTagViewController: UIVCWithKeyboard, AddTagPresentable, AddTagVie
         return label
     }()
 
-    private let registView: UIView = .init()
-
-    private lazy var registTextField: TextFieldWithErrorUnderline = {
-        let textField: TextFieldWithErrorUnderline = .init()
-        textField.attributedPlaceholder = .makeAttributedString(
+    private lazy var tagView: TextFieldWithCheckView = {
+        let view: TextFieldWithCheckView = .init()
+        view.attributedPlaceholder = .makeAttributedString(
             text: "태그 예시 문구",
             font: .body14MD,
             textColor: .textExtralight,
             lineHeight: 20
         )
-        textField.clearButtonMode = .whileEditing
-        textField.delegate = textField
-        return textField
-    }()
-
-    private let underLine: UIView = {
-        let view: UIView = .init()
-        view.backgroundColor = .textExtralight
-        return view
-    }()
-
-    private let registButton: UIButton = {
-        let button: UIButton = .init()
-        button.backgroundColor = .Core.primaryDisabled
-        button.layer.cornerRadius = 4
-        button.layer.masksToBounds = true
-        button.setAttributedTitle(
-            .makeAttributedString(
-                text: "추가",
-                font: .title16MD,
-                textColor: .white,
-                lineHeight: 24
-            ),
-            for: .normal
+        view.attributedTitle = .makeAttributedString(
+            text: "추가",
+            font: .title16MD,
+            textColor: .white,
+            lineHeight: 24
         )
-        return button
+        return view
     }()
 
     private let registTagDescriptionLabel: UILabel = {
@@ -165,7 +137,6 @@ final class AddTagViewController: UIVCWithKeyboard, AddTagPresentable, AddTagVie
 
         setupUI()
         setupViewBinding()
-        setupAction()
     }
 }
 
@@ -191,34 +162,21 @@ extension AddTagViewController {
             $0.trailing.equalToSuperview().inset(24)
         }
 
-        self.contentsView.addSubview(registView)
-        registView.snp.makeConstraints {
+        self.contentsView.addSubview(tagView)
+        tagView.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(24)
             $0.leading.trailing.equalToSuperview().inset(24)
-            $0.height.equalTo(48)
-        }
-
-        self.registView.addSubview(registTextField)
-        registTextField.snp.makeConstraints {
-            $0.top.leading.bottom.equalToSuperview()
-        }
-
-        self.registView.addSubview(registButton)
-        registButton.snp.makeConstraints {
-            $0.top.bottom.trailing.equalToSuperview()
-            $0.leading.equalTo(registTextField.snp.trailing).offset(8)
-            $0.width.equalTo(104)
         }
 
         self.contentsView.addSubview(registTagDescriptionLabel)
         registTagDescriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(registView.snp.bottom).offset(8)
+            $0.top.equalTo(tagView.snp.bottom).offset(8)
             $0.leading.trailing.equalToSuperview().inset(24)
         }
 
         self.contentsView.addSubview(registedView)
         registedView.snp.makeConstraints {
-            $0.top.equalTo(registView.snp.bottom).offset(68)
+            $0.top.equalTo(tagView.snp.bottom).offset(68)
             $0.leading.trailing.equalToSuperview().inset(24)
         }
         self.registedView.addSubview(registedTagLabel)
@@ -245,10 +203,6 @@ extension AddTagViewController {
         }
     }
 
-    private func setupAction() {
-        self.registTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-    }
-
     private func setupViewBinding() {
         listener?.tags
             .observe(on: MainScheduler.instance)
@@ -265,19 +219,19 @@ extension AddTagViewController {
             })
             .disposed(by: disposeBag)
 
-        registTextField.rx.text.orEmpty
-            .observe(on: MainScheduler.instance)
+        self.tagView.textField.rx.text
+            .compactMap { $0 }
             .subscribe(onNext: { [weak self] text in
-                guard let self else { return }
-                if text.isValidLength(to: 2, from: 10), text.isValidRegistTag() {
-                    self.registButton.backgroundColor = .GrayScale.black
-                    self.registButton.isEnabled = true
+                guard let self = self else { return }
+                if text.isEmpty {
+                    self.tagView.underlineColorSubject.onNext(.empty)
+                } else if !text.isValidLength(to: 2, from: 10) || !text.isValidRegistTag() {
+                    self.tagView.underlineColorSubject.onNext(.invalid)
                 } else {
-                    self.registButton.backgroundColor = .Core.primaryDisabled
-                    self.registButton.isEnabled = false
+                    self.tagView.underlineColorSubject.onNext(.valid)
                 }
             })
-            .disposed(by: disposeBag)
+            .disposed(by: self.disposeBag)
 
         closeButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
@@ -286,12 +240,12 @@ extension AddTagViewController {
             })
             .disposed(by: disposeBag)
 
-        registButton.rx.tap
+        self.tagView.registButton.rx.tap
             .subscribe(onNext: { [weak self] in
                 guard let self,
-                      let tagStr = registTextField.text else { return }
+                      let tagStr = self.tagView.textField.text else { return }
                 self.listener?.addTag(type: .addedSelectedButton(tagStr))
-                self.registTextField.text = ""
+                self.tagView.textField.text = ""
             })
             .disposed(by: disposeBag)
 
@@ -301,16 +255,6 @@ extension AddTagViewController {
                 self.listener?.confirmTags(tags: self.tags)
             })
             .disposed(by: disposeBag)
-    }
-
-    @objc private func textFieldDidChange(_ textField: UITextField) {
-        guard let text = textField.text else { return }
-        textField.attributedText = .makeAttributedString(
-            text: text,
-            font: .body14MD,
-            textColor: .textDefault,
-            lineHeight: 20
-        )
     }
 }
 
