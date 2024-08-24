@@ -38,4 +38,8 @@ extension UIView {
         layer.shadowOpacity = 0
         layer.shadowPath = nil
     }
+
+    func addSubviews(_ views: UIView...) {
+        views.forEach { self.addSubview($0) }
+    }
 }
