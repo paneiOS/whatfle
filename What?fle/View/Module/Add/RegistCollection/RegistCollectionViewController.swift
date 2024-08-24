@@ -89,9 +89,7 @@ final class RegistCollectionViewController: UIVCWithKeyboard, RegistCollectionPr
         )
         let imageView: UIImageView = .init(image: .Icon.addButton)
         imageView.isUserInteractionEnabled = false
-        [label, imageView].forEach {
-            control.addSubview($0)
-        }
+        control.addSubviews(label, imageView)
         label.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(10)
             $0.leading.equalToSuperview().inset(8)
@@ -175,9 +173,7 @@ final class RegistCollectionViewController: UIVCWithKeyboard, RegistCollectionPr
             )
             return label
         }()
-        [imageView, placeholdLabel].forEach {
-            view.addSubview($0)
-        }
+        view.addSubviews(imageView, placeholdLabel)
         imageView.snp.makeConstraints {
             $0.top.leading.bottom.equalToSuperview()
             $0.size.equalTo(24)
@@ -285,9 +281,7 @@ final class RegistCollectionViewController: UIVCWithKeyboard, RegistCollectionPr
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(90)
         }
-        [selectedLocationCollectionView, editButton].forEach {
-            self.selectedLocationSubView.addSubview($0)
-        }
+        self.selectedLocationSubView.addSubviews(selectedLocationCollectionView, editButton)
         self.selectedLocationCollectionView.snp.makeConstraints {
             $0.top.leading.bottom.equalToSuperview()
         }

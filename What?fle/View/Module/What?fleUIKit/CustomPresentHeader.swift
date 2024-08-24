@@ -35,14 +35,12 @@ final class CustomPresentHeader: UIView {
     }
 
     private func setupUI() {
-        [headerTitle, closeButton].forEach {
-            addSubview($0)
-        }
-        headerTitle.snp.makeConstraints {
+        self.addSubviews(headerTitle, closeButton)
+        self.headerTitle.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(16)
             $0.centerY.equalToSuperview()
         }
-        closeButton.snp.makeConstraints {
+        self.closeButton.snp.makeConstraints {
             $0.trailing.equalToSuperview().inset(16)
             $0.centerY.equalToSuperview()
             $0.size.equalTo(40)

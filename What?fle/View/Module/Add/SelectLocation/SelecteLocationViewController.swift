@@ -185,9 +185,7 @@ final class SelectLocationViewController: UIViewController, SelectLocationPresen
 extension SelectLocationViewController {
     private func setupUI() {
         view.backgroundColor = .white
-        [headerView, searchResultTableView, recentSearchView].forEach {
-            view.addSubview($0)
-        }
+        view.addSubviews(headerView, searchResultTableView, recentSearchView)
         self.headerView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(8)
             $0.leading.trailing.equalToSuperview().inset(16)
@@ -203,9 +201,7 @@ extension SelectLocationViewController {
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(8)
         }
-        [searchBarView, closeButton].forEach {
-            headerView.addSubview($0)
-        }
+        headerView.addSubviews(searchBarView, closeButton)
         self.searchBarView.snp.makeConstraints {
             $0.top.leading.bottom.equalToSuperview()
         }
@@ -214,9 +210,7 @@ extension SelectLocationViewController {
             $0.leading.equalTo(self.searchBarView.snp.trailing).offset(4)
             $0.top.trailing.bottom.equalToSuperview()
         }
-        [searchBar, searchButton].forEach {
-            searchBarView.addSubview($0)
-        }
+        searchBarView.addSubviews(searchBar, searchButton)
         self.searchBar.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(12)
             $0.leading.equalToSuperview().inset(16)
@@ -232,9 +226,7 @@ extension SelectLocationViewController {
             $0.centerY.equalToSuperview()
             $0.size.equalTo(24)
         }
-        [recentSearchHeaderView, noSearchLabel, recentTableView].forEach {
-            self.recentSearchView.addSubview($0)
-        }
+        self.recentSearchView.addSubviews(recentSearchHeaderView, noSearchLabel, recentTableView)
         self.recentSearchHeaderView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
             $0.height.equalTo(20)
@@ -248,9 +240,7 @@ extension SelectLocationViewController {
             $0.leading.trailing.bottom.equalToSuperview()
         }
 
-        [recentSearchLabel, recentClearButton].forEach {
-            self.recentSearchHeaderView.addSubview($0)
-        }
+        self.recentSearchHeaderView.addSubviews(recentSearchLabel, recentClearButton)
         self.recentSearchLabel.snp.makeConstraints {
             $0.top.leading.bottom.equalToSuperview()
         }

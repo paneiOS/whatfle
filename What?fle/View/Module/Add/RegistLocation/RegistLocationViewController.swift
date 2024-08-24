@@ -71,9 +71,7 @@ final class RegistLocationViewController: UIVCWithKeyboard, RegistLocationViewCo
             return view
         }()
         addLocationImageView.tintColor = .textExtralight
-        [addLocationTextField, addLocationImageView, underlineView].forEach {
-            control.addSubview($0)
-        }
+        control.addSubviews(addLocationTextField, addLocationImageView, underlineView)
         addLocationTextField.snp.makeConstraints {
             $0.leading.centerY.equalToSuperview()
         }

@@ -74,9 +74,7 @@ final class CustomTextView: UIView {
         textView.textContainerInset = type.insets
         textView.delegate = self
 
-        [titleLabel, textView, placeholdLabel, underlineView].forEach {
-            addSubview($0)
-        }
+        self.addSubviews(titleLabel, textView, placeholdLabel, underlineView)
         switch type {
         case .basic:
             titleLabel.snp.makeConstraints {

@@ -31,19 +31,17 @@ final class CustomNavigationBar: UIView {
     }
 
     private func setupUI() {
-        [backButton, navigationTitle, rightButton].forEach {
-            addSubview($0)
-        }
-        backButton.snp.makeConstraints {
+        self.addSubviews(backButton, navigationTitle, rightButton)
+        self.backButton.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(16)
             $0.centerY.equalToSuperview()
             $0.size.equalTo(40)
         }
-        navigationTitle.snp.makeConstraints {
+        self.navigationTitle.snp.makeConstraints {
             $0.leading.equalTo(backButton.snp.trailing).offset(4)
             $0.centerY.equalToSuperview()
         }
-        rightButton.snp.makeConstraints {
+        self.rightButton.snp.makeConstraints {
             $0.trailing.equalToSuperview().inset(16)
             $0.centerY.equalToSuperview()
             $0.size.equalTo(40)

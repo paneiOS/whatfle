@@ -49,9 +49,7 @@ final class DescriptionCell: UICollectionViewCell {
     }
 
     private func setupUI() {
-        [self.collectionTitle, self.descriptionTextView].forEach {
-            contentView.addSubview($0)
-        }
+        contentView.addSubviews(self.collectionTitle, self.descriptionTextView)
         self.collectionTitle.snp.makeConstraints {
             $0.top.equalToSuperview().inset(24)
             $0.leading.trailing.equalToSuperview().inset(16)

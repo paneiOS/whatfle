@@ -64,9 +64,7 @@ final class AddCollectionViewController: UIViewController, AddCollectionPresenta
             lineHeight: 24,
             alignment: .center
         )
-        [imageView, placeholdLabel, registLocationLabel, limitedButton].forEach {
-            view.addSubview($0)
-        }
+        view.addSubviews(imageView, placeholdLabel, registLocationLabel, limitedButton)
         imageView.snp.makeConstraints {
             $0.top.centerX.equalToSuperview()
             $0.size.equalTo(40)
@@ -109,9 +107,7 @@ final class AddCollectionViewController: UIViewController, AddCollectionPresenta
             lineHeight: 20
         )
         let imageView: UIImageView = .init(image: .bright)
-        [label, imageView].forEach {
-            control.addSubview($0)
-        }
+        control.addSubviews(label, imageView)
         label.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalToSuperview().inset(16)

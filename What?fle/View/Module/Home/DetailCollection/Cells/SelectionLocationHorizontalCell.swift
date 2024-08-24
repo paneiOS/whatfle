@@ -47,9 +47,7 @@ final class SelectionLocationHorizontalCell: UICollectionViewCell {
     }
 
     private func setupUI() {
-        [self.lineView, self.selectedLocationTitleLabel, self.selectLocationCollectionView].forEach {
-            contentView.addSubview($0)
-        }
+        contentView.addSubviews(self.lineView, self.selectedLocationTitleLabel, self.selectLocationCollectionView)
         self.lineView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
             $0.height.equalTo(1)
