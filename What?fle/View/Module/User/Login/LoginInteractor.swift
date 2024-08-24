@@ -14,7 +14,10 @@ import RxSwift
 import RxKakaoSDKUser
 import Supabase
 
-protocol LoginRouting: ViewableRouting {}
+protocol LoginRouting: ViewableRouting {
+    var navigationController: UINavigationController? { get }
+    func pushProfileRIB()
+}
 
 protocol LoginPresentable: Presentable {
     var listener: LoginPresentableListener? { get set }
@@ -71,10 +74,11 @@ extension LoginInteractor {
 
                     }
             }
-            .subscribe(onSuccess: { model in
+            .subscribe(onSuccess: { [weak self] model in
+                guard let self else { return }
                 LoadingIndicatorService.shared.hideLoading()
                 try? KeychainManager.saveUserInfo(model: model)
-                // TODO: - 프로필 설정 화면
+                self.router?.pushProfileRIB()
             }, onFailure: { error in
                 LoadingIndicatorService.shared.hideLoading()
                 print("Login failed with error: \(error)")
@@ -97,6 +101,7 @@ extension LoginInteractor {
     }
     
     func closeLogin() {
-        listener?.dismissLoginRIB()
+//        listener?.dismissLoginRIB()
+        self.router?.pushProfileRIB()
     }
 }

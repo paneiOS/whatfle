@@ -100,10 +100,7 @@ final class LoginViewController: UIViewController, LoginPresentable, LoginViewCo
     private func setupUI() {
         view.backgroundColor = .white
 
-        [self.customNavigationBar, self.subView].forEach {
-            view.addSubview($0)
-        }
-
+        view.addSubviews(self.customNavigationBar, self.subView)
         self.customNavigationBar.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
@@ -115,15 +112,11 @@ final class LoginViewController: UIViewController, LoginPresentable, LoginViewCo
             $0.leading.trailing.equalToSuperview().inset(24)
         }
 
-        [self.descriptionView, self.loginViews].forEach {
-            subView.addSubview($0)
-        }
+        self.subView.addSubviews(self.descriptionView, self.loginViews)
         self.descriptionView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
         }
-        [self.imageView, self.descriptionLabel].forEach {
-            self.descriptionView.addSubview($0)
-        }
+        self.descriptionView.addSubviews(self.imageView, self.descriptionLabel)
         self.imageView.snp.makeConstraints {
             $0.top.centerX.equalToSuperview()
             $0.size.equalTo(200)
@@ -136,9 +129,7 @@ final class LoginViewController: UIViewController, LoginPresentable, LoginViewCo
             $0.top.equalTo(descriptionView.snp.bottom).offset(80)
             $0.leading.trailing.bottom.equalToSuperview()
         }
-        [self.appleLoginButton, self.kakaoLoginButton, self.noMemberButton].forEach {
-            self.loginViews.addSubview($0)
-        }
+        self.loginViews.addSubviews(self.appleLoginButton, self.kakaoLoginButton, self.noMemberButton)
         self.appleLoginButton.snp.makeConstraints {
             $0.top.centerX.equalToSuperview()
             $0.width.equalTo(327)
@@ -146,6 +137,7 @@ final class LoginViewController: UIViewController, LoginPresentable, LoginViewCo
         }
         self.kakaoLoginButton.snp.makeConstraints {
             $0.top.equalTo(self.appleLoginButton.snp.bottom).offset(8)
+            $0.centerX.equalToSuperview()
             $0.width.equalTo(327)
             $0.height.equalTo(56)
         }
