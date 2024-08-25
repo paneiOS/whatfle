@@ -12,11 +12,26 @@ import UIKit
 
 protocol RootDependency: Dependency {
     var networkService: NetworkServiceDelegate { get }
+    var loginUseCase: LoginUseCaseProtocol { get }
+    var locationUseCase: LocationUseCaseProtocol { get }
+    var collectionUseCase: CollectionUseCaseProtocol { get }
 }
 
 final class RootComponent: Component<RootDependency> {
     var networkService: NetworkServiceDelegate {
         return dependency.networkService
+    }
+
+    var loginUseCase: LoginUseCaseProtocol {
+        return dependency.loginUseCase
+    }
+
+    var locationUseCase: LocationUseCaseProtocol {
+        return dependency.locationUseCase
+    }
+    
+    var collectionUseCase: CollectionUseCaseProtocol {
+        return dependency.collectionUseCase
     }
 
     let homeNavigationController: UINavigationController = .init()

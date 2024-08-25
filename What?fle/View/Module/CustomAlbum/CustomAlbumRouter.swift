@@ -15,18 +15,12 @@ protocol CustomAlbumInteractable: Interactable {
 protocol CustomAlbumViewControllable: ViewControllable {}
 
 final class CustomAlbumRouter: ViewableRouter<CustomAlbumInteractable, CustomAlbumViewControllable>, CustomAlbumRouting {
-    private let component: CustomAlbumComponent
 
     deinit {
         print("\(self) is being deinit")
     }
 
-    init(
-        interactor: CustomAlbumInteractable,
-        viewController: CustomAlbumViewControllable,
-        component: CustomAlbumComponent
-    ) {
-        self.component = component
+    override init(interactor: CustomAlbumInteractable, viewController: CustomAlbumViewControllable) {
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }

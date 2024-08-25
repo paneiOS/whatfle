@@ -137,6 +137,7 @@ final class AddTagViewController: UIVCWithKeyboard, AddTagPresentable, AddTagVie
 
         setupUI()
         setupViewBinding()
+        setupActionBinding()
     }
 }
 
@@ -232,14 +233,9 @@ extension AddTagViewController {
                 }
             })
             .disposed(by: self.disposeBag)
+    }
 
-        closeButton.rx.tap
-            .subscribe(onNext: { [weak self] _ in
-                guard let self else { return }
-                self.listener?.closeAddTagView()
-            })
-            .disposed(by: disposeBag)
-
+    private func setupActionBinding() {
         self.tagView.registButton.rx.tap
             .subscribe(onNext: { [weak self] in
                 guard let self,
@@ -249,7 +245,14 @@ extension AddTagViewController {
             })
             .disposed(by: disposeBag)
 
-        confirmButton.rx.tap
+        self.closeButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self else { return }
+                self.listener?.closeAddTagView()
+            })
+            .disposed(by: disposeBag)
+
+        self.confirmButton.rx.tap
             .subscribe(onNext: { [weak self] in
                 guard let self else { return }
                 self.listener?.confirmTags(tags: self.tags)

@@ -207,14 +207,12 @@ final class SelectionLocationVerticalListCell: UICollectionViewCell {
     private func bindUI() {
         model.subscribe(onNext: { [weak self] place in
             guard let self else { return }
-            if let placeImageURLs = place.imageURLs {
-                if placeImageURLs.count < 2 {
-                    self.imageURLs = placeImageURLs
-                } else {
-                    self.imageURLs = Array(repeating: placeImageURLs, count: 21).flatMap { $0 }
-                    self.pageControl.numberOfPages = place.imageURLs?.count ?? 0
-                    self.pageControl.isHidden = false
-                }
+            if place.imageURLs.count < 2 {
+                self.imageURLs = place.imageURLs
+            } else {
+                self.imageURLs = Array(repeating: place.imageURLs, count: 21).flatMap { $0 }
+                self.pageControl.numberOfPages = place.imageURLs.count
+                self.pageControl.isHidden = false
             }
 
             self.placeImage.image = place.categoryGroupCode.image

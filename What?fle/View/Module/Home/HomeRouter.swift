@@ -62,10 +62,12 @@ extension HomeRouter: HomeRouting {
     func showLoginRIB() {
         if self.loginRouter == nil {
             let router = self.component.loginBuilder.build(withListener: self.interactor)
-            router.viewControllable.uiviewController.modalPresentationStyle = .overFullScreen
-            self.viewController.present(router.viewControllable, animated: true)
-            self.attachChild(router)
-            self.loginRouter = router
+            if let navigationController = router.navigationController {
+                navigationController.modalPresentationStyle = .fullScreen
+                self.viewController.present(navigationController, animated: true)
+                self.attachChild(router)
+                self.loginRouter = router
+            }
         }
     }
 

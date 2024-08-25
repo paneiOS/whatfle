@@ -11,7 +11,7 @@ struct UserInfo: Codable {
     let id: Int
     let thirdPartyAuthType: String
     let thirdPartyAuthUid: String
-    let nickname: String?
+    let nickname: String
     let profileImagePath: String?
     let email: String?
     let createdAt: String

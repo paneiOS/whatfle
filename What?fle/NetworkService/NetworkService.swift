@@ -9,12 +9,13 @@ import Foundation
 
 import Moya
 import Supabase
+import Storage
 import RxSwift
 
 protocol NetworkServiceDelegate: AnyObject {
     func request<T: TargetType>(_ target: T) -> Single<Response>
-    func requestDecodable<T: TargetType, U: Decodable>(_ target: T, type: U.Type) -> Single<U>
-    func signInWithIDToken(provider: OpenIDConnectCredentials.Provider, idToken: String) -> Single<Supabase.Session>
+    func request<T: TargetType, U: Decodable>(_ target: T) -> Single<U>
+    func uploadImageRequest(bucketName: String, imageData: Data, fileName: String) -> Single<String>
 }
 
 final class NetworkService: NetworkServiceDelegate {
@@ -35,26 +36,6 @@ final class NetworkService: NetworkServiceDelegate {
         )
     }
 
-    func signInWithIDToken(provider: OpenIDConnectCredentials.Provider, idToken: String) -> Single<Supabase.Session> {
-        return Single.create { single in
-            Task {
-                do {
-                    let response = try await self.client.auth.signInWithIdToken(
-                        credentials: .init(
-                            provider: provider,
-                            idToken: idToken
-                        )
-                    )
-                    single(.success(response))
-                } catch {
-                    print("signInWithIDToken_error", error)
-                    single(.failure(error))
-                }
-            }
-            return Disposables.create()
-        }
-    }
-
     private func refreshSessionIfNeeded() -> Single<String> {
         return Single.create {[weak self] single in
             guard let self else {
@@ -69,6 +50,7 @@ final class NetworkService: NetworkServiceDelegate {
                     } else {
                         let session = try await self.client.auth.refreshSession()
                         try KeychainManager.saveAccessToken(token: session.accessToken)
+                        debugPrint("accessToken", session.accessToken)
                         single(.success(session.accessToken))
                     }
                 } catch {
@@ -80,26 +62,16 @@ final class NetworkService: NetworkServiceDelegate {
     }
 
     func request<T: TargetType>(_ target: T) -> Single<Response> {
-        return refreshSessionIfNeeded().flatMap { token in
-            Single<Response>.create { [weak self] single in
-                guard let self = self else {
-                    single(.failure(NSError(domain: "RequestError", code: -1, userInfo: nil)))
-                    return Disposables.create()
-                }
+        return refreshSessionIfNeeded().flatMap { [weak self] token in
+            guard let self = self else {
+                return Single.error(NSError(domain: "RequestError", code: -1, userInfo: nil))
+            }
 
-                let requestTarget = MultiTarget(target)
-                var headers = requestTarget.headers ?? [:]
+            var headers = target.headers ?? [:]
+            headers["Authorization"] = "Bearer \(token)"
 
-                if !(target is KakaoAPI)
-                    && !(target.path.contains("retriveRegistLocation")) {
-                    headers["Authorization"] = "Bearer \(token)"
-                }
-
-                let endpoint = self.provider.endpointClosure(requestTarget)
-                var request = try? endpoint.urlRequest()
-                request?.allHTTPHeaderFields = headers
-
-                let cancellable = self.provider.request(requestTarget) { result in
+            return Single<Response>.create { single in
+                let cancellable = self.provider.request(MultiTarget(target)) { result in
                     switch result {
                     case .success(let response):
                         single(.success(response))
@@ -114,9 +86,60 @@ final class NetworkService: NetworkServiceDelegate {
         }
     }
 
-    func requestDecodable<T: TargetType, U: Decodable>(_ target: T, type: U.Type) -> Single<U> {
-        return request(target).map { response in
-            return try JSONDecoder().decode(U.self, from: response.data)
+    func request<T: TargetType, U: Decodable>(_ target: T) -> Single<U> {
+        return refreshSessionIfNeeded().flatMap { [weak self] token in
+            guard let self = self else {
+                return Single.error(NSError(domain: "RequestError", code: -1, userInfo: nil))
+            }
+
+            var headers = target.headers ?? [:]
+            headers["Authorization"] = "Bearer \(token)"
+
+            return Single<U>.create { single in
+                let cancellable = self.provider.request(MultiTarget(target)) { result in
+                    switch result {
+                    case .success(let response):
+                        do {
+                            let decodedResponse = try JSONDecoder().decode(U.self, from: response.data)
+                            single(.success(decodedResponse))
+                        } catch {
+                            single(.failure(error))
+                        }
+                    case .failure(let error):
+                        single(.failure(error))
+                    }
+                }
+                return Disposables.create {
+                    cancellable.cancel()
+                }
+            }
+        }
+    }
+
+    func uploadImageRequest(bucketName: String, imageData: Data, fileName: String) -> Single<String> {
+        return refreshSessionIfNeeded().flatMap { [weak self] token in
+            guard let self = self else {
+                return Single.error(NSError(domain: "UploadError", code: -1, userInfo: nil))
+            }
+
+            self.client = SupabaseClient(
+                supabaseURL: URL(string: AppConfigs.API.Supabase.baseURL)!,
+                supabaseKey: token
+            )
+
+            return Single<String>.create { single in
+                Task {
+                    do {
+                        let response = try await self.client.storage.from(bucketName).upload(path: fileName, file: imageData)
+                        let fileURL = try self.client.storage.from(bucketName).getPublicURL(path: response.id).absoluteString
+                        single(.success(fileURL))
+                    } catch {
+                        print("uploadImage_error", error)
+                        single(.failure(error))
+                    }
+                }
+                return Disposables.create()
+            }
         }
     }
 

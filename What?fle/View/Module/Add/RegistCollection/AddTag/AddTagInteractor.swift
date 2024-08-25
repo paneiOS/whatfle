@@ -27,7 +27,6 @@ final class AddTagInteractor: PresentableInteractor<AddTagPresentable>, AddTagIn
 
     var tags: BehaviorRelay<[TagType]>
 
-    private let networkService: NetworkServiceDelegate
     private let disposeBag = DisposeBag()
 
     deinit {
@@ -36,10 +35,8 @@ final class AddTagInteractor: PresentableInteractor<AddTagPresentable>, AddTagIn
 
     init(
         presenter: AddTagPresentable,
-        networkService: NetworkServiceDelegate,
         tags: [TagType]
     ) {
-        self.networkService = networkService
         self.tags = .init(value: tags)
         super.init(presenter: presenter)
         presenter.listener = self

@@ -20,10 +20,8 @@ extension TextFieldWithErrorUnderlineDelegate where Self: UITextField {
     func validateText(_ text: String) {
         if text.isEmpty {
             activateUnderline()
-        } else if text.isValidLength(to: 2, from: 10) && text.isValidRegistTag() {
-            activateUnderline()
         } else {
-            activateErrorUnderline()
+            activateUnderline()
         }
     }
 

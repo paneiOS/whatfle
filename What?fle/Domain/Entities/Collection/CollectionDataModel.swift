@@ -24,7 +24,7 @@ struct CollectionDataModel: Codable {
     let isPublic: Bool
     let hashtags: [String]
     let places: [Int]
-    let imageURls: [String]
+    let imageURL: [String]
     let isActiveCover: Bool
 
     enum CodingKeys: String, CodingKey {
@@ -34,13 +34,13 @@ struct CollectionDataModel: Codable {
         case isPublic
         case hashtags
         case places
-        case imageURls = "imageUrls"
+        case imageURL = "imageUrls"
         case isActiveCover
     }
 
     init(
         data: CollectionData,
-        imageURls: [String]
+        imageURL: [String]
     ) {
         self.accountID = data.accountID
         self.title = data.title
@@ -48,7 +48,7 @@ struct CollectionDataModel: Codable {
         self.isPublic = data.isPublic
         self.hashtags = data.hashtags
         self.places = data.places
-        self.imageURls = imageURls
+        self.imageURL = imageURL
         self.isActiveCover = data.isActiveCover
     }
 }

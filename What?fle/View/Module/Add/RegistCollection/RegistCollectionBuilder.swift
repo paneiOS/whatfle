@@ -8,12 +8,17 @@
 import RIBs
 
 protocol RegistCollectionDependency: Dependency {
-    var networkService: NetworkServiceDelegate { get }
+    var locationUseCase: LocationUseCaseProtocol { get }
+    var collectionUseCase: CollectionUseCaseProtocol { get }
 }
 
 final class RegistCollectionComponent: Component<RegistCollectionDependency> {
-    var networkService: NetworkServiceDelegate {
-        return dependency.networkService
+    var locationUseCase: LocationUseCaseProtocol {
+        return dependency.locationUseCase
+    }
+
+    var collectionUseCase: CollectionUseCaseProtocol {
+        return dependency.collectionUseCase
     }
 }
 
@@ -26,6 +31,12 @@ extension RegistCollectionComponent: AddCollectionDependency {
 extension RegistCollectionComponent: AddTagDependency {
     var addTagBuilder: AddTagBuildable {
         return AddTagBuilder(dependency: self)
+    }
+}
+
+extension RegistCollectionComponent: CustomAlbumDependency {
+    var customAlbumBuilder: CustomAlbumBuildable {
+        return CustomAlbumBuilder(dependency: self)
     }
 }
 
@@ -50,7 +61,8 @@ final class RegistCollectionBuilder: Builder<RegistCollectionDependency>, Regist
         let viewController = RegistCollectionViewController()
         let interactor = RegistCollectionInteractor(
             presenter: viewController,
-            networkService: component.networkService,
+            locationUseCase: component.locationUseCase,
+            collectionUseCase: component.collectionUseCase,
             data: data,
             tags: tags
         )

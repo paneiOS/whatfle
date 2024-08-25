@@ -8,16 +8,16 @@
 import RIBs
 
 protocol RegistLocationDependency: Dependency {
-    var networkService: NetworkServiceDelegate { get }
+    var locationUseCase: LocationUseCaseProtocol { get }
 }
 
-final class RegistLocationComponent: Component<RegistLocationDependency> {}
+final class RegistLocationComponent: Component<RegistLocationDependency> {
+    var locationUseCase: LocationUseCaseProtocol {
+        return dependency.locationUseCase
+    }
+}
 
 extension RegistLocationComponent: SelectLocationDependency, CustomAlbumDependency {
-    var networkService: NetworkServiceDelegate {
-        return dependency.networkService
-    }
-
     var selectLocationBuilder: SelectLocationBuildable {
         return SelectLocationBuilder(dependency: self)
     }
@@ -48,7 +48,7 @@ final class RegistLocationBuilder: Builder<RegistLocationDependency>, RegistLoca
         let viewController = RegistLocationViewController()
         let interactor = RegistLocationInteractor(
             presenter: viewController,
-            networkService: dependency.networkService
+            locationUseCase: component.locationUseCase
         )
         interactor.listener = listener
         viewController.listener = interactor

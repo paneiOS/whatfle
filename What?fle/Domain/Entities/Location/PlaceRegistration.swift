@@ -15,14 +15,13 @@ struct PlaceRegistration: Codable {
     var placeName: String
     var address: String
     var roadAddress: String
-    var images: [UIImage]
-    var imageURLs: [String]?
+    var imageURLs: [String]
     var latitude: Double
     var longitude: Double
     var categoryGroupCode: CategoryGroupCode
 
     var isEmptyImageURLs: Bool {
-        self.imageURLs?.isEmpty ?? false
+        self.imageURLs.isEmpty
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -48,11 +47,10 @@ struct PlaceRegistration: Codable {
         placeName = try container.decode(String.self, forKey: .placeName)
         address = try container.decode(String.self, forKey: .address)
         roadAddress = try container.decode(String.self, forKey: .roadAddress)
-        imageURLs = try container.decodeIfPresent([String].self, forKey: .imageURLs)
+        imageURLs = try container.decodeIfPresent([String].self, forKey: .imageURLs) ?? []
         latitude = try container.decode(Double.self, forKey: .latitude)
         longitude = try container.decode(Double.self, forKey: .longitude)
         categoryGroupCode = try container.decode(CategoryGroupCode.self, forKey: .categoryGroupCode)
-        images = []
     }
 
     func encode(to encoder: Encoder) throws {
@@ -78,8 +76,7 @@ struct PlaceRegistration: Codable {
         placeName: String,
         address: String,
         roadAddress: String,
-        images: [UIImage],
-        imageURLs: [String]? = nil,
+        imageURLs: [String],
         latitude: Double,
         longitude: Double,
         categoryGroupCode: CategoryGroupCode
@@ -91,14 +88,13 @@ struct PlaceRegistration: Codable {
         self.placeName = placeName
         self.address = address
         self.roadAddress = roadAddress
-        self.images = images
         self.imageURLs = imageURLs
         self.latitude = latitude
         self.longitude = longitude
         self.categoryGroupCode = categoryGroupCode
     }
 
-    init(imageURLs: [String], registration: PlaceRegistration) {
+    init(registration: PlaceRegistration, imageURLs: [String]) {
         self.id = registration.id
         self.accountID = registration.accountID
         self.description = registration.description
@@ -106,7 +102,6 @@ struct PlaceRegistration: Codable {
         self.placeName = registration.placeName
         self.address = registration.address
         self.roadAddress = registration.roadAddress
-        self.images = registration.images
         self.imageURLs = imageURLs
         self.latitude = registration.latitude
         self.longitude = registration.longitude

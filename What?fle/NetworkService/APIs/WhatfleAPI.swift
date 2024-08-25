@@ -11,22 +11,14 @@ import Moya
 
 enum WhatfleAPI {
     case uploadPlaceImage(images: [UIImage])
-    case registerPlace(PlaceRegistration)
-    case registCollectionData(CollectionDataModel)
     case retriveRegistLocation
-    case getAllMyPlace
-    case getRecommendHashtag
     case getDetailCollection(Int)
-    case snsLogin(LoginRequestModel)
 }
 
 extension WhatfleAPI: TargetType {
     var method: Moya.Method {
         switch self {
-        case .registerPlace,
-             .registCollectionData,
-             .uploadPlaceImage,
-             .snsLogin:
+        case .uploadPlaceImage:
             return .post
         default:
             return .get
@@ -35,12 +27,6 @@ extension WhatfleAPI: TargetType {
 
     var task: Moya.Task {
         switch self {
-        case .registerPlace(let model):
-            return .requestJSONEncodable(model)
-
-        case .registCollectionData(let model):
-            return .requestJSONEncodable(model)
-
         case .retriveRegistLocation:
             let parameters: [String: Any] = [:]
             return .requestParameters(parameters: parameters, encoding: URLEncoding.queryString)
@@ -59,14 +45,6 @@ extension WhatfleAPI: TargetType {
                 }
             }
             return .uploadMultipart(multipartData)
-
-        case .snsLogin(let model):
-            let parameters: [String: Any] = [
-                "email": model.email,
-                "thirdPartyAuthType": model.snsType.rawValue,
-                "thirdPartyAuthUid": model.uuid
-            ]
-            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
 
         default:
             return .requestPlain
@@ -94,20 +72,10 @@ extension WhatfleAPI: TargetType {
     var path: String {
         let basePath: String = "/functions/v1/whatfle"
         switch self {
-        case .registerPlace:
-            return basePath + "/place"
-        case .registCollectionData:
-            return basePath + "/collection"
         case .uploadPlaceImage:
             return basePath + "/image/place"
-        case .getAllMyPlace:
-            return basePath + "/places"
-        case .getRecommendHashtag:
-            return basePath + "/hashtag/recommend"
         case .getDetailCollection(let id):
             return basePath + "/collection/\(id)"
-        case .snsLogin:
-            return basePath + "/account/signin"
         default:
             return ""
         }
@@ -117,12 +85,6 @@ extension WhatfleAPI: TargetType {
         switch self {
         case .retriveRegistLocation:
             guard let path = Bundle.main.path(forResource: "RetriveRegistLocationMock", ofType: "json"),
-                  let data = try? Data(contentsOf: URL(fileURLWithPath: path)) else {
-                return Data()
-            }
-            return data
-        case .getRecommendHashtag:
-            guard let path = Bundle.main.path(forResource: "RecommendHashTag", ofType: "json"),
                   let data = try? Data(contentsOf: URL(fileURLWithPath: path)) else {
                 return Data()
             }

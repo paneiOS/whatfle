@@ -10,12 +10,12 @@ import UIKit
 import RIBs
 
 protocol LoginDependency: Dependency {
-    var networkService: NetworkServiceDelegate { get }
+    var loginUseCase: LoginUseCaseProtocol { get }
 }
 
 final class LoginComponent: Component<LoginDependency> {
-    var networkService: NetworkServiceDelegate {
-        return dependency.networkService
+    var loginUseCase: LoginUseCaseProtocol {
+        return dependency.loginUseCase
     }
 }
 
@@ -41,11 +41,9 @@ final class LoginBuilder: Builder<LoginDependency>, LoginBuildable {
         let component = LoginComponent(dependency: dependency)
         let viewController = LoginViewController()
         let navigationController = UINavigationController(rootViewController: viewController)
-            
-        
         let interactor = LoginInteractor(
             presenter: viewController,
-            networkService: dependency.networkService
+            loginUseCase: component.loginUseCase
         )
         interactor.listener = listener
         return LoginRouter(

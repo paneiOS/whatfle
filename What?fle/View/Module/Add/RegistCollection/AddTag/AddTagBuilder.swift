@@ -7,15 +7,9 @@
 
 import RIBs
 
-protocol AddTagDependency: Dependency {
-    var networkService: NetworkServiceDelegate { get }
-}
+protocol AddTagDependency: Dependency {}
 
-final class AddTagComponent: Component<AddTagDependency> {
-    var networkService: NetworkServiceDelegate {
-        return dependency.networkService
-    }
-}
+final class AddTagComponent: Component<AddTagDependency> {}
 
 extension AddTagComponent: AddTagDependency {
     var addTagBuilder: AddTagBuildable {
@@ -36,14 +30,12 @@ final class AddTagBuilder: Builder<AddTagDependency>, AddTagBuildable {
     }
 
     func build(withListener listener: AddTagListener, tags: [TagType]) -> AddTagRouting {
-        let component = AddTagComponent(dependency: dependency)
         let viewController = AddTagViewController()
         let interactor = AddTagInteractor(
             presenter: viewController,
-            networkService: component.networkService,
             tags: tags
         )
         interactor.listener = listener
-        return AddTagRouter(interactor: interactor, viewController: viewController, component: component)
+        return AddTagRouter(interactor: interactor, viewController: viewController)
     }
 }

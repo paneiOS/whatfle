@@ -68,7 +68,7 @@ final class TextFieldWithCheckView: UIView {
     private func makeUI() {
         addSubviews(textField, registButton)
         self.textField.snp.makeConstraints {
-            $0.top.leading.bottom.equalToSuperview()
+            $0.top.bottom.leading.equalToSuperview()
         }
         registButton.snp.makeConstraints {
             $0.top.bottom.trailing.equalToSuperview()
@@ -77,7 +77,7 @@ final class TextFieldWithCheckView: UIView {
             $0.height.equalTo(48)
         }
     }
-    
+
     private func setupViewBinding() {
         underlineColorSubject
             .observe(on: MainScheduler.instance)

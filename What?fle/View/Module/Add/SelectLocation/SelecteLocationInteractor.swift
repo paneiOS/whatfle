@@ -26,14 +26,15 @@ final class SelectLocationInteractor: PresentableInteractor<SelectLocationPresen
                                       SelectLocationPresentableListener {
     weak var router: SelectLocationRouting?
     weak var listener: SelectLocationListener?
-    private let networkService: NetworkServiceDelegate
+    private let locationUseCase: LocationUseCaseProtocol
+
     private let disposeBag = DisposeBag()
 
     var searchResultArray = BehaviorRelay<[KakaoSearchDocumentsModel]>(value: [])
     var recentKeywordArray = BehaviorRelay<[String]>(value: UserDefaultsManager.recentSearchLoad())
 
-    init(presenter: SelectLocationPresentable, networkService: NetworkServiceDelegate) {
-        self.networkService = networkService
+    init(presenter: SelectLocationPresentable, locationUseCase: LocationUseCaseProtocol) {
+        self.locationUseCase = locationUseCase
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -43,15 +44,10 @@ final class SelectLocationInteractor: PresentableInteractor<SelectLocationPresen
     }
 
     func performSearch(with query: String, more: Bool) {
-        guard !LoadingIndicatorService.shared.isLoading() else {
-            return
-        }
+        guard !LoadingIndicatorService.shared.isLoading() else { return }
         LoadingIndicatorService.shared.showLoading()
-        networkService.request(KakaoAPI.search(query, currentPage(more: more)))
-            .map { response -> [KakaoSearchDocumentsModel] in
-                let searchResults = try JSONDecoder().decode(KakaoSearchModel.self, from: response.data)
-                return searchResults.documents
-            }
+
+        self.locationUseCase.search(query, currentPage(more: more))
             .subscribe(onSuccess: { [weak self] result in
                 guard let self else { return }
                 UserDefaultsManager.recentSearchSave(searchText: query)
@@ -60,9 +56,9 @@ final class SelectLocationInteractor: PresentableInteractor<SelectLocationPresen
                 } else {
                     self.searchResultArray.accept(result)
                 }
-                LoadingIndicatorService.shared.hideLoading()
             }, onFailure: { error in
-                print("Error: \(error)")
+                print("\(self) Error: \(error)")
+            }, onDisposed: {
                 LoadingIndicatorService.shared.hideLoading()
             })
             .disposed(by: disposeBag)

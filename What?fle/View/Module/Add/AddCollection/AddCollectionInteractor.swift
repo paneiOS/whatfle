@@ -33,13 +33,15 @@ final class AddCollectionInteractor: PresentableInteractor<AddCollectionPresenta
                                      AddCollectionPresentableListener {
     weak var router: AddCollectionRouting?
     weak var listener: AddCollectionListener?
-    private let networkService: NetworkServiceDelegate
-    private let disposeBag = DisposeBag()
 
     var locationTotalCount: BehaviorRelay<Int> = .init(value: 0)
     var registeredLocations: BehaviorRelay<[(String, [PlaceRegistration])]> = .init(value: [])
     var selectedLocations: BehaviorRelay<[(IndexPath, PlaceRegistration)]> = .init(value: [])
     var editSelectedCollectionData: EditSelectedCollectionData?
+
+    private let locationUseCase: LocationUseCaseProtocol
+    private let collectionUseCase: CollectionUseCaseProtocol
+    private let disposeBag = DisposeBag()
 
     deinit {
         print("\(self) is being deinit")
@@ -47,10 +49,12 @@ final class AddCollectionInteractor: PresentableInteractor<AddCollectionPresenta
 
     init(
         presenter: AddCollectionPresentable,
-        networkService: NetworkServiceDelegate,
+        locationUseCase: LocationUseCaseProtocol,
+        collectionUseCase: CollectionUseCaseProtocol,
         data: EditSelectedCollectionData?
     ) {
-        self.networkService = networkService
+        self.locationUseCase = locationUseCase
+        self.collectionUseCase = collectionUseCase
         if let data {
             selectedLocations.accept(data)
             locationTotalCount.accept(data.count)
@@ -84,20 +88,16 @@ final class AddCollectionInteractor: PresentableInteractor<AddCollectionPresenta
         guard !LoadingIndicatorService.shared.isLoading() else { return }
         LoadingIndicatorService.shared.showLoading()
 
-        networkService.request(WhatfleAPI.getAllMyPlace)
-            .map { response -> [PlaceRegistration] in
-                return try JSONDecoder().decode([PlaceRegistration].self, from: response.data)
-            }
-            .subscribe(onSuccess: { [weak self] result in
+        self.locationUseCase.getAllMyPlace()
+            .subscribe(onSuccess: { [weak self] data in
                 guard let self else { return }
-                let data = result.groupedByDate()
                 self.registeredLocations.accept(data)
                 self.locationTotalCount.accept(data.flatMap { $0.places }.count)
                 self.presenter.reloadData()
-                LoadingIndicatorService.shared.hideLoading()
             }, onFailure: { error in
+                print("\(self) Error: \(error)")
+            }, onDisposed: {
                 LoadingIndicatorService.shared.hideLoading()
-                print("Error: \(error)")
             })
             .disposed(by: disposeBag)
     }
@@ -116,24 +116,15 @@ final class AddCollectionInteractor: PresentableInteractor<AddCollectionPresenta
         guard !LoadingIndicatorService.shared.isLoading() else { return }
         LoadingIndicatorService.shared.showLoading()
 
-        networkService.requestDecodable(WhatfleAPI.getRecommendHashtag, type: [RecommendHashTagModel].self)
+        self.collectionUseCase.getRecommendHashtag()
             .subscribe(onSuccess: { [weak self] tags in
-                LoadingIndicatorService.shared.hideLoading()
                 guard let self else { return }
-                let data: EditSelectedCollectionData = selectedLocations.value
-                self.listener?.sendDataToRegistCollection(data: data, tags: tags)
+                self.listener?.sendDataToRegistCollection(data: selectedLocations.value, tags: tags)
             }, onFailure: { error in
+                print("\(self) Error: \(error)")
+            }, onDisposed: {
                 LoadingIndicatorService.shared.hideLoading()
-                print("Error: \(error)")
             })
             .disposed(by: disposeBag)
-    }
-}
-
-extension Array where Element == PlaceRegistration {
-    func groupedByDate() -> [(date: String, places: [PlaceRegistration])] {
-        let groupedDictionary = Dictionary(grouping: self, by: { $0.visitDate.replaceHyphensWithDots() })
-        let sortedKeys = groupedDictionary.keys.sorted(by: >)
-        return sortedKeys.map { (date: $0, places: groupedDictionary[$0]!) }
     }
 }

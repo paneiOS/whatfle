@@ -7,7 +7,7 @@
 
 import RIBs
 
-protocol RegistCollectionInteractable: Interactable, AddCollectionListener, AddTagListener {
+protocol RegistCollectionInteractable: Interactable, AddCollectionListener, AddTagListener, CustomAlbumListener {
     var router: RegistCollectionRouting? { get set }
     var listener: RegistCollectionListener? { get set }
 }
@@ -16,10 +16,10 @@ protocol RegistCollectionViewControllable: ViewControllable {}
 
 final class RegistCollectionRouter: ViewableRouter<RegistCollectionInteractable, RegistCollectionViewControllable> {
     private let component: RegistCollectionComponent
-    private weak var currentChild: ViewableRouting?
 
     weak var addCollectionRouter: AddCollectionRouting?
     weak var addTagRouter: AddTagRouting?
+    private weak var customAlbumRouter: CustomAlbumRouting?
 
     deinit {
         print("\(self) is being deinit")
@@ -38,9 +38,10 @@ final class RegistCollectionRouter: ViewableRouter<RegistCollectionInteractable,
 
 extension RegistCollectionRouter: RegistCollectionRouting {
     func closeAddCollection() {
-        if let currentChild = self.currentChild {
+        if let router = self.addCollectionRouter {
             self.viewController.uiviewController.dismiss(animated: true) {
-                self.detachChild(currentChild)
+                self.detachChild(router)
+                self.addCollectionRouter = nil
             }
         }
     }
@@ -64,14 +65,6 @@ extension RegistCollectionRouter: RegistCollectionRouting {
         }
     }
 
-    func closeCurrentRIB() {
-        if let currentChild = self.currentChild {
-            self.viewController.uiviewController.dismiss(animated: true) {
-                self.detachChild(currentChild)
-            }
-        }
-    }
-
     func routeToAddTag(tags: [TagType]) {
         if self.addTagRouter == nil {
             let router = self.component.addTagBuilder.build(withListener: self.interactor, tags: tags)
@@ -90,6 +83,26 @@ extension RegistCollectionRouter: RegistCollectionRouting {
             }
         }
     }
+}
 
-    func confirmTags(tags: [TagType]) {}
+extension RegistCollectionRouter: CustomAlbumRouting {
+    func showCustomAlbum() {
+        if self.customAlbumRouter == nil {
+            let router = self.component.customAlbumBuilder.buildSingleSelect(withListener: self.interactor)
+            router.viewControllable.setPresentationStyle(style: .overFullScreen)
+            self.viewController.present(router.viewControllable, animated: true)
+            self.attachChild(router)
+            self.customAlbumRouter = router
+        }
+    }
+
+    func closeCustomAlbum() {
+        if let customAlbumRouter {
+            customAlbumRouter.viewControllable.uiviewController.dismiss(animated: true) { [weak self] in
+                guard let self else { return }
+                self.detachChild(customAlbumRouter)
+                self.customAlbumRouter = nil
+            }
+        }
+    }
 }

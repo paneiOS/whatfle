@@ -15,7 +15,7 @@ protocol RegistLocationPresentableListener: AnyObject {
     var isSelectLocation: BehaviorRelay<Bool> { get }
     var model: KakaoSearchDocumentsModel? { get }
     func showSelectLocation()
-    func registPlace(_ registration: PlaceRegistration)
+    func registPlace(_ registration: PlaceRegistration, imageData: [Data])
     func closeRegistLocation()
     func showCustomAlbum()
 }
@@ -35,6 +35,7 @@ final class RegistLocationViewController: UIVCWithKeyboard, RegistLocationViewCo
     }()
 
     private let subView: UIView = .init()
+
     private let locationView: UIView = .init()
 
     private let locationLabel: UILabel = {
@@ -342,11 +343,12 @@ final class RegistLocationViewController: UIVCWithKeyboard, RegistLocationViewCo
                         placeName: model.placeName,
                         address: model.addressName,
                         roadAddress: model.roadAddressName,
-                        images: listener.imageArray.value,
+                        imageURLs: [],
                         latitude: model.latitude,
                         longitude: model.longitude,
                         categoryGroupCode: model.categoryGroupCode
-                    )
+                    ),
+                    imageData: listener.imageArray.value.compactMap { $0.resizedImageWithinKilobytes() }
                 )
             })
             .disposed(by: disposeBag)
