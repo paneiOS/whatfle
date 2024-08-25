@@ -81,9 +81,7 @@ final class DetailCollectionViewController: UIViewController, DetailCollectionPr
     private func setupUI() {
         view.backgroundColor = .white
 
-        [self.collectionView, self.shadowView, self.customNavigationBar].forEach {
-            self.view.addSubview($0)
-        }
+        self.view.addSubviews(self.collectionView, self.shadowView, self.customNavigationBar)
         self.collectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }

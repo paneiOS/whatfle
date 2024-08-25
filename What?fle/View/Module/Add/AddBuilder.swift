@@ -10,6 +10,8 @@ import UIKit
 
 protocol AddDependency: Dependency {
     var networkService: NetworkServiceDelegate { get }
+    var locationUseCase: LocationUseCaseProtocol { get }
+    var collectionUseCase: CollectionUseCaseProtocol { get }
 }
 
 final class AddComponent: Component<AddDependency> {
@@ -19,12 +21,20 @@ final class AddComponent: Component<AddDependency> {
 }
 
 extension AddComponent: RegistLocationDependency {
+    var locationUseCase: LocationUseCaseProtocol {
+        return dependency.locationUseCase
+    }
+
     var registLocationBuilder: RegistLocationBuildable {
         return RegistLocationBuilder(dependency: self)
     }
 }
 
 extension AddComponent: AddCollectionDependency {
+    var collectionUseCase: CollectionUseCaseProtocol {
+        return dependency.collectionUseCase
+    }
+
     var addCollectionBuilder: AddCollectionBuildable {
         return AddCollectionBuilder(dependency: self)
     }

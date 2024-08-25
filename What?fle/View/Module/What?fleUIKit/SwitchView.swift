@@ -37,9 +37,7 @@ final class SwitchView: UIView {
     }
 
     func makeUI() {
-        [label, switchControl].forEach {
-            self.addSubview($0)
-        }
+        self.addSubviews(label, switchControl)
 
         self.label.snp.makeConstraints {
             $0.centerY.equalToSuperview()

@@ -8,7 +8,7 @@
 import RIBs
 import UIKit
 
-protocol HomeInteractable: Interactable, DetailCollectionListener {
+protocol HomeInteractable: Interactable, DetailCollectionListener, LoginListener {
     var router: HomeRouting? { get set }
     var listener: HomeListener? { get set }
 }
@@ -19,6 +19,7 @@ final class HomeRouter: ViewableRouter<HomeInteractable, HomeViewControllable> {
     private let component: HomeComponent
     let navigationController: UINavigationController
 
+    weak var loginRouter: LoginRouting?
     weak var detailCollectionRouter: DetailCollectionRouting?
 
     deinit {
@@ -49,12 +50,32 @@ extension HomeRouter: HomeRouting {
             self.detailCollectionRouter = router
         }
     }
-    
+
     func popToDetailCollection() {
         if let router = self.detailCollectionRouter {
             self.navigationController.popViewController(animated: true)
             self.detachChild(router)
             self.detailCollectionRouter = nil
+        }
+    }
+
+    func showLoginRIB() {
+        if self.loginRouter == nil {
+            let router = self.component.loginBuilder.build(withListener: self.interactor)
+            if let navigationController = router.navigationController {
+                navigationController.modalPresentationStyle = .fullScreen
+                self.viewController.present(navigationController, animated: true)
+                self.attachChild(router)
+                self.loginRouter = router
+            }
+        }
+    }
+
+    func dismissLoginRIB() {
+        if let router = self.loginRouter {
+            self.viewController.uiviewController.dismiss(animated: true)
+            self.detachChild(router)
+            self.loginRouter = nil
         }
     }
 }

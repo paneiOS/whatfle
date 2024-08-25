@@ -46,7 +46,7 @@ final class AddViewController: UIViewController, AddPresentable, AddViewControll
             view.isUserInteractionEnabled = false
             let imageView: UIImageView = {
                 let view: UIImageView = .init()
-                view.image = .addLocation
+                view.image = .Icon.addLocation
                 return view
             }()
             let label: UILabel = {
@@ -83,7 +83,7 @@ final class AddViewController: UIViewController, AddPresentable, AddViewControll
             view.isUserInteractionEnabled = false
             let imageView: UIImageView = {
                 let view: UIImageView = .init()
-                view.image = .addCollection
+                view.image = .Icon.addCollection
                 return view
             }()
             let label: UILabel = {

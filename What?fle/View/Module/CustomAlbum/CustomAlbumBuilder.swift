@@ -7,15 +7,9 @@
 
 import RIBs
 
-protocol CustomAlbumDependency: Dependency {
-    var networkService: NetworkServiceDelegate { get }
-}
+protocol CustomAlbumDependency: Dependency {}
 
-final class CustomAlbumComponent: Component<CustomAlbumDependency> {
-    var networkService: NetworkServiceDelegate {
-        return dependency.networkService
-    }
-}
+final class CustomAlbumComponent: Component<CustomAlbumDependency> {}
 
 // MARK: - Builder
 
@@ -35,26 +29,22 @@ final class CustomAlbumBuilder: Builder<CustomAlbumDependency>, CustomAlbumBuild
     }
 
     func buildSingleSelect(withListener listener: CustomAlbumListener) -> CustomAlbumRouting {
-        let component = CustomAlbumComponent(dependency: dependency)
         let viewController = CustomAlbumViewController(isSingleSelect: true)
         let interactor = CustomAlbumInteractor(presenter: viewController)
         interactor.listener = listener
         return CustomAlbumRouter(
             interactor: interactor,
-            viewController: viewController,
-            component: component
+            viewController: viewController
         )
     }
 
     func buildMultiSelect(withListener listener: CustomAlbumListener) -> CustomAlbumRouting {
-        let component = CustomAlbumComponent(dependency: dependency)
         let viewController = CustomAlbumViewController(isSingleSelect: false)
         let interactor = CustomAlbumInteractor(presenter: viewController)
         interactor.listener = listener
         return CustomAlbumRouter(
             interactor: interactor,
-            viewController: viewController,
-            component: component
+            viewController: viewController
         )
     }
 }

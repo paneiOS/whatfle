@@ -26,7 +26,7 @@ final class LocationImageCell: UICollectionViewCell {
 
     private let deleteButton: UIButton = {
         let button: UIButton = .init()
-        button.setImage(.xLineShadow, for: .normal)
+        button.setImage(.Icon.xLineShadow, for: .normal)
         return button
     }()
 

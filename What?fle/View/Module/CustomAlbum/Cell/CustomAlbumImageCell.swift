@@ -14,8 +14,7 @@ final class CustomAlbumImageCell: UICollectionViewCell {
     // MARK: - UI
 
     private let selectImageView: UIImageView = {
-        let imageView: UIImageView = .init(image: .selectImageOff)
-        imageView.isUserInteractionEnabled = false
+        let imageView: UIImageView = .init(image: .Icon.selectImageOff)
         imageView.backgroundColor = .clear
         return imageView
     }()
@@ -55,7 +54,7 @@ final class CustomAlbumImageCell: UICollectionViewCell {
     }
 
     func selecteCell(isSelected: Bool) {
-        selectImageView.image = isSelected ? .selectImageOn : .selectImageOff
+        selectImageView.image = isSelected ? .Icon.selectImageOn : .Icon.selectImageOff
     }
 
     func drawCell(with asset: PHAsset, isSingleSelect: Bool) {
@@ -74,7 +73,7 @@ final class CustomAlbumImageCell: UICollectionViewCell {
             self.imageView.image = image
         }
 
-        selectImageView.image = isSelected ? .selectImageOn : .selectImageOff
+        selectImageView.image = isSelected ? .Icon.selectImageOn : .Icon.selectImageOff
         selectImageView.isHidden = isSingleSelect
     }
 }

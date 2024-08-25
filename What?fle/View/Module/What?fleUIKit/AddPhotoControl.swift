@@ -19,7 +19,7 @@ final class AddPhotoControl: UIControl {
     }()
 
     private let imageView: UIImageView = {
-        let imageView: UIImageView = .init(image: .camera)
+        let imageView: UIImageView = .init(image: .Icon.camera)
         imageView.tintColor = .Core.primary
         return imageView
     }()
@@ -57,14 +57,12 @@ final class AddPhotoControl: UIControl {
     func setupUI() {
         backgroundColor = .Core.p100
 
-        addSubview(stackView)
-        stackView.snp.makeConstraints {
+        self.addSubview(stackView)
+        self.stackView.snp.makeConstraints {
             $0.center.equalToSuperview()
         }
 
-        [imageView, placeholdLabel, countLabel].forEach {
-            stackView.addArrangedSubview($0)
-        }
+        stackView.addArrangedSubviews(imageView, placeholdLabel, countLabel)
         imageView.snp.makeConstraints {
             $0.size.equalTo(24)
         }

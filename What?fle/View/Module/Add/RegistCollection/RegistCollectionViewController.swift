@@ -18,12 +18,12 @@ protocol RegistCollectionPresentableListener: AnyObject {
     var tags: BehaviorRelay<[TagType]> { get }
     var isHiddenDimmedView: BehaviorRelay<Bool> { get }
     func buttonTapped(index: Int)
-    func addImage(_ image: UIImage)
+    func showCustomAlbum()
     func removeImage()
     func removeTag(index: Int)
     func showEditCollection()
     func showAddTagRIB(tags: [TagType])
-    func registCollection(data: CollectionData)
+    func registCollection(collection: CollectionData, imageData: Data?)
     func popToRegistCollection()
 }
 
@@ -87,11 +87,9 @@ final class RegistCollectionViewController: UIVCWithKeyboard, RegistCollectionPr
             textColor: .textLight,
             lineHeight: 20
         )
-        let imageView: UIImageView = .init(image: .addButton)
+        let imageView: UIImageView = .init(image: .Icon.addButton)
         imageView.isUserInteractionEnabled = false
-        [label, imageView].forEach {
-            control.addSubview($0)
-        }
+        control.addSubviews(label, imageView)
         label.snp.makeConstraints {
             $0.top.bottom.equalToSuperview().inset(10)
             $0.leading.equalToSuperview().inset(8)
@@ -143,7 +141,7 @@ final class RegistCollectionViewController: UIVCWithKeyboard, RegistCollectionPr
 
     private let deleteButton: UIButton = {
         let button: UIButton = .init()
-        button.setImage(.xCircleFilled, for: .normal)
+        button.setImage(.Icon.xCircleFilled, for: .normal)
         button.isHidden = true
         return button
     }()
@@ -159,7 +157,7 @@ final class RegistCollectionViewController: UIVCWithKeyboard, RegistCollectionPr
         let view: UIView = .init()
         view.isUserInteractionEnabled = false
         let imageView: UIImageView = {
-            let imageView: UIImageView = .init(image: .camera)
+            let imageView: UIImageView = .init(image: .Icon.camera)
             imageView.tintColor = .textExtralight
             imageView.isUserInteractionEnabled = false
             return imageView
@@ -175,9 +173,7 @@ final class RegistCollectionViewController: UIVCWithKeyboard, RegistCollectionPr
             )
             return label
         }()
-        [imageView, placeholdLabel].forEach {
-            view.addSubview($0)
-        }
+        view.addSubviews(imageView, placeholdLabel)
         imageView.snp.makeConstraints {
             $0.top.leading.bottom.equalToSuperview()
             $0.size.equalTo(24)
@@ -285,9 +281,7 @@ final class RegistCollectionViewController: UIVCWithKeyboard, RegistCollectionPr
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(90)
         }
-        [selectedLocationCollectionView, editButton].forEach {
-            self.selectedLocationSubView.addSubview($0)
-        }
+        self.selectedLocationSubView.addSubviews(selectedLocationCollectionView, editButton)
         self.selectedLocationCollectionView.snp.makeConstraints {
             $0.top.leading.bottom.equalToSuperview()
         }
@@ -402,7 +396,7 @@ extension RegistCollectionViewController {
         listener?.isHiddenDimmedView
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] isHidden in
-                guard let self = self else { return }
+                guard let self else { return }
                 self.dimmedView.isHidden = isHidden
             })
             .disposed(by: disposeBag)
@@ -427,7 +421,7 @@ extension RegistCollectionViewController {
             .subscribe(onNext: { [weak self] in
                 guard let self else { return }
                 self.listener?.registCollection(
-                    data: .init(
+                    collection: .init(
                         accountID: AppConfigs.UserInfo.accountID,
                         title: self.titleInputView.textView.text,
                         description: self.descriptionTextView.textView.text,
@@ -435,7 +429,8 @@ extension RegistCollectionViewController {
                         hashtags: self.listener?.tags.value.map { $0.title } ?? [],
                         places: self.listener?.selectedLocations.value.compactMap { $0.id } ?? [],
                         isActiveCover: isCoverRegistView.switchControl.isOn
-                    )
+                    ),
+                    imageData: coverImageView.image?.resizedImageWithinKilobytes()
                 )
             })
             .disposed(by: disposeBag)
@@ -444,12 +439,7 @@ extension RegistCollectionViewController {
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] in
                 guard let self else { return }
-                self.view.endEditing(true)
-                var configuration = PHPickerConfiguration()
-                configuration.filter = .any(of: [.images])
-                let picker = PHPickerViewController(configuration: configuration)
-                picker.delegate = self
-                self.present(picker, animated: true, completion: nil)
+                self.listener?.showCustomAlbum()
             })
             .disposed(by: disposeBag)
 
@@ -517,21 +507,21 @@ extension RegistCollectionViewController {
     }
 }
 
-extension RegistCollectionViewController: PHPickerViewControllerDelegate {
-    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        picker.dismiss(animated: true)
-        guard !results.isEmpty else { return }
-
-        for itemProvider in results.map({ $0.itemProvider }) where itemProvider.canLoadObject(ofClass: UIImage.self) {
-            itemProvider.loadObject(ofClass: UIImage.self) { [weak self] image, _ in
-                guard let self, let image = image as? UIImage, let listener = self.listener else { return }
-                DispatchQueue.main.async {
-                    listener.addImage(image)
-                }
-            }
-        }
-    }
-}
+//extension RegistCollectionViewController: PHPickerViewControllerDelegate {
+//    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+//        picker.dismiss(animated: true)
+//        guard !results.isEmpty else { return }
+//
+//        for itemProvider in results.map({ $0.itemProvider }) where itemProvider.canLoadObject(ofClass: UIImage.self) {
+//            itemProvider.loadObject(ofClass: UIImage.self) { [weak self] image, _ in
+//                guard let self, let image = image as? UIImage, let listener = self.listener else { return }
+//                DispatchQueue.main.async {
+//                    listener.addImage(image)
+//                }
+//            }
+//        }
+//    }
+//}
 
 extension RegistCollectionViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

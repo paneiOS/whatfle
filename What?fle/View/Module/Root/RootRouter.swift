@@ -19,7 +19,7 @@ protocol RootViewControllable: ViewControllable {
 
 final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable> {
     private let component: RootComponent
-    
+
     weak var addRouter: AddRouting?
     weak var registLocationRouter: RegistLocationRouting?
 

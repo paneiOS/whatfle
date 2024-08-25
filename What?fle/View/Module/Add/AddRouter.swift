@@ -5,8 +5,9 @@
 //  Created by 이정환 on 2/24/24.
 //
 
-import RIBs
 import UIKit
+
+import RIBs
 
 protocol AddInteractable: Interactable, RegistLocationListener, AddCollectionListener, RegistCollectionListener {
     var router: AddRouting? { get set }

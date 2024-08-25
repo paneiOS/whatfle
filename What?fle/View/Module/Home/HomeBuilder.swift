@@ -10,6 +10,7 @@ import UIKit
 
 protocol HomeDependency: Dependency {
     var networkService: NetworkServiceDelegate { get }
+    var loginUseCase: LoginUseCaseProtocol { get }
     var homeNavigationController: UINavigationController { get }
 }
 
@@ -26,6 +27,16 @@ final class HomeComponent: Component<HomeDependency> {
 extension HomeComponent: DetailCollectionDependency {
     var detailCollectionBuilder: DetailCollectionBuildable {
         return DetailCollectionBuilder(dependency: self)
+    }
+}
+
+extension HomeComponent: LoginDependency {
+    var loginBuilder: LoginBuildable {
+        return LoginBuilder(dependency: self)
+    }
+    
+    var loginUseCase: LoginUseCaseProtocol {
+        return dependency.loginUseCase
     }
 }
 

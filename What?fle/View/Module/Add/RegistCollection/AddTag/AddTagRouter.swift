@@ -15,18 +15,15 @@ protocol AddTagInteractable: Interactable {
 protocol AddTagViewControllable: ViewControllable {}
 
 final class AddTagRouter: ViewableRouter<AddTagInteractable, AddTagViewControllable>, AddTagRouting {
-    private let component: AddTagComponent
 
     deinit {
         print("\(self) is being deinit")
     }
 
-    init(
+    override init(
         interactor: AddTagInteractable,
-        viewController: AddTagViewControllable,
-        component: AddTagComponent
+        viewController: AddTagViewControllable
     ) {
-        self.component = component
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }

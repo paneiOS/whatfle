@@ -31,7 +31,7 @@ final class RecentSearchCell: UITableViewCell {
         let control: UIControl = .init()
         let imageView: UIImageView = {
             let view: UIImageView = .init()
-            view.image = .xLineMd
+            view.image = .Icon.xLineMd
             view.tintColor = .textExtralight
             return view
         }()

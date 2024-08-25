@@ -9,14 +9,19 @@ import Foundation
 import RIBs
 
 protocol AddCollectionDependency: Dependency {
-    var networkService: NetworkServiceDelegate { get }
+    var locationUseCase: LocationUseCaseProtocol { get }
+    var collectionUseCase: CollectionUseCaseProtocol { get }
 }
 
 final class AddCollectionComponent: Component<AddCollectionDependency> {}
 
 extension AddCollectionComponent: AddCollectionDependency {
-    var networkService: NetworkServiceDelegate {
-        return dependency.networkService
+    var locationUseCase: LocationUseCaseProtocol {
+        return dependency.locationUseCase
+    }
+
+    var collectionUseCase: CollectionUseCaseProtocol {
+        return dependency.collectionUseCase
     }
 }
 
@@ -47,7 +52,8 @@ final class AddCollectionBuilder: Builder<AddCollectionDependency>, AddCollectio
         let viewController = AddCollectionViewController()
         let interactor = AddCollectionInteractor(
             presenter: viewController,
-            networkService: component.networkService,
+            locationUseCase: component.locationUseCase,
+            collectionUseCase: component.collectionUseCase,
             data: data
         )
         interactor.listener = listener

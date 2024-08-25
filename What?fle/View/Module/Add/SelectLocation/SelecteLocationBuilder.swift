@@ -8,12 +8,12 @@
 import RIBs
 
 protocol SelectLocationDependency: Dependency {
-    var networkService: NetworkServiceDelegate { get }
+    var locationUseCase: LocationUseCaseProtocol { get }
 }
 
 final class SelectLocationComponent: Component<SelectLocationDependency> {
-    var networkService: NetworkServiceDelegate {
-        return dependency.networkService
+    var locationUseCase: LocationUseCaseProtocol {
+        return dependency.locationUseCase
     }
 }
 
@@ -36,7 +36,10 @@ final class SelectLocationBuilder: Builder<SelectLocationDependency>, SelectLoca
     func build(withListener listener: SelectLocationListener) -> SelectLocationRouting {
         let component = SelectLocationComponent(dependency: dependency)
         let viewController = SelectLocationViewController()
-        let interactor = SelectLocationInteractor(presenter: viewController, networkService: component.networkService)
+        let interactor = SelectLocationInteractor(
+            presenter: viewController,
+            locationUseCase: component.locationUseCase
+        )
         interactor.listener = listener
         viewController.listener = interactor
         return SelectLocationRouter(

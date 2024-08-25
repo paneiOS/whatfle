@@ -43,9 +43,7 @@ final class SplashViewController: UIViewController, SplashPresentable, SplashVie
         tutleView.snp.makeConstraints {
             $0.center.equalToSuperview()
         }
-        [label, imageView].forEach {
-            tutleView.addSubview($0)
-        }
+        tutleView.addSubviews(label, imageView)
         label.snp.makeConstraints {
             $0.leading.trailing.bottom.equalToSuperview()
         }

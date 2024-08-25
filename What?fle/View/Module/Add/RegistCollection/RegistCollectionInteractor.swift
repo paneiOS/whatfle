@@ -5,18 +5,20 @@
 //  Created by 이정환 on 4/17/24.
 //
 
+import UIKit
+
 import Moya
 import RIBs
 import RxSwift
 import RxCocoa
-import UIKit
 
 protocol RegistCollectionRouting: ViewableRouting {
     func routeToAddCollection(data: EditSelectedCollectionData)
-    func routeToAddTag(tags: [TagType])
     func dismissAddCollection()
-    func closeCurrentRIB()
-    func confirmTags(tags: [TagType])
+    func routeToAddTag(tags: [TagType])
+    func closeAddTag()
+    func showCustomAlbum()
+    func closeCustomAlbum()
 }
 
 protocol RegistCollectionPresentable: Presentable {
@@ -40,7 +42,8 @@ final class RegistCollectionInteractor: PresentableInteractor<RegistCollectionPr
     let selectedLocations: BehaviorRelay<[PlaceRegistration]>
     var editSelectedCollectionData: EditSelectedCollectionData
 
-    private let networkService: NetworkServiceDelegate
+    private let locationUseCase: LocationUseCaseProtocol
+    private let collectionUseCase: CollectionUseCaseProtocol
     private let disposeBag = DisposeBag()
 
     deinit {
@@ -49,11 +52,13 @@ final class RegistCollectionInteractor: PresentableInteractor<RegistCollectionPr
 
     init(
         presenter: RegistCollectionPresentable,
-        networkService: NetworkServiceDelegate,
+        locationUseCase: LocationUseCaseProtocol,
+        collectionUseCase: CollectionUseCaseProtocol,
         data: EditSelectedCollectionData,
         tags: [RecommendHashTagModel]
     ) {
-        self.networkService = networkService
+        self.locationUseCase = locationUseCase
+        self.collectionUseCase = collectionUseCase
         self.editSelectedCollectionData = data
         self.tags = .init(value: tags.map { .deselected(.init(id: $0.id, hashtagName: $0.hashtagName)) })
         self.selectedLocations = .init(value: data.map { $0.1 })
@@ -69,8 +74,18 @@ final class RegistCollectionInteractor: PresentableInteractor<RegistCollectionPr
         }
     }
 
-    func addImage(_ image: UIImage) {
+    func showCustomAlbum() {
+        router?.showCustomAlbum()
+    }
+
+    func closeCustomAlbum() {
+        router?.closeCustomAlbum()
+    }
+
+    func addPhotos(images: [UIImage]) {
+        guard let image = images.first else { return }
         self.selectedImage.accept(image)
+        router?.closeCustomAlbum()
     }
 
     func removeImage() {
@@ -104,7 +119,7 @@ final class RegistCollectionInteractor: PresentableInteractor<RegistCollectionPr
 
     func closeAddTagView() {
         self.isHiddenDimmedView.accept(true)
-        self.router?.closeCurrentRIB()
+        self.router?.closeAddTag()
     }
 
     func confirmTags(tags: [TagType]) {
@@ -119,37 +134,20 @@ final class RegistCollectionInteractor: PresentableInteractor<RegistCollectionPr
         self.listener?.popToRegistCollection()
     }
 
-    func registCollection(data: CollectionData ) {
+    func registCollection(collection: CollectionData, imageData: Data?) {
         guard !LoadingIndicatorService.shared.isLoading() else { return }
         LoadingIndicatorService.shared.showLoading()
-        uploadPlaceImages(image: selectedImage.value)
-            .flatMap { [weak self] imageURLs -> Single<Response> in
-                guard let self = self else { return .error(RxError.unknown) }
-                return self.networkService.request(WhatfleAPI.registCollectionData(.init(data: data, imageURls: imageURLs)))
-            }
+
+        self.collectionUseCase.registCollection(collection: collection, imageData: imageData)
             .subscribe(onSuccess: { [weak self] _ in
                 guard let self else { return }
-                LoadingIndicatorService.shared.hideLoading()
                 self.listener?.completeRegistCollection()
             }, onFailure: { error in
+                print("\(self) Error: \(error)")
+            }, onDisposed: {
                 LoadingIndicatorService.shared.hideLoading()
-                if let error = error as? CustomError {
-                    print("Error in registration process: \(error.localizedDescription)")
-                } else {
-                    print("Unknown error occurred")
-                }
             })
-            .disposed(by: disposeBag)
-    }
-
-    private func uploadPlaceImages(image: UIImage?) -> Single<[String]> {
-        guard let image else {
-            return Single.just([])
-        }
-        return networkService.request(WhatfleAPI.uploadPlaceImage(images: [image]))
-            .map { response -> [String] in
-                return try JSONDecoder().decode([String].self, from: response.data)
-            }
+            .disposed(by: self.disposeBag)
     }
 
     func sendDataToRegistCollection(data: EditSelectedCollectionData, tags: [RecommendHashTagModel]) {}

@@ -72,7 +72,7 @@ final class SelectionLocationVerticalListCell: UICollectionViewCell {
 
     private let favoriteButton: UIButton = {
         let button: UIButton = .init()
-        button.setImage(.favoriteOff, for: .normal)
+        button.setImage(.Icon.favoriteOff, for: .normal)
         return button
     }()
 
@@ -148,9 +148,7 @@ final class SelectionLocationVerticalListCell: UICollectionViewCell {
     }
 
     private func setupUI() {
-        [self.pagerCollectionView, self.pageControl, self.placeInfoView, self.profileView].forEach {
-            contentView.addSubview($0)
-        }
+        contentView.addSubviews(self.pagerCollectionView, self.pageControl, self.placeInfoView, self.profileView)
         self.pagerCollectionView.snp.makeConstraints {
             $0.top.leading.trailing.width.equalToSuperview()
             $0.height.equalTo(Constants.Height.pagerCollectionViewHeight)
@@ -159,9 +157,7 @@ final class SelectionLocationVerticalListCell: UICollectionViewCell {
             $0.centerX.equalToSuperview()
             $0.bottom.equalTo(self.placeInfoView.snp.top).offset(-16)
         }
-        [self.placeImage, self.titleLabel, self.subTitleLabel, self.favoriteButton].forEach {
-            self.placeInfoView.addSubview($0)
-        }
+        self.placeInfoView.addSubviews(self.placeImage, self.titleLabel, self.subTitleLabel, self.favoriteButton)
         self.placeInfoView.snp.makeConstraints {
             $0.top.equalTo(self.pagerCollectionView.snp.bottom).offset(16)
             $0.leading.trailing.equalToSuperview().inset(16)
@@ -186,9 +182,7 @@ final class SelectionLocationVerticalListCell: UICollectionViewCell {
             $0.trailing.equalToSuperview()
             $0.size.equalTo(32)
         }
-        [self.profileImageView, self.triangleView, self.descriptionTextView].forEach {
-            self.profileView.addSubview($0)
-        }
+        self.profileView.addSubviews(self.profileImageView, self.triangleView, self.descriptionTextView)
         self.profileView.snp.makeConstraints {
             $0.top.equalTo(self.placeInfoView.snp.bottom)
             $0.leading.trailing.equalToSuperview().inset(16)
@@ -213,14 +207,12 @@ final class SelectionLocationVerticalListCell: UICollectionViewCell {
     private func bindUI() {
         model.subscribe(onNext: { [weak self] place in
             guard let self else { return }
-            if let placeImageURLs = place.imageURLs {
-                if placeImageURLs.count < 2 {
-                    self.imageURLs = placeImageURLs
-                } else {
-                    self.imageURLs = Array(repeating: placeImageURLs, count: 21).flatMap { $0 }
-                    self.pageControl.numberOfPages = place.imageURLs?.count ?? 0
-                    self.pageControl.isHidden = false
-                }
+            if place.imageURLs.count < 2 {
+                self.imageURLs = place.imageURLs
+            } else {
+                self.imageURLs = Array(repeating: place.imageURLs, count: 21).flatMap { $0 }
+                self.pageControl.numberOfPages = place.imageURLs.count
+                self.pageControl.isHidden = false
             }
 
             self.placeImage.image = place.categoryGroupCode.image

@@ -57,7 +57,7 @@ final class SelectLocationResultCell: UICollectionViewCell {
             alignment: .center
         )
 
-        if let urlStr = model.imageURLs?.first {
+        if let urlStr = model.imageURLs.first {
             self.imageView.kf.setImage(with: URL(string: urlStr), placeholder: UIImage.placehold)
         }
     }

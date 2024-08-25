@@ -6,10 +6,11 @@
 //
 
 import Photos
+import UIKit
+
 import RIBs
 import RxSwift
 import RxCocoa
-import UIKit
 
 protocol CustomAlbumRouting: ViewableRouting {}
 
@@ -45,7 +46,7 @@ final class CustomAlbumInteractor: PresentableInteractor<CustomAlbumPresentable>
 
     func requestPhotoLibraryAccess() {
         PHPhotoLibrary.requestAuthorization { [weak self] status in
-            guard let self = self else { return }
+            guard let self else { return }
             switch status {
             case .authorized, .restricted:
                 self.loadThumbnail()

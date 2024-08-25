@@ -45,9 +45,6 @@ final class DetailCollectionInteractor: PresentableInteractor<DetailCollectionPr
         LoadingIndicatorService.shared.showLoading()
 
         networkService.request(WhatfleAPI.getDetailCollection(self.collectionID))
-            .map { response -> DetailCollectionModel in
-                return try JSONDecoder().decode(DetailCollectionModel.self, from: response.data)
-            }
             .subscribe(onSuccess: { [weak self] result in
                 guard let self else { return }
                 self.detailCollectionModel.onNext(result)
@@ -58,7 +55,7 @@ final class DetailCollectionInteractor: PresentableInteractor<DetailCollectionPr
             })
             .disposed(by: disposeBag)
     }
-    
+
     func popToDetailCollection() {
         listener?.popToDetailCollection()
     }
