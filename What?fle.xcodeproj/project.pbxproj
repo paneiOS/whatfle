@@ -132,6 +132,7 @@
 		39CF56AF2BC0FD8D00E718C8 /* CustomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CF56AE2BC0FD8D00E718C8 /* CustomNavigationBar.swift */; };
 		39D562B72BD69A9C00111E9C /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 39D562B62BD69A9C00111E9C /* .swiftlint.yml */; };
 		39D562BA2BD69ED900111E9C /* UIVCWithKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D562B92BD69ED900111E9C /* UIVCWithKeyboard.swift */; };
+		39DE4ED42C89D1F500930ED2 /* DebugUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39DE4ED32C89D1F500930ED2 /* DebugUtils.swift */; };
 		39E9F0CF2C402C670085961C /* TextFieldWithUnderlineDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E9F0CE2C402C670085961C /* TextFieldWithUnderlineDelegate.swift */; };
 		39E9F0D22C402EA20085961C /* TextFieldWithErrorUnderlineDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E9F0D12C402EA20085961C /* TextFieldWithErrorUnderlineDelegate.swift */; };
 		39E9F0D52C4037500085961C /* TextFieldWithErrorUnderline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E9F0D42C4037500085961C /* TextFieldWithErrorUnderline.swift */; };
@@ -294,6 +295,7 @@
 		39CF56AE2BC0FD8D00E718C8 /* CustomNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBar.swift; sourceTree = "<group>"; };
 		39D562B62BD69A9C00111E9C /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		39D562B92BD69ED900111E9C /* UIVCWithKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIVCWithKeyboard.swift; sourceTree = "<group>"; };
+		39DE4ED32C89D1F500930ED2 /* DebugUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugUtils.swift; sourceTree = "<group>"; };
 		39E9F0CE2C402C670085961C /* TextFieldWithUnderlineDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldWithUnderlineDelegate.swift; sourceTree = "<group>"; };
 		39E9F0D12C402EA20085961C /* TextFieldWithErrorUnderlineDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldWithErrorUnderlineDelegate.swift; sourceTree = "<group>"; };
 		39E9F0D42C4037500085961C /* TextFieldWithErrorUnderline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldWithErrorUnderline.swift; sourceTree = "<group>"; };
@@ -508,6 +510,7 @@
 				456B09D12BB954DA00920C54 /* Date+.swift */,
 				39EF11B72BBAE182000E1996 /* Array+.swift */,
 				39A81E6F2BF3A7550009C43F /* UIImage+.swift */,
+				39DE4ED32C89D1F500930ED2 /* DebugUtils.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1206,6 +1209,7 @@
 				3939FFD82B8F750D007E58F6 /* NetworkService.swift in Sources */,
 				39878D1B2C7B541D004898AD /* CollectionRepository.swift in Sources */,
 				392DAEA12C4696FF000F2B94 /* CustomAlbumRouter.swift in Sources */,
+				39DE4ED42C89D1F500930ED2 /* DebugUtils.swift in Sources */,
 				39EBCDF82B8A26B200599D58 /* AddBuilder.swift in Sources */,
 				39878D1F2C7B5F4B004898AD /* CollectionUseCaseProtocol.swift in Sources */,
 				39E9F0D52C4037500085961C /* TextFieldWithErrorUnderline.swift in Sources */,

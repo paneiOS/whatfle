@@ -10,7 +10,6 @@ import UIKit
 import Moya
 
 enum WhatfleAPI {
-    case uploadPlaceImage(images: [UIImage])
     case retriveRegistLocation
     case getDetailCollection(Int)
 }
@@ -18,8 +17,6 @@ enum WhatfleAPI {
 extension WhatfleAPI: TargetType {
     var method: Moya.Method {
         switch self {
-        case .uploadPlaceImage:
-            return .post
         default:
             return .get
         }
@@ -30,22 +27,6 @@ extension WhatfleAPI: TargetType {
         case .retriveRegistLocation:
             let parameters: [String: Any] = [:]
             return .requestParameters(parameters: parameters, encoding: URLEncoding.queryString)
-
-        case .uploadPlaceImage(let images):
-            var multipartData: [MultipartFormData] = []
-            for (index, image) in images.enumerated() {
-                if let imageData = image.resizedImageWithinKilobytes(kilobytes: 10) {
-                    let formData = MultipartFormData(
-                        provider: .data(imageData),
-                        name: "file\(index)",
-                        fileName: "image\(index).jpg",
-                        mimeType: "image/jpeg"
-                    )
-                    multipartData.append(formData)
-                }
-            }
-            return .uploadMultipart(multipartData)
-
         default:
             return .requestPlain
         }
@@ -72,8 +53,6 @@ extension WhatfleAPI: TargetType {
     var path: String {
         let basePath: String = "/functions/v1/whatfle"
         switch self {
-        case .uploadPlaceImage:
-            return basePath + "/image/place"
         case .getDetailCollection(let id):
             return basePath + "/collection/\(id)"
         default:
@@ -95,8 +74,6 @@ extension WhatfleAPI: TargetType {
                 return Data()
             }
             return data
-        default:
-            return Data()
         }
     }
 }

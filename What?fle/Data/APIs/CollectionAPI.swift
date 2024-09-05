@@ -47,7 +47,7 @@ extension CollectionAPI: TargetType {
         }
     }
 
-    var headers: [String : String]? {
+    var headers: [String: String]? {
         return ["Authorization": "Bearer " + KeychainManager.loadAccessToken()]
     }
 
