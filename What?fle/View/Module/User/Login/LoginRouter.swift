@@ -47,4 +47,12 @@ final class LoginRouter: ViewableRouter<LoginInteractable, LoginViewControllable
             self.profileRouter = router
         }
     }
+
+    func popToProfileView() {
+        if let profileRouter {
+            self.navigationController?.popViewController(animated: true)
+            self.detachChild(profileRouter)
+            self.profileRouter = nil
+        }
+    }
 }

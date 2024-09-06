@@ -13,6 +13,7 @@ import Storage
 import RxSwift
 
 protocol NetworkServiceDelegate: AnyObject {
+    var sessionManager: SessionManager { get }
     func request<T: TargetType>(_ target: T) -> Single<Response>
     func request<T: TargetType, U: Decodable>(_ target: T) -> Single<U>
     func uploadImageRequest(bucketName: String, imageData: Data, fileName: String) -> Single<String>
@@ -21,11 +22,12 @@ protocol NetworkServiceDelegate: AnyObject {
 final class NetworkService: NetworkServiceDelegate {
     private let provider: MoyaProvider<MultiTarget>
     private var client: SupabaseClient
+    let sessionManager: SessionManager
     private let disposeBag = DisposeBag()
 
     typealias Task = _Concurrency.Task
 
-    init(isStubbing: Bool = false) {
+    init(isStubbing: Bool = false, sessionManager: SessionManager = .shared) {
         if isStubbing {
             self.provider = MoyaProvider<MultiTarget>(stubClosure: MoyaProvider.immediatelyStub)
         } else {
@@ -35,19 +37,18 @@ final class NetworkService: NetworkServiceDelegate {
             supabaseURL: URL(string: AppConfigs.API.Supabase.baseURL)!,
             supabaseKey: AppConfigs.API.Supabase.key
         )
-
+        self.sessionManager = sessionManager
         monitorAuthChanges()
     }
 
     private func monitorAuthChanges() {
         Task {
-            if KeychainManager.loadAccessToken().isEmpty {
+            if sessionManager.isLoggedIn {
                 logPrint("사용자는 로그아웃 상태입니다.", "익명 액세스 토큰을 사용합니다.")
                 await handleAnonymousSession()
             } else {
                 if let session = try? await self.client.auth.session {
-                    logPrint("로그인 상태를 초기화합니다.", session.accessToken)
-                    KeychainManager.saveAccessToken(token: session.accessToken)
+                    sessionManager.login(token: session.accessToken, "로그인 상태를 초기화합니다.")
                 } else {
                     logPrint("로그인 상태가 아닙니다.", "새로운 세션을 시도합니다.")
                     await handleAnonymousSession()
@@ -63,16 +64,20 @@ final class NetworkService: NetworkServiceDelegate {
 
                 logPrint("현재 상태", change.event)
                 switch change.event {
-                case .signedIn, .tokenRefreshed:
-                    logPrint("로그인 또는 토큰 갱신되었습니다.")
-                    KeychainManager.saveAccessToken(token: accessToken)
-                case .signedOut, .userDeleted:
-                    logPrint("로그아웃 또는 탈퇴 처리되었습니다.")
-                    KeychainManager.deleteAccessToken()
+                case .initialSession:
+                    sessionManager.login(token: accessToken, "세션을 초기화하였습니다.")
+                case .signedIn:
+                    sessionManager.login(token: accessToken, "로그인되었습니다.")
+                case .tokenRefreshed:
+                    sessionManager.login(token: accessToken, "토큰이 갱신되었습니다.")
+                case .signedOut:
+                    sessionManager.logout(accessToken, "로그아웃 처리되었습니다.")
+                    await handleAnonymousSession()
+                case .userDeleted:
+                    sessionManager.logout(accessToken, "탈퇴 처리되었습니다.")
                     await handleAnonymousSession()
                 default:
-                    logPrint("기타 인증 이벤트가 발생했습니다.", change.event)
-                    KeychainManager.saveAccessToken(token: accessToken)
+                    sessionManager.login(token: accessToken, "기타 인증 이벤트가 발생했습니다.")
                 }
             }
         }
@@ -81,11 +86,9 @@ final class NetworkService: NetworkServiceDelegate {
     private func handleAnonymousSession() async {
         do {
             let session = try await self.client.auth.signInAnonymously()
-            logPrint("익명 세션이 설정되었습니다.", session.accessToken)
-            KeychainManager.saveAccessToken(token: session.accessToken)
+            sessionManager.login(token: session.accessToken, "익명 세션이 설정되었습니다.")
         } catch {
-            logPrint("익명 세션 설정에 실패했습니다.", error.localizedDescription)
-            KeychainManager.deleteAccessToken()
+            sessionManager.logout(error.localizedDescription, "익명 세션 설정에 실패했습니다.")
         }
     }
 
@@ -94,6 +97,11 @@ final class NetworkService: NetworkServiceDelegate {
             let cancellable = self.provider.request(MultiTarget(target)) { result in
                 switch result {
                 case .success(let response):
+                    if let jsonString = String(data: response.data, encoding: .utf8) {
+                        logPrint("Received JSON data", jsonString)
+                    } else {
+                        logPrint("Failed to convert data to JSON string")
+                    }
                     single(.success(response))
                 case .failure(let error):
                     single(.failure(error))
@@ -111,6 +119,11 @@ final class NetworkService: NetworkServiceDelegate {
             let cancellable = self.provider.request(MultiTarget(target)) { result in
                 switch result {
                 case .success(let response):
+                    if let jsonString = String(data: response.data, encoding: .utf8) {
+                        logPrint("Received JSON data", jsonString)
+                    } else {
+                        logPrint("Failed to convert data to JSON string")
+                    }
                     do {
                         let decodedResponse = try JSONDecoder().decode(U.self, from: response.data)
                         single(.success(decodedResponse))

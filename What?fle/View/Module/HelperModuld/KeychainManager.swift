@@ -9,7 +9,7 @@ import Foundation
 import Security
 
 final class KeychainManager {
-    private static let shared = KeychainManager()
+    static let shared = KeychainManager()
     private init() {}
 
     private enum Service: String {
@@ -20,6 +20,8 @@ final class KeychainManager {
             return "com.Whatfle.What." + self.rawValue
         }
     }
+
+    private let service = Service.loginRequest.identifier()
 
     private enum KeychainError: Error {
         case saveError(status: OSStatus)
@@ -71,39 +73,44 @@ final class KeychainManager {
         return status == errSecSuccess
     }
 
-    static func saveUserInfo(model: UserInfo) throws {
+    func saveUserInfo(model: UserInfo) throws {
         do {
             let data = try JSONEncoder().encode(model)
-            let service = Service.loginRequest.identifier()
-            KeychainManager.shared.save(service: service, data: data)
+            save(service: self.service, data: data)
         } catch {
             throw handleKeychainError(error)
         }
     }
 
-    static func saveAccessToken(token: String) {
+    func loadUserInfo() throws -> UserInfo? {
+        do {
+            guard let data = load(service: self.service) else { return nil }
+            return try JSONDecoder().decode(UserInfo.self, from: data)
+        } catch {
+            throw handleKeychainError(error)
+        }
+    }
+
+    func saveAccessToken(token: String) {
         guard let accessToken = token.data(using: .utf8) else { return }
         let service = Service.accessToken.identifier()
         KeychainManager.shared.save(service: service, data: accessToken)
-        logPrint("엑세스토큰이 저장되었습니다.")
+//        logPrint("엑세스토큰이 저장되었습니다.", token)
     }
 
-    static func loadAccessToken() -> String {
+    func loadAccessToken() -> String? {
         let service = Service.accessToken.identifier()
-        guard let data = KeychainManager.shared.load(service: service) else {
-            return ""
-        }
-        logPrint("엑세스토큰을 불러왔습니다.")
-        return String(data: data, encoding: .utf8) ?? ""
+        guard let data = KeychainManager.shared.load(service: service) else { return nil }
+//        logPrint("엑세스토큰을 불러왔습니다.", String(data: data, encoding: .utf8))
+        return String(data: data, encoding: .utf8) ?? nil
     }
 
-    static func deleteAccessToken() {
+    func deleteAccessToken() {
         let service = Service.accessToken.identifier()
         KeychainManager.shared.delete(service: service)
-        logPrint("엑세스토큰이 해제되었습니다.")
     }
 
-    private static func handleKeychainError(_ error: Error) -> KeychainError {
+    private func handleKeychainError(_ error: Error) -> KeychainError {
         if let keychainError = error as? KeychainError {
             return keychainError
         } else if let encodingError = error as? EncodingError {

@@ -9,10 +9,17 @@ import Foundation
 
 import Moya
 
-enum LocationAPI {
+enum LocationAPI: Loginable {
     case search(_ query: String, _ page: Int)
     case registPlace(PlaceRegistration)
     case getAllMyPlace
+
+    var requiresLogin: Bool {
+        switch self {
+        default:
+            return true
+        }
+    }
 }
 
 extension LocationAPI: TargetType {
@@ -66,7 +73,10 @@ extension LocationAPI: TargetType {
         case .search:
             return ["Authorization": "KakaoAK \(AppConfigs.API.Kakao.restKey)"]
         default:
-            return ["Authorization": "Bearer " + KeychainManager.loadAccessToken()]
+            guard let accessToken = KeychainManager.shared.loadAccessToken() else {
+                return ["Authorization": ""]
+            }
+            return ["Authorization": "Bearer " + accessToken]
         }
     }
  

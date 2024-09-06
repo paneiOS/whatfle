@@ -8,7 +8,7 @@
 import Foundation
 
 struct UserInfo: Codable {
-    let id: Int
+    let id: Int?
     let thirdPartyAuthType: String
     let thirdPartyAuthUid: String
     let nickname: String
@@ -18,4 +18,8 @@ struct UserInfo: Codable {
     let updatedAt: String?
     let deletedAt: String?
     let isAgreement: Bool
+    
+    var isSignedIn: Bool {
+        return isAgreement
+    }
 }

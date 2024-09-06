@@ -16,6 +16,7 @@ import RxKakaoSDKUser
 protocol LoginRouting: ViewableRouting {
     var navigationController: UINavigationController? { get }
     func pushProfileRIB()
+    func popToProfileView()
 }
 
 protocol LoginPresentable: Presentable {
@@ -35,7 +36,7 @@ final class LoginInteractor: PresentableInteractor<LoginPresentable>, LoginInter
     private let disposeBag = DisposeBag()
 
     deinit {
-        print("\(self) is being deinit")
+        deinitPrint()
     }
 
     init(
@@ -52,14 +53,17 @@ extension LoginInteractor {
     func appleLogin(idToken: String) {
         guard !LoadingIndicatorService.shared.isLoading() else { return }
         LoadingIndicatorService.shared.showLoading()
-        loginUseCase.signInWithIDToken(provider: .apple, idToken: idToken)
+        loginUseCase.loginInWithIDToken(provider: .apple, idToken: idToken)
             .observe(on: MainScheduler.instance)
-            .subscribe(onSuccess: { [weak self] model in
+            .subscribe(onSuccess: { [weak self] isSignedIn in
                 guard let self else { return }
-                try? KeychainManager.saveUserInfo(model: model)
-                self.router?.pushProfileRIB()
+                if isSignedIn {
+                    self.listener?.dismissLoginRIB()
+                } else {
+                    self.router?.pushProfileRIB()
+                }
             }, onFailure: { error in
-                print("\(self) Error:", error)
+                errorPrint(error)
             }, onDisposed: {
                 LoadingIndicatorService.shared.hideLoading()
             })
@@ -72,7 +76,7 @@ extension LoginInteractor {
                 .subscribe(onNext: {[weak self] oauthToken in
                     // TODO: - 카아오 로그인 오스토큰 발급, 이걸 supabase에 전달해야함.
                 }, onError: {error in
-                    print("\(self) Error:", error)
+                    errorPrint(error)
                 })
                 .disposed(by: disposeBag)
         } else {
@@ -82,5 +86,9 @@ extension LoginInteractor {
 
     func closeLogin() {
         listener?.dismissLoginRIB()
+    }
+
+    func popToProfileView() {
+        router?.popToProfileView()
     }
 }

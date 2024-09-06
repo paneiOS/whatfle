@@ -9,9 +9,16 @@ import Foundation
 
 import Moya
 
-enum CollectionAPI {
+enum CollectionAPI: Loginable {
     case getRecommendHashtag
     case registCollectionData(CollectionDataModel)
+
+    var requiresLogin: Bool {
+        switch self {
+        default:
+            return true
+        }
+    }
 }
 
 extension CollectionAPI: TargetType {
@@ -48,7 +55,10 @@ extension CollectionAPI: TargetType {
     }
 
     var headers: [String: String]? {
-        return ["Authorization": "Bearer " + KeychainManager.loadAccessToken()]
+        guard let accessToken = KeychainManager.shared.loadAccessToken() else {
+            return ["Authorization": ""]
+        }
+        return ["Authorization": "Bearer " + accessToken]
     }
 
     var sampleData: Data {

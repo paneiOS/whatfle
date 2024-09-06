@@ -161,6 +161,8 @@
 		456B09CE2BB953B200920C54 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456B09CD2BB953B200920C54 /* UITextField+.swift */; };
 		456B09D22BB954DA00920C54 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456B09D12BB954DA00920C54 /* Date+.swift */; };
 		456B09D42BB9566C00920C54 /* CustomTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456B09D32BB9566C00920C54 /* CustomTextView.swift */; };
+		457A8A632C8C3D50000444AC /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457A8A622C8C3D50000444AC /* SessionManager.swift */; };
+		457A8A652C8D6BDF000444AC /* PrimitiveSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457A8A642C8D6BDF000444AC /* PrimitiveSequence.swift */; };
 		45AF9E042C6F940B00160AC7 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45AF9E032C6F940B00160AC7 /* KeychainManager.swift */; };
 		45AF9E062C6F968800160AC7 /* LoginRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45AF9E052C6F968800160AC7 /* LoginRequestModel.swift */; };
 		45AF9E092C71964F00160AC7 /* RxKakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 45AF9E082C71964F00160AC7 /* RxKakaoSDK */; };
@@ -324,6 +326,8 @@
 		456B09CD2BB953B200920C54 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		456B09D12BB954DA00920C54 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		456B09D32BB9566C00920C54 /* CustomTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextView.swift; sourceTree = "<group>"; };
+		457A8A622C8C3D50000444AC /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
+		457A8A642C8D6BDF000444AC /* PrimitiveSequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimitiveSequence.swift; sourceTree = "<group>"; };
 		45AF9E032C6F940B00160AC7 /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		45AF9E052C6F968800160AC7 /* LoginRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequestModel.swift; sourceTree = "<group>"; };
 		45AF9E102C72142500160AC7 /* ProfileRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRouter.swift; sourceTree = "<group>"; };
@@ -373,14 +377,6 @@
 				391134132C63AB3E00980190 /* DetailCollectionModel.swift */,
 			);
 			path = Entity;
-			sourceTree = "<group>";
-		};
-		391960002BAC541200CC7A2E /* UserDeafults */ = {
-			isa = PBXGroup;
-			children = (
-				391960012BAC542B00CC7A2E /* UserDefaultsManager.swift */,
-			);
-			path = UserDeafults;
 			sourceTree = "<group>";
 		};
 		392C1E222C650AFA00C03D82 /* Cells */ = {
@@ -630,8 +626,9 @@
 		3939FFDF2B943612007E58F6 /* HelperModuld */ = {
 			isa = PBXGroup;
 			children = (
-				45AF9E022C6F93CE00160AC7 /* KeychainManager */,
-				391960002BAC541200CC7A2E /* UserDeafults */,
+				457A8A622C8C3D50000444AC /* SessionManager.swift */,
+				45AF9E032C6F940B00160AC7 /* KeychainManager.swift */,
+				391960012BAC542B00CC7A2E /* UserDefaultsManager.swift */,
 			);
 			path = HelperModuld;
 			sourceTree = "<group>";
@@ -652,6 +649,7 @@
 			isa = PBXGroup;
 			children = (
 				397D666B2C46C3FE0053CDD9 /* UIViewController+Rx.swift */,
+				457A8A642C8D6BDF000444AC /* PrimitiveSequence.swift */,
 			);
 			path = "Rx+";
 			sourceTree = "<group>";
@@ -945,14 +943,6 @@
 			path = TagCollectionView;
 			sourceTree = "<group>";
 		};
-		45AF9E022C6F93CE00160AC7 /* KeychainManager */ = {
-			isa = PBXGroup;
-			children = (
-				45AF9E032C6F940B00160AC7 /* KeychainManager.swift */,
-			);
-			path = KeychainManager;
-			sourceTree = "<group>";
-		};
 		45AF9E0E2C71F31800160AC7 /* User */ = {
 			isa = PBXGroup;
 			children = (
@@ -1208,6 +1198,7 @@
 				39171CFD2BF664BF00DF5B8D /* SwitchView.swift in Sources */,
 				3939FFD82B8F750D007E58F6 /* NetworkService.swift in Sources */,
 				39878D1B2C7B541D004898AD /* CollectionRepository.swift in Sources */,
+				457A8A632C8C3D50000444AC /* SessionManager.swift in Sources */,
 				392DAEA12C4696FF000F2B94 /* CustomAlbumRouter.swift in Sources */,
 				39DE4ED42C89D1F500930ED2 /* DebugUtils.swift in Sources */,
 				39EBCDF82B8A26B200599D58 /* AddBuilder.swift in Sources */,
@@ -1215,6 +1206,7 @@
 				39E9F0D52C4037500085961C /* TextFieldWithErrorUnderline.swift in Sources */,
 				3999741A2BD00CDE009AF937 /* AddPhotoControl.swift in Sources */,
 				39333D702B8993B1005F295A /* HomeBuilder.swift in Sources */,
+				457A8A652C8D6BDF000444AC /* PrimitiveSequence.swift in Sources */,
 				39411B352BBC3AC200A54EA7 /* LocationImageCell.swift in Sources */,
 				39333D0D2B87663D005F295A /* UIColor+.swift in Sources */,
 				399974152BCFFEDE009AF937 /* RegistCollectionRouter.swift in Sources */,

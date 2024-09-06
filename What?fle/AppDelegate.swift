@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
         // TODO: - 임시 로그인해제 로직
-        KeychainManager.deleteAccessToken()
+        KeychainManager.shared.deleteAccessToken()
         RxKakaoSDK.initSDK(appKey: AppConfigs.API.Kakao.nativeKey)
         return true
     }

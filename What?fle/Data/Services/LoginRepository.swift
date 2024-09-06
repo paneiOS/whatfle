@@ -16,6 +16,10 @@ final class LoginRepository: LoginRepositoryProtocol {
     private var client: SupabaseClient
 
     typealias Task = _Concurrency.Task
+    
+    var sessionManager: SessionManager {
+        self.networkService.sessionManager
+    }
 
     init(networkService: NetworkServiceDelegate) {
         self.networkService = networkService
@@ -41,7 +45,7 @@ final class LoginRepository: LoginRepositoryProtocol {
                     )
                     single(.success(response))
                 } catch {
-                    print("signInWithIDToken_error", error)
+                    errorPrint(error)
                     single(.failure(error))
                 }
             }
