@@ -14,6 +14,7 @@ import RxSwift
 
 protocol NetworkServiceDelegate: AnyObject {
     var sessionManager: SessionManager { get }
+    var isLogin: Bool { get }
     func request<T: TargetType>(_ target: T) -> Single<Response>
     func request<T: TargetType, U: Decodable>(_ target: T) -> Single<U>
     func uploadImageRequest(bucketName: String, imageData: Data, fileName: String) -> Single<String>
@@ -26,6 +27,10 @@ final class NetworkService: NetworkServiceDelegate {
     private let disposeBag = DisposeBag()
 
     typealias Task = _Concurrency.Task
+
+    var isLogin: Bool {
+        sessionManager.isLogin
+    }
 
     init(isStubbing: Bool = false, sessionManager: SessionManager = .shared) {
         if isStubbing {
@@ -43,12 +48,12 @@ final class NetworkService: NetworkServiceDelegate {
 
     private func monitorAuthChanges() {
         Task {
-            if sessionManager.isLoggedIn {
+            if !sessionManager.isLogin {
                 logPrint("사용자는 로그아웃 상태입니다.", "익명 액세스 토큰을 사용합니다.")
                 await handleAnonymousSession()
             } else {
                 if let session = try? await self.client.auth.session {
-                    sessionManager.login(token: session.accessToken, "로그인 상태를 초기화합니다.")
+                    sessionManager.login(token: session.accessToken, for: .guest, "로그인 상태를 초기화합니다.")
                 } else {
                     logPrint("로그인 상태가 아닙니다.", "새로운 세션을 시도합니다.")
                     await handleAnonymousSession()
@@ -65,11 +70,13 @@ final class NetworkService: NetworkServiceDelegate {
                 logPrint("현재 상태", change.event)
                 switch change.event {
                 case .initialSession:
-                    sessionManager.login(token: accessToken, "세션을 초기화하였습니다.")
+                    sessionManager.login(token: accessToken, for: .guest, "세션을 초기화하였습니다.")
                 case .signedIn:
                     sessionManager.login(token: accessToken, "로그인되었습니다.")
                 case .tokenRefreshed:
-                    sessionManager.login(token: accessToken, "토큰이 갱신되었습니다.")
+                    if sessionManager.isLogin {
+                        sessionManager.login(token: accessToken, "토큰이 갱신되었습니다.")
+                    }
                 case .signedOut:
                     sessionManager.logout(accessToken, "로그아웃 처리되었습니다.")
                     await handleAnonymousSession()
@@ -86,7 +93,7 @@ final class NetworkService: NetworkServiceDelegate {
     private func handleAnonymousSession() async {
         do {
             let session = try await self.client.auth.signInAnonymously()
-            sessionManager.login(token: session.accessToken, "익명 세션이 설정되었습니다.")
+            sessionManager.login(token: session.accessToken, for: .guest, "익명 세션이 설정되었습니다.")
         } catch {
             sessionManager.logout(error.localizedDescription, "익명 세션 설정에 실패했습니다.")
         }

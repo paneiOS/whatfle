@@ -43,7 +43,7 @@ final class LoginUseCase: LoginUseCaseProtocol {
                 )
                 loginRepository.sessionManager.login(token: response.accessToken)
                 return self.loginRepository.snsLogin(model: model)
-                    .map { $0.isSignedIn }
+                    .map { $0.isSignupRequired }
             }
     }
 

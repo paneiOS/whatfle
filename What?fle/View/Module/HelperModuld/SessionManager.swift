@@ -8,29 +8,41 @@
 import Foundation
 
 final class SessionManager {
+    enum UserType {
+        case member
+        case guest
+    }
+
     static let shared = SessionManager()
     private let keychainManager = KeychainManager.shared
 
     private init() {}
 
-    var isLoggedIn: Bool {
-        guard let accessToken = keychainManager.loadAccessToken() else { return false }
+    var isLogin: Bool {
+        guard let accessToken = keychainManager.loadAccessToken(for: .member) else { return false }
         return !accessToken.isEmpty
     }
 
-//    var isSignedIn: Bool {
-//        guard let userInfo: UserInfo = try? keychainManager.loadUserInfo() else { return false }
-//        return userInfo.isAgreement
-//    }
-
-    func login(token: String, _ items: Any...) {
-        keychainManager.saveAccessToken(token: token)
+    func login(token: String, for userType: UserType = .member, _ items: Any...) {
+        switch userType {
+        case .guest:
+            keychainManager.delete(service: .accessToken)
+        case .member:
+            keychainManager.delete(service: .guestAccessToken)
+        }
+        keychainManager.saveAccessToken(token: token, for: userType)
+        
         logPrint(items, token)
     }
 
     func logout(_ items: Any...) {
-        keychainManager.deleteAccessToken()
+        keychainManager.delete(service: .accessToken)
+        keychainManager.delete(service: .userInfo)
         logPrint(items.reversed())
+    }
+
+    func loadAccessToken(for userType: UserType = .member) -> String? {
+        return keychainManager.loadAccessToken(for: userType)
     }
 
     func saveUserInfo(_ userInfo: UserInfo) {

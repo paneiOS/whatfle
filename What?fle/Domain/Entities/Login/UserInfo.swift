@@ -19,7 +19,9 @@ struct UserInfo: Codable {
     let deletedAt: String?
     let isAgreement: Bool
     
-    var isSignedIn: Bool {
-        return isAgreement
+    var isSignupRequired: Bool {
+        // TODO: - 임시코드 수정 필요
+//        return isAgreement
+        return nickname.isEmpty
     }
 }

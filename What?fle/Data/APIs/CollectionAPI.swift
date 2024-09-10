@@ -55,7 +55,7 @@ extension CollectionAPI: TargetType {
     }
 
     var headers: [String: String]? {
-        guard let accessToken = KeychainManager.shared.loadAccessToken() else {
+        guard let accessToken = SessionManager.shared.loadAccessToken() else {
             return ["Authorization": ""]
         }
         return ["Authorization": "Bearer " + accessToken]

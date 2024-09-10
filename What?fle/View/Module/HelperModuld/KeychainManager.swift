@@ -12,16 +12,15 @@ final class KeychainManager {
     static let shared = KeychainManager()
     private init() {}
 
-    private enum Service: String {
-        case loginRequest
+    enum Service: String {
+        case userInfo
         case accessToken
+        case guestAccessToken
 
         func identifier() -> String {
             return "com.Whatfle.What." + self.rawValue
         }
     }
-
-    private let service = Service.loginRequest.identifier()
 
     private enum KeychainError: Error {
         case saveError(status: OSStatus)
@@ -62,6 +61,10 @@ final class KeychainManager {
         return item as? Data
     }
 
+    func delete(service: Service) {
+        self.delete(service: service.identifier())
+    }
+    
     @discardableResult
     private func delete(service: String) -> Bool {
         let query: [String: Any] = [
@@ -76,7 +79,7 @@ final class KeychainManager {
     func saveUserInfo(model: UserInfo) throws {
         do {
             let data = try JSONEncoder().encode(model)
-            save(service: self.service, data: data)
+            save(service: Service.userInfo.identifier(), data: data)
         } catch {
             throw handleKeychainError(error)
         }
@@ -84,30 +87,23 @@ final class KeychainManager {
 
     func loadUserInfo() throws -> UserInfo? {
         do {
-            guard let data = load(service: self.service) else { return nil }
+            guard let data = load(service: Service.userInfo.identifier()) else { return nil }
             return try JSONDecoder().decode(UserInfo.self, from: data)
         } catch {
             throw handleKeychainError(error)
         }
     }
 
-    func saveAccessToken(token: String) {
+    func saveAccessToken(token: String, for userType: SessionManager.UserType) {
         guard let accessToken = token.data(using: .utf8) else { return }
-        let service = Service.accessToken.identifier()
-        KeychainManager.shared.save(service: service, data: accessToken)
-//        logPrint("엑세스토큰이 저장되었습니다.", token)
+        let service = userType == .member ? Service.accessToken.identifier() : Service.guestAccessToken.identifier()
+        save(service: service, data: accessToken)
     }
 
-    func loadAccessToken() -> String? {
-        let service = Service.accessToken.identifier()
-        guard let data = KeychainManager.shared.load(service: service) else { return nil }
-//        logPrint("엑세스토큰을 불러왔습니다.", String(data: data, encoding: .utf8))
+    func loadAccessToken(for userType: SessionManager.UserType) -> String? {
+        let service = userType == .member ? Service.accessToken.identifier() : Service.guestAccessToken.identifier()
+        guard let data = load(service: service) else { return nil }
         return String(data: data, encoding: .utf8) ?? nil
-    }
-
-    func deleteAccessToken() {
-        let service = Service.accessToken.identifier()
-        KeychainManager.shared.delete(service: service)
     }
 
     private func handleKeychainError(_ error: Error) -> KeychainError {

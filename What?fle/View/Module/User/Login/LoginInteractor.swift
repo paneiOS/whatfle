@@ -24,6 +24,8 @@ protocol LoginPresentable: Presentable {
 }
 
 protocol LoginListener: AnyObject {
+    func didLoginSuccess(action: @escaping () -> Void)
+    func didCancelLogin()
     func dismissLoginRIB()
 }
 
@@ -55,12 +57,12 @@ extension LoginInteractor {
         LoadingIndicatorService.shared.showLoading()
         loginUseCase.loginInWithIDToken(provider: .apple, idToken: idToken)
             .observe(on: MainScheduler.instance)
-            .subscribe(onSuccess: { [weak self] isSignedIn in
+            .subscribe(onSuccess: { [weak self] isSignupRequired in
                 guard let self else { return }
-                if isSignedIn {
-                    self.listener?.dismissLoginRIB()
-                } else {
+                if isSignupRequired {
                     self.router?.pushProfileRIB()
+                } else {
+                    self.listener?.dismissLoginRIB()
                 }
             }, onFailure: { error in
                 errorPrint(error)
@@ -91,4 +93,14 @@ extension LoginInteractor {
     func popToProfileView() {
         router?.popToProfileView()
     }
+    
+    func handleLoginSuccess(action: @escaping () -> Void) {
+        listener?.didLoginSuccess(action: action)
+    }
+    
+    func handleLoginFailure() {
+        listener?.didCancelLogin()
+    }
+    
+    
 }

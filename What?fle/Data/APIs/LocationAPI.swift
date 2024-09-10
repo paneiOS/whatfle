@@ -73,7 +73,7 @@ extension LocationAPI: TargetType {
         case .search:
             return ["Authorization": "KakaoAK \(AppConfigs.API.Kakao.restKey)"]
         default:
-            guard let accessToken = KeychainManager.shared.loadAccessToken() else {
+            guard let accessToken = SessionManager.shared.loadAccessToken() else {
                 return ["Authorization": ""]
             }
             return ["Authorization": "Bearer " + accessToken]

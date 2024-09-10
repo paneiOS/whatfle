@@ -37,7 +37,7 @@ extension WhatfleAPI: TargetType {
         case .retriveRegistLocation:
             return ["Authorization": ""]
         default:
-            guard let accessToken = KeychainManager.shared.loadAccessToken() else {
+            guard let accessToken = SessionManager.shared.loadAccessToken() else {
                 return ["Authorization": ""]
             }
             return ["Authorization": "Bearer " + accessToken]
