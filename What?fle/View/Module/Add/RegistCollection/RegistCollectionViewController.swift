@@ -72,7 +72,7 @@ final class RegistCollectionViewController: UIVCWithKeyboard, RegistCollectionPr
         let collectionView: TagCollectionView = .init()
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.register(TagCell.self, forCellWithReuseIdentifier: TagCell.identifier)
+        collectionView.register(TagCell.self, forCellWithReuseIdentifier: TagCell.reuseIdentifier)
         collectionView.backgroundColor = .white
         return collectionView
     }()
@@ -529,7 +529,7 @@ extension RegistCollectionViewController: UICollectionViewDelegateFlowLayout, UI
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TagCell.identifier, for: indexPath) as? TagCell,
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TagCell.reuseIdentifier, for: indexPath) as? TagCell,
               let tags = listener?.tags.value,
               let cellType = tags[safe: indexPath.row] else { return UICollectionViewCell() }
         cell.delegate = self

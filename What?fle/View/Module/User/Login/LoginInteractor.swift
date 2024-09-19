@@ -24,8 +24,6 @@ protocol LoginPresentable: Presentable {
 }
 
 protocol LoginListener: AnyObject {
-    func didLoginSuccess(action: @escaping () -> Void)
-    func didCancelLogin()
     func dismissLoginRIB()
 }
 
@@ -93,14 +91,4 @@ extension LoginInteractor {
     func popToProfileView() {
         router?.popToProfileView()
     }
-    
-    func handleLoginSuccess(action: @escaping () -> Void) {
-        listener?.didLoginSuccess(action: action)
-    }
-    
-    func handleLoginFailure() {
-        listener?.didCancelLogin()
-    }
-    
-    
 }

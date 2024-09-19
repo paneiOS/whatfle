@@ -12,9 +12,12 @@ import Moya
 enum CollectionAPI: Loginable {
     case getRecommendHashtag
     case registCollectionData(CollectionDataModel)
+    case getHomeData(page: Int, pageSize: Int)
 
     var requiresLogin: Bool {
         switch self {
+        case .getHomeData:
+            return false
         default:
             return true
         }
@@ -33,6 +36,8 @@ extension CollectionAPI: TargetType {
             return basePath + "/hashtag/recommend"
         case .registCollectionData:
             return basePath + "/collection"
+        case .getHomeData:
+            return basePath + "/home"
         }
     }
 
@@ -49,16 +54,29 @@ extension CollectionAPI: TargetType {
         switch self {
         case .registCollectionData(let model):
             return .requestJSONEncodable(model)
+        case .getHomeData(let page, let pageSize):
+            return .requestParameters(
+                parameters: ["page": page, "pageSize": pageSize],
+                encoding: URLEncoding.queryString
+            )
         default:
             return .requestPlain
         }
     }
 
     var headers: [String: String]? {
-        guard let accessToken = SessionManager.shared.loadAccessToken() else {
-            return ["Authorization": ""]
+        switch self {
+        case .getHomeData:
+            guard let accessToken = SessionManager.shared.activeToken else {
+                return ["Authorization": ""]
+            }
+            return ["Authorization": "Bearer " + accessToken]
+        default:
+            guard let accessToken = SessionManager.shared.loadAccessToken() else {
+                return ["Authorization": ""]
+            }
+            return ["Authorization": "Bearer " + accessToken]
         }
-        return ["Authorization": "Bearer " + accessToken]
     }
 
     var sampleData: Data {

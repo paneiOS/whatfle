@@ -13,6 +13,7 @@ import RxSwift
 protocol CollectionUseCaseProtocol {
     func getRecommendHashtag() -> Single<[RecommendHashTagModel]>
     func registCollection(collection: CollectionData, imageData: Data?) -> Single<Response>
+    func getHomeData(page: Int, pageSize: Int) -> Single<HomeDataModel>
 }
 
 final class CollectionUseCase: CollectionUseCaseProtocol {
@@ -39,5 +40,9 @@ final class CollectionUseCase: CollectionUseCaseProtocol {
         } else {
             return self.collectionRepository.registCollection(collection: .init(data: collection, imageURL: []))
         }
+    }
+
+    func getHomeData(page: Int, pageSize: Int) -> Single<HomeDataModel> {
+        return collectionRepository.getHomeData(page: page, pageSize: pageSize)
     }
 }

@@ -8,7 +8,7 @@
 import RIBs
 import UIKit
 
-protocol HomeInteractable: Interactable {
+protocol HomeInteractable: Interactable, DetailCollectionListener, LoginListener {
     var router: HomeRouting? { get set }
     var listener: HomeListener? { get set }
 }
@@ -21,10 +21,6 @@ final class HomeRouter: ViewableRouter<HomeInteractable, HomeViewControllable> {
 
     weak var loginRouter: LoginRouting?
     weak var detailCollectionRouter: DetailCollectionRouting?
-
-    var isLogin: Bool {
-        component.networkService.isLogin
-    }
 
     deinit {
         print("\(self) is being deinit")
@@ -43,4 +39,47 @@ final class HomeRouter: ViewableRouter<HomeInteractable, HomeViewControllable> {
     }
 }
 
-extension HomeRouter: HomeRouting {}
+extension HomeRouter: HomeRouting {
+    func routeToDetailCollection(id: Int) {
+        if !component.networkService.isLogin {
+            self.showLoginRIB()
+        } else {
+            if self.detailCollectionRouter == nil {
+                let router = self.component.detailCollectionBuilder.build(withListener: self.interactor, id: id)
+                router.viewControllable.uiviewController.hidesBottomBarWhenPushed = true
+                self.navigationController.setNavigationBarHidden(true, animated: false)
+                self.navigationController.pushViewController(router.viewControllable.uiviewController, animated: true)
+                self.attachChild(router)
+                self.detailCollectionRouter = router
+            }
+        }
+    }
+
+    func popToDetailCollection() {
+        if let router = self.detailCollectionRouter {
+            self.navigationController.popViewController(animated: true)
+            self.detachChild(router)
+            self.detailCollectionRouter = nil
+        }
+    }
+
+    func showLoginRIB() {
+        if self.loginRouter == nil {
+            let router = self.component.loginBuilder.build(withListener: self.interactor)
+            if let navigationController = router.navigationController {
+                navigationController.modalPresentationStyle = .fullScreen
+                self.viewController.present(navigationController, animated: true)
+                self.attachChild(router)
+                self.loginRouter = router
+            }
+        }
+    }
+
+    func dismissLoginRIB() {
+        if let router = self.loginRouter {
+            self.viewController.uiviewController.dismiss(animated: true)
+            self.detachChild(router)
+            self.loginRouter = nil
+        }
+    }
+}

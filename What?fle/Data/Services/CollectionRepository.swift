@@ -32,4 +32,8 @@ final class CollectionRepository: CollectionRepositoryProtocol {
     func registCollection(collection: CollectionDataModel) -> Single<Response> {
         return self.networkService.request(CollectionAPI.registCollectionData(collection))
     }
+
+    func getHomeData(page: Int, pageSize: Int) -> Single<HomeDataModel> {
+        return self.networkService.request(CollectionAPI.getHomeData(page: page, pageSize: pageSize))
+    }
 }

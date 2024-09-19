@@ -7,8 +7,8 @@
 
 import RIBs
 
-class AppComponent: Component<EmptyComponent>, RootDependency {
-    let networkService: NetworkServiceDelegate = NetworkService()
+final class AppComponent: Component<EmptyComponent>, RootDependency {
+    let networkService: NetworkServiceDelegate
 
     var loginUseCase: LoginUseCaseProtocol {
         let loginRepository = LoginRepository(networkService: networkService)
@@ -25,7 +25,8 @@ class AppComponent: Component<EmptyComponent>, RootDependency {
         return CollectionUseCase(collectionRepository: collectionRepository)
     }
 
-    init() {
+    init(networkService: NetworkServiceDelegate) {
+        self.networkService = networkService
         super.init(dependency: EmptyComponent())
     }
 

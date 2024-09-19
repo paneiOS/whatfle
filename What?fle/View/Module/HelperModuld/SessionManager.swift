@@ -23,6 +23,10 @@ final class SessionManager {
         return !accessToken.isEmpty
     }
 
+    var activeToken: String? {
+        return self.loadAccessToken(for: SessionManager.shared.isLogin ? .member : .guest)
+    }
+
     func login(token: String, for userType: UserType = .member, _ items: Any...) {
         switch userType {
         case .guest:
@@ -31,7 +35,7 @@ final class SessionManager {
             keychainManager.delete(service: .guestAccessToken)
         }
         keychainManager.saveAccessToken(token: token, for: userType)
-        
+
         logPrint(items, token)
     }
 

@@ -48,10 +48,10 @@ final class DetailCollectionInteractor: PresentableInteractor<DetailCollectionPr
             .subscribe(onSuccess: { [weak self] result in
                 guard let self else { return }
                 self.detailCollectionModel.onNext(result)
-                LoadingIndicatorService.shared.hideLoading()
             }, onFailure: { error in
+                errorPrint(error)
+            }, onDisposed: {
                 LoadingIndicatorService.shared.hideLoading()
-                print("Error: \(error)")
             })
             .disposed(by: disposeBag)
     }

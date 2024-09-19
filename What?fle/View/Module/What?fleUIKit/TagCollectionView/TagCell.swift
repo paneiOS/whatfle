@@ -5,16 +5,17 @@
 //  Created by JeongHwan Lee on 7/6/24.
 //
 
+import UIKit
+
 import RxSwift
 import SnapKit
-import UIKit
 
 protocol TagCellDelegate: AnyObject {
     func didTapCloseButton(in cell: TagCell)
 }
 
 final class TagCell: UICollectionViewCell {
-    static let identifier = "TagCell"
+    static let reuseIdentifier = "TagCell"
 
     private let label: UILabel = .init()
     private let closeButton: UIButton = {
@@ -40,6 +41,8 @@ final class TagCell: UICollectionViewCell {
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+
+        setupBinding()
     }
 
     func drawCell(cellType: TagType) {

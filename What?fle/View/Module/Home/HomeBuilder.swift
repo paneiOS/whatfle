@@ -11,6 +11,7 @@ import UIKit
 protocol HomeDependency: Dependency {
     var networkService: NetworkServiceDelegate { get }
     var loginUseCase: LoginUseCaseProtocol { get }
+    var collectionUseCase: CollectionUseCaseProtocol { get }
     var homeNavigationController: UINavigationController { get }
 }
 
@@ -34,9 +35,13 @@ extension HomeComponent: LoginDependency {
     var loginBuilder: LoginBuildable {
         return LoginBuilder(dependency: self)
     }
-    
+
     var loginUseCase: LoginUseCaseProtocol {
         return dependency.loginUseCase
+    }
+    
+    var collectionUseCase: CollectionUseCaseProtocol {
+        return dependency.collectionUseCase
     }
 }
 
@@ -58,7 +63,10 @@ final class HomeBuilder: Builder<HomeDependency>, HomeBuildable {
         let navigationController = component.navigationController
         navigationController.viewControllers = [viewController]
         navigationController.modalPresentationStyle = .overFullScreen
-        let interactor = HomeInteractor(presenter: viewController)
+        let interactor = HomeInteractor(
+            presenter: viewController,
+            collectionUseCase: component.collectionUseCase
+        )
         interactor.listener = listener
         return HomeRouter(
             interactor: interactor,

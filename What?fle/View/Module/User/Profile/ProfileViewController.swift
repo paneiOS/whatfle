@@ -45,7 +45,6 @@ final class ProfileViewController: UIViewController, ProfilePresentable, Profile
 
     private let profileImageView: UIImageView = {
         let imageView: UIImageView = .init()
-        imageView.backgroundColor = .blue
         imageView.layer.cornerRadius = 60
         imageView.layer.masksToBounds = true
         let cameraImage: UIImageView = .init(image: .Icon.cameraIcon)

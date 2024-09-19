@@ -18,6 +18,7 @@ protocol NetworkServiceDelegate: AnyObject {
     func request<T: TargetType>(_ target: T) -> Single<Response>
     func request<T: TargetType, U: Decodable>(_ target: T) -> Single<U>
     func uploadImageRequest(bucketName: String, imageData: Data, fileName: String) -> Single<String>
+    func monitorAuthChanges() async
 }
 
 final class NetworkService: NetworkServiceDelegate {
@@ -43,10 +44,9 @@ final class NetworkService: NetworkServiceDelegate {
             supabaseKey: AppConfigs.API.Supabase.key
         )
         self.sessionManager = sessionManager
-        monitorAuthChanges()
     }
 
-    private func monitorAuthChanges() {
+    func monitorAuthChanges() async {
         Task {
             if !sessionManager.isLogin {
                 logPrint("사용자는 로그아웃 상태입니다.", "익명 액세스 토큰을 사용합니다.")
@@ -105,7 +105,7 @@ final class NetworkService: NetworkServiceDelegate {
                 switch result {
                 case .success(let response):
                     if let jsonString = String(data: response.data, encoding: .utf8) {
-                        logPrint("Received JSON data", jsonString)
+//                        logPrint("Received JSON data", jsonString)
                     } else {
                         logPrint("Failed to convert data to JSON string")
                     }
@@ -127,7 +127,7 @@ final class NetworkService: NetworkServiceDelegate {
                 switch result {
                 case .success(let response):
                     if let jsonString = String(data: response.data, encoding: .utf8) {
-                        logPrint("Received JSON data", jsonString)
+//                        logPrint("Received JSON data", jsonString)
                     } else {
                         logPrint("Failed to convert data to JSON string")
                     }

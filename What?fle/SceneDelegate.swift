@@ -42,8 +42,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func sceneDidEnterBackground(_ scene: UIScene) {}
 
-    func switchToRoot() {
-        let component = AppComponent()
+    func switchToRoot(networkService: NetworkServiceDelegate) {
+        let component = AppComponent(networkService: networkService)
         let builder = RootBuilder(dependency: component)
         let rootRouter = builder.build()
 

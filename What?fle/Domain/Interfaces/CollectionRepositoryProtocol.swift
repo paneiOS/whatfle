@@ -14,4 +14,5 @@ protocol CollectionRepositoryProtocol {
     func getRecommendHashtag() -> Single<[RecommendHashTagModel]>
     func uploadImage(imageData: Data, fileName: String) -> Single<String>
     func registCollection(collection: CollectionDataModel) -> Single<Response>
+    func getHomeData(page: Int, pageSize: Int) -> Single<HomeDataModel>
 }

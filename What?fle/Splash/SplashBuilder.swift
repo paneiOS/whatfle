@@ -7,7 +7,18 @@
 
 import RIBs
 
-final class SplashComponent: Component<EmptyDependency> {}
+final class SplashComponent: Component<EmptyDependency> {
+    let networkService: NetworkServiceDelegate
+
+    init() {
+        let networkService = NetworkService()
+        Task {
+            await networkService.monitorAuthChanges()
+        }
+        self.networkService = networkService
+        super.init(dependency: EmptyComponent())
+    }
+}
 
 // MARK: - Builder
 
@@ -21,11 +32,13 @@ final class SplashBuilder: Builder<EmptyDependency>, SplashBuildable {
         super.init(dependency: dependency)
     }
 
-//    SplashRouting
     func build() -> LaunchRouting {
-        let component = SplashComponent(dependency: dependency)
+        let component = SplashComponent()
         let viewController = SplashViewController()
-        let interactor = SplashInteractor(presenter: viewController)
+        let interactor = SplashInteractor(
+            presenter: viewController,
+            networkService: component.networkService
+        )
         return SplashRouter(
             interactor: interactor,
             viewController: viewController,
