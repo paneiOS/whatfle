@@ -57,11 +57,11 @@ extension HomeInteractor: HomePresentableListener {
     func showLoginRIB() {
         self.router?.showLoginRIB()
     }
-    
+
     func loadData(page: Int, pageSize: Int) {
         guard !LoadingIndicatorService.shared.isLoading() else { return }
         LoadingIndicatorService.shared.showLoading()
-        
+
         collectionUseCase.getHomeData(page: page, pageSize: pageSize)
             .subscribe(onSuccess: { [weak self] homeData in
                 guard let self else { return }

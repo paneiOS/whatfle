@@ -24,6 +24,7 @@ protocol AddCollectionListener: AnyObject {
     func dismissAddCollection()
     func closeAddCollection()
     func popToRegistCollection()
+    func routeToRegistLocation()
     func sendDataToRegistCollection(data: EditSelectedCollectionData, tags: [RecommendHashTagModel])
 }
 
@@ -82,7 +83,7 @@ final class AddCollectionInteractor: PresentableInteractor<AddCollectionPresenta
     }
 
     func showRegistLocation() {
-        listener?.closeAddCollection()
+        listener?.routeToRegistLocation()
     }
 
     func retriveRegistLocation() {

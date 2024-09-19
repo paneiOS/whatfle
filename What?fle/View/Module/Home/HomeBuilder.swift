@@ -23,6 +23,10 @@ final class HomeComponent: Component<HomeDependency> {
     var navigationController: UINavigationController {
         return dependency.homeNavigationController
     }
+
+    var collectionUseCase: CollectionUseCaseProtocol {
+        return dependency.collectionUseCase
+    }
 }
 
 extension HomeComponent: DetailCollectionDependency {
@@ -38,10 +42,6 @@ extension HomeComponent: LoginDependency {
 
     var loginUseCase: LoginUseCaseProtocol {
         return dependency.loginUseCase
-    }
-    
-    var collectionUseCase: CollectionUseCaseProtocol {
-        return dependency.collectionUseCase
     }
 }
 

@@ -67,7 +67,7 @@ final class NetworkService: NetworkServiceDelegate {
                     continue
                 }
 
-                logPrint("현재 상태", change.event)
+                logPrint("현재 상태", change.event, change.session?.user.userMetadata)
                 switch change.event {
                 case .initialSession:
                     sessionManager.login(token: accessToken, for: .guest, "세션을 초기화하였습니다.")

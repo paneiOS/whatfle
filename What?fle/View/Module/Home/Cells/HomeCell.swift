@@ -50,7 +50,14 @@ final class HomeCell: UICollectionViewCell {
     private let bottomRightImageView: ImageView = .init()
 
     private let profileView: UIView = .init()
-    private let profileImageView: UIImageView = .init()
+    private let profileImageView: UIImageView = {
+        let imageView: UIImageView = .init()
+        imageView.layer.cornerRadius = 12
+        imageView.layer.masksToBounds = true
+        imageView.layer.borderWidth = 1
+        imageView.layer.borderColor = UIColor.lineExtralight.cgColor
+        return imageView
+    }()
     private let userName: UILabel = .init()
     private let bottomLineView: UIView = {
         let view: UIView = .init()
@@ -143,7 +150,7 @@ extension HomeCell {
         self.profileView.addSubviews(self.profileImageView, self.userName)
         self.profileView.snp.makeConstraints {
             $0.top.equalTo(self.totalImageView.snp.bottom).offset(8)
-            $0.leading.trailing.bottom.equalToSuperview()
+            $0.trailing.bottom.equalToSuperview()
         }
         self.profileImageView.snp.makeConstraints {
             $0.top.leading.bottom.equalToSuperview()
@@ -188,13 +195,13 @@ extension HomeCell {
             imageViews[idx].kf.setImage(with: URL(string: imageURL))
         }
 
-//        profileImageView.kf.setImage(with: URL(string: model.collection.))
-//        self.userName.attributedText = .makeAttributedString(
-//            text: model.collection???,
-//            font: <#T##UIFont#>,
-//            textColor: <#T##UIColor#>,
-//            lineHeight: <#T##CGFloat#>
-//        )
+        self.profileImageView.kf.setImage(with: URL(string: model.account.imageURL))
+        self.userName.attributedText = .makeAttributedString(
+            text: model.account.nickname,
+            font: .body14MD,
+            textColor: .textExtralight,
+            lineHeight: 20
+        )
     }
 }
 

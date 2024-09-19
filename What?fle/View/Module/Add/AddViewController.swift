@@ -15,6 +15,7 @@ import SnapKit
 protocol AddPresentableListener: AnyObject {
     func showRegistLocation()
     func showAddCollection()
+    func showLoginRIB()
     func closeView()
 }
 

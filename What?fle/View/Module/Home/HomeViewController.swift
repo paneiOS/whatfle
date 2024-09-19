@@ -131,4 +131,16 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             return .zero
         }
     }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        switch indexPath.section {
+        case 0:
+            return
+        case 1:
+            guard let homeData = listener?.homeData.value,
+                  let id = homeData.contents[safe: indexPath.item]?.collection.id else { return }
+            self.listener?.showDetailCollection(id: id)
+        default: return
+        }
+    }
 }

@@ -17,6 +17,8 @@ protocol AddRouting: ViewableRouting {
     func popToAddCollection()
     func popToRegistCollection()
     func popToRegistLocation()
+    func showLoginRIB()
+    func dismissLoginRIB()
 }
 
 protocol AddPresentable: Presentable {
@@ -66,10 +68,23 @@ extension AddInteractor: AddInteractable {
         self.router?.navigationController.popViewController(animated: true)
     }
 
+    func routeToRegistLocation() {
+        self.router?.navigationController.popViewController(animated: true)
+        self.showRegistLocation()
+    }
+
     func dismissAddCollection() {}
+
+    func dismissLoginRIB() {
+        self.router?.dismissLoginRIB()
+    }
 }
 
 extension AddInteractor: AddPresentableListener {
+    func showLoginRIB() {
+        self.router?.showLoginRIB()
+    }
+
     func showRegistLocation() {
         self.router?.showRegistLocation()
     }

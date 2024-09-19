@@ -155,4 +155,6 @@ final class RegistCollectionInteractor: PresentableInteractor<RegistCollectionPr
     func popToAddCollection() {}
 
     func closeAddCollection() {}
+
+    func routeToRegistLocation() {}
 }
