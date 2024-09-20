@@ -9,12 +9,18 @@ import UIKit
 
 import SnapKit
 
+protocol TopCellDelegate: AnyObject {
+    func showDetailCell(id: Int)
+}
+
 final class TopCell: UICollectionViewCell {
     private enum Constants {
         static let imageSize: CGSize = .init(width: 131, height: 138)
     }
 
     static let reuseIdentifier = "TopCell"
+    weak var delegate: TopCellDelegate?
+
     private let totalView: UIView = .init()
     private let headerView: UIView = .init()
     private let emphasisView: UIView = {
@@ -66,7 +72,7 @@ final class TopCell: UICollectionViewCell {
         return collectionView
     }()
 
-    private var imageURLs: [String] = [] {
+    private var collections: [HomeDataModel.Collection] = [] {
         didSet {
             self.collectionView.reloadData()
         }
@@ -82,11 +88,6 @@ final class TopCell: UICollectionViewCell {
         super.init(coder: coder)
 
         self.setupUI()
-    }
-
-    override func prepareForReuse() {
-        super.prepareForReuse()
-//        self.emphasisLabel.removeFromSuperview()
     }
 }
 
@@ -128,7 +129,7 @@ extension TopCell {
     }
 
     func drawCell(model: HomeDataModel.TopSection) {
-        self.imageURLs = model.collections.flatMap { $0.places.compactMap { $0.imageURLs?.first } }
+        self.collections = model.collections
         self.emphasisLabel.attributedText = .makeAttributedString(
             text: model.hashtagName,
             font: .title16MD,
@@ -146,12 +147,12 @@ extension TopCell {
 
 extension TopCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        self.imageURLs.count
+        self.collections.flatMap { $0.places }.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SimpleImageCell.reuseIdentifier, for: indexPath) as? SimpleImageCell,
-              let image = self.imageURLs[safe: indexPath.item] else {
+              let image = self.collections.flatMap({ $0.places })[safe: indexPath.item]?.imageURLs?.first else {
             return UICollectionViewCell()
         }
         cell.drawCell(imageURL: image)
@@ -160,5 +161,10 @@ extension TopCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayou
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 131, height: 138)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let id = self.collections[safe: indexPath.item]?.id else { return }
+        self.delegate?.showDetailCell(id: id)
     }
 }

@@ -10,6 +10,7 @@ import UIKit
 import RIBs
 import RxCocoa
 import RxSwift
+import SnapKit
 
 protocol HomePresentableListener: AnyObject {
     var homeData: BehaviorRelay<HomeDataModel?> { get }
@@ -23,9 +24,8 @@ final class HomeViewController: UIViewController, HomePresentable, HomeViewContr
     weak var listener: HomePresentableListener?
     private let disposeBag = DisposeBag()
 
-    private let tempSearchView: UIView = {
-        let view: UIView = .init()
-        view.backgroundColor = .gray
+    private let searchBarView: SearchBarView = {
+        let view: SearchBarView = .init()
         return view
     }()
 
@@ -50,15 +50,15 @@ final class HomeViewController: UIViewController, HomePresentable, HomeViewContr
     }
 
     private func setupUI() {
-        self.view.addSubviews(self.tempSearchView, self.collectionView)
-        self.tempSearchView.snp.makeConstraints {
-            $0.top.equalTo(self.view.safeAreaLayoutGuide)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(64)
+        self.view.addSubviews(self.searchBarView, self.collectionView)
+        self.searchBarView.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(UIApplication.shared.statusBarHeight + 8)
+            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.height.equalTo(48)
         }
 
         self.collectionView.snp.makeConstraints {
-            $0.top.equalTo(self.tempSearchView.snp.bottom)
+            $0.top.equalTo(self.searchBarView.snp.bottom)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
@@ -67,7 +67,7 @@ final class HomeViewController: UIViewController, HomePresentable, HomeViewContr
     private func setupViewBinding() {
         listener?.homeData
             .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] homeData in
+            .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }
                 self.collectionView.reloadData()
             })
@@ -104,6 +104,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
                 return UICollectionViewCell()
             }
             cell.drawCell(model: homeData.topSection)
+            cell.delegate = self
             return cell
         case 1:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCell.reuseIdentifier, for: indexPath) as? HomeCell,
@@ -134,13 +135,23 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch indexPath.section {
-        case 0:
-            return
         case 1:
             guard let homeData = listener?.homeData.value,
                   let id = homeData.contents[safe: indexPath.item]?.collection.id else { return }
             self.listener?.showDetailCollection(id: id)
         default: return
         }
+    }
+}
+
+extension HomeViewController: TopCellDelegate {
+    func showDetailCell(id: Int) {
+        self.listener?.showDetailCollection(id: id)
+    }
+}
+
+extension HomeViewController: UIScrollViewDelegate {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        self.view.endEditing(true)
     }
 }

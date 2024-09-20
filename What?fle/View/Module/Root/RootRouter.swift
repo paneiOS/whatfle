@@ -40,6 +40,7 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable> {
     func attachChildRIBs() {
         let homeRouter = component.homeBuilder.build(withListener: interactor)
         let homeNavigation = component.homeNavigationController
+        homeNavigation.setNavigationBarHidden(true, animated: false)
         homeNavigation.tabBarItem = tabBarItem(type: .home)
         attachChild(homeRouter)
 

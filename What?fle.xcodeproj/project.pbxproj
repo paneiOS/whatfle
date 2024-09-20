@@ -89,6 +89,7 @@
 		395E22F02C3C242E001BB755 /* AddTagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395E22EC2C3C242E001BB755 /* AddTagViewController.swift */; };
 		395E22F12C3C242E001BB755 /* AddTagBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395E22ED2C3C242E001BB755 /* AddTagBuilder.swift */; };
 		395E22F22C3C242E001BB755 /* AddTagInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395E22EE2C3C242E001BB755 /* AddTagInteractor.swift */; };
+		395F9EDC2C9D9273003C2D4F /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395F9EDB2C9D9273003C2D4F /* SearchBarView.swift */; };
 		3961ADDC2BB05CF900977C4B /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3961ADDB2BB05CF900977C4B /* LoadingIndicator.swift */; };
 		396B4B8C2C99B1250034C7DC /* TopCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 396B4B8B2C99B1250034C7DC /* TopCell.swift */; };
 		396B4B8E2C99B5140034C7DC /* SimpleImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 396B4B8D2C99B5140034C7DC /* SimpleImageCell.swift */; };
@@ -263,6 +264,7 @@
 		395E22EC2C3C242E001BB755 /* AddTagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTagViewController.swift; sourceTree = "<group>"; };
 		395E22ED2C3C242E001BB755 /* AddTagBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTagBuilder.swift; sourceTree = "<group>"; };
 		395E22EE2C3C242E001BB755 /* AddTagInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTagInteractor.swift; sourceTree = "<group>"; };
+		395F9EDB2C9D9273003C2D4F /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
 		3961ADDB2BB05CF900977C4B /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
 		396B4B8B2C99B1250034C7DC /* TopCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopCell.swift; sourceTree = "<group>"; };
 		396B4B8D2C99B5140034C7DC /* SimpleImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleImageCell.swift; sourceTree = "<group>"; };
@@ -597,7 +599,7 @@
 				39A9F4ED2C799D15007A626B /* TextField */,
 				4540B43C2C3983D40010E5DF /* TagCollectionView */,
 				3961ADDA2BB05CE200977C4B /* LoadingIndicator */,
-				3939FFCA2B8DFD01007E58F6 /* SearchBar.swift */,
+				395F9EDA2C9D9262003C2D4F /* Search */,
 				456B09D32BB9566C00920C54 /* CustomTextView.swift */,
 				39CF56AE2BC0FD8D00E718C8 /* CustomNavigationBar.swift */,
 				390504772BE4296400575DF1 /* CustomPresentHeader.swift */,
@@ -688,6 +690,15 @@
 				395E22EE2C3C242E001BB755 /* AddTagInteractor.swift */,
 			);
 			path = AddTag;
+			sourceTree = "<group>";
+		};
+		395F9EDA2C9D9262003C2D4F /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				3939FFCA2B8DFD01007E58F6 /* SearchBar.swift */,
+				395F9EDB2C9D9273003C2D4F /* SearchBarView.swift */,
+			);
+			path = Search;
 			sourceTree = "<group>";
 		};
 		3961ADDA2BB05CE200977C4B /* LoadingIndicator */ = {
@@ -1235,6 +1246,7 @@
 				39878D1B2C7B541D004898AD /* CollectionRepository.swift in Sources */,
 				457A8A632C8C3D50000444AC /* SessionManager.swift in Sources */,
 				392DAEA12C4696FF000F2B94 /* CustomAlbumRouter.swift in Sources */,
+				395F9EDC2C9D9273003C2D4F /* SearchBarView.swift in Sources */,
 				39DE4ED42C89D1F500930ED2 /* DebugUtils.swift in Sources */,
 				39EBCDF82B8A26B200599D58 /* AddBuilder.swift in Sources */,
 				39878D1F2C7B5F4B004898AD /* CollectionUseCaseProtocol.swift in Sources */,
