@@ -27,7 +27,7 @@ protocol RegistCollectionPresentableListener: AnyObject {
     func popToRegistCollection()
 }
 
-final class RegistCollectionViewController: UIVCWithKeyboard, RegistCollectionPresentable, RegistCollectionViewControllable {
+final class RegistCollectionViewController: UIViewController, RegistCollectionPresentable, RegistCollectionViewControllable {
     private enum Constants {
         static let contentsWidth: CGFloat = UIApplication.shared.width - 48
     }
@@ -221,6 +221,7 @@ final class RegistCollectionViewController: UIVCWithKeyboard, RegistCollectionPr
         setupUI()
         setupViewBinding()
         setupActionBinding()
+        setupDismissKeyboard()
     }
 
     private func setupUI() {

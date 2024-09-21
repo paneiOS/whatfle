@@ -20,7 +20,7 @@ protocol AddTagPresentableListener: AnyObject {
     func confirmTags(tags: [TagType])
 }
 
-final class AddTagViewController: UIVCWithKeyboard, AddTagPresentable, AddTagViewControllable {
+final class AddTagViewController: BottomKeyboardVC, AddTagPresentable, AddTagViewControllable {
     private let contentsView: UIView = {
         let view: UIView = .init()
         view.backgroundColor = .white

@@ -12,7 +12,7 @@ import RxSwift
 import SnapKit
 
 final class SearchBarView: UIView {
-    private let totalView: UIStackView = {
+    let totalView: UIStackView = {
         let stackView: UIStackView = .init()
         stackView.axis = .horizontal
         stackView.spacing = 4
@@ -42,16 +42,16 @@ final class SearchBarView: UIView {
         return searchBar
     }()
 
-    private let searchButton: UIControl = .init()
+    let searchButton: UIControl = .init()
 
-    private let searchButtonImageView: UIImageView = {
+    let searchButtonImageView: UIImageView = {
         let view: UIImageView = .init()
         view.image = .Icon.search
         view.tintColor = .textExtralight
         return view
     }()
 
-    private let closeButton: UIControl = {
+    let closeButton: UIControl = {
         let control: UIControl = .init()
         let imageView: UIImageView = {
             let view: UIImageView = .init()
@@ -66,6 +66,12 @@ final class SearchBarView: UIView {
         control.isHidden = true
         return control
     }()
+
+    weak var delegate: UITextFieldDelegate? {
+        didSet {
+            searchBar.delegate = delegate
+        }
+    }
 
     private let disposeBag = DisposeBag()
 
