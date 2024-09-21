@@ -13,18 +13,27 @@ import Storage
 import RxSwift
 
 protocol NetworkServiceDelegate: AnyObject {
+    var sessionManager: SessionManager { get }
+    var isLogin: Bool { get }
     func request<T: TargetType>(_ target: T) -> Single<Response>
     func request<T: TargetType, U: Decodable>(_ target: T) -> Single<U>
     func uploadImageRequest(bucketName: String, imageData: Data, fileName: String) -> Single<String>
+    func monitorAuthChanges() async
 }
 
 final class NetworkService: NetworkServiceDelegate {
     private let provider: MoyaProvider<MultiTarget>
     private var client: SupabaseClient
+    let sessionManager: SessionManager
+    private let disposeBag = DisposeBag()
 
     typealias Task = _Concurrency.Task
 
-    init(isStubbing: Bool = false) {
+    var isLogin: Bool {
+        sessionManager.isLogin
+    }
+
+    init(isStubbing: Bool = false, sessionManager: SessionManager = .shared) {
         if isStubbing {
             self.provider = MoyaProvider<MultiTarget>(stubClosure: MoyaProvider.immediatelyStub)
         } else {
@@ -34,141 +43,143 @@ final class NetworkService: NetworkServiceDelegate {
             supabaseURL: URL(string: AppConfigs.API.Supabase.baseURL)!,
             supabaseKey: AppConfigs.API.Supabase.key
         )
+        self.sessionManager = sessionManager
     }
 
-    private func refreshSessionIfNeeded() -> Single<String> {
-        return Single.create {[weak self] single in
-            guard let self else {
-                single(.failure(NSError(domain: "RefreshSessionError", code: -1, userInfo: nil)))
-                return Disposables.create()
-            }
-            Task {
-                do {
-                    let token = KeychainManager.loadAccessToken()
-                    if self.isTokenValid(token) {
-                        single(.success(token))
-                    } else {
-                        let session = try await self.client.auth.refreshSession()
-                        try KeychainManager.saveAccessToken(token: session.accessToken)
-                        debugPrint("accessToken", session.accessToken)
-                        single(.success(session.accessToken))
-                    }
-                } catch {
-                    single(.failure(error))
+    func monitorAuthChanges() async {
+        Task {
+            if !sessionManager.isLogin {
+                logPrint("사용자는 로그아웃 상태입니다.", "익명 액세스 토큰을 사용합니다.")
+                await handleAnonymousSession()
+            } else {
+                if let session = try? await self.client.auth.session {
+                    sessionManager.login(token: session.accessToken, for: .member, "로그인 상태를 초기화합니다.")
+                } else {
+                    logPrint("로그인 상태가 아닙니다.", "새로운 세션을 시도합니다.")
+                    await handleAnonymousSession()
                 }
             }
-            return Disposables.create()
+
+            for await change in self.client.auth.authStateChanges {
+                guard let accessToken = change.session?.accessToken else {
+                    logPrint("세션이 유효하지 않습니다.", "익명 액세스 토큰을 사용합니다.")
+                    await handleAnonymousSession()
+                    continue
+                }
+
+                logPrint("현재 상태", change.event)
+                logPrint("현재 유저", change.session?.user)
+                logPrint("현재 유저메타데이터", change.session?.user.userMetadata)
+
+                switch change.event {
+                case .initialSession:
+                    if let userMetadata = change.session?.user.userMetadata, !userMetadata.isEmpty {
+                        sessionManager.login(token: accessToken, for: .member, "세션을 초기화하였습니다.")
+                    } else {
+                        sessionManager.login(token: accessToken, for: .guest, "세션을 초기화하였습니다.")
+                    }
+
+                case .signedIn:
+                    sessionManager.login(token: accessToken, "로그인되었습니다.")
+                case .tokenRefreshed:
+                    if sessionManager.isLogin {
+                        sessionManager.login(token: accessToken, "토큰이 갱신되었습니다.")
+                    }
+                case .signedOut:
+                    sessionManager.logout(accessToken, "로그아웃 처리되었습니다.")
+                    await handleAnonymousSession()
+                case .userDeleted:
+                    sessionManager.logout(accessToken, "탈퇴 처리되었습니다.")
+                    await handleAnonymousSession()
+                default:
+                    sessionManager.login(token: accessToken, "기타 인증 이벤트가 발생했습니다.")
+                }
+            }
+        }
+    }
+
+    private func handleAnonymousSession() async {
+        do {
+            let session = try await self.client.auth.signInAnonymously()
+            sessionManager.login(token: session.accessToken, for: .guest, "익명 세션이 설정되었습니다.")
+        } catch {
+            sessionManager.logout(error.localizedDescription, "익명 세션 설정에 실패했습니다.")
         }
     }
 
     func request<T: TargetType>(_ target: T) -> Single<Response> {
-        return refreshSessionIfNeeded().flatMap { [weak self] token in
-            guard let self = self else {
-                return Single.error(NSError(domain: "RequestError", code: -1, userInfo: nil))
+        return Single<Response>.create { single in
+            let cancellable = self.provider.request(MultiTarget(target)) { result in
+                switch result {
+                case .success(let response):
+                    if let jsonString = String(data: response.data, encoding: .utf8) {
+                        logPrint(
+                            "응답값 상태 \(response.statusCode)",
+                            "타겟타입: \(target)",
+                            "Received JSON data ",
+                            jsonString
+                        )
+                    } else {
+                        logPrint("Failed to convert data to JSON string")
+                    }
+                    single(.success(response))
+                case .failure(let error):
+                    single(.failure(error))
+                }
             }
 
-            var headers = target.headers ?? [:]
-            headers["Authorization"] = "Bearer \(token)"
-
-            return Single<Response>.create { single in
-                let cancellable = self.provider.request(MultiTarget(target)) { result in
-                    switch result {
-                    case .success(let response):
-                        single(.success(response))
-                    case .failure(let error):
-                        single(.failure(error))
-                    }
-                }
-                return Disposables.create {
-                    cancellable.cancel()
-                }
+            return Disposables.create {
+                cancellable.cancel()
             }
         }
     }
 
     func request<T: TargetType, U: Decodable>(_ target: T) -> Single<U> {
-        return refreshSessionIfNeeded().flatMap { [weak self] token in
-            guard let self = self else {
-                return Single.error(NSError(domain: "RequestError", code: -1, userInfo: nil))
-            }
-
-            var headers = target.headers ?? [:]
-            headers["Authorization"] = "Bearer \(token)"
-
-            return Single<U>.create { single in
-                let cancellable = self.provider.request(MultiTarget(target)) { result in
-                    switch result {
-                    case .success(let response):
-                        do {
-                            let decodedResponse = try JSONDecoder().decode(U.self, from: response.data)
-                            single(.success(decodedResponse))
-                        } catch {
-                            single(.failure(error))
-                        }
-                    case .failure(let error):
+        return Single<U>.create { single in
+            let cancellable = self.provider.request(MultiTarget(target)) { result in
+                switch result {
+                case .success(let response):
+                    if let jsonString = String(data: response.data, encoding: .utf8) {
+                        logPrint(
+                            "응답값 상태 \(response.statusCode)",
+                            "타겟타입: \(target)",
+                            "Received JSON data ",
+                            jsonString
+                        )
+                    } else {
+                        logPrint("Failed to convert data to JSON string")
+                    }
+                    do {
+                        let decodedResponse = try JSONDecoder().decode(U.self, from: response.data)
+                        single(.success(decodedResponse))
+                    } catch {
                         single(.failure(error))
                     }
+                case .failure(let error):
+                    single(.failure(error))
                 }
-                return Disposables.create {
-                    cancellable.cancel()
-                }
+            }
+            return Disposables.create {
+                cancellable.cancel()
             }
         }
     }
 
     func uploadImageRequest(bucketName: String, imageData: Data, fileName: String) -> Single<String> {
-        return refreshSessionIfNeeded().flatMap { [weak self] token in
-            guard let self = self else {
-                return Single.error(NSError(domain: "UploadError", code: -1, userInfo: nil))
-            }
-
-            self.client = SupabaseClient(
-                supabaseURL: URL(string: AppConfigs.API.Supabase.baseURL)!,
-                supabaseKey: token
-            )
-
-            return Single<String>.create { single in
-                Task {
-                    do {
-                        let response = try await self.client.storage.from(bucketName).upload(path: fileName, file: imageData)
-                        let fileURL = try self.client.storage.from(bucketName).getPublicURL(path: response.id).absoluteString
-                        single(.success(fileURL))
-                    } catch {
-                        print("uploadImage_error", error)
-                        single(.failure(error))
-                    }
-                }
+        return Single<String>.create { [weak self] single in
+            guard let self else {
                 return Disposables.create()
             }
-        }
-    }
-
-    private func isTokenValid(_ token: String) -> Bool {
-        guard let expirationDate = decodeJWT(token)?.expirationDate else {
-            return false
-        }
-
-        return expirationDate > Date()
-
-        func decodeJWT(_ token: String) -> (expirationDate: Date?, otherClaims: [String: Any]?)? {
-            let segments = token.split(separator: ".")
-            guard segments.count == 3 else { return nil }
-
-            let base64String = String(segments[1])
-                .replacingOccurrences(of: "-", with: "+")
-                .replacingOccurrences(of: "_", with: "/")
-            let paddedLength = base64String.count + (4 - base64String.count % 4) % 4
-            let paddedBase64String = base64String.padding(toLength: paddedLength, withPad: "=", startingAt: 0)
-
-            guard let data = Data(base64Encoded: paddedBase64String),
-                  let json = try? JSONSerialization.jsonObject(with: data, options: []),
-                  let claims = json as? [String: Any],
-                  let exp = claims["exp"] as? TimeInterval else {
-                return nil
+            Task {
+                do {
+                    let response = try await self.client.storage.from(bucketName).upload(path: fileName, file: imageData)
+                    let fileURL = try self.client.storage.from(bucketName).getPublicURL(path: response.id).absoluteString
+                    single(.success(fileURL))
+                } catch {
+                    single(.failure(error))
+                }
             }
-
-            let expirationDate = Date(timeIntervalSince1970: exp)
-            return (expirationDate, claims)
+            return Disposables.create()
         }
     }
 }

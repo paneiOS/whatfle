@@ -11,7 +11,10 @@ import Moya
 import RxSwift
 
 protocol CollectionRepositoryProtocol {
+    func getAllMyCollectionIDsWithFavorite() -> Single<[Int]>
+    func getHomeData(page: Int, pageSize: Int) -> Single<HomeDataModel>
     func getRecommendHashtag() -> Single<[RecommendHashTagModel]>
-    func uploadImage(imageData: Data, fileName: String) -> Single<String>
     func registCollection(collection: CollectionDataModel) -> Single<Response>
+    func uploadImage(imageData: Data, fileName: String) -> Single<String>
+    func updateFavorite(id: Int, isFavorite: Bool) -> Single<Void>
 }

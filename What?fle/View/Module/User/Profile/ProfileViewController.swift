@@ -17,6 +17,7 @@ protocol ProfilePresentableListener: AnyObject {
     func existCheck(nickname: String)
     func showCustomAlbum()
     func updateProfile(nickname: String, imageData: Data)
+    func popToProfileView()
 }
 
 final class ProfileViewController: UIViewController, ProfilePresentable, ProfileViewControllable {
@@ -44,7 +45,6 @@ final class ProfileViewController: UIViewController, ProfilePresentable, Profile
 
     private let profileImageView: UIImageView = {
         let imageView: UIImageView = .init()
-        imageView.backgroundColor = .blue
         imageView.layer.cornerRadius = 60
         imageView.layer.masksToBounds = true
         let cameraImage: UIImageView = .init(image: .Icon.cameraIcon)
@@ -305,6 +305,13 @@ final class ProfileViewController: UIViewController, ProfilePresentable, Profile
                     return
                 }
                 self.listener?.updateProfile(nickname: nickname, imageData: imageData)
+            })
+            .disposed(by: self.disposeBag)
+
+        self.customNavigationBar.backButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                guard let self else { return }
+                self.listener?.popToProfileView()
             })
             .disposed(by: self.disposeBag)
     }

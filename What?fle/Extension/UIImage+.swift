@@ -30,4 +30,47 @@ extension UIImage {
 //        print("Resized Image Size: \(Double(compressedData.count) / 1024 / 1024) MB")
         return compressedData
     }
+
+    static func combine2x2(with images: [UIImage], width: CGFloat) -> UIImage? {
+        guard images.count == 4 else { return nil }
+        let size: CGSize = .init(width: width, height: width)
+        let totalSize = CGSize(width: size.width, height: size.height)
+        UIGraphicsBeginImageContext(totalSize)
+
+        let width = size.width / 2
+        let height = size.height / 2
+
+        for (index, image) in images.enumerated() {
+            let xPosition = (index % 2 == 0) ? 0 : width
+            let yPosition = (index / 2 == 0) ? 0 : height
+            image.draw(in: CGRect(x: xPosition, y: yPosition, width: width, height: height))
+        }
+
+        let combinedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        return combinedImage
+    }
+
+    static func combine1x4(with images: [UIImage], height: CGFloat) -> UIImage? {
+        guard images.count == 4 else { return nil }
+
+        let totalWidth = images.reduce(0) { $0 + $1.size.width }
+        let totalSize = CGSize(width: totalWidth, height: height)
+        UIGraphicsBeginImageContext(totalSize)
+
+        var xOffset: CGFloat = 0
+
+        for image in images {
+            let aspectRatio = image.size.width / image.size.height
+            let imageWidth = height * aspectRatio
+            image.draw(in: CGRect(x: xOffset, y: 0, width: imageWidth, height: height))
+            xOffset += imageWidth
+        }
+
+        let combinedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        return combinedImage
+    }
 }

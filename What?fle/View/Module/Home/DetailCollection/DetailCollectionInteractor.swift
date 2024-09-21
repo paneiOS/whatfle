@@ -44,14 +44,14 @@ final class DetailCollectionInteractor: PresentableInteractor<DetailCollectionPr
         guard !LoadingIndicatorService.shared.isLoading() else { return }
         LoadingIndicatorService.shared.showLoading()
 
-        networkService.request(WhatfleAPI.getDetailCollection(self.collectionID))
+        networkService.request(CollectionAPI.getDetailCollection(self.collectionID))
             .subscribe(onSuccess: { [weak self] result in
                 guard let self else { return }
                 self.detailCollectionModel.onNext(result)
-                LoadingIndicatorService.shared.hideLoading()
             }, onFailure: { error in
+                errorPrint(error)
+            }, onDisposed: {
                 LoadingIndicatorService.shared.hideLoading()
-                print("Error: \(error)")
             })
             .disposed(by: disposeBag)
     }

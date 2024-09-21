@@ -16,7 +16,7 @@ enum AppConfigs {
         }
         return dictionary
     }
-    
+
     enum API {
         enum Supabase {
             static var key: String {

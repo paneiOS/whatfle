@@ -43,13 +43,19 @@ extension NSAttributedString {
     }
 
     func height(containerWidth: CGFloat) -> CGFloat {
-            let constraintRect = CGSize(width: containerWidth, height: .greatestFiniteMagnitude)
-            let boundingBox = self.boundingRect(with: constraintRect, options: [.usesLineFragmentOrigin, .usesFontLeading], context: nil)
-            let paragraphStyle = self.attribute(.paragraphStyle, at: 0, effectiveRange: nil) as? NSParagraphStyle
-            let lineHeight = paragraphStyle?.minimumLineHeight ?? boundingBox.height
-            let numberOfLines = ceil(boundingBox.height / lineHeight)
-            return numberOfLines * lineHeight
-        }
+        let constraintRect = CGSize(width: containerWidth, height: .greatestFiniteMagnitude)
+        let boundingBox = self.boundingRect(with: constraintRect, options: [.usesLineFragmentOrigin, .usesFontLeading], context: nil)
+        let paragraphStyle = self.attribute(.paragraphStyle, at: 0, effectiveRange: nil) as? NSParagraphStyle
+        let lineHeight = paragraphStyle?.minimumLineHeight ?? boundingBox.height
+        let numberOfLines = ceil(boundingBox.height / lineHeight)
+        return numberOfLines * lineHeight
+    }
+
+    func width(containerHeight: CGFloat) -> CGFloat {
+        let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: containerHeight)
+        let boundingBox = self.boundingRect(with: constraintRect, options: [.usesLineFragmentOrigin, .usesFontLeading], context: nil)
+        return ceil(boundingBox.width)
+    }
 }
 
 extension String {

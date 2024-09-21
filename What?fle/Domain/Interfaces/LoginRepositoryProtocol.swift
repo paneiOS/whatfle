@@ -11,6 +11,7 @@ import RxSwift
 import Supabase
 
 protocol LoginRepositoryProtocol {
+    var sessionManager: SessionManager { get }
     func snsLogin(model: LoginRequestModel) -> Single<UserInfo>
     func signInWithIDToken(provider: OpenIDConnectCredentials.Provider, idToken: String) -> Single<Supabase.Session>
     func existNickname(nickname: String) -> Single<Bool>

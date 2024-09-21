@@ -9,10 +9,21 @@ import UIKit
 
 import Moya
 
-enum LoginAPI {
+protocol Loginable {
+    var requiresLogin: Bool { get }
+}
+
+enum LoginAPI: Loginable {
     case snsLogin(LoginRequestModel)
     case existNickname(String)
     case updateProfile(UserProfile)
+
+    var requiresLogin: Bool {
+        switch self {
+        default:
+            return true
+        }
+    }
 }
 
 extension LoginAPI: TargetType {
@@ -61,6 +72,9 @@ extension LoginAPI: TargetType {
     }
 
     var headers: [String: String]? {
-        return ["Authorization": "Bearer " + KeychainManager.loadAccessToken()]
+        guard let accessToken = SessionManager.shared.loadAccessToken() else {
+            return ["Authorization": ""]
+        }
+        return ["Authorization": "Bearer " + accessToken]
     }
 }

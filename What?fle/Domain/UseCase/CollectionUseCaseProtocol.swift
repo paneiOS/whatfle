@@ -11,8 +11,10 @@ import Moya
 import RxSwift
 
 protocol CollectionUseCaseProtocol {
+    func getHomeData(page: Int, pageSize: Int) -> Single<HomeDataModel>
     func getRecommendHashtag() -> Single<[RecommendHashTagModel]>
     func registCollection(collection: CollectionData, imageData: Data?) -> Single<Response>
+    func updateFavorite(id: Int, isFavorite: Bool) -> Single<Void>
 }
 
 final class CollectionUseCase: CollectionUseCaseProtocol {
@@ -20,6 +22,30 @@ final class CollectionUseCase: CollectionUseCaseProtocol {
 
     init(collectionRepository: CollectionRepositoryProtocol) {
         self.collectionRepository = collectionRepository
+    }
+
+    func getHomeData(page: Int, pageSize: Int) -> Single<HomeDataModel> {
+        if SessionManager.shared.isLogin {
+            return Single.zip(
+                collectionRepository.getHomeData(page: page, pageSize: pageSize),
+                collectionRepository.getAllMyCollectionIDsWithFavorite()
+            )
+            .map { homeData, favoriteIDs in
+                let updatedContents = homeData.contents.map { content -> HomeDataModel.Content in
+                    let isFavorite = favoriteIDs.contains(content.collection.id)
+                    return HomeDataModel.Content(data: content, isFavorite: isFavorite)
+                }
+                return HomeDataModel(
+                    topSection: homeData.topSection,
+                    contents: updatedContents,
+                    page: homeData.page,
+                    pageSize: homeData.pageSize,
+                    isLastPage: homeData.isLastPage
+                )
+            }
+        } else {
+            return collectionRepository.getHomeData(page: page, pageSize: pageSize)
+        }
     }
 
     func getRecommendHashtag() -> Single<[RecommendHashTagModel]> {
@@ -39,5 +65,9 @@ final class CollectionUseCase: CollectionUseCaseProtocol {
         } else {
             return self.collectionRepository.registCollection(collection: .init(data: collection, imageURL: []))
         }
+    }
+
+    func updateFavorite(id: Int, isFavorite: Bool) -> Single<Void> {
+        self.collectionRepository.updateFavorite(id: id, isFavorite: isFavorite)
     }
 }

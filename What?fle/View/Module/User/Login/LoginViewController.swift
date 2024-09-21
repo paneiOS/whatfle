@@ -98,6 +98,8 @@ final class LoginViewController: UIViewController, LoginPresentable, LoginViewCo
     }
 
     private func setupUI() {
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+
         view.backgroundColor = .white
 
         view.addSubviews(self.customNavigationBar, self.subView)

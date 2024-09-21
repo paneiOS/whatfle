@@ -9,7 +9,7 @@ import UIKit
 
 import RIBs
 
-protocol AddInteractable: Interactable, RegistLocationListener, AddCollectionListener, RegistCollectionListener {
+protocol AddInteractable: Interactable, RegistLocationListener, AddCollectionListener, RegistCollectionListener, LoginListener {
     var router: AddRouting? { get set }
     var listener: AddListener? { get set }
 }
@@ -20,6 +20,7 @@ final class AddRouter: ViewableRouter<AddInteractable, AddViewControllable> {
     private let component: AddComponent
     let navigationController: UINavigationController
 
+    weak var loginRouter: LoginRouting?
     weak var registLocationRouter: RegistLocationRouting?
     weak var addCollectionRouter: AddCollectionRouting?
     weak var registCollectionRouter: RegistCollectionRouting?
@@ -44,12 +45,16 @@ final class AddRouter: ViewableRouter<AddInteractable, AddViewControllable> {
 
 extension AddRouter: AddRouting {
     func routeToAddCollection(data: EditSelectedCollectionData?) {
-        if self.addCollectionRouter == nil {
-            let router = self.component.addCollectionBuilder.build(withListener: self.interactor, withData: data)
-            self.navigationController.setNavigationBarHidden(true, animated: false)
-            self.navigationController.pushViewController(router.viewControllable.uiviewController, animated: true)
-            self.attachChild(router)
-            self.addCollectionRouter = router
+        if !component.networkService.isLogin {
+            self.showLoginRIB()
+        } else {
+            if self.addCollectionRouter == nil {
+                let router = self.component.addCollectionBuilder.build(withListener: self.interactor, withData: data)
+                self.navigationController.setNavigationBarHidden(true, animated: false)
+                self.navigationController.pushViewController(router.viewControllable.uiviewController, animated: true)
+                self.attachChild(router)
+                self.addCollectionRouter = router
+            }
         }
     }
 
@@ -74,12 +79,16 @@ extension AddRouter: AddRouting {
     }
 
     func showRegistLocation() {
-        if self.registLocationRouter == nil {
-            let router = self.component.registLocationBuilder.build(withListener: self.interactor)
-            self.navigationController.setNavigationBarHidden(true, animated: false)
-            self.navigationController.pushViewController(router.viewControllable.uiviewController, animated: true)
-            self.attachChild(router)
-            self.registLocationRouter = router
+        if !component.networkService.isLogin {
+            self.showLoginRIB()
+        } else {
+            if self.registLocationRouter == nil {
+                let router = self.component.registLocationBuilder.build(withListener: self.interactor)
+                self.navigationController.setNavigationBarHidden(true, animated: false)
+                self.navigationController.pushViewController(router.viewControllable.uiviewController, animated: true)
+                self.attachChild(router)
+                self.registLocationRouter = router
+            }
         }
     }
 
@@ -104,6 +113,26 @@ extension AddRouter: AddRouting {
             self.navigationController.popViewController(animated: true)
             self.detachChild(router)
             self.registLocationRouter = nil
+        }
+    }
+
+    func showLoginRIB() {
+        if self.loginRouter == nil {
+            let router = self.component.loginBuilder.build(withListener: self.interactor)
+            if let navigationController = router.navigationController {
+                navigationController.modalPresentationStyle = .fullScreen
+                self.viewController.present(navigationController, animated: true)
+                self.attachChild(router)
+                self.loginRouter = router
+            }
+        }
+    }
+
+    func dismissLoginRIB() {
+        if let router = self.loginRouter {
+            self.viewController.uiviewController.dismiss(animated: true)
+            self.detachChild(router)
+            self.loginRouter = nil
         }
     }
 }

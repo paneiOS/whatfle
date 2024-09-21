@@ -5,8 +5,9 @@
 //  Created by 이정환 on 8/8/24.
 //
 
-import Kingfisher
 import UIKit
+
+import Kingfisher
 
 final class CoverImageCell: UICollectionViewCell {
     static let reuseIdentifier = "CoverImageCell"

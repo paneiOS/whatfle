@@ -41,13 +41,17 @@ final class HomeRouter: ViewableRouter<HomeInteractable, HomeViewControllable> {
 
 extension HomeRouter: HomeRouting {
     func routeToDetailCollection(id: Int) {
-        if self.detailCollectionRouter == nil {
-            let router = self.component.detailCollectionBuilder.build(withListener: self.interactor, id: id)
-            router.viewControllable.uiviewController.hidesBottomBarWhenPushed = true
-            self.navigationController.setNavigationBarHidden(true, animated: false)
-            self.navigationController.pushViewController(router.viewControllable.uiviewController, animated: true)
-            self.attachChild(router)
-            self.detailCollectionRouter = router
+        if !component.networkService.isLogin {
+            self.showLoginRIB()
+        } else {
+            if self.detailCollectionRouter == nil {
+                let router = self.component.detailCollectionBuilder.build(withListener: self.interactor, id: id)
+                router.viewControllable.uiviewController.hidesBottomBarWhenPushed = true
+                self.navigationController.setNavigationBarHidden(true, animated: false)
+                self.navigationController.pushViewController(router.viewControllable.uiviewController, animated: true)
+                self.attachChild(router)
+                self.detailCollectionRouter = router
+            }
         }
     }
 

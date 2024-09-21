@@ -10,6 +10,7 @@ import UIKit
 
 protocol AddDependency: Dependency {
     var networkService: NetworkServiceDelegate { get }
+    var loginUseCase: LoginUseCaseProtocol { get }
     var locationUseCase: LocationUseCaseProtocol { get }
     var collectionUseCase: CollectionUseCaseProtocol { get }
 }
@@ -43,6 +44,16 @@ extension AddComponent: AddCollectionDependency {
 extension AddComponent: RegistCollectionDependency {
     var registCollectionBuilder: RegistCollectionBuildable {
         return RegistCollectionBuilder(dependency: self)
+    }
+}
+
+extension AddComponent: LoginDependency {
+    var loginBuilder: LoginBuildable {
+        return LoginBuilder(dependency: self)
+    }
+
+    var loginUseCase: LoginUseCaseProtocol {
+        return dependency.loginUseCase
     }
 }
 

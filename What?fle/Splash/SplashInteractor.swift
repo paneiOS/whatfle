@@ -10,7 +10,7 @@ import RIBs
 import RxSwift
 
 protocol SplashRouting: ViewableRouting {
-    func routeToRoot()
+    func routeToRoot(networkService: NetworkServiceDelegate)
 }
 
 protocol SplashPresentable: Presentable {
@@ -24,10 +24,19 @@ final class SplashInteractor: PresentableInteractor<SplashPresentable>, SplashIn
     weak var router: SplashRouting?
     weak var listener: SplashListener?
 
+    private let networkService: NetworkServiceDelegate
+
+    init(presenter: SplashPresentable, networkService: NetworkServiceDelegate) {
+        self.networkService = networkService
+        super.init(presenter: presenter)
+        presenter.listener = self
+    }
+
     override func didBecomeActive() {
         super.didBecomeActive()
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-            self?.router?.routeToRoot()
+            guard let self else { return }
+            router?.routeToRoot(networkService: self.networkService)
         }
     }
 }

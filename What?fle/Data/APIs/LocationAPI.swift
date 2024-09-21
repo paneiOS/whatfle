@@ -9,16 +9,24 @@ import Foundation
 
 import Moya
 
-enum LocationAPI {
-    case search(_ query: String, _ page: Int)
-    case registPlace(PlaceRegistration)
+enum LocationAPI: Loginable {
     case getAllMyPlace
+    case registPlace(PlaceRegistration)
+    case retriveRegistLocation
+    case search(_ query: String, _ page: Int)
+
+    var requiresLogin: Bool {
+        switch self {
+        default:
+            return true
+        }
+    }
 }
 
 extension LocationAPI: TargetType {
     var baseURL: URL {
         switch self {
-        case .search:
+        case .search, .retriveRegistLocation:
             return URL(string: AppConfigs.API.Kakao.searchURL)!
         default:
             return URL(string: AppConfigs.API.Supabase.baseURL)!
@@ -34,6 +42,8 @@ extension LocationAPI: TargetType {
             return basePath + "/place"
         case .getAllMyPlace:
             return basePath + "/places"
+        default:
+            return ""
         }
     }
 
@@ -48,14 +58,17 @@ extension LocationAPI: TargetType {
 
     var task: Moya.Task {
         switch self {
+        case .registPlace(let model):
+            return .requestJSONEncodable(model)
+        case .retriveRegistLocation:
+            let parameters: [String: Any] = [:]
+            return .requestParameters(parameters: parameters, encoding: URLEncoding.queryString)
         case .search(let query, let page):
             let parameters: [String: Any] = [
                 "query": query,
                 "page": page
             ]
             return .requestParameters(parameters: parameters, encoding: URLEncoding.queryString)
-        case .registPlace(let model):
-            return .requestJSONEncodable(model)
         default:
             return .requestPlain
         }
@@ -66,14 +79,23 @@ extension LocationAPI: TargetType {
         case .search:
             return ["Authorization": "KakaoAK \(AppConfigs.API.Kakao.restKey)"]
         default:
-            return ["Authorization": "Bearer " + KeychainManager.loadAccessToken()]
+            guard let accessToken = SessionManager.shared.loadAccessToken() else {
+                return ["Authorization": ""]
+            }
+            return ["Authorization": "Bearer " + accessToken]
         }
     }
- 
+
     var sampleData: Data {
         switch self {
         case .search:
             guard let path = Bundle.main.path(forResource: "SearchMock", ofType: "json"),
+                  let data = try? Data(contentsOf: URL(fileURLWithPath: path)) else {
+                return Data()
+            }
+            return data
+        case .retriveRegistLocation:
+            guard let path = Bundle.main.path(forResource: "RetriveRegistLocationMock", ofType: "json"),
                   let data = try? Data(contentsOf: URL(fileURLWithPath: path)) else {
                 return Data()
             }

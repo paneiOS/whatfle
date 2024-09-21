@@ -21,6 +21,7 @@ protocol ProfilePresentable: Presentable {
 }
 
 protocol ProfileListener: AnyObject {
+    func popToProfileView()
     func closeLogin()
 }
 
@@ -86,18 +87,18 @@ final class ProfileInteractor: PresentableInteractor<ProfilePresentable>, Profil
         LoadingIndicatorService.shared.showLoading()
 
         loginUseCase.updateUserProfile(nickname: nickname, imageData: imageData)
-            .do(onSuccess: { response in
-                    print("서버 응답 데이터: \(response)")
-                })
-            .subscribe(onSuccess: { [weak self] model in
+            .subscribe(onSuccess: { [weak self] in
                 guard let self else { return }
-                try? KeychainManager.saveUserInfo(model: model)
                 self.listener?.closeLogin()
             }, onFailure: { error in
-                print("\(self) Error:", error)
+                errorPrint(error)
             }, onDisposed: {
                 LoadingIndicatorService.shared.hideLoading()
             })
             .disposed(by: disposeBag)
+    }
+
+    func popToProfileView() {
+        listener?.popToProfileView()
     }
 }

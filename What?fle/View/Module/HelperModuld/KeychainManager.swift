@@ -9,12 +9,13 @@ import Foundation
 import Security
 
 final class KeychainManager {
-    private static let shared = KeychainManager()
+    static let shared = KeychainManager()
     private init() {}
 
-    private enum Service: String {
-        case loginRequest
+    enum Service: String {
+        case userInfo
         case accessToken
+        case guestAccessToken
 
         func identifier() -> String {
             return "com.Whatfle.What." + self.rawValue
@@ -27,7 +28,7 @@ final class KeychainManager {
         case encodingError(Error)
     }
 
-    private func save(service: String, data: Data) throws {
+    private func save(service: String, data: Data) {
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: service,
@@ -36,12 +37,12 @@ final class KeychainManager {
 
         let deleteStatus = SecItemDelete(query as CFDictionary)
         if deleteStatus != errSecSuccess && deleteStatus != errSecItemNotFound {
-            throw KeychainError.deleteError(status: deleteStatus)
+            return
         }
 
         let status = SecItemAdd(query as CFDictionary, nil)
         if status != errSecSuccess {
-            throw KeychainError.saveError(status: status)
+            return
         }
     }
 
@@ -60,6 +61,10 @@ final class KeychainManager {
         return item as? Data
     }
 
+    func delete(service: Service) {
+        self.delete(service: service.identifier())
+    }
+    
     @discardableResult
     private func delete(service: String) -> Bool {
         let query: [String: Any] = [
@@ -71,33 +76,37 @@ final class KeychainManager {
         return status == errSecSuccess
     }
 
-    static func saveUserInfo(model: UserInfo) throws {
+    func saveUserInfo(model: UserInfo) throws {
         do {
             let data = try JSONEncoder().encode(model)
-            let service = Service.loginRequest.identifier()
-            try KeychainManager.shared.save(service: service, data: data)
+            save(service: Service.userInfo.identifier(), data: data)
         } catch {
             throw handleKeychainError(error)
         }
     }
 
-    static func saveAccessToken(token: String) throws {
-        guard let accessToken = token.data(using: .utf8) else {
-            throw KeychainError.encodingError(NSError(domain: "InvalidString", code: -1, userInfo: nil))
+    func loadUserInfo() throws -> UserInfo? {
+        do {
+            guard let data = load(service: Service.userInfo.identifier()) else { return nil }
+            return try JSONDecoder().decode(UserInfo.self, from: data)
+        } catch {
+            throw handleKeychainError(error)
         }
-        let service = Service.accessToken.identifier()
-        try KeychainManager.shared.save(service: service, data: accessToken)
     }
 
-    static func loadAccessToken() -> String {
-        let service = Service.accessToken.identifier()
-        guard let data = KeychainManager.shared.load(service: service) else {
-            return ""
-        }
-        return String(data: data, encoding: .utf8) ?? ""
+    func saveAccessToken(token: String, for userType: SessionManager.UserType) {
+        guard let accessToken = token.data(using: .utf8) else { return }
+        let service = userType == .member ? Service.accessToken.identifier() : Service.guestAccessToken.identifier()
+        save(service: service, data: accessToken)
     }
 
-    private static func handleKeychainError(_ error: Error) -> KeychainError {
+    func loadAccessToken(for userType: SessionManager.UserType) -> String? {
+        let service = userType == .member ? Service.accessToken.identifier() : Service.guestAccessToken.identifier()
+        guard let data = load(service: service) else { return nil }
+        return String(data: data, encoding: .utf8) ?? nil
+    }
+
+    private func handleKeychainError(_ error: Error) -> KeychainError {
         if let keychainError = error as? KeychainError {
             return keychainError
         } else if let encodingError = error as? EncodingError {
