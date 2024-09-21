@@ -9,7 +9,7 @@ import Foundation
 
 struct HomeDataModel: Decodable {
     let topSection: TopSection
-    let contents: [Content]
+    var contents: [Content]
     let page: Int
     let pageSize: Int
     let isLastPage: Bool
@@ -19,14 +19,50 @@ struct HomeDataModel: Decodable {
         case contents, page, pageSize, isLastPage
     }
 
+    init(
+        topSection: TopSection,
+        contents: [Content],
+        page: Int,
+        pageSize: Int,
+        isLastPage: Bool
+    ) {
+        self.topSection = topSection
+        self.contents = contents
+        self.page = page
+        self.pageSize = pageSize
+        self.isLastPage = isLastPage
+    }
+
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.topSection = try container.decodeIfPresent(HomeDataModel.TopSection.self, forKey: .topSection) ?? .init()
+        self.contents = try container.decode([HomeDataModel.Content].self, forKey: .contents)
+        self.page = try container.decode(Int.self, forKey: .page)
+        self.pageSize = try container.decode(Int.self, forKey: .pageSize)
+        self.isLastPage = try container.decode(Bool.self, forKey: .isLastPage)
+    }
+
+    init(prevData: HomeDataModel, homeData: HomeDataModel) {
+        self.topSection = prevData.topSection
+        self.contents = prevData.contents
+        self.page = homeData.page
+        self.pageSize = homeData.pageSize
+        self.isLastPage = homeData.isLastPage
+    }
+
     struct TopSection: Decodable {
         let hashtagName: String
         let collections: [Collection]
+
+        init() {
+            self.hashtagName = ""
+            self.collections = []
+        }
     }
 
     struct Content: Decodable {
         let type: ImageGridType
-        let collection: Collection
+        var collection: Collection
         let account: Account
 
         enum CodingKeys: String, CodingKey {
@@ -40,6 +76,12 @@ struct HomeDataModel: Decodable {
             self.type = ImageGridType(rawValue: try container.decode(String.self, forKey: .type)) ?? .twoByTwo
             self.collection = try container.decode(Collection.self, forKey: .collection)
             self.account = try container.decode(Account.self, forKey: .account)
+        }
+
+        init(data: Content, isFavorite: Bool) {
+            self.type = data.type
+            self.account = data.account
+            self.collection = .init(data: data.collection, isFavorite: isFavorite)
         }
     }
 
@@ -56,6 +98,8 @@ struct HomeDataModel: Decodable {
         let isActiveCover: Bool
         let hashtags: [Hashtag]
         let places: [Place]
+        
+        var isFavoriate: Bool = false
 
         var convertImageURLs: [String] {
 //            return self.imageURLs?.compactMap { $0.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) } ?? []
@@ -71,6 +115,22 @@ struct HomeDataModel: Decodable {
             case title, description, createdAt, updatedAt, deletedAt, isPublic
             case imageURLs = "imageUrls"
             case isActiveCover, hashtags, places
+        }
+        
+        init(data: Collection, isFavorite: Bool) {
+            self.id = data.id
+            self.accountID = data.accountID
+            self.title = data.title
+            self.description = data.description
+            self.createdAt = data.createdAt
+            self.updatedAt = data.updatedAt
+            self.deletedAt = data.deletedAt
+            self.isPublic = data.isPublic
+            self.imageURLs = data.imageURLs
+            self.isActiveCover = data.isActiveCover
+            self.hashtags = data.hashtags
+            self.places = data.places
+            self.isFavoriate = isFavorite
         }
 
         struct Hashtag: Decodable {

@@ -53,7 +53,7 @@ final class NetworkService: NetworkServiceDelegate {
                 await handleAnonymousSession()
             } else {
                 if let session = try? await self.client.auth.session {
-                    sessionManager.login(token: session.accessToken, for: .guest, "로그인 상태를 초기화합니다.")
+                    sessionManager.login(token: session.accessToken, for: .member, "로그인 상태를 초기화합니다.")
                 } else {
                     logPrint("로그인 상태가 아닙니다.", "새로운 세션을 시도합니다.")
                     await handleAnonymousSession()
@@ -67,10 +67,18 @@ final class NetworkService: NetworkServiceDelegate {
                     continue
                 }
 
-                logPrint("현재 상태", change.event, change.session?.user.userMetadata)
+                logPrint("현재 상태", change.event)
+                logPrint("현재 유저", change.session?.user)
+                logPrint("현재 유저메타데이터", change.session?.user.userMetadata)
+
                 switch change.event {
                 case .initialSession:
-                    sessionManager.login(token: accessToken, for: .guest, "세션을 초기화하였습니다.")
+                    if let userMetadata = change.session?.user.userMetadata, !userMetadata.isEmpty {
+                        sessionManager.login(token: accessToken, for: .member, "세션을 초기화하였습니다.")
+                    } else {
+                        sessionManager.login(token: accessToken, for: .guest, "세션을 초기화하였습니다.")
+                    }
+
                 case .signedIn:
                     sessionManager.login(token: accessToken, "로그인되었습니다.")
                 case .tokenRefreshed:
@@ -105,7 +113,12 @@ final class NetworkService: NetworkServiceDelegate {
                 switch result {
                 case .success(let response):
                     if let jsonString = String(data: response.data, encoding: .utf8) {
-//                        logPrint("Received JSON data", jsonString)
+                        logPrint(
+                            "응답값 상태 \(response.statusCode)",
+                            "타겟타입: \(target)",
+                            "Received JSON data ",
+                            jsonString
+                        )
                     } else {
                         logPrint("Failed to convert data to JSON string")
                     }
@@ -127,7 +140,12 @@ final class NetworkService: NetworkServiceDelegate {
                 switch result {
                 case .success(let response):
                     if let jsonString = String(data: response.data, encoding: .utf8) {
-//                        logPrint("Received JSON data", jsonString)
+                        logPrint(
+                            "응답값 상태 \(response.statusCode)",
+                            "타겟타입: \(target)",
+                            "Received JSON data ",
+                            jsonString
+                        )
                     } else {
                         logPrint("Failed to convert data to JSON string")
                     }

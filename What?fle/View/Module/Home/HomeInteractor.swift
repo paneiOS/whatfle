@@ -28,6 +28,8 @@ final class HomeInteractor: PresentableInteractor<HomePresentable> {
     weak var listener: HomeListener?
 
     var homeData: BehaviorRelay<HomeDataModel?> = .init(value: nil)
+    var currentPage: Int = 1
+    let pageSize: Int = 20
 
     private let collectionUseCase: CollectionUseCaseProtocol
     private let disposeBag = DisposeBag()
@@ -58,19 +60,37 @@ extension HomeInteractor: HomePresentableListener {
         self.router?.showLoginRIB()
     }
 
-    func loadData(page: Int, pageSize: Int) {
+    func loadData(more: Bool) {
+        if more, let isLastPage = self.homeData.value?.isLastPage, isLastPage {
+            return
+        }
+
         guard !LoadingIndicatorService.shared.isLoading() else { return }
         LoadingIndicatorService.shared.showLoading()
 
-        collectionUseCase.getHomeData(page: page, pageSize: pageSize)
+        self.currentPage = more ? self.currentPage + 1 :  1
+
+        collectionUseCase.getHomeData(page: currentPage, pageSize: pageSize)
             .subscribe(onSuccess: { [weak self] homeData in
                 guard let self else { return }
-                self.homeData.accept(homeData)
+                if !more {
+                    self.homeData.accept(homeData)
+                } else {
+                    guard var tempHomedata = self.homeData.value else { return }
+                    tempHomedata.contents += homeData.contents
+                    self.homeData.accept(HomeDataModel(prevData: tempHomedata, homeData: homeData))
+                }
             }, onFailure: { error in
                 errorPrint(error)
             }, onDisposed: {
                 LoadingIndicatorService.shared.hideLoading()
             })
+            .disposed(by: disposeBag)
+    }
+
+    func updateFavorite(id: Int, isFavorite: Bool) {
+        collectionUseCase.updateFavorite(id: id, isFavorite: isFavorite)
+            .subscribe(onSuccess: {})
             .disposed(by: disposeBag)
     }
 }

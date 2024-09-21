@@ -8,13 +8,21 @@
 import UIKit
 
 import Kingfisher
+import RxCocoa
 import RxSwift
+
+protocol HomeCellDelegate: AnyObject {
+    func didTapFavoriteButton(id: Int, isFavorite: Bool)
+}
 
 final class HomeCell: UICollectionViewCell {
     private enum Constants {
         static let imageWidth: CGFloat = (UIApplication.shared.width - 32) / 2
     }
+
     static let reuseIdentifier = "HomeCell"
+
+    weak var delegate: HomeCellDelegate?
 
     private let totalView: UIView = .init()
 
@@ -37,11 +45,7 @@ final class HomeCell: UICollectionViewCell {
     private let headerView: UIView = .init()
     private let titleLabel: UILabel = .init()
     private let subtitleLabel: UILabel = .init()
-    private let favoriteButton: UIButton = {
-        let button: UIButton = .init()
-        button.setImage(.Icon.favoriteOff, for: .normal)
-        return button
-    }()
+    private let favoriteButton: FavoriteButton = .init()
 
     private let totalImageView: UIView = .init()
     private let topLeftImageView: ImageView = .init()
@@ -70,16 +74,21 @@ final class HomeCell: UICollectionViewCell {
             self.tagCollectionView.reloadData()
         }
     }
+
     private let disposeBag = DisposeBag()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+
         self.setupUI()
+        self.setupActionBinding()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+
         self.setupUI()
+        self.setupActionBinding()
     }
 }
 
@@ -168,7 +177,11 @@ extension HomeCell {
     }
 
     func drawCell(model: HomeDataModel.Content) {
+        self.tag = model.collection.id
+
         self.tags = model.collection.hashtags.map { $0.hashtagName }
+
+        self.favoriteButton.isSelected = model.collection.isFavoriate
 
         self.titleLabel.attributedText = .makeAttributedString(
             text: model.collection.title,
@@ -202,6 +215,15 @@ extension HomeCell {
             textColor: .textExtralight,
             lineHeight: 20
         )
+    }
+
+    private func setupActionBinding() {
+        self.favoriteButton.rx.controlEvent(.touchUpInside)
+            .subscribe(onNext: { [weak self] in
+                guard let self else { return }
+                self.delegate?.didTapFavoriteButton(id: self.tag, isFavorite: self.favoriteButton.isSelected)
+            })
+            .disposed(by: disposeBag)
     }
 }
 

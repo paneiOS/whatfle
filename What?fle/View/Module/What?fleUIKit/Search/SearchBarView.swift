@@ -67,6 +67,8 @@ final class SearchBarView: UIView {
         return control
     }()
 
+    private let disposeBag = DisposeBag()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -80,8 +82,6 @@ final class SearchBarView: UIView {
         self.setupUI()
         self.setupActionBinding()
     }
-
-    private let disposeBag = DisposeBag()
 
     private func setupUI() {
         self.addSubview(self.totalView)

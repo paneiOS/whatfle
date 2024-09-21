@@ -17,6 +17,14 @@ final class CollectionRepository: CollectionRepositoryProtocol {
         self.networkService = networkService
     }
 
+    func getAllMyCollectionIDsWithFavorite() -> Single<[Int]> {
+        return self.networkService.request(CollectionAPI.getAllMyCollectionIDsWithFavorite)
+    }
+
+    func getHomeData(page: Int, pageSize: Int) -> Single<HomeDataModel> {
+        return self.networkService.request(CollectionAPI.getHomeData(page: page, pageSize: pageSize))
+    }
+
     func getRecommendHashtag() -> Single<[RecommendHashTagModel]> {
         return self.networkService.request(CollectionAPI.getRecommendHashtag)
     }
@@ -33,7 +41,8 @@ final class CollectionRepository: CollectionRepositoryProtocol {
         return self.networkService.request(CollectionAPI.registCollectionData(collection))
     }
 
-    func getHomeData(page: Int, pageSize: Int) -> Single<HomeDataModel> {
-        return self.networkService.request(CollectionAPI.getHomeData(page: page, pageSize: pageSize))
+    func updateFavorite(id: Int, isFavorite: Bool) -> Single<Void> {
+        return self.networkService.request(CollectionAPI.updateFavorite(id: id, isFavorite: isFavorite))
+            .map { _ in () }
     }
 }

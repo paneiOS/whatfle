@@ -16,10 +16,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
+
         // TODO: - 임시 로그인해제 로직
-        KeychainManager.shared.delete(service: .userInfo)
-        KeychainManager.shared.delete(service: .guestAccessToken)
-        KeychainManager.shared.delete(service: .accessToken)
+//        KeychainManager.shared.delete(service: .userInfo)
+//        KeychainManager.shared.delete(service: .guestAccessToken)
+//        KeychainManager.shared.delete(service: .accessToken)
+
         RxKakaoSDK.initSDK(appKey: AppConfigs.API.Kakao.nativeKey)
         return true
     }

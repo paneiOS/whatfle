@@ -14,9 +14,11 @@ import SnapKit
 
 protocol HomePresentableListener: AnyObject {
     var homeData: BehaviorRelay<HomeDataModel?> { get }
+    var currentPage: Int { get }
+    func loadData(more: Bool)
+    func updateFavorite(id: Int, isFavorite: Bool)
     func showDetailCollection(id: Int)
     func showLoginRIB()
-    func loadData(page: Int, pageSize: Int)
 }
 
 final class HomeViewController: UIViewController, HomePresentable, HomeViewControllable {
@@ -40,13 +42,15 @@ final class HomeViewController: UIViewController, HomePresentable, HomeViewContr
         return collectionView
     }()
 
+    private var isFetchingData: Bool = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.setupUI()
         self.setupViewBinding()
         self.setupActionBinding()
-        self.listener?.loadData(page: 1, pageSize: 20)
+        self.listener?.loadData(more: false)
     }
 
     private func setupUI() {
@@ -111,6 +115,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
                   let content = homeData.contents[safe: indexPath.item] else {
                 return UICollectionViewCell()
             }
+            cell.delegate = self
             cell.drawCell(model: content)
             return cell
         default:
@@ -153,5 +158,34 @@ extension HomeViewController: TopCellDelegate {
 extension HomeViewController: UIScrollViewDelegate {
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.view.endEditing(true)
+    }
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let height = scrollView.frame.size.height
+
+        if let count = listener?.homeData.value?.contents.count,
+           count > 0,
+           offsetY >= contentHeight - height - 10,
+           !isFetchingData {
+            self.isFetchingData = true
+            listener?.loadData(more: true)
+        }
+
+        if offsetY < -100, !isFetchingData {
+            self.isFetchingData = true
+            listener?.loadData(more: false)
+        }
+    }
+
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        self.isFetchingData = false
+    }
+}
+
+extension HomeViewController: HomeCellDelegate {
+    func didTapFavoriteButton(id: Int, isFavorite: Bool) {
+        listener?.updateFavorite(id: id, isFavorite: isFavorite)
     }
 }

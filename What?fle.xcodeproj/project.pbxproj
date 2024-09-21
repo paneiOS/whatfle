@@ -95,7 +95,6 @@
 		396B4B8E2C99B5140034C7DC /* SimpleImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 396B4B8D2C99B5140034C7DC /* SimpleImageCell.swift */; };
 		397D666C2C46C3FE0053CDD9 /* UIViewController+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397D666B2C46C3FE0053CDD9 /* UIViewController+Rx.swift */; };
 		398341A22C6E5A490083B5F8 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398341A12C6E5A490083B5F8 /* UserInfo.swift */; };
-		398347822BC17F2100C25F63 /* WhatfleAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398347812BC17F2100C25F63 /* WhatfleAPI.swift */; };
 		398347842BC1819B00C25F63 /* SearchMock.json in Resources */ = {isa = PBXBuildFile; fileRef = 398347832BC1819B00C25F63 /* SearchMock.json */; };
 		398347862BC1862400C25F63 /* RetriveRegistLocationMock.json in Resources */ = {isa = PBXBuildFile; fileRef = 398347852BC1862400C25F63 /* RetriveRegistLocationMock.json */; };
 		39878CF62C7AD2EF004898AD /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = 39878CF52C7AD2EF004898AD /* Storage */; };
@@ -119,6 +118,7 @@
 		399974172BCFFEDE009AF937 /* RegistCollectionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399974132BCFFEDE009AF937 /* RegistCollectionBuilder.swift */; };
 		399974182BCFFEDE009AF937 /* RegistCollectionInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399974142BCFFEDE009AF937 /* RegistCollectionInteractor.swift */; };
 		3999741A2BD00CDE009AF937 /* AddPhotoControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399974192BD00CDE009AF937 /* AddPhotoControl.swift */; };
+		39A740F32C9E6B5800BED80B /* FavoriteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39A740F22C9E6B5800BED80B /* FavoriteButton.swift */; };
 		39A81E6E2BEE53870009C43F /* PlaceRegistration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39A81E6D2BEE53870009C43F /* PlaceRegistration.swift */; };
 		39A81E702BF3A7550009C43F /* UIImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39A81E6F2BF3A7550009C43F /* UIImage+.swift */; };
 		39A81E732BF3BC460009C43F /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39A81E722BF3BC460009C43F /* CustomError.swift */; };
@@ -270,7 +270,6 @@
 		396B4B8D2C99B5140034C7DC /* SimpleImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleImageCell.swift; sourceTree = "<group>"; };
 		397D666B2C46C3FE0053CDD9 /* UIViewController+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Rx.swift"; sourceTree = "<group>"; };
 		398341A12C6E5A490083B5F8 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
-		398347812BC17F2100C25F63 /* WhatfleAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatfleAPI.swift; sourceTree = "<group>"; };
 		398347832BC1819B00C25F63 /* SearchMock.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SearchMock.json; sourceTree = "<group>"; };
 		398347852BC1862400C25F63 /* RetriveRegistLocationMock.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = RetriveRegistLocationMock.json; sourceTree = "<group>"; };
 		39878CFA2C7AEA68004898AD /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
@@ -292,6 +291,7 @@
 		399974132BCFFEDE009AF937 /* RegistCollectionBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistCollectionBuilder.swift; sourceTree = "<group>"; };
 		399974142BCFFEDE009AF937 /* RegistCollectionInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistCollectionInteractor.swift; sourceTree = "<group>"; };
 		399974192BD00CDE009AF937 /* AddPhotoControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotoControl.swift; sourceTree = "<group>"; };
+		39A740F22C9E6B5800BED80B /* FavoriteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteButton.swift; sourceTree = "<group>"; };
 		39A81E6D2BEE53870009C43F /* PlaceRegistration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceRegistration.swift; sourceTree = "<group>"; };
 		39A81E6F2BF3A7550009C43F /* UIImage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+.swift"; sourceTree = "<group>"; };
 		39A81E722BF3BC460009C43F /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
@@ -596,6 +596,7 @@
 		3939FFCC2B8DFD0E007E58F6 /* What?fleUIKit */ = {
 			isa = PBXGroup;
 			children = (
+				39A740F12C9E6B4F00BED80B /* FavoriteButton */,
 				39A9F4ED2C799D15007A626B /* TextField */,
 				4540B43C2C3983D40010E5DF /* TagCollectionView */,
 				3961ADDA2BB05CE200977C4B /* LoadingIndicator */,
@@ -627,19 +628,10 @@
 			isa = PBXGroup;
 			children = (
 				398347802BC17D8C00C25F63 /* MockData */,
-				3939FFD92B90D04F007E58F6 /* APIs */,
+				39A81E722BF3BC460009C43F /* CustomError.swift */,
 				3939FFD72B8F750D007E58F6 /* NetworkService.swift */,
 			);
 			path = NetworkService;
-			sourceTree = "<group>";
-		};
-		3939FFD92B90D04F007E58F6 /* APIs */ = {
-			isa = PBXGroup;
-			children = (
-				398347812BC17F2100C25F63 /* WhatfleAPI.swift */,
-				39A81E722BF3BC460009C43F /* CustomError.swift */,
-			);
-			path = APIs;
 			sourceTree = "<group>";
 		};
 		3939FFDF2B943612007E58F6 /* HelperModuld */ = {
@@ -844,6 +836,14 @@
 				399974142BCFFEDE009AF937 /* RegistCollectionInteractor.swift */,
 			);
 			path = RegistCollection;
+			sourceTree = "<group>";
+		};
+		39A740F12C9E6B4F00BED80B /* FavoriteButton */ = {
+			isa = PBXGroup;
+			children = (
+				39A740F22C9E6B5800BED80B /* FavoriteButton.swift */,
+			);
+			path = FavoriteButton;
 			sourceTree = "<group>";
 		};
 		39A9F4ED2C799D15007A626B /* TextField */ = {
@@ -1221,7 +1221,6 @@
 				39EBCE0E2B8A484000599D58 /* SelecteLocationBuilder.swift in Sources */,
 				392DAEAC2C46A921000F2B94 /* CustomAlbumCameraCell.swift in Sources */,
 				39EBCDFE2B8A26BF00599D58 /* MapRouter.swift in Sources */,
-				398347822BC17F2100C25F63 /* WhatfleAPI.swift in Sources */,
 				3939FFD62B8F6EF3007E58F6 /* AppConfigs.swift in Sources */,
 				39878D002C7AF08C004898AD /* LoginAPI.swift in Sources */,
 				39333D6F2B8993B1005F295A /* HomeViewController.swift in Sources */,
@@ -1248,6 +1247,7 @@
 				392DAEA12C4696FF000F2B94 /* CustomAlbumRouter.swift in Sources */,
 				395F9EDC2C9D9273003C2D4F /* SearchBarView.swift in Sources */,
 				39DE4ED42C89D1F500930ED2 /* DebugUtils.swift in Sources */,
+				39A740F32C9E6B5800BED80B /* FavoriteButton.swift in Sources */,
 				39EBCDF82B8A26B200599D58 /* AddBuilder.swift in Sources */,
 				39878D1F2C7B5F4B004898AD /* CollectionUseCaseProtocol.swift in Sources */,
 				39E9F0D52C4037500085961C /* TextFieldWithErrorUnderline.swift in Sources */,
