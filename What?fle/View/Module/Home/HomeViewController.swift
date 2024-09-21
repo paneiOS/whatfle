@@ -26,10 +26,7 @@ final class HomeViewController: UIViewController, HomePresentable, HomeViewContr
     weak var listener: HomePresentableListener?
     private let disposeBag = DisposeBag()
 
-    private let searchBarView: SearchBarView = {
-        let view: SearchBarView = .init()
-        return view
-    }()
+    private let searchBarView: SearchBarView = .init()
 
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()

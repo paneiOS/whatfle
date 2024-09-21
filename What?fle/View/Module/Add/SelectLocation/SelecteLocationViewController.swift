@@ -56,53 +56,10 @@ final class SelectLocationViewController: UIViewController, SelectLocationPresen
         }
     }
 
-    private let headerView: UIView = .init()
-
-    private let searchBarView: UIView = {
-        let view: UIView = .init()
-        view.layer.borderColor = UIColor.lineDefault.cgColor
-        view.layer.borderWidth = 1
-        view.layer.cornerRadius = 4
+    private lazy var searchBarView: SearchBarView = {
+        let view: SearchBarView = .init()
+        view.delegate = self
         return view
-    }()
-
-    private lazy var searchBar: UITextField = {
-        let searchBar: UITextField = .init()
-        searchBar.delegate = self
-        searchBar.font = .body14MD
-        searchBar.textColor = .black
-        searchBar.clearButtonMode = .whileEditing
-        searchBar.returnKeyType = .search
-        searchBar.attributedPlaceholder = NSAttributedString(
-            string: "장소 검색하기",
-            attributes: [NSAttributedString.Key.foregroundColor: UIColor.textExtralight,
-                         NSAttributedString.Key.font: UIFont.body14MD]
-        )
-        return searchBar
-    }()
-
-    private let searchButton: UIControl = .init()
-
-    private let searchButtonImageView: UIImageView = {
-        let view: UIImageView = .init()
-        view.image = .Icon.search
-        view.tintColor = .textExtralight
-        return view
-    }()
-
-    private let closeButton: UIControl = {
-        let control: UIControl = .init()
-        let imageView: UIImageView = {
-            let view: UIImageView = .init()
-            view.image = .Icon.xLineLg
-            return view
-        }()
-        control.addSubview(imageView)
-        imageView.snp.makeConstraints {
-            $0.center.equalToSuperview()
-            $0.size.equalTo(24)
-        }
-        return control
     }()
 
     private lazy var searchResultTableView: UITableView = {
@@ -185,46 +142,21 @@ final class SelectLocationViewController: UIViewController, SelectLocationPresen
 extension SelectLocationViewController {
     private func setupUI() {
         view.backgroundColor = .white
-        view.addSubviews(headerView, searchResultTableView, recentSearchView)
-        self.headerView.snp.makeConstraints {
+        view.addSubviews(searchBarView, searchResultTableView, recentSearchView)
+        self.searchBarView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(8)
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.height.equalTo(48)
         }
         self.searchResultTableView.snp.makeConstraints {
-            $0.top.equalTo(self.headerView.snp.bottom).offset(12)
+            $0.top.equalTo(self.searchBarView.snp.bottom).offset(12)
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(Constants.bottomPadding)
         }
         self.recentSearchView.snp.makeConstraints {
-            $0.top.equalTo(self.headerView.snp.bottom).offset(20)
+            $0.top.equalTo(self.searchBarView.snp.bottom).offset(20)
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(8)
-        }
-        headerView.addSubviews(searchBarView, closeButton)
-        self.searchBarView.snp.makeConstraints {
-            $0.top.leading.bottom.equalToSuperview()
-        }
-        self.closeButton.snp.makeConstraints {
-            $0.width.equalTo(44)
-            $0.leading.equalTo(self.searchBarView.snp.trailing).offset(4)
-            $0.top.trailing.bottom.equalToSuperview()
-        }
-        searchBarView.addSubviews(searchBar, searchButton)
-        self.searchBar.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview().inset(12)
-            $0.leading.equalToSuperview().inset(16)
-        }
-        self.searchButton.snp.makeConstraints {
-            $0.width.equalTo(44)
-            $0.top.trailing.bottom.equalToSuperview()
-            $0.leading.equalTo(self.searchBar.snp.trailing)
-        }
-        self.searchButton.addSubview(self.searchButtonImageView)
-        self.searchButtonImageView.snp.makeConstraints {
-            $0.leading.equalToSuperview().inset(8)
-            $0.centerY.equalToSuperview()
-            $0.size.equalTo(24)
         }
         self.recentSearchView.addSubviews(recentSearchHeaderView, noSearchLabel, recentTableView)
         self.recentSearchHeaderView.snp.makeConstraints {
@@ -279,7 +211,7 @@ extension SelectLocationViewController {
             }
             .disposed(by: disposeBag)
 
-        self.searchBar.rx.text
+        self.searchBarView.searchBar.rx.text
             .orEmpty
             .distinctUntilChanged()
             .filter { $0.isEmpty }
@@ -303,11 +235,11 @@ extension SelectLocationViewController {
             })
             .disposed(by: disposeBag)
 
-        self.searchButton.rx.controlEvent(.touchUpInside)
-            .withLatestFrom(searchBar.rx.text.orEmpty)
+        self.searchBarView.searchButton.rx.controlEvent(.touchUpInside)
+            .withLatestFrom(searchBarView.searchBar.rx.text.orEmpty)
             .do(onNext: { [weak self] _ in
                 guard let self else { return }
-                self.searchBar.endEditing(true)
+                self.searchBarView.searchBar.endEditing(true)
             })
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] query in
@@ -320,7 +252,7 @@ extension SelectLocationViewController {
             })
             .disposed(by: disposeBag)
 
-        self.closeButton.rx.controlEvent(.touchUpInside)
+        self.searchBarView.closeButton.rx.controlEvent(.touchUpInside)
             .subscribe(onNext: { [weak self] in
                 guard let self else { return }
                 self.listener?.closeView()
@@ -330,11 +262,11 @@ extension SelectLocationViewController {
 
     private func activateSearchBar(state: Bool) {
         if state {
-            searchBarView.layer.borderColor = UIColor.Core.primary.cgColor
-            searchButtonImageView.tintColor = .black
+            searchBarView.totalView.layer.borderColor = UIColor.Core.primary.cgColor
+            searchBarView.searchButtonImageView.tintColor = .black
         } else {
-            searchBarView.layer.borderColor = UIColor.lineDefault.cgColor
-            searchButtonImageView.tintColor = .textExtralight
+            searchBarView.totalView.layer.borderColor = UIColor.lineDefault.cgColor
+            searchBarView.searchButtonImageView.tintColor = .textExtralight
         }
     }
 
@@ -379,14 +311,16 @@ extension SelectLocationViewController {
 extension SelectLocationViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         self.activateSearchBar(state: true)
+        self.searchBarView.closeButton.isHidden = false
     }
     func textFieldDidEndEditing(_ textField: UITextField) {
         self.activateSearchBar(state: false)
+        self.searchBarView.closeButton.isHidden = true
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         self.activateSearchBar(state: false)
-        searchButton.sendActions(for: .touchUpInside)
+        self.searchBarView.searchButton.sendActions(for: .touchUpInside)
         return true
     }
 }
@@ -415,7 +349,7 @@ extension SelectLocationViewController: UITableViewDelegate {
         } else if tableView === self.recentTableView {
             if let searchKeyward = listener?.recentKeywordArray.value[indexPath.row] {
                 self.view.endEditing(true)
-                searchBar.text = searchKeyward
+                searchBarView.searchBar.text = searchKeyward
                 self.listener?.performSearch(with: searchKeyward, more: false)
                 if self.searchState != .afterSearch {
                     self.searchState = .afterSearch

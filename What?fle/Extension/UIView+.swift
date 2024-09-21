@@ -42,4 +42,28 @@ extension UIView {
     func addSubviews(_ views: UIView...) {
         views.forEach { self.addSubview($0) }
     }
+
+    func findFirstResponder() -> UIView? {
+        if self.isFirstResponder {
+            return self
+        }
+        for subview in self.subviews {
+            if let responder = subview.findFirstResponder() {
+                return responder
+            }
+        }
+        return nil
+    }
+
+    func findScrollView() -> UIScrollView? {
+        if let scrollView = self as? UIScrollView {
+            return scrollView
+        }
+        for subview in self.subviews {
+            if let foundScrollView = subview.findScrollView() {
+                return foundScrollView
+            }
+        }
+        return nil
+    }
 }

@@ -20,7 +20,7 @@ protocol RegistLocationPresentableListener: AnyObject {
     func showCustomAlbum()
 }
 
-final class RegistLocationViewController: UIVCWithKeyboard, RegistLocationViewControllable {
+final class RegistLocationViewController: ScrollKeyboardVC, RegistLocationViewControllable {
     private lazy var customNavigationBar: CustomNavigationBar = {
         let view: CustomNavigationBar = .init()
         view.setNavigationTitle("장소 기록하기")
@@ -173,20 +173,21 @@ final class RegistLocationViewController: UIVCWithKeyboard, RegistLocationViewCo
         view.addSubview(scrollView)
         scrollView.snp.makeConstraints {
             $0.top.equalTo(customNavigationBar.snp.bottom).offset(16)
-            $0.leading.trailing.equalToSuperview().inset(24)
+            $0.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview().inset(28)
-            $0.width.equalTo(UIApplication.shared.width - 48)
+            $0.width.equalTo(UIApplication.shared.width)
         }
 
         scrollView.addSubview(subView)
         subView.snp.makeConstraints {
             $0.edges.equalToSuperview()
-            $0.width.equalTo(UIApplication.shared.width - 48)
+            $0.width.equalTo(UIApplication.shared.width)
         }
 
         subView.addSubview(locationView)
         locationView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
+            $0.top.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(24)
         }
         locationView.addSubviews(locationLabel, addLocationView)
         locationLabel.snp.makeConstraints {
@@ -201,10 +202,10 @@ final class RegistLocationViewController: UIVCWithKeyboard, RegistLocationViewCo
         subView.addSubview(collectionView)
         collectionView.snp.makeConstraints {
             $0.top.equalTo(addLocationView.snp.bottom).offset(24)
-            $0.leading.trailing.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(24)
             $0.height.equalTo(224)
         }
-        view.addSubview(addPhotoButton)
+        subView.addSubview(addPhotoButton)
         addPhotoButton.snp.makeConstraints {
             $0.edges.equalTo(collectionView.snp.edges)
         }
@@ -212,7 +213,7 @@ final class RegistLocationViewController: UIVCWithKeyboard, RegistLocationViewCo
         subView.addSubview(visitView)
         visitView.snp.makeConstraints {
             $0.top.equalTo(collectionView.snp.bottom).offset(24)
-            $0.leading.trailing.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(24)
         }
         visitView.addSubviews(visitLabel, visitTextField)
         visitLabel.snp.makeConstraints {
@@ -227,13 +228,14 @@ final class RegistLocationViewController: UIVCWithKeyboard, RegistLocationViewCo
         subView.addSubview(memoView)
         memoView.snp.makeConstraints {
             $0.top.equalTo(visitView.snp.bottom).offset(24)
-            $0.leading.trailing.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(24)
         }
 
         subView.addSubview(saveButton)
         saveButton.snp.makeConstraints {
             $0.top.equalTo(visitView.snp.bottom).offset(198)
-            $0.leading.trailing.bottom.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(24)
+            $0.bottom.equalToSuperview()
             $0.height.equalTo(56)
         }
     }
