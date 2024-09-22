@@ -8,6 +8,6 @@
 import Foundation
 
 struct UserProfile: Encodable {
-    var nickname: String
-    var profileImagePath: String
+    let nickname: String
+    let profileImagePath: String?
 }

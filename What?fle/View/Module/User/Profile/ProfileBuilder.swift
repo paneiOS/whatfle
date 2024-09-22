@@ -28,7 +28,7 @@ extension ProfileComponent: CustomAlbumDependency {
 // MARK: - Builder
 
 protocol ProfileBuildable: Buildable {
-    func build(withListener listener: ProfileListener) -> ProfileRouting
+    func build(withListener listener: ProfileListener, isProfileRequired: Bool) -> ProfileRouting
 }
 
 final class ProfileBuilder: Builder<ProfileDependency>, ProfileBuildable {
@@ -37,12 +37,13 @@ final class ProfileBuilder: Builder<ProfileDependency>, ProfileBuildable {
         super.init(dependency: dependency)
     }
 
-    func build(withListener listener: ProfileListener) -> ProfileRouting {
+    func build(withListener listener: ProfileListener, isProfileRequired: Bool) -> ProfileRouting {
         let component = ProfileComponent(dependency: dependency)
         let viewController = ProfileViewController()
         let interactor = ProfileInteractor(
             presenter: viewController,
-            loginUseCase: component.loginUseCase
+            loginUseCase: component.loginUseCase,
+            isProfileRequired: isProfileRequired
         )
         interactor.listener = listener
         return ProfileRouter(interactor: interactor, viewController: viewController, component: component)

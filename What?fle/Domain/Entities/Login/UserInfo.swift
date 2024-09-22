@@ -19,6 +19,10 @@ struct UserInfo: Codable {
     let deletedAt: String?
     let isAgreement: Bool
 
+    var isProfileRequired: Bool {
+        return nickname == nil
+    }
+
     var isSignupRequired: Bool {
         return !isAgreement
     }
