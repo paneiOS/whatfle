@@ -7,13 +7,11 @@
 
 import UIKit
 
-import Kingfisher
-
 final class CoverImageCell: UICollectionViewCell {
     static let reuseIdentifier = "CoverImageCell"
 
-    private let coverImageView: UIImageView = {
-        let imageView = UIImageView()
+    private let coverImageView: ImageView = {
+        let imageView = ImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.layer.masksToBounds = true
         return imageView
@@ -39,6 +37,6 @@ final class CoverImageCell: UICollectionViewCell {
     }
 
     func drawCell(urlStr: String) {
-        self.coverImageView.kf.setImage(with: URL(string: urlStr), placeholder: UIImage.placehold)
+        self.coverImageView.loadImage(from: urlStr)
     }
 }

@@ -5,14 +5,13 @@
 //  Created by 이정환 on 8/14/24.
 //
 
-import Kingfisher
 import UIKit
 
 final class PagerImageCell: UICollectionViewCell {
     static let reuseIdentifier = "PagerImageCell"
 
-    private let imageView: UIImageView = {
-        let imageView = UIImageView()
+    private let imageView: ImageView = {
+        let imageView = ImageView()
         imageView.contentMode = .scaleToFill
         imageView.clipsToBounds = true
         return imageView
@@ -36,8 +35,6 @@ final class PagerImageCell: UICollectionViewCell {
     }
 
     func drawCell(with urlStr: String) {
-        if let url = URL(string: urlStr) {
-            imageView.kf.setImage(with: url, placeholder: UIImage.placehold)
-        }
+        imageView.loadImage(from: urlStr)
     }
 }
