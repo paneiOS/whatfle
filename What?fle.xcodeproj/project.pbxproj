@@ -21,6 +21,9 @@
 		39195EFE2C9F1ED0002F0166 /* BottomKeyboardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39195EFD2C9F1ED0002F0166 /* BottomKeyboardVC.swift */; };
 		39195F022C9FA320002F0166 /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = 39195F012C9FA320002F0166 /* Nuke */; };
 		39195F042C9FA39F002F0166 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39195F032C9FA39F002F0166 /* ImageView.swift */; };
+		39195F082C9FE344002F0166 /* SelectTermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39195F072C9FE344002F0166 /* SelectTermsView.swift */; };
+		39195F0A2C9FE3BA002F0166 /* SelectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39195F092C9FE3BA002F0166 /* SelectButton.swift */; };
+		39195F0C2CA01822002F0166 /* TermsAgreement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39195F0B2CA01822002F0166 /* TermsAgreement.swift */; };
 		39195FFD2BAB40D900CC7A2E /* SelectLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39195FFC2BAB40D900CC7A2E /* SelectLocationCell.swift */; };
 		39195FFF2BAC51EA00CC7A2E /* RecentSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39195FFE2BAC51EA00CC7A2E /* RecentSearchCell.swift */; };
 		391960022BAC542B00CC7A2E /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391960012BAC542B00CC7A2E /* UserDefaultsManager.swift */; };
@@ -199,6 +202,9 @@
 		39195EFB2C9F18B5002F0166 /* ScrollKeyboardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollKeyboardVC.swift; sourceTree = "<group>"; };
 		39195EFD2C9F1ED0002F0166 /* BottomKeyboardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomKeyboardVC.swift; sourceTree = "<group>"; };
 		39195F032C9FA39F002F0166 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
+		39195F072C9FE344002F0166 /* SelectTermsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTermsView.swift; sourceTree = "<group>"; };
+		39195F092C9FE3BA002F0166 /* SelectButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectButton.swift; sourceTree = "<group>"; };
+		39195F0B2CA01822002F0166 /* TermsAgreement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAgreement.swift; sourceTree = "<group>"; };
 		39195FFC2BAB40D900CC7A2E /* SelectLocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLocationCell.swift; sourceTree = "<group>"; };
 		39195FFE2BAC51EA00CC7A2E /* RecentSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchCell.swift; sourceTree = "<group>"; };
 		391960012BAC542B00CC7A2E /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
@@ -619,6 +625,8 @@
 				390504772BE4296400575DF1 /* CustomPresentHeader.swift */,
 				399974192BD00CDE009AF937 /* AddPhotoControl.swift */,
 				39171CFC2BF664BF00DF5B8D /* SwitchView.swift */,
+				39195F092C9FE3BA002F0166 /* SelectButton.swift */,
+				39195F072C9FE344002F0166 /* SelectTermsView.swift */,
 				391134082C5FBD9000980190 /* GradientView.swift */,
 				391134182C63CB8300980190 /* SelectLocationCollectionView.swift */,
 				392C1E2C2C6A3DDC00C03D82 /* TriangleView.swift */,
@@ -817,6 +825,7 @@
 				398341A12C6E5A490083B5F8 /* UserInfo.swift */,
 				39878CFA2C7AEA68004898AD /* UserProfile.swift */,
 				45AF9E052C6F968800160AC7 /* LoginRequestModel.swift */,
+				39195F0B2CA01822002F0166 /* TermsAgreement.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -1157,6 +1166,7 @@
 				391134042C5BCA0200980190 /* DetailCollectionRouter.swift in Sources */,
 				391134052C5BCA0200980190 /* DetailCollectionViewController.swift in Sources */,
 				391134062C5BCA0200980190 /* DetailCollectionBuilder.swift in Sources */,
+				39195F082C9FE344002F0166 /* SelectTermsView.swift in Sources */,
 				392C1E2F2C6A41B200C03D82 /* SelectionLocationVerticalListCell.swift in Sources */,
 				391134072C5BCA0200980190 /* DetailCollectionInteractor.swift in Sources */,
 				456B09CC2BB9520100920C54 /* TextFieldWithUnderline.swift in Sources */,
@@ -1180,6 +1190,7 @@
 				392C1E3D2C6DBF3100C03D82 /* LoginRouter.swift in Sources */,
 				392C1E3E2C6DBF3100C03D82 /* LoginViewController.swift in Sources */,
 				392C1E3F2C6DBF3100C03D82 /* LoginBuilder.swift in Sources */,
+				39195F0C2CA01822002F0166 /* TermsAgreement.swift in Sources */,
 				392C1E402C6DBF3100C03D82 /* LoginInteractor.swift in Sources */,
 				392DAEAE2C46AC2F000F2B94 /* CustomAlbumImageCell.swift in Sources */,
 				39CF56AA2BC0F0A300E718C8 /* AddCollectionBuilder.swift in Sources */,
@@ -1274,6 +1285,7 @@
 				39CF56AF2BC0FD8D00E718C8 /* CustomNavigationBar.swift in Sources */,
 				39195FFD2BAB40D900CC7A2E /* SelectLocationCell.swift in Sources */,
 				399974172BCFFEDE009AF937 /* RegistCollectionBuilder.swift in Sources */,
+				39195F0A2C9FE3BA002F0166 /* SelectButton.swift in Sources */,
 				39EEFD7F2BC22D2300A39833 /* SelectLocationResultCell.swift in Sources */,
 				393900012B961BBA007E58F6 /* RegistLocationInteractor.swift in Sources */,
 				45DD4C7D2C43989C00AA508D /* CollectionDataModel.swift in Sources */,

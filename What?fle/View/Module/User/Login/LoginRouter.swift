@@ -38,9 +38,9 @@ final class LoginRouter: ViewableRouter<LoginInteractable, LoginViewControllable
         interactor.router = self
     }
 
-    func pushProfileRIB() {
+    func pushProfileRIB(isProfileRequired: Bool) {
         if self.profileRouter == nil {
-            let router = self.component.profileBuilder.build(withListener: self.interactor)
+            let router = self.component.profileBuilder.build(withListener: self.interactor, isProfileRequired: isProfileRequired)
             self.navigationController?.setNavigationBarHidden(true, animated: false)
             self.navigationController?.pushViewController(router.viewControllable.uiviewController, animated: true)
             self.attachChild(router)

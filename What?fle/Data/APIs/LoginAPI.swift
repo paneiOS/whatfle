@@ -14,9 +14,11 @@ protocol Loginable {
 }
 
 enum LoginAPI: Loginable {
-    case snsLogin(LoginRequestModel)
     case existNickname(String)
+    case signinAgreement([TermsAgreement])
+    case snsLogin(LoginRequestModel)
     case updateProfile(UserProfile)
+    
 
     var requiresLogin: Bool {
         switch self {
@@ -34,10 +36,12 @@ extension LoginAPI: TargetType {
     var path: String {
         let basePath: String = "/functions/v1/whatfle"
         switch self {
-        case .snsLogin:
-            return basePath + "/account/signin"
         case .existNickname(let nickname):
             return basePath + "/account/nickname/exist/\(nickname)"
+        case .signinAgreement:
+            return basePath + "/agreement"
+        case .snsLogin:
+            return basePath + "/account/signin"
         case .updateProfile:
             return basePath + "/account/profile"
         }
@@ -45,7 +49,8 @@ extension LoginAPI: TargetType {
 
     var method: Moya.Method {
         switch self {
-        case .snsLogin,
+        case .signinAgreement,
+             .snsLogin,
              .updateProfile:
             return .post
         default:
@@ -66,6 +71,8 @@ extension LoginAPI: TargetType {
         case .updateProfile(let model):
             return .requestJSONEncodable(model)
 
+        case .signinAgreement(let model):
+            return .requestJSONEncodable(model)
         default:
             return .requestPlain
         }

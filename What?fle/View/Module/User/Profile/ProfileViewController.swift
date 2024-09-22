@@ -16,8 +16,10 @@ protocol ProfilePresentableListener: AnyObject {
     var profileImage: PublishRelay<UIImage> { get }
     func existCheck(nickname: String)
     func showCustomAlbum()
-    func updateProfile(nickname: String, imageData: Data)
+    func updateProfile(nickname: String, imageData: Data?, completion: @escaping () -> Void)
     func popToProfileView()
+    func sendTermsAgreement(agreements: [TermsAgreement])
+    func viewDidAppear()
 }
 
 final class ProfileViewController: UIViewController, ProfilePresentable, ProfileViewControllable {
@@ -49,6 +51,7 @@ final class ProfileViewController: UIViewController, ProfilePresentable, Profile
         imageView.layer.masksToBounds = true
         let cameraImage: UIImageView = .init(image: .Icon.cameraIcon)
         imageView.addSubview(cameraImage)
+        imageView.backgroundColor = .Core.background
         cameraImage.snp.makeConstraints {
             $0.center.equalToSuperview()
             $0.size.equalTo(40)
@@ -130,6 +133,98 @@ final class ProfileViewController: UIViewController, ProfilePresentable, Profile
         return button
     }()
 
+    private let dimmedView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .Core.dimmed20
+        view.alpha = 0
+        return view
+    }()
+
+    private let bottomView: UIView = {
+        let view: UIView = .init()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 16
+        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        return view
+    }()
+
+    private let bottomSubView: UIView = .init()
+
+    private let bottomTitleLabel: UILabel = {
+        let label: UILabel = .init()
+        label.attributedText = .makeAttributedString(
+            text: "서비스 이용약관을 확인해주세요",
+            font: .title20XBD,
+            textColor: .textDefault,
+            lineHeight: 28
+        )
+        return label
+    }()
+
+    private let allAgreeButton: SelectButton = {
+        let button: SelectButton = .init()
+        button.setAttributedTitle(
+            .makeAttributedString(
+                text: "약관 전체동의",
+                font: .title16XBD,
+                textColor: .textDefault,
+                lineHeight: 24
+            ),
+            for: .normal
+        )
+        return button
+    }()
+
+    private let grayView: UIView = {
+        let view: UIView = .init()
+        view.backgroundColor = .lineLight
+        return view
+    }()
+
+    private lazy var termsStackView: UIStackView = {
+        let view: UIStackView = .init()
+        view.axis = .vertical
+        view.spacing = 8
+        view.addArrangedSubviews(serviceAgreeButton, privacyAgreeButton, marketingAgreeButton)
+        return view
+    }()
+
+    private let serviceAgreeButton: SelectTermsView = {
+        let button: SelectTermsView = .init()
+        button.setTitle(title: "(필수) 서비스 이용약관 동의")
+        return button
+    }()
+
+    private let privacyAgreeButton: SelectTermsView = {
+        let button: SelectTermsView = .init()
+        button.setTitle(title: "(필수) 개인정보 수집 및 이용약관동의")
+        return button
+    }()
+
+    private let marketingAgreeButton: SelectTermsView = {
+        let button: SelectTermsView = .init()
+        button.setTitle(title: "(선택) 마케팅 정보 수신 동의")
+        return button
+    }()
+
+    private let confirmButton: UIButton = {
+        let button: UIButton = .init()
+        button.setAttributedTitle(
+            .makeAttributedString(
+                text: "확인",
+                font: .title16MD,
+                textColor: .GrayScale.white,
+                lineHeight: 24
+            ),
+            for: .normal
+        )
+        button.backgroundColor = .Core.primaryDisabled
+        button.isEnabled = false
+        button.layer.cornerRadius = 4
+        button.layer.masksToBounds = true
+        return button
+    }()
+
     private let disposeBag = DisposeBag()
 
     deinit {
@@ -144,14 +239,21 @@ final class ProfileViewController: UIViewController, ProfilePresentable, Profile
         self.setupActionBinding()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        listener?.viewDidAppear()
+    }
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
+}
 
+extension ProfileViewController {
     private func setupUI() {
         self.view.backgroundColor = .white
 
-        self.view.addSubviews(self.customNavigationBar, self.subView, self.completeButton)
+        self.view.addSubviews(self.customNavigationBar, self.subView, self.completeButton, self.dimmedView, self.bottomView)
         self.customNavigationBar.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
@@ -167,7 +269,13 @@ final class ProfileViewController: UIViewController, ProfilePresentable, Profile
             $0.height.equalTo(56)
         }
 
-        self.subView.addSubviews(self.titleLabel, self.profileImageView, self.nicknameLabel, self.nicknameInputView, self.existResultLabel)
+        self.subView.addSubviews(
+            self.titleLabel,
+            self.profileImageView,
+            self.nicknameLabel,
+            self.nicknameInputView,
+            self.existResultLabel
+        )
         self.titleLabel.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
         }
@@ -191,6 +299,42 @@ final class ProfileViewController: UIViewController, ProfilePresentable, Profile
         self.existResultLabel.snp.makeConstraints {
             $0.top.equalTo(self.nicknameInputView.snp.bottom).offset(8)
             $0.leading.bottom.trailing.equalToSuperview()
+        }
+
+        self.dimmedView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        self.bottomView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(430)
+            $0.bottom.equalTo(view.snp.bottom).offset(430)
+        }
+        self.bottomView.addSubview(self.bottomSubView)
+        self.bottomSubView.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(40)
+            $0.leading.trailing.bottom.equalToSuperview().inset(24)
+        }
+        self.bottomSubView.addSubviews(self.bottomTitleLabel, self.allAgreeButton, self.grayView, self.termsStackView, self.confirmButton)
+        self.bottomTitleLabel.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+        }
+        self.allAgreeButton.snp.makeConstraints {
+            $0.top.equalTo(self.bottomTitleLabel.snp.bottom).offset(24)
+            $0.leading.equalToSuperview()
+        }
+        self.grayView.snp.makeConstraints {
+            $0.top.equalTo(self.allAgreeButton.snp.bottom).offset(16)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(1)
+        }
+        self.termsStackView.snp.makeConstraints {
+            $0.top.equalTo(self.grayView.snp.bottom).offset(16)
+            $0.leading.trailing.equalToSuperview()
+        }
+        self.confirmButton.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(24)
+            $0.height.equalTo(56)
         }
     }
 
@@ -278,9 +422,53 @@ final class ProfileViewController: UIViewController, ProfilePresentable, Profile
                 self.profileImageView.image = image
             })
             .disposed(by: self.disposeBag)
+
+        let serviceSelected = self.serviceAgreeButton.selectButton.rx.controlEvent(.touchUpInside)
+            .map { [weak self] in
+                guard let self else { return false }
+                return self.serviceAgreeButton.isSelected
+            }
+            .share()
+        let privacySelected = self.privacyAgreeButton.selectButton.rx.controlEvent(.touchUpInside)
+            .map { [weak self] in
+                guard let self else { return false }
+                return self.privacyAgreeButton.isSelected
+            }
+            .share()
+        let marketingSelected = self.marketingAgreeButton.selectButton.rx.controlEvent(.touchUpInside)
+            .map { [weak self] in
+                guard let self else { return false }
+                return self.marketingAgreeButton.isSelected
+            }
+        Observable.combineLatest(serviceSelected, privacySelected, marketingSelected)
+            .map { $0 && $1 && $2 }
+            .bind(to: self.allAgreeButton.rx.isSelected)
+            .disposed(by: disposeBag)
+
+        Observable.combineLatest(serviceSelected, privacySelected)
+            .map { $0 && $1 }
+            .debug()
+            .subscribe(onNext: { [weak self] isEnabled in
+                guard let self else { return }
+                if isEnabled {
+                    self.confirmButton.backgroundColor = .Core.primary
+                    self.confirmButton.isEnabled = true
+                } else {
+                    self.confirmButton.backgroundColor = .Core.primaryDisabled
+                    self.confirmButton.isEnabled = false
+                }
+            })
+            .disposed(by: disposeBag)
     }
 
     private func setupActionBinding() {
+        self.customNavigationBar.backButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                guard let self else { return }
+                self.listener?.popToProfileView()
+            })
+            .disposed(by: self.disposeBag)
+
         self.addProfileControl.rx.controlEvent(.touchUpInside)
             .subscribe(onNext: { [weak self] in
                 guard let self else { return }
@@ -300,19 +488,62 @@ final class ProfileViewController: UIViewController, ProfilePresentable, Profile
         self.completeButton.rx.tap
             .subscribe(onNext: { [weak self] in
                 guard let self,
-                      let nickname = nicknameInputView.attributedTitle?.string,
-                      let imageData = profileImageView.image?.resizedImageWithinKilobytes() else {
+                      let nickname = nicknameInputView.textField.text else {
                     return
                 }
-                self.listener?.updateProfile(nickname: nickname, imageData: imageData)
+                let imageData = profileImageView.image?.resizedImageWithinKilobytes()
+                self.listener?.updateProfile(nickname: nickname, imageData: imageData) { [weak self] in
+                    guard let self else { return }
+                    self.showBottomView()
+                }
             })
             .disposed(by: self.disposeBag)
 
-        self.customNavigationBar.backButton.rx.tap
+        self.allAgreeButton.rx.tap
+            .map { [weak self] () -> Bool in
+                guard let self else { return false }
+                return self.allAgreeButton.isSelected
+            }
+            .subscribe(onNext: { [weak self] isSelected in
+                guard let self else { return }
+                if self.serviceAgreeButton.isSelected != isSelected {
+                    self.serviceAgreeButton.selectButton.sendActions(for: .touchUpInside)
+                }
+                if self.privacyAgreeButton.isSelected != isSelected {
+                    self.privacyAgreeButton.selectButton.sendActions(for: .touchUpInside)
+                }
+                if self.marketingAgreeButton.isSelected != isSelected {
+                    self.marketingAgreeButton.selectButton.sendActions(for: .touchUpInside)
+                }
+            })
+            .disposed(by: disposeBag)
+
+        self.confirmButton.rx.tap
             .subscribe(onNext: { [weak self] in
                 guard let self else { return }
-                self.listener?.popToProfileView()
+                listener?.sendTermsAgreement(agreements: [
+                    TermsAgreement(agreementType: .service, isAgreed: self.serviceAgreeButton.isSelected),
+                    TermsAgreement(agreementType: .privacy, isAgreed: self.privacyAgreeButton.isSelected),
+                    TermsAgreement(agreementType: .marketing, isAgreed: self.marketingAgreeButton.isSelected)
+                ])
             })
-            .disposed(by: self.disposeBag)
+            .disposed(by: disposeBag)
+    }
+
+    func showBottomViewIfNeeded(isProfileRequired: Bool) {
+        if !isProfileRequired {
+            self.showBottomView()
+        }
+    }
+    
+    private func showBottomView() {
+        UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseOut], animations: {
+            self.bottomView.snp.updateConstraints {
+                $0.bottom.equalTo(self.view.snp.bottom).offset(0)
+            }
+            self.view.layoutIfNeeded()
+        }, completion: { [weak self] _ in
+            self?.dimmedView.alpha = 1
+        })
     }
 }

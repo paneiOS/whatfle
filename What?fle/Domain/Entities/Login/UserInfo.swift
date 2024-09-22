@@ -11,17 +11,19 @@ struct UserInfo: Codable {
     let id: Int?
     let thirdPartyAuthType: String
     let thirdPartyAuthUid: String
-    let nickname: String
+    let nickname: String?
     let profileImagePath: String?
     let email: String?
     let createdAt: String
     let updatedAt: String?
     let deletedAt: String?
     let isAgreement: Bool
-    
+
+    var isProfileRequired: Bool {
+        return nickname == nil
+    }
+
     var isSignupRequired: Bool {
-        // TODO: - 임시코드 수정 필요
-//        return isAgreement
-        return nickname.isEmpty
+        return !isAgreement
     }
 }

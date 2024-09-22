@@ -15,7 +15,7 @@ import RxKakaoSDKUser
 
 protocol LoginRouting: ViewableRouting {
     var navigationController: UINavigationController? { get }
-    func pushProfileRIB()
+    func pushProfileRIB(isProfileRequired: Bool)
     func popToProfileView()
 }
 
@@ -55,10 +55,10 @@ extension LoginInteractor {
         LoadingIndicatorService.shared.showLoading()
         loginUseCase.loginInWithIDToken(provider: .apple, idToken: idToken)
             .observe(on: MainScheduler.instance)
-            .subscribe(onSuccess: { [weak self] isSignupRequired in
+            .subscribe(onSuccess: { [weak self] isSignupRequired, isProfileRequired in
                 guard let self else { return }
                 if isSignupRequired {
-                    self.router?.pushProfileRIB()
+                    self.router?.pushProfileRIB(isProfileRequired: isProfileRequired)
                 } else {
                     self.listener?.dismissLoginRIB()
                 }

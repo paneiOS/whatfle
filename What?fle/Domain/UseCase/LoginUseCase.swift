@@ -12,9 +12,10 @@ import RxSwift
 import Supabase
 
 protocol LoginUseCaseProtocol {
-    func loginInWithIDToken(provider: OpenIDConnectCredentials.Provider, idToken: String) -> Single<Bool>
     func existNickname(nickname: String) -> Single<Bool>
-    func updateUserProfile(nickname: String, imageData: Data) -> Single<Void>
+    func loginInWithIDToken(provider: OpenIDConnectCredentials.Provider, idToken: String) -> Single<(Bool, Bool)>
+    func sendTermsAgreement(agreements: [TermsAgreement]) -> Single<UserInfo>
+    func updateUserProfile(nickname: String, imageData: Data?) -> Single<Void>
 }
 
 final class LoginUseCase: LoginUseCaseProtocol {
@@ -24,13 +25,17 @@ final class LoginUseCase: LoginUseCaseProtocol {
         self.loginRepository = loginRepository
     }
 
+    func sendTermsAgreement(agreements: [TermsAgreement]) -> Single<UserInfo> {
+        return loginRepository.sendTermsAgreement(agreements: agreements)
+    }
+
     func snsLogin(model: LoginRequestModel) -> Single<UserInfo> {
         return loginRepository.snsLogin(model: model)
     }
 
-    func loginInWithIDToken(provider: OpenIDConnectCredentials.Provider, idToken: String) -> Single<Bool> {
+    func loginInWithIDToken(provider: OpenIDConnectCredentials.Provider, idToken: String) -> Single<(Bool, Bool)> {
         return loginRepository.signInWithIDToken(provider: provider, idToken: idToken)
-            .flatMap { [weak self] response -> Single<Bool> in
+            .flatMap { [weak self] response -> Single<(Bool, Bool)> in
                 guard let self,
                       let email = response.user.email else {
                     return Single.error(RxError.noElements)
@@ -43,7 +48,7 @@ final class LoginUseCase: LoginUseCaseProtocol {
                 )
                 loginRepository.sessionManager.login(token: response.accessToken)
                 return self.loginRepository.snsLogin(model: model)
-                    .map { $0.isSignupRequired }
+                    .map { ($0.isSignupRequired, $0.isProfileRequired) }
             }
     }
 
@@ -51,9 +56,17 @@ final class LoginUseCase: LoginUseCaseProtocol {
         return loginRepository.existNickname(nickname: nickname)
     }
 
-    func updateUserProfile(nickname: String, imageData: Data) -> Single<Void> {
+    func updateUserProfile(nickname: String, imageData: Data?) -> Single<Void> {
+        guard let imageData else {
+            return self.loginRepository.updateUserProfile(userProfile: .init(nickname: nickname, profileImagePath: nil))
+                .do(onSuccess: { [weak self] userInfo in
+                    guard let self else { return }
+                    self.loginRepository.sessionManager.saveUserInfo(userInfo)
+                })
+                .mapToVoid()
+        }
         let fileName = "\(UUID().uuidString)_\(Int(Date().timeIntervalSince1970)).jpg"
-        return loginRepository.uploadImage(imageData: imageData, fileName: fileName)
+        return self.loginRepository.uploadImage(imageData: imageData, fileName: fileName)
             .flatMap { [weak self] imageURL -> Single<UserInfo> in
                 guard let self else {
                     return Single.error(RxError.noElements)

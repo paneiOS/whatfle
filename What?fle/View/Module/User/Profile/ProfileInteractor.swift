@@ -18,6 +18,7 @@ protocol ProfileRouting: ViewableRouting {
 
 protocol ProfilePresentable: Presentable {
     var listener: ProfilePresentableListener? { get set }
+    func showBottomViewIfNeeded(isProfileRequired: Bool)
 }
 
 protocol ProfileListener: AnyObject {
@@ -39,14 +40,17 @@ final class ProfileInteractor: PresentableInteractor<ProfilePresentable>, Profil
     private let loginUseCase: LoginUseCaseProtocol
     private let disposeBag = DisposeBag()
 
+    let isProfileRequired: Bool
     var profileImage: PublishRelay<UIImage> = .init()
     var existNicknameState: PublishRelay<ExistNicknameState> = .init()
 
     init(
         presenter: ProfilePresentable,
-        loginUseCase: LoginUseCaseProtocol
+        loginUseCase: LoginUseCaseProtocol,
+        isProfileRequired: Bool
     ) {
         self.loginUseCase = loginUseCase
+        self.isProfileRequired = isProfileRequired
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -82,14 +86,13 @@ final class ProfileInteractor: PresentableInteractor<ProfilePresentable>, Profil
         router?.closeCustomAlbum()
     }
 
-    func updateProfile(nickname: String, imageData: Data) {
+    func updateProfile(nickname: String, imageData: Data?, completion: @escaping () -> Void) {
         guard !LoadingIndicatorService.shared.isLoading() else { return }
         LoadingIndicatorService.shared.showLoading()
 
         loginUseCase.updateUserProfile(nickname: nickname, imageData: imageData)
-            .subscribe(onSuccess: { [weak self] in
-                guard let self else { return }
-                self.listener?.closeLogin()
+            .subscribe(onSuccess: {
+                completion()
             }, onFailure: { error in
                 errorPrint(error)
             }, onDisposed: {
@@ -98,7 +101,25 @@ final class ProfileInteractor: PresentableInteractor<ProfilePresentable>, Profil
             .disposed(by: disposeBag)
     }
 
+    func sendTermsAgreement(agreements: [TermsAgreement]) {
+        guard !LoadingIndicatorService.shared.isLoading() else { return }
+        LoadingIndicatorService.shared.showLoading()
+
+        loginUseCase.sendTermsAgreement(agreements: agreements)
+            .subscribe(onSuccess: { [weak self] _ in
+                guard let self else { return }
+                self.listener?.closeLogin()
+            }, onDisposed: {
+                LoadingIndicatorService.shared.hideLoading()
+            })
+            .disposed(by: disposeBag)
+    }
+
     func popToProfileView() {
         listener?.popToProfileView()
+    }
+    
+    func viewDidAppear() {
+        self.presenter.showBottomViewIfNeeded(isProfileRequired: isProfileRequired)
     }
 }

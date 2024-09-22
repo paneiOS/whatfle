@@ -16,7 +16,7 @@ final class LoginRepository: LoginRepositoryProtocol {
     private var client: SupabaseClient
 
     typealias Task = _Concurrency.Task
-    
+
     var sessionManager: SessionManager {
         self.networkService.sessionManager
     }
@@ -27,6 +27,10 @@ final class LoginRepository: LoginRepositoryProtocol {
             supabaseURL: URL(string: AppConfigs.API.Supabase.baseURL)!,
             supabaseKey: AppConfigs.API.Supabase.key
         )
+    }
+
+    func sendTermsAgreement(agreements: [TermsAgreement]) -> Single<UserInfo> {
+        return networkService.request(LoginAPI.signinAgreement(agreements))
     }
 
     func snsLogin(model: LoginRequestModel) -> Single<UserInfo> {
