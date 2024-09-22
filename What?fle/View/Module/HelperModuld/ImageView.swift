@@ -31,7 +31,6 @@ final class ImageView: UIImageView {
         memoryCache.costLimit = 50 * 1024 * 1024 // 50MB 메모리 캐시
 
         let dataCache = try? DataCache(name: "com.Whatfle.What-fle")
-        dataCache?.removeAll()
         dataCache?.sizeLimit = 100 * 1024 * 1024 // 100MB 디스크 캐시
 
         return ImagePipeline {

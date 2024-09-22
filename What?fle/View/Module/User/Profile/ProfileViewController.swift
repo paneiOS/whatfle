@@ -49,6 +49,7 @@ final class ProfileViewController: UIViewController, ProfilePresentable, Profile
         imageView.layer.masksToBounds = true
         let cameraImage: UIImageView = .init(image: .Icon.cameraIcon)
         imageView.addSubview(cameraImage)
+        imageView.backgroundColor = .Core.background
         cameraImage.snp.makeConstraints {
             $0.center.equalToSuperview()
             $0.size.equalTo(40)
@@ -300,7 +301,7 @@ final class ProfileViewController: UIViewController, ProfilePresentable, Profile
         self.completeButton.rx.tap
             .subscribe(onNext: { [weak self] in
                 guard let self,
-                      let nickname = nicknameInputView.attributedTitle?.string,
+                      let nickname = nicknameInputView.textField.text,
                       let imageData = profileImageView.image?.resizedImageWithinKilobytes() else {
                     return
                 }
