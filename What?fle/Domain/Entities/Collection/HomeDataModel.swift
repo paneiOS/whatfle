@@ -98,16 +98,8 @@ struct HomeDataModel: Decodable {
         let isActiveCover: Bool
         let hashtags: [Hashtag]
         let places: [Place]
-        
-        var isFavoriate: Bool = false
 
-        var convertImageURLs: [String] {
-//            return self.imageURLs?.compactMap { $0.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) } ?? []
-            return ["https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/place/99a119ad-c42d-4957-8d45-85d08b095bab-1723563240348",
-                    "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/place/0ea88219-9996-4201-be69-797259c468a1-1723563241351",
-                    "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/place/ba5055a6-862a-4b99-9d47-8331816bebf5-1723563242565",
-                    "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/place/063b59f9-0316-4f58-a004-acecb6b6a5d2-1723563243665"]
-        }
+        var isFavoriate: Bool = false
 
         enum CodingKeys: String, CodingKey {
             case id
@@ -116,7 +108,7 @@ struct HomeDataModel: Decodable {
             case imageURLs = "imageUrls"
             case isActiveCover, hashtags, places
         }
-        
+
         init(data: Collection, isFavorite: Bool) {
             self.id = data.id
             self.accountID = data.accountID

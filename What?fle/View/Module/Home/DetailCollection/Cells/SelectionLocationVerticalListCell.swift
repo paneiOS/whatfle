@@ -5,10 +5,10 @@
 //  Created by 이정환 on 8/12/24.
 //
 
-import Kingfisher
+import UIKit
+
 import RxSwift
 import RxCocoa
-import UIKit
 
 protocol SelectionLocationVerticalListCellDelegate: AnyObject {
     func cell(_ cell: SelectionLocationVerticalListCell, didUpdateHeight height: CGFloat, at index: Int)

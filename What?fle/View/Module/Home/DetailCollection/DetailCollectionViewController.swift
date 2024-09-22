@@ -5,11 +5,11 @@
 //  Created by 이정환 on 8/1/24.
 //
 
-import Kingfisher
-import RIBs
-import RxSwift
-import RxCocoa
 import UIKit
+
+import RIBs
+import RxCocoa
+import RxSwift
 
 protocol DetailCollectionPresentableListener: AnyObject {
     var detailCollectionModel: PublishSubject<DetailCollectionModel> { get }

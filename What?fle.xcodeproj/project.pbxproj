@@ -15,11 +15,12 @@
 		391134092C5FBD9000980190 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391134082C5FBD9000980190 /* GradientView.swift */; };
 		3911340B2C5FC95900980190 /* DetailCollection.json in Resources */ = {isa = PBXBuildFile; fileRef = 3911340A2C5FC95900980190 /* DetailCollection.json */; };
 		391134142C63AB3E00980190 /* DetailCollectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391134132C63AB3E00980190 /* DetailCollectionModel.swift */; };
-		391134172C63C1D200980190 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 391134162C63C1D200980190 /* Kingfisher */; };
 		391134192C63CB8300980190 /* SelectLocationCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391134182C63CB8300980190 /* SelectLocationCollectionView.swift */; };
 		39171CFD2BF664BF00DF5B8D /* SwitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39171CFC2BF664BF00DF5B8D /* SwitchView.swift */; };
 		39195EFC2C9F18B5002F0166 /* ScrollKeyboardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39195EFB2C9F18B5002F0166 /* ScrollKeyboardVC.swift */; };
 		39195EFE2C9F1ED0002F0166 /* BottomKeyboardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39195EFD2C9F1ED0002F0166 /* BottomKeyboardVC.swift */; };
+		39195F022C9FA320002F0166 /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = 39195F012C9FA320002F0166 /* Nuke */; };
+		39195F042C9FA39F002F0166 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39195F032C9FA39F002F0166 /* ImageView.swift */; };
 		39195FFD2BAB40D900CC7A2E /* SelectLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39195FFC2BAB40D900CC7A2E /* SelectLocationCell.swift */; };
 		39195FFF2BAC51EA00CC7A2E /* RecentSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39195FFE2BAC51EA00CC7A2E /* RecentSearchCell.swift */; };
 		391960022BAC542B00CC7A2E /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391960012BAC542B00CC7A2E /* UserDefaultsManager.swift */; };
@@ -85,7 +86,7 @@
 		3939FFF52B9451E3007E58F6 /* UIApplication+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3939FFF42B9451E3007E58F6 /* UIApplication+.swift */; };
 		3939FFFE2B961BBA007E58F6 /* RegistLocationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3939FFFA2B961BBA007E58F6 /* RegistLocationRouter.swift */; };
 		3939FFFF2B961BBA007E58F6 /* RegistLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3939FFFB2B961BBA007E58F6 /* RegistLocationViewController.swift */; };
-		393AB6B82C91D3CF008B386A /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393AB6B72C91D3CF008B386A /* ImageView.swift */; };
+		393AB6B82C91D3CF008B386A /* ImageGridType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393AB6B72C91D3CF008B386A /* ImageGridType.swift */; };
 		39411B352BBC3AC200A54EA7 /* LocationImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39411B342BBC3AC200A54EA7 /* LocationImageCell.swift */; };
 		395E22EF2C3C242E001BB755 /* AddTagRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395E22EB2C3C242E001BB755 /* AddTagRouter.swift */; };
 		395E22F02C3C242E001BB755 /* AddTagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395E22EC2C3C242E001BB755 /* AddTagViewController.swift */; };
@@ -197,6 +198,7 @@
 		39171CFC2BF664BF00DF5B8D /* SwitchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchView.swift; sourceTree = "<group>"; };
 		39195EFB2C9F18B5002F0166 /* ScrollKeyboardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollKeyboardVC.swift; sourceTree = "<group>"; };
 		39195EFD2C9F1ED0002F0166 /* BottomKeyboardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomKeyboardVC.swift; sourceTree = "<group>"; };
+		39195F032C9FA39F002F0166 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		39195FFC2BAB40D900CC7A2E /* SelectLocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLocationCell.swift; sourceTree = "<group>"; };
 		39195FFE2BAC51EA00CC7A2E /* RecentSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchCell.swift; sourceTree = "<group>"; };
 		391960012BAC542B00CC7A2E /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
@@ -261,7 +263,7 @@
 		3939FFFB2B961BBA007E58F6 /* RegistLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistLocationViewController.swift; sourceTree = "<group>"; };
 		3939FFFC2B961BBA007E58F6 /* RegistLocationBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistLocationBuilder.swift; sourceTree = "<group>"; };
 		3939FFFD2B961BBA007E58F6 /* RegistLocationInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistLocationInteractor.swift; sourceTree = "<group>"; };
-		393AB6B72C91D3CF008B386A /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
+		393AB6B72C91D3CF008B386A /* ImageGridType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGridType.swift; sourceTree = "<group>"; };
 		39411B342BBC3AC200A54EA7 /* LocationImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationImageCell.swift; sourceTree = "<group>"; };
 		395E22EB2C3C242E001BB755 /* AddTagRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTagRouter.swift; sourceTree = "<group>"; };
 		395E22EC2C3C242E001BB755 /* AddTagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTagViewController.swift; sourceTree = "<group>"; };
@@ -369,7 +371,7 @@
 				39878CF82C7AD337004898AD /* Supabase in Frameworks */,
 				45AF9E0D2C71964F00160AC7 /* RxKakaoSDKCommon in Frameworks */,
 				39333CE52B86494C005F295A /* RxCocoa in Frameworks */,
-				391134172C63C1D200980190 /* Kingfisher in Frameworks */,
+				39195F022C9FA320002F0166 /* Nuke in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -620,7 +622,7 @@
 				391134082C5FBD9000980190 /* GradientView.swift */,
 				391134182C63CB8300980190 /* SelectLocationCollectionView.swift */,
 				392C1E2C2C6A3DDC00C03D82 /* TriangleView.swift */,
-				393AB6B72C91D3CF008B386A /* ImageView.swift */,
+				393AB6B72C91D3CF008B386A /* ImageGridType.swift */,
 			);
 			path = "What?fleUIKit";
 			sourceTree = "<group>";
@@ -651,6 +653,7 @@
 				457A8A622C8C3D50000444AC /* SessionManager.swift */,
 				45AF9E032C6F940B00160AC7 /* KeychainManager.swift */,
 				391960012BAC542B00CC7A2E /* UserDefaultsManager.swift */,
+				39195F032C9FA39F002F0166 /* ImageView.swift */,
 			);
 			path = HelperModuld;
 			sourceTree = "<group>";
@@ -1028,12 +1031,12 @@
 				39333CE72B86496C005F295A /* Moya */,
 				39333CEA2B864979005F295A /* SnapKit */,
 				39333CED2B864998005F295A /* RIBs */,
-				391134162C63C1D200980190 /* Kingfisher */,
 				45AF9E082C71964F00160AC7 /* RxKakaoSDK */,
 				45AF9E0A2C71964F00160AC7 /* RxKakaoSDKAuth */,
 				45AF9E0C2C71964F00160AC7 /* RxKakaoSDKCommon */,
 				39878CF52C7AD2EF004898AD /* Storage */,
 				39878CF72C7AD337004898AD /* Supabase */,
+				39195F012C9FA320002F0166 /* Nuke */,
 			);
 			productName = "What?fle";
 			productReference = 39333CCC2B864786005F295A /* What?fle.app */;
@@ -1068,9 +1071,9 @@
 				39333CE62B86496C005F295A /* XCRemoteSwiftPackageReference "Moya" */,
 				39333CE92B864979005F295A /* XCRemoteSwiftPackageReference "SnapKit" */,
 				39333CEC2B864998005F295A /* XCRemoteSwiftPackageReference "RIBs" */,
-				391134152C63C1D200980190 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				45AF9E072C71964F00160AC7 /* XCRemoteSwiftPackageReference "kakao-ios-sdk-rx" */,
 				39878CF02C7AD2EF004898AD /* XCRemoteSwiftPackageReference "supabase-swift" */,
+				39195F002C9FA320002F0166 /* XCRemoteSwiftPackageReference "Nuke" */,
 			);
 			productRefGroup = 39333CCD2B864786005F295A /* Products */;
 			projectDirPath = "";
@@ -1159,7 +1162,7 @@
 				456B09CC2BB9520100920C54 /* TextFieldWithUnderline.swift in Sources */,
 				39A81E702BF3A7550009C43F /* UIImage+.swift in Sources */,
 				39CBE1172BC6289D003CB3F0 /* SplashViewController.swift in Sources */,
-				393AB6B82C91D3CF008B386A /* ImageView.swift in Sources */,
+				393AB6B82C91D3CF008B386A /* ImageGridType.swift in Sources */,
 				39878D112C7B300D004898AD /* LocationRepository.swift in Sources */,
 				39333D0B2B8765A2005F295A /* UIColor+Design.swift in Sources */,
 				39CBE1162BC6289D003CB3F0 /* SplashRouter.swift in Sources */,
@@ -1227,6 +1230,7 @@
 				39EBCDFE2B8A26BF00599D58 /* MapRouter.swift in Sources */,
 				3939FFD62B8F6EF3007E58F6 /* AppConfigs.swift in Sources */,
 				39878D002C7AF08C004898AD /* LoginAPI.swift in Sources */,
+				39195F042C9FA39F002F0166 /* ImageView.swift in Sources */,
 				39333D6F2B8993B1005F295A /* HomeViewController.swift in Sources */,
 				39CF56A92BC0F0A300E718C8 /* AddCollectionViewController.swift in Sources */,
 				39EBCE012B8A26BF00599D58 /* MapInteractor.swift in Sources */,
@@ -1427,6 +1431,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = CB95NTZJ5Z;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1512,12 +1517,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		391134152C63C1D200980190 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+		39195F002C9FA320002F0166 /* XCRemoteSwiftPackageReference "Nuke" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			repositoryURL = "https://github.com/kean/Nuke";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 7.12.0;
+				minimumVersion = 12.8.0;
 			};
 		};
 		39333CE32B86494C005F295A /* XCRemoteSwiftPackageReference "RxSwift" */ = {
@@ -1571,10 +1576,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		391134162C63C1D200980190 /* Kingfisher */ = {
+		39195F012C9FA320002F0166 /* Nuke */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 391134152C63C1D200980190 /* XCRemoteSwiftPackageReference "Kingfisher" */;
-			productName = Kingfisher;
+			package = 39195F002C9FA320002F0166 /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = Nuke;
 		};
 		39333CE42B86494C005F295A /* RxCocoa */ = {
 			isa = XCSwiftPackageProductDependency;

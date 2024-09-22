@@ -5,17 +5,17 @@
 //  Created by 이정환 on 4/7/24.
 //
 
-import Kingfisher
-import RxSwift
-import RxCocoa
-import SnapKit
 import UIKit
+
+import RxCocoa
+import RxSwift
+import SnapKit
 
 final class SelectLocationResultCell: UICollectionViewCell {
     static let reuseIdentifier = "SelectLocationResultCell"
 
-    private let imageView: UIImageView = {
-        let imageView: UIImageView = .init()
+    private let imageView: ImageView = {
+        let imageView: ImageView = .init()
         imageView.contentMode = .scaleToFill
         imageView.layer.cornerRadius = 4
         imageView.layer.masksToBounds = true
@@ -58,7 +58,7 @@ final class SelectLocationResultCell: UICollectionViewCell {
         )
 
         if let urlStr = model.imageURLs.first {
-            self.imageView.kf.setImage(with: URL(string: urlStr), placeholder: UIImage.placehold)
+            self.imageView.loadImage(from: urlStr)
         }
     }
 }

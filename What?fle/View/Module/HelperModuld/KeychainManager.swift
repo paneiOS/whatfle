@@ -18,7 +18,7 @@ final class KeychainManager {
         case guestAccessToken
 
         func identifier() -> String {
-            return "com.Whatfle.What." + self.rawValue
+            return "com.Whatfle.What-fle." + self.rawValue
         }
     }
 

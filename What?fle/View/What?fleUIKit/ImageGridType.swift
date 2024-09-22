@@ -1,5 +1,5 @@
 //
-//  ImageView.swift
+//  ImageGridType.swift
 //  What?fle
 //
 //  Created by 이정환 on 9/11/24.
@@ -21,13 +21,13 @@ enum ImageGridType: String {
     }
 }
 
-final class ImageView: UIImageView {
-
-    override init(image: UIImage? = .placehold) {
-        super.init(image: image)
-    }
-
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-}
+//final class ImageView: UIImageView {
+//
+//    override init(image: UIImage? = .placehold) {
+//        super.init(image: image)
+//    }
+//
+//    required init?(coder: NSCoder) {
+//        super.init(coder: coder)
+//    }
+//}

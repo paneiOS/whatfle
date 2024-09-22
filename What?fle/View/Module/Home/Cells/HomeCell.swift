@@ -7,7 +7,6 @@
 
 import UIKit
 
-import Kingfisher
 import RxCocoa
 import RxSwift
 
@@ -54,8 +53,8 @@ final class HomeCell: UICollectionViewCell {
     private let bottomRightImageView: ImageView = .init()
 
     private let profileView: UIView = .init()
-    private let profileImageView: UIImageView = {
-        let imageView: UIImageView = .init()
+    private let profileImageView: ImageView = {
+        let imageView: ImageView = .init()
         imageView.layer.cornerRadius = 12
         imageView.layer.masksToBounds = true
         imageView.layer.borderWidth = 1
@@ -205,10 +204,10 @@ extension HomeCell {
         ]
         for (idx, imageURL) in (model.collection.places.compactMap { $0.imageURLs?.first }).enumerated() {
             guard idx < 5 else { return }
-            imageViews[idx].kf.setImage(with: URL(string: imageURL))
+            imageViews[idx].loadImage(from: imageURL)
         }
 
-        self.profileImageView.kf.setImage(with: URL(string: model.account.imageURL))
+        self.profileImageView.loadImage(from: model.account.imageURL)
         self.userName.attributedText = .makeAttributedString(
             text: model.account.nickname,
             font: .body14MD,

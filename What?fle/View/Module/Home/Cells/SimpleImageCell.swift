@@ -7,13 +7,12 @@
 
 import UIKit
 
-import Kingfisher
 import SnapKit
 
 final class SimpleImageCell: UICollectionViewCell {
     static let reuseIdentifier = "SimpleImageCell"
 
-    private let imageView: UIImageView = .init()
+    private let imageView: ImageView = .init()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -39,6 +38,6 @@ final class SimpleImageCell: UICollectionViewCell {
     }
 
     func drawCell(imageURL: String) {
-        self.imageView.kf.setImage(with: URL(string: imageURL))
+        self.imageView.loadImage(from: imageURL)
     }
 }
