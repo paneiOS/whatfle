@@ -24,6 +24,7 @@
 		39195F082C9FE344002F0166 /* SelectTermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39195F072C9FE344002F0166 /* SelectTermsView.swift */; };
 		39195F0A2C9FE3BA002F0166 /* SelectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39195F092C9FE3BA002F0166 /* SelectButton.swift */; };
 		39195F0C2CA01822002F0166 /* TermsAgreement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39195F0B2CA01822002F0166 /* TermsAgreement.swift */; };
+		39195F0E2CABE1C8002F0166 /* SearchButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39195F0D2CABE1C8002F0166 /* SearchButtonCell.swift */; };
 		39195FFD2BAB40D900CC7A2E /* SelectLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39195FFC2BAB40D900CC7A2E /* SelectLocationCell.swift */; };
 		39195FFF2BAC51EA00CC7A2E /* RecentSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39195FFE2BAC51EA00CC7A2E /* RecentSearchCell.swift */; };
 		391960022BAC542B00CC7A2E /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391960012BAC542B00CC7A2E /* UserDefaultsManager.swift */; };
@@ -205,6 +206,7 @@
 		39195F072C9FE344002F0166 /* SelectTermsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTermsView.swift; sourceTree = "<group>"; };
 		39195F092C9FE3BA002F0166 /* SelectButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectButton.swift; sourceTree = "<group>"; };
 		39195F0B2CA01822002F0166 /* TermsAgreement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAgreement.swift; sourceTree = "<group>"; };
+		39195F0D2CABE1C8002F0166 /* SearchButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchButtonCell.swift; sourceTree = "<group>"; };
 		39195FFC2BAB40D900CC7A2E /* SelectLocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLocationCell.swift; sourceTree = "<group>"; };
 		39195FFE2BAC51EA00CC7A2E /* RecentSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchCell.swift; sourceTree = "<group>"; };
 		391960012BAC542B00CC7A2E /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
@@ -423,6 +425,7 @@
 				392C1E272C650B7200C03D82 /* SelectionLocationVerticalCell.swift */,
 				392C1E2E2C6A41B200C03D82 /* SelectionLocationVerticalListCell.swift */,
 				392C1E312C6BAFEA00C03D82 /* PagerImageCell.swift */,
+				39195F0D2CABE1C8002F0166 /* SearchButtonCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1246,6 +1249,7 @@
 				39CF56A92BC0F0A300E718C8 /* AddCollectionViewController.swift in Sources */,
 				39EBCE012B8A26BF00599D58 /* MapInteractor.swift in Sources */,
 				39878D152C7B3240004898AD /* LocationUseCase.swift in Sources */,
+				39195F0E2CABE1C8002F0166 /* SearchButtonCell.swift in Sources */,
 				392C1E212C64F55F00C03D82 /* UIImage+Design.swift in Sources */,
 				395E22EF2C3C242E001BB755 /* AddTagRouter.swift in Sources */,
 				39333CD22B864786005F295A /* SceneDelegate.swift in Sources */,

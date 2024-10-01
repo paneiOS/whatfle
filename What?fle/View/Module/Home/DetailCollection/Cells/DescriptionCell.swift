@@ -16,6 +16,7 @@ final class DescriptionCell: UICollectionViewCell {
         static let cellWidth: CGFloat = UIApplication.shared.width - 32
         static let interPadding: CGFloat = 56
     }
+
     static let reuseIdentifier = "DescriptionCell"
 
     weak var delegate: DescriptionCellDelegate?

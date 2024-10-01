@@ -26,14 +26,13 @@ final class HomeViewController: UIViewController, HomePresentable, HomeViewContr
     weak var listener: HomePresentableListener?
     private let disposeBag = DisposeBag()
 
-    private let searchBarView: SearchBarView = .init()
-
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.register(SearchButtonCell.self, forCellWithReuseIdentifier: SearchButtonCell.reuseIdentifier)
         collectionView.register(TopCell.self, forCellWithReuseIdentifier: TopCell.reuseIdentifier)
         collectionView.register(HomeCell.self, forCellWithReuseIdentifier: HomeCell.reuseIdentifier)
         return collectionView
@@ -51,15 +50,9 @@ final class HomeViewController: UIViewController, HomePresentable, HomeViewContr
     }
 
     private func setupUI() {
-        self.view.addSubviews(self.searchBarView, self.collectionView)
-        self.searchBarView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(UIApplication.shared.statusBarHeight + 8)
-            $0.leading.trailing.equalToSuperview().inset(16)
-            $0.height.equalTo(48)
-        }
-
+        self.view.addSubview(self.collectionView)
         self.collectionView.snp.makeConstraints {
-            $0.top.equalTo(self.searchBarView.snp.bottom)
+            $0.top.equalTo(UIApplication.shared.statusBarHeight)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
@@ -80,15 +73,15 @@ final class HomeViewController: UIViewController, HomePresentable, HomeViewContr
 
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2
+        return 3
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let homeData = listener?.homeData.value else { return 0 }
         switch section {
-        case 0:
+        case 0, 1:
             return 1
-        case 1:
+        case 2:
             return homeData.contents.count
         default:
             return 0
@@ -101,13 +94,18 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         }
         switch indexPath.section {
         case 0:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchButtonCell.reuseIdentifier, for: indexPath) as? SearchButtonCell else {
+                return UICollectionViewCell()
+            }
+            return cell
+        case 1:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopCell.reuseIdentifier, for: indexPath) as? TopCell else {
                 return UICollectionViewCell()
             }
             cell.drawCell(model: homeData.topSection)
             cell.delegate = self
             return cell
-        case 1:
+        case 2:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCell.reuseIdentifier, for: indexPath) as? HomeCell,
                   let content = homeData.contents[safe: indexPath.item] else {
                 return UICollectionViewCell()
@@ -123,8 +121,10 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         switch indexPath.section {
         case 0:
-            return CGSize(width: collectionView.bounds.width, height: 238)
+            return CGSize(width: collectionView.bounds.width, height: 64)
         case 1:
+            return CGSize(width: collectionView.bounds.width, height: 238)
+        case 2:
             guard let homeData = listener?.homeData.value,
                   let height = homeData.contents[safe: indexPath.item]?.type.cellHeight else {
                 return .zero
@@ -137,6 +137,8 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch indexPath.section {
+        case 0:
+            print("검색버튼 눌림")
         case 1:
             guard let homeData = listener?.homeData.value,
                   let id = homeData.contents[safe: indexPath.item]?.collection.id else { return }

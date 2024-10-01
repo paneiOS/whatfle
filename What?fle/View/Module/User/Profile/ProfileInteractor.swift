@@ -118,7 +118,7 @@ final class ProfileInteractor: PresentableInteractor<ProfilePresentable>, Profil
     func popToProfileView() {
         listener?.popToProfileView()
     }
-    
+
     func viewDidAppear() {
         self.presenter.showBottomViewIfNeeded(isProfileRequired: isProfileRequired)
     }
