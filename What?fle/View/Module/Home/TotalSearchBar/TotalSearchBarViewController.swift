@@ -24,6 +24,11 @@ protocol TotalSearchBarPresentableListener: AnyObject {
 
 final class TotalSearchBarViewController: UIViewController, TotalSearchBarPresentable, TotalSearchBarViewControllable {
 
+    enum SearchState {
+        case before
+        case after
+    }
+    
     // MARK: - UIComponent
 
     private let beforeSearchView: UIView = .init()
@@ -93,6 +98,19 @@ final class TotalSearchBarViewController: UIViewController, TotalSearchBarPresen
     private var searchArr: [String] = [] {
         didSet {
             self.tagCollectionView.reloadData()
+        }
+    }
+
+    private var searchSate: SearchState = .before {
+        didSet {
+            switch searchSate {
+            case .before:
+                self.beforeSearchView.isHidden = false
+                self.afterSearchView.isHidden = true
+            case .after:
+                self.beforeSearchView.isHidden = true
+                self.afterSearchView.isHidden = false
+            }
         }
     }
 
@@ -176,9 +194,17 @@ final class TotalSearchBarViewController: UIViewController, TotalSearchBarPresen
             .subscribe(onNext: { [weak self] tags in
                 guard let self else { return }
                 self.searchResultView.updateResultOfTags(tags)
-                self.beforeSearchView.isHidden = true
-                self.afterSearchView.isHidden = false
+                self.searchSate = .after
                 self.searchResultView.reloadData()
+            })
+            .disposed(by: disposeBag)
+        
+        self.searchBarView.searchBar.rx.text
+            .subscribe(onNext: { [weak self] text in
+                guard let self else { return }
+                if let text, text.isEmpty {
+                    self.searchSate = .before
+                }
             })
             .disposed(by: disposeBag)
     }
@@ -241,15 +267,22 @@ extension TotalSearchBarViewController: UICollectionViewDelegateFlowLayout, UICo
 }
 
 extension TotalSearchBarViewController: UITextFieldDelegate {
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-//        self.activateSearchBar(state: true)
-//        self.searchBarView.closeButton.isHidden = false
-    }
-
-    func textFieldDidEndEditing(_ textField: UITextField) {
-//        self.activateSearchBar(state: false)
-//        self.searchBarView.closeButton.isHidden = true
-    }
+//    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+//        self.searchSate = .after
+//        return true
+//    }
+//    
+//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+////        let currentText = textField.text ?? ""
+////        let newText = (currentText as NSString).replacingCharacters(in: range, with: string)
+////        
+////        if newText.isEmpty {
+////            
+////        }
+//        self.textFi
+//        
+//        return true
+//    }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
