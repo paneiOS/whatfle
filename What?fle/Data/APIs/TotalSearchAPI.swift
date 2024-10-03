@@ -11,13 +11,12 @@ import Moya
 
 enum TotalSearchAPI: Loginable {
     case getSearchRecommendTag
-    
+    case getSearchTerm(term: String)
+
     var requiresLogin: Bool {
         switch self {
-        case .getSearchRecommendTag:
+        case .getSearchRecommendTag, .getSearchTerm:
             return false
-        default:
-            return true
         }
     }
 }
@@ -32,6 +31,8 @@ extension TotalSearchAPI: TargetType {
         switch self {
         case .getSearchRecommendTag:
             return basePath + "/hashtag/recommend"
+        case .getSearchTerm:
+            return basePath + "/search"
         }
     }
 
@@ -47,6 +48,11 @@ extension TotalSearchAPI: TargetType {
         case .getSearchRecommendTag:
             return .requestParameters(
                 parameters: ["size": 10],
+                encoding: URLEncoding.queryString
+            )
+        case .getSearchTerm(let term):
+            return .requestParameters(
+                parameters: ["searchText": term],
                 encoding: URLEncoding.queryString
             )
         }

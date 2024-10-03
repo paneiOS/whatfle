@@ -307,10 +307,12 @@ extension SelectLocationViewController: UITextFieldDelegate {
         self.activateSearchBar(state: true)
         self.searchBarView.closeButton.isHidden = false
     }
+
     func textFieldDidEndEditing(_ textField: UITextField) {
         self.activateSearchBar(state: false)
         self.searchBarView.closeButton.isHidden = true
     }
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         self.activateSearchBar(state: false)

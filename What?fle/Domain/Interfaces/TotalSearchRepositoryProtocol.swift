@@ -11,4 +11,5 @@ import RxSwift
 
 protocol TotalSearchRepositoryProtocol {
     func getSearchRecommendTag() -> Single<[RecommendHashTagModel]>
+    func getSearchData(term: String) -> Single<TotalSearchData>
 }

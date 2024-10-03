@@ -25,8 +25,14 @@ final class TotalSearchBarInteractor: PresentableInteractor<TotalSearchBarPresen
     private let totalSearchUseCase: TotalSearchUseCaseProtocol
     weak var router: TotalSearchBarRouting?
     weak var listener: TotalSearchBarListener?
+
+    // MARK: - 검색전
     var recommendHashTags: BehaviorRelay<[String]> = .init(value: [])
     var recentTerms: BehaviorRelay<[String]> = .init(value: [])
+
+    // MARK: - 검색후
+    var resultOfRecommendTags: BehaviorRelay<[String]> = .init(value: [])
+    var resultOfCollections: BehaviorRelay<[TotalSearchData.CollectionContent.Collection]> = .init(value: [])
 
     private let disposeBag = DisposeBag()
 
@@ -46,7 +52,7 @@ final class TotalSearchBarInteractor: PresentableInteractor<TotalSearchBarPresen
     override func didBecomeActive() {
         super.didBecomeActive()
 
-        self.updateRecommendHashTags()
+        self.setupViews()
     }
 
     func dismissTotalSearchBar() {
@@ -54,13 +60,29 @@ final class TotalSearchBarInteractor: PresentableInteractor<TotalSearchBarPresen
     }
 
     func searchTerm(term: String) {
-        
-    }
-
-    func updateRecommendHashTags() {
         guard !LoadingIndicatorService.shared.isLoading() else { return }
         LoadingIndicatorService.shared.showLoading()
 
+        self.totalSearchUseCase.getSearchData(term: term)
+            .subscribe(onSuccess: { [weak self] (tags, collections) in
+                guard let self else { return }
+                UserDefaultsManager.recentSearchSave(type: .home, searchText: term)
+                self.recentTerms.accept(UserDefaultsManager.recentSearchLoad(type: .home))
+                self.resultOfRecommendTags.accept(tags)
+                self.resultOfCollections.accept(collections)
+            }, onFailure: { error in
+                print("\(self) Error: \(error)")
+            }, onDisposed: {
+                LoadingIndicatorService.shared.hideLoading()
+            })
+            .disposed(by: self.disposeBag)
+    }
+
+    func setupViews() {
+        guard !LoadingIndicatorService.shared.isLoading() else { return }
+        LoadingIndicatorService.shared.showLoading()
+
+        self.recentTerms.accept(UserDefaultsManager.recentSearchLoad(type: .home))
         self.totalSearchUseCase.getSearchRecommendTag()
             .subscribe(onSuccess: { [weak self] tags in
                 guard let self else { return }

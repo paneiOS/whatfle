@@ -7,12 +7,12 @@
 
 import UIKit
 
-import RxCocoa
 import RxSwift
 
 protocol SearchRecentViewDelegate: AnyObject {
     var recentSearchTerms: [String] { get set }
     func updateRecentSearchTerms(_ terms: [String])
+    func reloadData()
 }
 
 final class SearchRecentView: UIView, SearchRecentViewDelegate {
@@ -111,6 +111,10 @@ final class SearchRecentView: UIView, SearchRecentViewDelegate {
 extension SearchRecentView {
     func updateRecentSearchTerms(_ terms: [String]) {
         self.recentSearchTerms = terms
+    }
+
+    func reloadData() {
+        self.recentTableView.reloadData()
     }
 }
 

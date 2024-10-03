@@ -15,7 +15,10 @@ import SnapKit
 protocol TotalSearchBarPresentableListener: AnyObject {
     var recommendHashTags: BehaviorRelay<[String]> { get }
     var recentTerms: BehaviorRelay<[String]> { get }
+    var resultOfRecommendTags: BehaviorRelay<[String]> { get }
+    var resultOfCollections: BehaviorRelay<[TotalSearchData.CollectionContent.Collection]> { get }
     func dismissTotalSearchBar()
+    func searchTerm(term: String)
 //    func deleteItem(at index: Int)
 }
 
@@ -23,17 +26,29 @@ final class TotalSearchBarViewController: UIViewController, TotalSearchBarPresen
 
     // MARK: - UIComponent
 
-    private let searchBarView: SearchBarView = .init()
+    private let beforeSearchView: UIView = .init()
+
+    private let afterSearchView: UIView = {
+        let view: UIView = .init()
+        view.isHidden = true
+        return view
+    }()
+
+    private lazy var searchBarView: SearchBarView = {
+        let view: SearchBarView = .init()
+        view.searchBar.delegate = self
+        return view
+    }()
 
     private lazy var tagStackView: UIStackView = {
         let stackView: UIStackView = .init()
         stackView.axis = .vertical
         stackView.spacing = 12
-        stackView.addArrangedSubviews(self.searchHistoryCollectionView, self.tagMoreButton)
+        stackView.addArrangedSubviews(self.tagCollectionView, self.tagMoreButton)
         return stackView
     }()
 
-    private lazy var searchHistoryCollectionView: TagCollectionView = {
+    private lazy var tagCollectionView: TagCollectionView = {
         let view: TagCollectionView = .init()
         view.register(BasicTagCell.self, forCellWithReuseIdentifier: BasicTagCell.reuseIdentifier)
         view.delegate = self
@@ -64,8 +79,10 @@ final class TotalSearchBarViewController: UIViewController, TotalSearchBarPresen
         button.configuration = config
         return button
     }()
-    
+
     private var searchRecentView: SearchRecentViewDelegate = SearchRecentView()
+
+    private var searchResultView: SearchResultViewDelegate = SearchResultView()
 
     // MARK: - Property
 
@@ -75,7 +92,7 @@ final class TotalSearchBarViewController: UIViewController, TotalSearchBarPresen
 
     private var searchArr: [String] = [] {
         didSet {
-            self.searchHistoryCollectionView.reloadData()
+            self.tagCollectionView.reloadData()
         }
     }
 
@@ -92,33 +109,45 @@ final class TotalSearchBarViewController: UIViewController, TotalSearchBarPresen
     }
 
     private func setupUI() {
-        guard let searchRecentView = self.searchRecentView as? SearchRecentView else { return }
+        guard let searchRecentView = self.searchRecentView as? SearchRecentView,
+              let searchResultView = self.searchResultView as? SearchResultView else { return }
         view.backgroundColor = .white
 
-        self.view.addSubviews(self.searchBarView, self.tagStackView, searchRecentView)
+        self.view.addSubviews(self.searchBarView, self.beforeSearchView, self.afterSearchView)
         self.searchBarView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(UIApplication.shared.statusBarHeight + 8)
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.height.equalTo(48)
         }
-
-        self.tagStackView.snp.makeConstraints {
+        self.beforeSearchView.snp.makeConstraints {
             $0.top.equalTo(self.searchBarView.snp.bottom).offset(16)
-            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.leading.trailing.bottom.equalToSuperview().inset(16)
+        }
+        self.afterSearchView.snp.makeConstraints {
+            $0.top.equalTo(self.searchBarView.snp.bottom).offset(16)
+            $0.leading.trailing.bottom.equalToSuperview().inset(16)
         }
 
-        self.searchHistoryCollectionView.snp.makeConstraints {
+        self.beforeSearchView.addSubviews( self.tagStackView, searchRecentView)
+        self.tagStackView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+        }
+        self.tagCollectionView.snp.makeConstraints {
             $0.height.equalTo(32)
         }
-
         self.tagMoreButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.height.equalTo(40)
         }
-
         searchRecentView.snp.makeConstraints {
             $0.top.equalTo(self.tagStackView.snp.bottom).offset(24)
-            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+
+        self.afterSearchView.addSubview(searchResultView)
+        searchResultView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
@@ -128,7 +157,7 @@ final class TotalSearchBarViewController: UIViewController, TotalSearchBarPresen
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] _ in
                 guard let self else { return }
-                self.searchHistoryCollectionView.reloadData()
+                self.tagCollectionView.reloadData()
             })
             .disposed(by: disposeBag)
 
@@ -137,6 +166,19 @@ final class TotalSearchBarViewController: UIViewController, TotalSearchBarPresen
             .subscribe(onNext: { [weak self] terms in
                 guard let self else { return }
                 self.searchRecentView.updateRecentSearchTerms(terms)
+                self.searchRecentView.reloadData()
+            })
+            .disposed(by: disposeBag)
+
+        self.listener?.resultOfRecommendTags
+            .skip(1)
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] tags in
+                guard let self else { return }
+                self.searchResultView.updateResultOfTags(tags)
+                self.beforeSearchView.isHidden = true
+                self.afterSearchView.isHidden = false
+                self.searchResultView.reloadData()
             })
             .disposed(by: disposeBag)
     }
@@ -154,14 +196,14 @@ final class TotalSearchBarViewController: UIViewController, TotalSearchBarPresen
                 guard let self else { return }
                 self.tagMoreButton.isSelected.toggle()
                 if self.tagMoreButton.isSelected {
-                    self.searchHistoryCollectionView.snp.removeConstraints()
+                    self.tagCollectionView.snp.removeConstraints()
                 } else {
-                    self.searchHistoryCollectionView.snp.makeConstraints {
+                    self.tagCollectionView.snp.makeConstraints {
                         $0.height.equalTo(32)
                     }
                 }
-                self.searchHistoryCollectionView.setScrollDirection(self.tagMoreButton.isSelected ? .vertical : .horizontal)
-                self.searchHistoryCollectionView.collectionViewLayout.invalidateLayout()
+                self.tagCollectionView.setScrollDirection(self.tagMoreButton.isSelected ? .vertical : .horizontal)
+                self.tagCollectionView.collectionViewLayout.invalidateLayout()
             })
             .disposed(by: self.disposeBag)
     }
@@ -195,5 +237,26 @@ extension TotalSearchBarViewController: UICollectionViewDelegateFlowLayout, UICo
         )
         let width = attributedString.width(containerHeight: 32) + 24
         return CGSize(width: width, height: 32)
+    }
+}
+
+extension TotalSearchBarViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+//        self.activateSearchBar(state: true)
+//        self.searchBarView.closeButton.isHidden = false
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+//        self.activateSearchBar(state: false)
+//        self.searchBarView.closeButton.isHidden = true
+    }
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+//        self.activateSearchBar(state: false)
+//        self.searchBarView.searchButton.sendActions(for: .touchUpInside)
+        guard let text = textField.text else { return true }
+        self.listener?.searchTerm(term: text)
+        return true
     }
 }

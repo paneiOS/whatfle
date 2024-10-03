@@ -12,6 +12,7 @@ import RxSwift
 
 protocol TotalSearchUseCaseProtocol {
     func getSearchRecommendTag() -> Single<[String]>
+    func getSearchData(term: String) -> Single<([String], [TotalSearchData.CollectionContent.Collection])>
 }
 
 final class TotalSearchUseCase: TotalSearchUseCaseProtocol {
@@ -26,5 +27,13 @@ final class TotalSearchUseCase: TotalSearchUseCaseProtocol {
             .map { tags in
                 tags.map { $0.hashtagName }
             }
+    }
+
+    func getSearchData(term: String) -> Single<([String], [TotalSearchData.CollectionContent.Collection])> {
+        return totalSearchRepository.getSearchData(term: term).map { data in
+            let hashtags = data.hashtagContents.hashtags.map { $0.hashtagName }
+            let collections = data.collectionContents.collections
+            return (hashtags, collections)
+        }
     }
 }
