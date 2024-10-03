@@ -19,6 +19,7 @@ protocol HomePresentableListener: AnyObject {
     func updateFavorite(id: Int, isFavorite: Bool)
     func showDetailCollection(id: Int)
     func showLoginRIB()
+    func showTotalSearchBar()
 }
 
 final class HomeViewController: UIViewController, HomePresentable, HomeViewControllable {
@@ -52,7 +53,7 @@ final class HomeViewController: UIViewController, HomePresentable, HomeViewContr
     private func setupUI() {
         self.view.addSubview(self.collectionView)
         self.collectionView.snp.makeConstraints {
-            $0.top.equalTo(UIApplication.shared.statusBarHeight)
+            $0.top.equalToSuperview().inset(UIApplication.shared.statusBarHeight)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
@@ -138,8 +139,8 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch indexPath.section {
         case 0:
-            print("검색버튼 눌림")
-        case 1:
+            self.listener?.showTotalSearchBar()
+        case 1, 2:
             guard let homeData = listener?.homeData.value,
                   let id = homeData.contents[safe: indexPath.item]?.collection.id else { return }
             self.listener?.showDetailCollection(id: id)

@@ -24,6 +24,11 @@ final class AppComponent: Component<EmptyComponent>, RootDependency {
         let collectionRepository = CollectionRepository(networkService: networkService)
         return CollectionUseCase(collectionRepository: collectionRepository)
     }
+    
+    var totalSearchUseCase: TotalSearchUseCaseProtocol {
+        let totalSearchRepository = TotalSearchRepository(networkService: networkService)
+        return TotalSearchUseCase(totalSearchRepostory: totalSearchRepository)
+    }
 
     init(networkService: NetworkServiceDelegate) {
         self.networkService = networkService

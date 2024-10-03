@@ -13,6 +13,7 @@ protocol AddDependency: Dependency {
     var loginUseCase: LoginUseCaseProtocol { get }
     var locationUseCase: LocationUseCaseProtocol { get }
     var collectionUseCase: CollectionUseCaseProtocol { get }
+    var userInfo: UserInfo? { get }
 }
 
 final class AddComponent: Component<AddDependency> {
@@ -21,13 +22,21 @@ final class AddComponent: Component<AddDependency> {
     }
 }
 
-extension AddComponent: RegistLocationDependency {
+extension AddComponent: RegistLocationDependency, RegistCollectionDependency {
+    var userInfo: UserInfo? {
+        return dependency.userInfo
+    }
+    
     var locationUseCase: LocationUseCaseProtocol {
         return dependency.locationUseCase
     }
 
     var registLocationBuilder: RegistLocationBuildable {
         return RegistLocationBuilder(dependency: self)
+    }
+
+    var registCollectionBuilder: RegistCollectionBuildable {
+        return RegistCollectionBuilder(dependency: self)
     }
 }
 
@@ -38,12 +47,6 @@ extension AddComponent: AddCollectionDependency {
 
     var addCollectionBuilder: AddCollectionBuildable {
         return AddCollectionBuilder(dependency: self)
-    }
-}
-
-extension AddComponent: RegistCollectionDependency {
-    var registCollectionBuilder: RegistCollectionBuildable {
-        return RegistCollectionBuilder(dependency: self)
     }
 }
 

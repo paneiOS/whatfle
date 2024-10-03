@@ -12,6 +12,7 @@ protocol HomeDependency: Dependency {
     var networkService: NetworkServiceDelegate { get }
     var loginUseCase: LoginUseCaseProtocol { get }
     var collectionUseCase: CollectionUseCaseProtocol { get }
+    var totalSearchUseCase: TotalSearchUseCaseProtocol { get }
     var homeNavigationController: UINavigationController { get }
 }
 
@@ -27,11 +28,21 @@ final class HomeComponent: Component<HomeDependency> {
     var collectionUseCase: CollectionUseCaseProtocol {
         return dependency.collectionUseCase
     }
+    
+    var totalSearchUseCase: TotalSearchUseCaseProtocol {
+        return dependency.totalSearchUseCase
+    }
 }
 
 extension HomeComponent: DetailCollectionDependency {
     var detailCollectionBuilder: DetailCollectionBuildable {
         return DetailCollectionBuilder(dependency: self)
+    }
+}
+
+extension HomeComponent: TotalSearchBarDependency {
+    var totalSearchBarBuilder: TotalSearchBarBuildable {
+        return TotalSearchBarBuilder(dependency: self)
     }
 }
 

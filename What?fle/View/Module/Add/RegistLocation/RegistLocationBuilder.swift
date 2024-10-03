@@ -9,11 +9,16 @@ import RIBs
 
 protocol RegistLocationDependency: Dependency {
     var locationUseCase: LocationUseCaseProtocol { get }
+    var userInfo: UserInfo? { get }
 }
 
 final class RegistLocationComponent: Component<RegistLocationDependency> {
     var locationUseCase: LocationUseCaseProtocol {
         return dependency.locationUseCase
+    }
+    
+    var userInfo: UserInfo? {
+        return dependency.userInfo
     }
 }
 
@@ -48,7 +53,8 @@ final class RegistLocationBuilder: Builder<RegistLocationDependency>, RegistLoca
         let viewController = RegistLocationViewController()
         let interactor = RegistLocationInteractor(
             presenter: viewController,
-            locationUseCase: component.locationUseCase
+            locationUseCase: component.locationUseCase,
+            accountID: component.userInfo?.id
         )
         interactor.listener = listener
         viewController.listener = interactor

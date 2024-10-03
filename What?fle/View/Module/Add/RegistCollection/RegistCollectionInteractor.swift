@@ -41,6 +41,7 @@ final class RegistCollectionInteractor: PresentableInteractor<RegistCollectionPr
     var isHiddenDimmedView: BehaviorRelay<Bool> = .init(value: true)
     let selectedLocations: BehaviorRelay<[PlaceRegistration]>
     var editSelectedCollectionData: EditSelectedCollectionData
+    let accountID: Int?
 
     private let locationUseCase: LocationUseCaseProtocol
     private let collectionUseCase: CollectionUseCaseProtocol
@@ -54,12 +55,14 @@ final class RegistCollectionInteractor: PresentableInteractor<RegistCollectionPr
         presenter: RegistCollectionPresentable,
         locationUseCase: LocationUseCaseProtocol,
         collectionUseCase: CollectionUseCaseProtocol,
+        accountID: Int?,
         data: EditSelectedCollectionData,
         tags: [RecommendHashTagModel]
     ) {
         self.locationUseCase = locationUseCase
         self.collectionUseCase = collectionUseCase
         self.editSelectedCollectionData = data
+        self.accountID = accountID
         self.tags = .init(value: tags.map { .deselected(.init(id: $0.id, hashtagName: $0.hashtagName)) })
         self.selectedLocations = .init(value: data.map { $0.1 })
         super.init(presenter: presenter)

@@ -17,30 +17,38 @@ final class BasicTagCell: UICollectionViewCell {
 
     private let disposeBag = DisposeBag()
 
+    var view: UIView {
+        return self.contentView
+    }
+
     override var intrinsicContentSize: CGSize {
         let labelSize = label.intrinsicContentSize
         return CGSize(width: labelSize.width, height: labelSize.height)
     }
 
-    func drawCell(hashtagName: String) {
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.setupUI()
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        self.setupUI()
+    }
+
+    private func setupUI() {
         contentView.subviews.forEach { $0.removeFromSuperview() }
         contentView.layer.cornerRadius = 16
         contentView.clipsToBounds = true
 
         contentView.addSubview(label)
-        label.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview().inset(6)
+        self.label.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
             $0.leading.trailing.equalToSuperview().inset(12)
         }
+    }
 
-        label.attributedText = .makeAttributedString(
-            text: hashtagName,
-            font: .body14MD,
-            textColor: .Core.p400,
-            lineHeight: 20
-        )
-        contentView.backgroundColor = .Core.p100
-        contentView.layer.borderWidth = 1
-        contentView.layer.borderColor = UIColor.Core.primary.cgColor
+    func drawLabel(tag: NSAttributedString) {
+        self.label.attributedText = tag
     }
 }

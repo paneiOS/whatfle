@@ -10,6 +10,7 @@ import RIBs
 protocol RegistCollectionDependency: Dependency {
     var locationUseCase: LocationUseCaseProtocol { get }
     var collectionUseCase: CollectionUseCaseProtocol { get }
+    var userInfo: UserInfo? { get }
 }
 
 final class RegistCollectionComponent: Component<RegistCollectionDependency> {
@@ -19,6 +20,10 @@ final class RegistCollectionComponent: Component<RegistCollectionDependency> {
 
     var collectionUseCase: CollectionUseCaseProtocol {
         return dependency.collectionUseCase
+    }
+    
+    var userInfo: UserInfo? {
+        return dependency.userInfo
     }
 }
 
@@ -63,6 +68,7 @@ final class RegistCollectionBuilder: Builder<RegistCollectionDependency>, Regist
             presenter: viewController,
             locationUseCase: component.locationUseCase,
             collectionUseCase: component.collectionUseCase,
+            accountID: component.userInfo?.id,
             data: data,
             tags: tags
         )

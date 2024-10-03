@@ -234,7 +234,13 @@ extension HomeCell: UICollectionViewDelegateFlowLayout, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BasicTagCell.reuseIdentifier, for: indexPath) as? BasicTagCell,
               let tag = self.tags[safe: indexPath.row] else { return UICollectionViewCell() }
-        cell.drawCell(hashtagName: tag)
+        cell.view.backgroundColor = .Core.p100
+        cell.drawLabel(tag: .makeAttributedString(
+            text: tag,
+            font: .body14MD,
+            textColor: .Core.p400,
+            lineHeight: 20
+        ))
         return cell
     }
 
