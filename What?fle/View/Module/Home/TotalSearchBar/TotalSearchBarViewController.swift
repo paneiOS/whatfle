@@ -198,7 +198,7 @@ final class TotalSearchBarViewController: UIViewController, TotalSearchBarPresen
                 self.searchResultView.reloadData()
             })
             .disposed(by: disposeBag)
-        
+
         self.searchBarView.searchBar.rx.text
             .subscribe(onNext: { [weak self] text in
                 guard let self else { return }

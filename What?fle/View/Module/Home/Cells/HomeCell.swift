@@ -207,7 +207,9 @@ extension HomeCell {
             imageViews[idx].loadImage(from: imageURL)
         }
 
-        self.profileImageView.loadImage(from: model.account.imageURL)
+        if let imageURL = model.account.imageURL {
+            self.profileImageView.loadImage(from: imageURL)
+        }
         self.userName.attributedText = .makeAttributedString(
             text: model.account.nickname,
             font: .body14MD,

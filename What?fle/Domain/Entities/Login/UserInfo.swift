@@ -14,9 +14,6 @@ struct UserInfo: Codable {
     let nickname: String?
     let profileImagePath: String?
     let email: String?
-    let createdAt: String
-    let updatedAt: String?
-    let deletedAt: String?
     let isAgreement: Bool
 
     var isProfileRequired: Bool {
