@@ -31,8 +31,7 @@ final class TotalSearchBarInteractor: PresentableInteractor<TotalSearchBarPresen
     var recentTerms: BehaviorRelay<[String]> = .init(value: [])
 
     // MARK: - 검색후
-    var resultOfRecommendTags: BehaviorRelay<[String]> = .init(value: [])
-    var resultOfCollections: BehaviorRelay<[TotalSearchData.CollectionContent.Collection]> = .init(value: [])
+    var resultData: BehaviorRelay<(tags: [String], collections: [TotalSearchData.CollectionContent.Collection])> = .init(value: (tags: [], collections: []))
 
     private let disposeBag = DisposeBag()
 
@@ -64,14 +63,13 @@ final class TotalSearchBarInteractor: PresentableInteractor<TotalSearchBarPresen
         LoadingIndicatorService.shared.showLoading()
 
         self.totalSearchUseCase.getSearchData(term: term)
-            .subscribe(onSuccess: { [weak self] (tags, collections) in
+            .subscribe(onSuccess: { [weak self] data in
                 guard let self else { return }
                 UserDefaultsManager.recentSearchSave(type: .home, searchText: term)
                 self.recentTerms.accept(UserDefaultsManager.recentSearchLoad(type: .home))
-                self.resultOfRecommendTags.accept(tags)
-                self.resultOfCollections.accept(collections)
+                self.resultData.accept(data)
             }, onFailure: { error in
-                print("\(self) Error: \(error)")
+                errorPrint(error)
             }, onDisposed: {
                 LoadingIndicatorService.shared.hideLoading()
             })
@@ -88,7 +86,7 @@ final class TotalSearchBarInteractor: PresentableInteractor<TotalSearchBarPresen
                 guard let self else { return }
                 self.recommendHashTags.accept(tags)
             }, onFailure: { error in
-                print("\(self) Error: \(error)")
+                errorPrint(error)
             }, onDisposed: {
                 LoadingIndicatorService.shared.hideLoading()
             })

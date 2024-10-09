@@ -26,7 +26,7 @@ struct TotalSearchData: Decodable {
             let title: String
             let description: String
             let isPublic: Bool
-            let imageURLs: [String]
+            let imageURLs: [String]?
             let isActiveCover: Bool
             let hashtags: [RecommendHashTagModel]
             let places: [PlaceRegistration]

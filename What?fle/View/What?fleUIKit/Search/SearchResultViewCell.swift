@@ -7,6 +7,8 @@
 
 import UIKit
 
+import SnapKit
+
 final class SearchResultViewCell: UICollectionViewCell {
     static let reuseIdentifier = "SearchResultViewCell"
 
@@ -45,9 +47,16 @@ final class SearchResultViewCell: UICollectionViewCell {
         }
         self.labelView.snp.makeConstraints {
             $0.leading.equalTo(self.imageView.snp.trailing).offset(16)
-            $0.centerY.trailing.equalToSuperview()
+            $0.trailing.equalToSuperview()
+            $0.top.bottom.equalToSuperview().inset(26)
         }
         self.labelView.addSubviews(self.titleLabel, self.subtitleLabel)
+        self.titleLabel.snp.makeConstraints {
+            $0.leading.trailing.top.equalToSuperview()
+        }
+        self.subtitleLabel.snp.makeConstraints {
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
     }
 
     func drawCell(model: TotalSearchData.CollectionContent.Collection) {
@@ -63,7 +72,7 @@ final class SearchResultViewCell: UICollectionViewCell {
             textColor: .textExtralight,
             lineHeight: 20
         )
-        if let urlStr = model.imageURLs.first {
+        if let urlStr = model.imageURLs?.first {
             self.imageView.loadImage(from: urlStr)
         }
     }

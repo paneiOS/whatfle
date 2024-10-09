@@ -146,7 +146,7 @@ final class RegistCollectionInteractor: PresentableInteractor<RegistCollectionPr
                 guard let self else { return }
                 self.listener?.completeRegistCollection()
             }, onFailure: { error in
-                print("\(self) Error: \(error)")
+                errorPrint(error)
             }, onDisposed: {
                 LoadingIndicatorService.shared.hideLoading()
             })

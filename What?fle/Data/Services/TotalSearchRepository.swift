@@ -19,7 +19,7 @@ final class TotalSearchRepository: TotalSearchRepositoryProtocol {
     func getSearchRecommendTag() -> Single<[RecommendHashTagModel]> {
         return self.networkService.request(TotalSearchAPI.getSearchRecommendTag)
     }
-    
+
     func getSearchData(term: String) -> Single<TotalSearchData> {
         return self.networkService.request(TotalSearchAPI.getSearchTerm(term: term))
     }

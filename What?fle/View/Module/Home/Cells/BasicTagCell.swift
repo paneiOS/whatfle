@@ -13,7 +13,7 @@ import SnapKit
 final class BasicTagCell: UICollectionViewCell {
     static let reuseIdentifier = "BasicTagCell"
 
-    private let label: UILabel = .init()
+    let label: UILabel = .init()
 
     private let disposeBag = DisposeBag()
 

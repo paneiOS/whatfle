@@ -65,7 +65,7 @@ final class ProfileInteractor: PresentableInteractor<ProfilePresentable>, Profil
                 let isExisted = isExisted ? ExistNicknameState.disable : ExistNicknameState.enable
                 self.existNicknameState.accept(isExisted)
             }, onFailure: { error in
-                print("\(self) Error:", error)
+                errorPrint(error)
             }, onDisposed: {
                 LoadingIndicatorService.shared.hideLoading()
             })

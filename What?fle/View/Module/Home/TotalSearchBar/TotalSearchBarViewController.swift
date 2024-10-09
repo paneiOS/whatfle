@@ -15,8 +15,7 @@ import SnapKit
 protocol TotalSearchBarPresentableListener: AnyObject {
     var recommendHashTags: BehaviorRelay<[String]> { get }
     var recentTerms: BehaviorRelay<[String]> { get }
-    var resultOfRecommendTags: BehaviorRelay<[String]> { get }
-    var resultOfCollections: BehaviorRelay<[TotalSearchData.CollectionContent.Collection]> { get }
+    var resultData: BehaviorRelay<(tags: [String], collections: [TotalSearchData.CollectionContent.Collection])> { get }
     func dismissTotalSearchBar()
     func searchTerm(term: String)
 //    func deleteItem(at index: Int)
@@ -28,7 +27,7 @@ final class TotalSearchBarViewController: UIViewController, TotalSearchBarPresen
         case before
         case after
     }
-    
+
     // MARK: - UIComponent
 
     private let beforeSearchView: UIView = .init()
@@ -85,9 +84,13 @@ final class TotalSearchBarViewController: UIViewController, TotalSearchBarPresen
         return button
     }()
 
-    private var searchRecentView: SearchRecentViewDelegate = SearchRecentView()
+    private lazy var searchRecentView: SearchRecentView = {
+        let view: SearchRecentView = .init()
+        view.delegate = self
+        return view
+    }()
 
-    private var searchResultView: SearchResultViewDelegate = SearchResultView()
+    private let searchResultView = SearchResultView()
 
     // MARK: - Property
 
@@ -127,8 +130,6 @@ final class TotalSearchBarViewController: UIViewController, TotalSearchBarPresen
     }
 
     private func setupUI() {
-        guard let searchRecentView = self.searchRecentView as? SearchRecentView,
-              let searchResultView = self.searchResultView as? SearchResultView else { return }
         view.backgroundColor = .white
 
         self.view.addSubviews(self.searchBarView, self.beforeSearchView, self.afterSearchView)
@@ -188,14 +189,13 @@ final class TotalSearchBarViewController: UIViewController, TotalSearchBarPresen
             })
             .disposed(by: disposeBag)
 
-        self.listener?.resultOfRecommendTags
+        self.listener?.resultData
             .skip(1)
             .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] tags in
+            .subscribe(onNext: { [weak self] data in
                 guard let self else { return }
-                self.searchResultView.updateResultOfTags(tags)
+                self.searchResultView.updateResultData(data)
                 self.searchSate = .after
-                self.searchResultView.reloadData()
             })
             .disposed(by: disposeBag)
 
@@ -242,7 +242,9 @@ extension TotalSearchBarViewController: UICollectionViewDelegateFlowLayout, UICo
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BasicTagCell.reuseIdentifier, for: indexPath) as? BasicTagCell,
-              let tag = self.listener?.recommendHashTags.value[safe: indexPath.row] else { return UICollectionViewCell() }
+              let tag = self.listener?.recommendHashTags.value[safe: indexPath.item] else {
+            return UICollectionViewCell()
+        }
         cell.view.backgroundColor = .Core.background
         cell.drawLabel(tag: .makeAttributedString(
             text: tag,
@@ -264,32 +266,26 @@ extension TotalSearchBarViewController: UICollectionViewDelegateFlowLayout, UICo
         let width = attributedString.width(containerHeight: 32) + 24
         return CGSize(width: width, height: 32)
     }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let tag = self.listener?.recommendHashTags.value[safe: indexPath.item] else { return }
+        self.searchBarView.searchBar.text = tag
+        self.listener?.searchTerm(term: tag)
+    }
 }
 
 extension TotalSearchBarViewController: UITextFieldDelegate {
-//    func textFieldShouldClear(_ textField: UITextField) -> Bool {
-//        self.searchSate = .after
-//        return true
-//    }
-//    
-//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-////        let currentText = textField.text ?? ""
-////        let newText = (currentText as NSString).replacingCharacters(in: range, with: string)
-////        
-////        if newText.isEmpty {
-////            
-////        }
-//        self.textFi
-//        
-//        return true
-//    }
-
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-//        self.activateSearchBar(state: false)
-//        self.searchBarView.searchButton.sendActions(for: .touchUpInside)
         guard let text = textField.text else { return true }
         self.listener?.searchTerm(term: text)
         return true
+    }
+}
+
+extension TotalSearchBarViewController: SearchRecentViewDelegate {
+    func searchTerm(term: String) {
+        self.searchBarView.searchBar.text = "#" + term
+        self.listener?.searchTerm(term: term)
     }
 }

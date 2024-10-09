@@ -7,18 +7,11 @@
 
 import UIKit
 
-protocol SearchResultViewDelegate: AnyObject {
-    var resultOfCollections: [TotalSearchData.CollectionContent.Collection] { get }
-    var resultOfTags: [String] { get }
-    func updateResultOfTags(_ tags: [String])
-    func reloadData()
-}
-
-final class SearchResultView: UIView, SearchResultViewDelegate {
+final class SearchResultView: UIView {
 
     // MARK: - UI Component
 
-    private let tagHeaderView: UIView = .init()
+    private let tagView: UIView = .init()
 
     private let recentSearchLabel: UILabel = {
         let label: UILabel = .init()
@@ -38,8 +31,21 @@ final class SearchResultView: UIView, SearchResultViewDelegate {
         return view
     }()
 
+    private let resultView: UIView = .init()
+
+    private let resultSearchLabel: UILabel = {
+        let label: UILabel = .init()
+        label.text = "컬렉션"
+        label.font = .body14SB
+        label.textColor = .textLight
+        return label
+    }()
+
+    private let resultCountLabel: UILabel = .init()
+
     private lazy var resultCollectionView: UICollectionView = {
-        let view: UICollectionView = .init()
+        let layout = UICollectionViewFlowLayout()
+        let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.register(SearchResultViewCell.self, forCellWithReuseIdentifier: SearchResultViewCell.reuseIdentifier)
         view.delegate = self
         view.dataSource = self
@@ -47,13 +53,46 @@ final class SearchResultView: UIView, SearchResultViewDelegate {
         return view
     }()
 
+    private let emptyView: UIView = {
+        let view: UIView = .init()
+        let label: UILabel = .init()
+        label.attributedText = .makeAttributedString(
+            text: "최근 검색한 장소가 없습니다.",
+            font: .body14MD,
+            textColor: .textExtralight,
+            lineHeight: 20
+        )
+        view.addSubview(label)
+        label.snp.makeConstraints {
+            $0.center.equalToSuperview()
+        }
+        return view
+    }()
+
     // MARK: - property
 
-    var resultOfCollections: [TotalSearchData.CollectionContent.Collection] = []
-
-    var resultOfTags: [String] = [] {
+    var resultData: (resultOfTags: [String], resultOfCollections: [TotalSearchData.CollectionContent.Collection])? {
         didSet {
+            guard let resultData else { return }
+
+            self.tagView.isHidden = resultData.resultOfTags.isEmpty
             self.tagCollectionView.reloadData()
+            self.tagView.snp.updateConstraints {
+                $0.height.equalTo(resultData.resultOfTags.isEmpty ? 0 : 92)
+            }
+
+            self.resultView.isHidden = resultData.resultOfCollections.isEmpty
+            self.resultCollectionView.reloadData()
+
+            if resultData.resultOfTags.isEmpty && resultData.resultOfCollections.isEmpty {
+                self.addSubview(self.emptyView)
+                self.emptyView.snp.makeConstraints {
+                    $0.top.equalToSuperview().inset(72)
+                    $0.leading.trailing.equalToSuperview()
+                }
+            } else {
+                self.emptyView.removeFromSuperview()
+            }
         }
     }
 
@@ -72,47 +111,69 @@ final class SearchResultView: UIView, SearchResultViewDelegate {
     }
 
     private func setupUI() {
-        self.addSubviews(self.tagHeaderView, self.tagCollectionView)
-        self.tagHeaderView.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.trailing.equalToSuperview()
+        self.addSubviews(self.tagView, self.resultView)
+        self.tagView.snp.makeConstraints {
+            $0.leading.trailing.top.equalToSuperview()
+            $0.height.equalTo(92)
+        }
+        self.resultView.snp.makeConstraints {
+            $0.top.equalTo(self.tagView.snp.bottom)
+            $0.leading.bottom.trailing.equalToSuperview()
+        }
+
+        self.tagView.addSubviews(self.recentSearchLabel, self.tagCollectionView)
+        self.recentSearchLabel.snp.makeConstraints {
+            $0.leading.trailing.top.equalToSuperview()
             $0.height.equalTo(20)
         }
-        self.tagHeaderView.addSubview(self.recentSearchLabel)
-        self.recentSearchLabel.snp.makeConstraints {
-            $0.leading.top.bottom.equalToSuperview()
-        }
         self.tagCollectionView.snp.makeConstraints {
-            $0.top.equalTo(self.tagHeaderView.snp.bottom).offset(16)
+            $0.top.equalTo(self.recentSearchLabel.snp.bottom).offset(16)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(32)
+            $0.bottom.equalToSuperview().inset(24)
+        }
+
+        self.resultView.addSubviews(self.resultSearchLabel, self.resultCountLabel, self.resultCollectionView)
+        self.resultSearchLabel.snp.makeConstraints {
+            $0.leading.top.equalToSuperview()
+            $0.height.equalTo(20)
+        }
+        self.resultCountLabel.snp.makeConstraints {
+            $0.trailing.top.equalToSuperview()
+            $0.height.equalTo(20)
+        }
+        self.resultCollectionView.snp.makeConstraints {
+            $0.top.equalTo(self.resultSearchLabel.snp.bottom).offset(16)
+            $0.leading.trailing.bottom.equalToSuperview()
         }
     }
 }
 
 extension SearchResultView {
-    func updateResultOfTags(_ tags: [String]) {
-        self.resultOfTags = tags
-    }
-
-    func reloadData() {
-        self.tagCollectionView.reloadData()
+    func updateResultData(_ data: ([String], [TotalSearchData.CollectionContent.Collection])) {
+        self.resultData = data
+        self.resultCountLabel.attributedText = .makeAttributedString(
+            text: "\(data.1.count)건",
+            font: .caption13MD,
+            textColor: .textExtralight,
+            lineHeight: 20
+        )
     }
 }
 
 extension SearchResultView: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView === self.tagCollectionView {
-            return self.resultOfTags.count
+            return self.resultData?.resultOfTags.count ?? 0
         } else {
-            return self.resultOfCollections.count
+            return self.resultData?.resultOfCollections.count ?? 0
         }
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView === self.tagCollectionView {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BasicTagCell.reuseIdentifier, for: indexPath) as? BasicTagCell,
-                  let tag = self.resultOfTags[safe: indexPath.item] else { return UICollectionViewCell() }
+                  let tag = self.resultData?.resultOfTags[safe: indexPath.item] else { return UICollectionViewCell() }
             cell.view.backgroundColor = .Core.background
             cell.drawLabel(tag: .makeAttributedString(
                 text: tag,
@@ -123,7 +184,7 @@ extension SearchResultView: UICollectionViewDelegateFlowLayout, UICollectionView
             return cell
         } else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchResultViewCell.reuseIdentifier, for: indexPath) as? SearchResultViewCell,
-                  let model = self.resultOfCollections[safe: indexPath.item] else {
+                  let model = self.resultData?.resultOfCollections[safe: indexPath.item] else {
                 return UICollectionViewCell()
             }
             cell.drawCell(model: model)
@@ -133,7 +194,7 @@ extension SearchResultView: UICollectionViewDelegateFlowLayout, UICollectionView
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView === self.tagCollectionView {
-            guard let hashtagName = self.resultOfTags[safe: indexPath.item] else { return .zero }
+            guard let hashtagName = self.resultData?.resultOfTags[safe: indexPath.item] else { return .zero }
             let attributedString: NSAttributedString = NSAttributedString(
                 string: hashtagName,
                 attributes: [

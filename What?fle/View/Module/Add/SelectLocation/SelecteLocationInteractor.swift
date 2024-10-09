@@ -57,7 +57,7 @@ final class SelectLocationInteractor: PresentableInteractor<SelectLocationPresen
                     self.searchResultArray.accept(result)
                 }
             }, onFailure: { error in
-                print("\(self) Error: \(error)")
+                errorPrint(error)
             }, onDisposed: {
                 LoadingIndicatorService.shared.hideLoading()
             })

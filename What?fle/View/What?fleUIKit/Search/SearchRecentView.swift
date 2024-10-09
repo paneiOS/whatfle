@@ -10,12 +10,10 @@ import UIKit
 import RxSwift
 
 protocol SearchRecentViewDelegate: AnyObject {
-    var recentSearchTerms: [String] { get set }
-    func updateRecentSearchTerms(_ terms: [String])
-    func reloadData()
+    func searchTerm(term: String)
 }
 
-final class SearchRecentView: UIView, SearchRecentViewDelegate {
+final class SearchRecentView: UIView {
 
     // MARK: - UI Component
 
@@ -102,6 +100,7 @@ final class SearchRecentView: UIView, SearchRecentViewDelegate {
         self.recentClearButton.rx.controlEvent(.touchUpInside)
             .subscribe(onNext: { [weak self] in
                 guard let self else { return }
+                UserDefaultsManager.historyAllRemove(type: .home)
                 self.recentSearchTerms.removeAll()
             })
             .disposed(by: self.disposeBag)
@@ -126,13 +125,26 @@ extension SearchRecentView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.recentSearchTerms.count
     }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let term = self.recentSearchTerms[safe: indexPath.item] else { return }
+        delegate?.searchTerm(term: term)
+    }
 }
 
 extension SearchRecentView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: RecentSearchCell.reuseIdentifier) as? RecentSearchCell,
               let tag = self.recentSearchTerms[safe: indexPath.item] else { return UITableViewCell() }
+        cell.tag = indexPath.item
         cell.drawCell(string: tag)
+        cell.delegate = self
         return cell
+    }
+}
+
+extension SearchRecentView: RecentSearchCellDelegate {
+    func deleteItem(at index: Int) {
+        self.recentSearchTerms = UserDefaultsManager.recentSearchRemove(type: .home, index: index)
     }
 }
