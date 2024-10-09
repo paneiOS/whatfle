@@ -5,12 +5,18 @@
 //  Created by 이정환 on 10/1/24.
 //
 
-import RIBs
+import UIKit
 
+import RIBs
 import RxCocoa
 import RxSwift
 
-protocol TotalSearchBarRouting: ViewableRouting {}
+protocol TotalSearchBarRouting: ViewableRouting {
+    var navigationController: UINavigationController? { get }
+    func routeToDetailCollection(id: Int)
+    func popToDetailCollection()
+    func dismissLoginRIB()
+}
 
 protocol TotalSearchBarPresentable: Presentable {
     var listener: TotalSearchBarPresentableListener? { get set }
@@ -20,7 +26,7 @@ protocol TotalSearchBarListener: AnyObject {
     func dismissTotalSearchBar()
 }
 
-final class TotalSearchBarInteractor: PresentableInteractor<TotalSearchBarPresentable>, TotalSearchBarInteractable, TotalSearchBarPresentableListener {
+final class TotalSearchBarInteractor: PresentableInteractor<TotalSearchBarPresentable> {
 
     private let totalSearchUseCase: TotalSearchUseCaseProtocol
     weak var router: TotalSearchBarRouting?
@@ -91,5 +97,21 @@ final class TotalSearchBarInteractor: PresentableInteractor<TotalSearchBarPresen
                 LoadingIndicatorService.shared.hideLoading()
             })
             .disposed(by: disposeBag)
+    }
+}
+
+extension TotalSearchBarInteractor: TotalSearchBarInteractable {
+    func dismissLoginRIB() {
+        self.router?.dismissLoginRIB()
+    }
+
+    func popToDetailCollection() {
+        self.router?.popToDetailCollection()
+    }
+}
+
+extension TotalSearchBarInteractor: TotalSearchBarPresentableListener {
+    func showDetailCollection(id: Int) {
+        self.router?.routeToDetailCollection(id: id)
     }
 }

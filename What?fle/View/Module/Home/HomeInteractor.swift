@@ -51,7 +51,7 @@ extension HomeInteractor: HomeInteractable {
     func popToDetailCollection() {
         self.router?.popToDetailCollection()
     }
-    
+
     func dismissTotalSearchBar() {
         self.router?.dismissTotalSearchBar()
     }

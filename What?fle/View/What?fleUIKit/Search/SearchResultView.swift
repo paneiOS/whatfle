@@ -7,6 +7,11 @@
 
 import UIKit
 
+protocol SearchResultViewDelegate: AnyObject {
+    func didTapTag(tag: String)
+    func didTapDetailCollection(id: Int)
+}
+
 final class SearchResultView: UIView {
 
     // MARK: - UI Component
@@ -96,7 +101,7 @@ final class SearchResultView: UIView {
         }
     }
 
-    weak var delegate: SearchRecentViewDelegate?
+    weak var delegate: SearchResultViewDelegate?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -189,6 +194,16 @@ extension SearchResultView: UICollectionViewDelegateFlowLayout, UICollectionView
             }
             cell.drawCell(model: model)
             return cell
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView === self.tagCollectionView {
+            guard let tag = self.resultData?.resultOfTags[safe: indexPath.item] else { return }
+            delegate?.didTapTag(tag: tag)
+        } else {
+            guard let id = self.resultData?.resultOfCollections[safe: indexPath.item]?.id else { return }
+            delegate?.didTapDetailCollection(id: id)
         }
     }
 

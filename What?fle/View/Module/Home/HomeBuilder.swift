@@ -5,8 +5,9 @@
 //  Created by 이정환 on 2/24/24.
 //
 
-import RIBs
 import UIKit
+
+import RIBs
 
 protocol HomeDependency: Dependency {
     var networkService: NetworkServiceDelegate { get }
@@ -28,7 +29,7 @@ final class HomeComponent: Component<HomeDependency> {
     var collectionUseCase: CollectionUseCaseProtocol {
         return dependency.collectionUseCase
     }
-    
+
     var totalSearchUseCase: TotalSearchUseCaseProtocol {
         return dependency.totalSearchUseCase
     }

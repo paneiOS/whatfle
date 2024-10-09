@@ -67,10 +67,12 @@ extension HomeRouter: HomeRouting {
     func routeToTotalSearchBar() {
         if self.totalSearchBarRouter == nil {
             let router = self.component.totalSearchBarBuilder.build(withListener: self.interactor)
-            router.viewControllable.uiviewController.modalPresentationStyle = .fullScreen
-            self.viewController.present(router.viewControllable, animated: true)
-            self.attachChild(router)
-            self.totalSearchBarRouter = router
+            if let navigationController = router.navigationController {
+                navigationController.modalPresentationStyle = .fullScreen
+                self.viewController.present(navigationController, animated: true)
+                self.attachChild(router)
+                self.totalSearchBarRouter = router
+            }
         }
     }
 
