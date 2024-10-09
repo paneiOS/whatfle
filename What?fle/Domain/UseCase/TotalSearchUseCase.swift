@@ -31,8 +31,8 @@ final class TotalSearchUseCase: TotalSearchUseCaseProtocol {
 
     func getSearchData(term: String) -> Single<([String], [TotalSearchData.CollectionContent.Collection])> {
         return totalSearchRepository.getSearchData(term: term).map { data in
-            let hashtags = data.hashtagContents.hashtags.map { $0.hashtagName }
-            let collections = data.collectionContents.collections
+            let hashtags = data.hashtagContents.hashtags?.compactMap { $0.hashtagName } ?? []
+            let collections = data.collectionContents.collections ?? []
             return (hashtags, collections)
         }
     }

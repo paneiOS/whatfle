@@ -13,7 +13,7 @@ struct TotalSearchData: Decodable {
 
     struct CollectionContent: Decodable {
         let count: Int
-        let collections: [Collection]
+        let collections: [Collection]?
 
         enum CodingKeys: String, CodingKey {
             case count = "counts"
@@ -47,7 +47,7 @@ struct TotalSearchData: Decodable {
 
     struct HashTag: Decodable {
         let count: Int
-        let hashtags: [RecommendHashTagModel]
+        let hashtags: [RecommendHashTagModel]?
 
         enum CodingKeys: String, CodingKey {
             case count = "counts"
