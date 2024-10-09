@@ -14,6 +14,7 @@ protocol RegistLocationPresentableListener: AnyObject {
     var imageArray: BehaviorRelay<[UIImage]> { get }
     var isSelectLocation: BehaviorRelay<Bool> { get }
     var model: KakaoSearchDocumentsModel? { get }
+    var accountID: Int? { get }
     func showSelectLocation()
     func registPlace(_ registration: PlaceRegistration, imageData: [Data])
     func closeRegistLocation()
@@ -335,11 +336,12 @@ final class RegistLocationViewController: ScrollKeyboardVC, RegistLocationViewCo
             .subscribe(onNext: { [weak self] in
                 guard let self,
                       let listener,
-                      let model = listener.model else { return }
+                      let model = listener.model,
+                      let id = listener.accountID else { return }
                 self.memoView.endEditing(true)
                 listener.registPlace(
                     .init(
-                        accountID: AppConfigs.UserInfo.accountID,
+                        accountID: id,
                         description: memoView.textView.text,
                         visitDate: visitTextField.attributedText?.string ?? "",
                         placeName: model.placeName,

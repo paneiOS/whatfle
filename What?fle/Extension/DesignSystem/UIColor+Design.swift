@@ -13,36 +13,75 @@ extension UIColor {
 
     // MARK: - ColorType
 
-    enum ColorType: String {
+    enum ColorType {
 
         // MARK: - core
 
-        case background = "F6F8FB"
-        case primary = "FFC93F"
-        case primaryDisabled = "C4C4CD"
-        case p100 = "FFFBD3"
-        case p400 = "FF9110"
-        case secondary = "335384"
-        case warning = "FC544E"
-        case approve = "2F8BF7"
+        case background
+        case primary
+        case primaryDisabled
+        case p100
+        case p400
+        case secondary
+        case warning
+        case approve
 
         // MARK: - grayScale
 
-        case white = "FFFFFF"
-        case g100 = "E5E6EE"
-        case g200 = "C9CBD8"
-        case g300 = "B3B3C6"
-        case g400 = "9999B8"
-        case g500 = "7D7D99"
-        case g600 = "64657F"
-        case g700 = "494A69"
-        case g800 = "383850"
-        case g900 = "252536"
-        case black = "16161F"
-    }
-
-    static func typeToColor(type: ColorType) -> UIColor {
-        return UIColor(hexCode: type.rawValue)
+        case white
+        case g100
+        case g200
+        case g300
+        case g400
+        case g500
+        case g600
+        case g700
+        case g800
+        case g900
+        case black
+        
+        var color: UIColor {
+            switch self {
+            case .background:
+                return #colorLiteral(red: 0.9647058824, green: 0.9725490196, blue: 0.9843137255, alpha: 1) // F6F8FB
+            case .primary:
+                return #colorLiteral(red: 1.0, green: 0.7882352941, blue: 0.2470588235, alpha: 1) // FFC93F
+            case .primaryDisabled:
+                return #colorLiteral(red: 0.768627451, green: 0.768627451, blue: 0.8039215686, alpha: 1) // C4C4CD
+            case .p100:
+                return #colorLiteral(red: 1.0, green: 0.9843137255, blue: 0.8274509804, alpha: 1) // FFFBD3
+            case .p400:
+                return #colorLiteral(red: 1.0, green: 0.568627451, blue: 0.06274509804, alpha: 1) // FF9110
+            case .secondary:
+                return #colorLiteral(red: 0.2, green: 0.3254901961, blue: 0.5176470588, alpha: 1) // 335384
+            case .warning:
+                return #colorLiteral(red: 0.9882352941, green: 0.3294117647, blue: 0.3058823529, alpha: 1) // FC544E
+            case .approve:
+                return #colorLiteral(red: 0.1843137255, green: 0.5450980392, blue: 0.968627451, alpha: 1) // 2F8BF7
+            case .white:
+                return #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) // FFFFFF
+            case .g100:
+                return #colorLiteral(red: 0.8980392157, green: 0.9019607843, blue: 0.9333333333, alpha: 1) // E5E6EE
+            case .g200:
+                return #colorLiteral(red: 0.7882352941, green: 0.7960784314, blue: 0.8470588235, alpha: 1) // C9CBD8
+            case .g300:
+                return #colorLiteral(red: 0.7019607843, green: 0.7019607843, blue: 0.7764705882, alpha: 1) // B3B3C6
+            case .g400:
+                return #colorLiteral(red: 0.6, green: 0.6, blue: 0.7215686275, alpha: 1) // 9999B8
+            case .g500:
+                return #colorLiteral(red: 0.4901960784, green: 0.4901960784, blue: 0.6, alpha: 1) // 7D7D99
+            case .g600:
+                return #colorLiteral(red: 0.3921568627, green: 0.3960784314, blue: 0.4980392157, alpha: 1) // 64657F
+            case .g700:
+                return #colorLiteral(red: 0.2862745098, green: 0.2901960784, blue: 0.4117647059, alpha: 1) // 494A69
+            case .g800:
+                return #colorLiteral(red: 0.2196078431, green: 0.2196078431, blue: 0.3137254902, alpha: 1) // 383850
+            case .g900:
+                return #colorLiteral(red: 0.1450980392, green: 0.1450980392, blue: 0.2117647059, alpha: 1) // 252536
+            case .black:
+                return #colorLiteral(red: 0.0862745098, green: 0.0862745098, blue: 0.1215686275, alpha: 1) // 16161F
+            }
+        }
     }
 
     // MARK: - DimmedType
@@ -62,35 +101,35 @@ extension UIColor {
 extension UIColor {
     enum Core {
         static var background: UIColor {
-            return .typeToColor(type: .background)
+            return .ColorType.background.color
         }
 
         static var primary: UIColor {
-            return .typeToColor(type: .primary)
+            return .ColorType.primary.color
         }
 
         static var primaryDisabled: UIColor {
-            return .typeToColor(type: .primaryDisabled)
+            return .ColorType.primaryDisabled.color
         }
 
         static var p100: UIColor {
-            return .typeToColor(type: .p100)
+            return .ColorType.p100.color
         }
 
         static var p400: UIColor {
-            return .typeToColor(type: .p400)
+            return .ColorType.p400.color
         }
 
         static var secondary: UIColor {
-            return .typeToColor(type: .secondary)
+            return .ColorType.secondary.color
         }
 
         static var warning: UIColor {
-            return .typeToColor(type: .warning)
+            return .ColorType.warning.color
         }
 
         static var approve: UIColor {
-            return .typeToColor(type: .approve)
+            return .ColorType.approve.color
         }
 
         static var dimmed20: UIColor {
@@ -136,47 +175,47 @@ extension UIColor {
 extension UIColor {
     enum GrayScale {
         static var white: UIColor {
-            return .typeToColor(type: .white)
+            return .ColorType.white.color
         }
 
         static var g100: UIColor {
-            return .typeToColor(type: .g100)
+            return .ColorType.g100.color
         }
 
         static var g200: UIColor {
-            return .typeToColor(type: .g200)
+            return .ColorType.g200.color
         }
 
         static var g300: UIColor {
-            return .typeToColor(type: .g300)
+            return .ColorType.g300.color
         }
 
         static var g400: UIColor {
-            return .typeToColor(type: .g400)
+            return .ColorType.g400.color
         }
 
         static var g500: UIColor {
-            return .typeToColor(type: .g500)
+            return .ColorType.g500.color
         }
 
         static var g600: UIColor {
-            return .typeToColor(type: .g600)
+            return .ColorType.g600.color
         }
 
         static var g700: UIColor {
-            return .typeToColor(type: .g700)
+            return .ColorType.g700.color
         }
 
         static var g800: UIColor {
-            return .typeToColor(type: .g800)
+            return .ColorType.g800.color
         }
 
         static var g900: UIColor {
-            return .typeToColor(type: .g900)
+            return .ColorType.g900.color
         }
 
         static var black: UIColor {
-            return .typeToColor(type: .black)
+            return .ColorType.black.color
         }
     }
 }

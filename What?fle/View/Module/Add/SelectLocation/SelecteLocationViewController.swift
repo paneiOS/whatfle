@@ -58,18 +58,16 @@ final class SelectLocationViewController: UIViewController, SelectLocationPresen
 
     private lazy var searchBarView: SearchBarView = {
         let view: SearchBarView = .init()
+        view.setupPlaceholder("장소 검색하기")
         view.delegate = self
         return view
     }()
 
-    private lazy var searchResultTableView: UITableView = {
-        let tableView: UITableView = .init()
+    private lazy var searchResultTableView: SearchTableView = {
+        let tableView: SearchTableView = .init()
         tableView.register(SelectLocationCell.self, forCellReuseIdentifier: SelectLocationCell.reuseIdentifier)
-        tableView.showsVerticalScrollIndicator = false
-        tableView.keyboardDismissMode = .onDrag
         tableView.separatorColor = .lineExtralight
-        tableView.separatorInset = .init(top: 0, left: 0, bottom: 0, right: 0)
-        tableView.isHidden = true
+        tableView.separatorInset = .zero
         tableView.delegate = self
         return tableView
     }()
@@ -102,13 +100,9 @@ final class SelectLocationViewController: UIViewController, SelectLocationPresen
         return control
     }()
 
-    private lazy var recentTableView: UITableView = {
-        let tableView: UITableView = .init()
+    private lazy var recentTableView: SearchTableView = {
+        let tableView: SearchTableView = .init()
         tableView.register(RecentSearchCell.self, forCellReuseIdentifier: RecentSearchCell.reuseIdentifier)
-        tableView.showsVerticalScrollIndicator = false
-        tableView.keyboardDismissMode = .onDrag
-        tableView.separatorStyle = .none
-        tableView.isHidden = true
         tableView.delegate = self
         return tableView
     }()
@@ -313,10 +307,12 @@ extension SelectLocationViewController: UITextFieldDelegate {
         self.activateSearchBar(state: true)
         self.searchBarView.closeButton.isHidden = false
     }
+
     func textFieldDidEndEditing(_ textField: UITextField) {
         self.activateSearchBar(state: false)
         self.searchBarView.closeButton.isHidden = true
     }
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         self.activateSearchBar(state: false)
@@ -328,7 +324,7 @@ extension SelectLocationViewController: UITextFieldDelegate {
 extension SelectLocationViewController: UIScrollViewDelegate {
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if scrollView === self.searchResultTableView, decelerate, isTableViewScrolledToBottom() {
-            self.listener?.performSearch(with: UserDefaultsManager.latestSearchLoad(), more: true)
+            self.listener?.performSearch(with: UserDefaultsManager.latestSearchLoad(type: .location), more: true)
         }
     }
 }

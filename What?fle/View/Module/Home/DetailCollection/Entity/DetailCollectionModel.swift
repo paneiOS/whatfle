@@ -16,7 +16,7 @@ struct DetailCollectionModel: Decodable {
     let updatedAt: String?
     let deletedAt: String?
     let isPublic: Bool
-    let imageURLs: [String]
+    let imageURLs: [String]?
     let isActiveCover: Bool
     let hashtags: [Hashtag]
     let places: [PlaceRegistration]

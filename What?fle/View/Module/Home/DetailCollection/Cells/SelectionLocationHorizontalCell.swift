@@ -12,7 +12,7 @@ import RxCocoa
 
 final class SelectionLocationHorizontalCell: UICollectionViewCell {
     static let reuseIdentifier = "SelectionLocationHorizontalCell"
-    
+
     private let lineView: UIView = {
         let view: UIView = .init()
         view.backgroundColor = .lineLight

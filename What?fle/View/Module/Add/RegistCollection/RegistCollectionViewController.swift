@@ -17,6 +17,7 @@ protocol RegistCollectionPresentableListener: AnyObject {
     var selectedLocations: BehaviorRelay<[PlaceRegistration]> { get }
     var tags: BehaviorRelay<[TagType]> { get }
     var isHiddenDimmedView: BehaviorRelay<Bool> { get }
+    var accountID: Int? { get }
     func buttonTapped(index: Int)
     func showCustomAlbum()
     func removeImage()
@@ -420,10 +421,11 @@ extension RegistCollectionViewController {
 
         self.customNavigationBar.rightButton.rx.controlEvent(.touchUpInside)
             .subscribe(onNext: { [weak self] in
-                guard let self else { return }
+                guard let self,
+                let id = listener?.accountID else { return }
                 self.listener?.registCollection(
                     collection: .init(
-                        accountID: AppConfigs.UserInfo.accountID,
+                        accountID: id,
                         title: self.titleInputView.textView.text,
                         description: self.descriptionTextView.textView.text,
                         isPublic: isPublicView.switchControl.isOn,

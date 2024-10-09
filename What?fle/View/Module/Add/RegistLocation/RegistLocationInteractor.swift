@@ -31,12 +31,14 @@ protocol RegistLocationListener: AnyObject {
 final class RegistLocationInteractor: PresentableInteractor<RegistLocationPresentable>,
                                       RegistLocationInteractable,
                                       RegistLocationPresentableListener {
+
     weak var router: RegistLocationRouting?
     weak var listener: RegistLocationListener?
 
     private let locationUseCase: LocationUseCaseProtocol
     private let disposeBag = DisposeBag()
 
+    let accountID: Int?
     var model: KakaoSearchDocumentsModel?
     let imageArray = BehaviorRelay<[UIImage]>(value: [])
     let isSelectLocation = BehaviorRelay<Bool>(value: false)
@@ -47,9 +49,11 @@ final class RegistLocationInteractor: PresentableInteractor<RegistLocationPresen
 
     init(
         presenter: RegistLocationPresentable,
-        locationUseCase: LocationUseCaseProtocol
+        locationUseCase: LocationUseCaseProtocol,
+        accountID: Int?
     ) {
         self.locationUseCase = locationUseCase
+        self.accountID = accountID
         super.init(presenter: presenter)
         presenter.listener = self
     }

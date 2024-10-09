@@ -15,6 +15,7 @@ protocol RootDependency: Dependency {
     var loginUseCase: LoginUseCaseProtocol { get }
     var locationUseCase: LocationUseCaseProtocol { get }
     var collectionUseCase: CollectionUseCaseProtocol { get }
+    var totalSearchUseCase: TotalSearchUseCaseProtocol { get }
 }
 
 final class RootComponent: Component<RootDependency> {
@@ -29,9 +30,13 @@ final class RootComponent: Component<RootDependency> {
     var locationUseCase: LocationUseCaseProtocol {
         return dependency.locationUseCase
     }
-    
+
     var collectionUseCase: CollectionUseCaseProtocol {
         return dependency.collectionUseCase
+    }
+
+    var totalSearchUseCase: TotalSearchUseCaseProtocol {
+        return dependency.totalSearchUseCase
     }
 
     let homeNavigationController: UINavigationController = .init()
@@ -39,6 +44,9 @@ final class RootComponent: Component<RootDependency> {
 }
 
 extension RootComponent: HomeDependency, AddDependency, MapDependency, RegistLocationDependency {
+    var userInfo: UserInfo? {
+        return networkService.sessionManager.loadUserInfo()
+    }
     var homeBuilder: HomeBuildable {
         return HomeBuilder(dependency: self)
     }

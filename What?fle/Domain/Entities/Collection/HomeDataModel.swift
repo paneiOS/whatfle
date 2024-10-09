@@ -159,7 +159,7 @@ struct HomeDataModel: Decodable {
     struct Account: Decodable {
         let id: Int
         let nickname: String
-        let imageURL: String
+        let imageURL: String?
 
         enum CodingKeys: String, CodingKey {
             case id, nickname

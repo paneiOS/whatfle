@@ -73,7 +73,7 @@ final class RecentSearchCell: UITableViewCell {
         self.titleLabel.text = string
     }
 
-    func setupBinding() {
+    private func setupBinding() {
         deleteButton.rx.controlEvent(.touchUpInside)
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] _ in

@@ -31,7 +31,7 @@ final class SelectLocationInteractor: PresentableInteractor<SelectLocationPresen
     private let disposeBag = DisposeBag()
 
     var searchResultArray = BehaviorRelay<[KakaoSearchDocumentsModel]>(value: [])
-    var recentKeywordArray = BehaviorRelay<[String]>(value: UserDefaultsManager.recentSearchLoad())
+    var recentKeywordArray = BehaviorRelay<[String]>(value: UserDefaultsManager.recentSearchLoad(type: .location))
 
     init(presenter: SelectLocationPresentable, locationUseCase: LocationUseCaseProtocol) {
         self.locationUseCase = locationUseCase
@@ -50,14 +50,14 @@ final class SelectLocationInteractor: PresentableInteractor<SelectLocationPresen
         self.locationUseCase.search(query, currentPage(more: more))
             .subscribe(onSuccess: { [weak self] result in
                 guard let self else { return }
-                UserDefaultsManager.recentSearchSave(searchText: query)
+                UserDefaultsManager.recentSearchSave(type: .location, searchText: query)
                 if more {
                     self.searchResultArray.accept(self.searchResultArray.value + result)
                 } else {
                     self.searchResultArray.accept(result)
                 }
             }, onFailure: { error in
-                print("\(self) Error: \(error)")
+                errorPrint(error)
             }, onDisposed: {
                 LoadingIndicatorService.shared.hideLoading()
             })
@@ -69,12 +69,12 @@ final class SelectLocationInteractor: PresentableInteractor<SelectLocationPresen
     }
 
     func deleteItem(at index: Int) {
-        let updateRecentSearch = UserDefaultsManager.recentSearchRemove(index: index)
+        let updateRecentSearch = UserDefaultsManager.recentSearchRemove(type: .location, index: index)
         recentKeywordArray.accept(updateRecentSearch)
     }
 
     func allDeleteItem() {
-        UserDefaultsManager.recentSearchAllRemove()
+        UserDefaultsManager.historyAllRemove(type: .location)
         recentKeywordArray.accept([])
     }
 
@@ -84,7 +84,7 @@ final class SelectLocationInteractor: PresentableInteractor<SelectLocationPresen
     }
 
     func refreshRecentKeywordArray() {
-        self.recentKeywordArray.accept(UserDefaultsManager.recentSearchLoad())
+        self.recentKeywordArray.accept(UserDefaultsManager.recentSearchLoad(type: .location))
     }
 }
 

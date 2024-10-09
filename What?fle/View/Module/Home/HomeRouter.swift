@@ -8,7 +8,7 @@
 import RIBs
 import UIKit
 
-protocol HomeInteractable: Interactable, DetailCollectionListener, LoginListener {
+protocol HomeInteractable: Interactable, DetailCollectionListener, LoginListener, TotalSearchBarListener {
     var router: HomeRouting? { get set }
     var listener: HomeListener? { get set }
 }
@@ -21,6 +21,7 @@ final class HomeRouter: ViewableRouter<HomeInteractable, HomeViewControllable> {
 
     weak var loginRouter: LoginRouting?
     weak var detailCollectionRouter: DetailCollectionRouting?
+    weak var totalSearchBarRouter: TotalSearchBarRouting?
 
     deinit {
         print("\(self) is being deinit")
@@ -60,6 +61,24 @@ extension HomeRouter: HomeRouting {
             self.navigationController.popViewController(animated: true)
             self.detachChild(router)
             self.detailCollectionRouter = nil
+        }
+    }
+
+    func routeToTotalSearchBar() {
+        if self.totalSearchBarRouter == nil {
+            let router = self.component.totalSearchBarBuilder.build(withListener: self.interactor)
+            router.viewControllable.uiviewController.modalPresentationStyle = .fullScreen
+            self.viewController.present(router.viewControllable, animated: true)
+            self.attachChild(router)
+            self.totalSearchBarRouter = router
+        }
+    }
+
+    func dismissTotalSearchBar() {
+        if let router = self.totalSearchBarRouter {
+            self.viewController.uiviewController.dismiss(animated: true)
+            self.detachChild(router)
+            self.totalSearchBarRouter = nil
         }
     }
 

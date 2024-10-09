@@ -29,16 +29,10 @@ final class SearchBarView: UIView {
 
     lazy var searchBar: UITextField = {
         let searchBar: UITextField = .init()
-        searchBar.delegate = self
         searchBar.font = .body14MD
         searchBar.textColor = .black
         searchBar.clearButtonMode = .whileEditing
         searchBar.returnKeyType = .search
-        searchBar.attributedPlaceholder = NSAttributedString(
-            string: "장소 검색하기",
-            attributes: [NSAttributedString.Key.foregroundColor: UIColor.textExtralight,
-                         NSAttributedString.Key.font: UIFont.body14MD]
-        )
         return searchBar
     }()
 
@@ -63,7 +57,6 @@ final class SearchBarView: UIView {
             $0.center.equalToSuperview()
             $0.size.equalTo(24)
         }
-        control.isHidden = true
         return control
     }()
 
@@ -124,14 +117,12 @@ final class SearchBarView: UIView {
             })
             .disposed(by: self.disposeBag)
     }
-}
 
-extension SearchBarView: UITextFieldDelegate {
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        self.closeButton.isHidden = false
-    }
-
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        self.closeButton.isHidden = true
+    func setupPlaceholder(_ placeholder: String) {
+        self.searchBar.attributedPlaceholder = NSAttributedString(
+            string: placeholder,
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.textExtralight,
+                         NSAttributedString.Key.font: UIFont.body14MD]
+        )
     }
 }

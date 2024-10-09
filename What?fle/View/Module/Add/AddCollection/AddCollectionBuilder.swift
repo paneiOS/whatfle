@@ -11,6 +11,7 @@ import RIBs
 protocol AddCollectionDependency: Dependency {
     var locationUseCase: LocationUseCaseProtocol { get }
     var collectionUseCase: CollectionUseCaseProtocol { get }
+    var userInfo: UserInfo? { get }
 }
 
 final class AddCollectionComponent: Component<AddCollectionDependency> {}
@@ -26,6 +27,10 @@ extension AddCollectionComponent: AddCollectionDependency {
 }
 
 extension AddCollectionComponent: RegistCollectionDependency {
+    var userInfo: UserInfo? {
+        return dependency.userInfo
+    }
+    
     var registCollectionBuilder: RegistCollectionBuildable {
         return RegistCollectionBuilder(dependency: self)
     }

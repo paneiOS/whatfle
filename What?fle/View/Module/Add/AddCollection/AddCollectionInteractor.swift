@@ -97,7 +97,7 @@ final class AddCollectionInteractor: PresentableInteractor<AddCollectionPresenta
                 self.locationTotalCount.accept(data.flatMap { $0.places }.count)
                 self.presenter.reloadData()
             }, onFailure: { error in
-                print("\(self) Error: \(error)")
+                errorPrint(error)
             }, onDisposed: {
                 LoadingIndicatorService.shared.hideLoading()
             })
@@ -123,7 +123,7 @@ final class AddCollectionInteractor: PresentableInteractor<AddCollectionPresenta
                 guard let self else { return }
                 self.listener?.sendDataToRegistCollection(data: selectedLocations.value, tags: tags)
             }, onFailure: { error in
-                print("\(self) Error: \(error)")
+                errorPrint(error)
             }, onDisposed: {
                 LoadingIndicatorService.shared.hideLoading()
             })
