@@ -273,7 +273,7 @@ extension TotalSearchBarViewController: UICollectionViewDelegateFlowLayout, UICo
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let tag = self.listener?.recommendHashTags.value[safe: indexPath.item] else { return }
-        self.searchBarView.searchBar.text = tag
+        self.searchBarView.searchBar.text = "#" + tag
         self.listener?.searchTerm(term: tag)
     }
 }
@@ -289,12 +289,16 @@ extension TotalSearchBarViewController: UITextFieldDelegate {
 
 extension TotalSearchBarViewController: SearchRecentViewDelegate {
     func searchTerm(term: String) {
-        self.searchBarView.searchBar.text = "#" + term
+        self.searchBarView.searchBar.text = term
         self.listener?.searchTerm(term: term)
     }
 }
 
 extension TotalSearchBarViewController: SearchResultViewDelegate {
+    func didTapTag(tag: String) {
+        self.searchBarView.searchBar.text = "#" + tag
+        self.listener?.searchTerm(term: tag)
+    }
     func didTapDetailCollection(id: Int) {
         self.listener?.showDetailCollection(id: id)
     }

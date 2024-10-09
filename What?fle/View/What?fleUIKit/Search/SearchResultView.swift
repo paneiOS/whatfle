@@ -8,6 +8,7 @@
 import UIKit
 
 protocol SearchResultViewDelegate: AnyObject {
+    func didTapTag(tag: String)
     func didTapDetailCollection(id: Int)
 }
 
@@ -197,7 +198,10 @@ extension SearchResultView: UICollectionViewDelegateFlowLayout, UICollectionView
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView === self.resultCollectionView {
+        if collectionView === self.tagCollectionView {
+            guard let tag = self.resultData?.resultOfTags[safe: indexPath.item] else { return }
+            delegate?.didTapTag(tag: tag)
+        } else {
             guard let id = self.resultData?.resultOfCollections[safe: indexPath.item]?.id else { return }
             delegate?.didTapDetailCollection(id: id)
         }
