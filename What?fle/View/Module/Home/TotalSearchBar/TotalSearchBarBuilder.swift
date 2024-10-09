@@ -57,6 +57,7 @@ final class TotalSearchBarBuilder: Builder<TotalSearchBarDependency>, TotalSearc
         let component = TotalSearchBarComponent(dependency: dependency)
         let viewController = TotalSearchBarViewController()
         let navigationController = UINavigationController(rootViewController: viewController)
+        navigationController.setNavigationBarHidden(true, animated: false)
         let interactor = TotalSearchBarInteractor(
             presenter: viewController,
             totalSearchUseCase: component.totalSearchUseCase
