@@ -125,6 +125,7 @@ extension HomeRouter: HomeRouting {
                 completion?()
                 self.detachChild(router)
                 self.loginRouter = nil
+                self.postLoginAction = nil
             }
         }
     }

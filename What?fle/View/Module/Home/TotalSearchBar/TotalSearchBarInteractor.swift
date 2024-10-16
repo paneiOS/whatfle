@@ -15,7 +15,8 @@ protocol TotalSearchBarRouting: ViewableRouting {
     var navigationController: UINavigationController? { get }
     func routeToDetailCollection(id: Int)
     func popToDetailCollection()
-    func dismissLoginRIB()
+    func dismissLoginRIB(completion: (() -> Void)?)
+    func proceedToNextScreenAfterLogin()
 }
 
 protocol TotalSearchBarPresentable: Presentable {
@@ -101,10 +102,12 @@ final class TotalSearchBarInteractor: PresentableInteractor<TotalSearchBarPresen
 }
 
 extension TotalSearchBarInteractor: TotalSearchBarInteractable {
-    func proceedToNextScreenAfterLogin() {}
+    func proceedToNextScreenAfterLogin() {
+        self.router?.proceedToNextScreenAfterLogin()
+    }
 
     func dismissLoginRIB() {
-        self.router?.dismissLoginRIB()
+        self.router?.dismissLoginRIB(completion: nil)
     }
 
     func popToDetailCollection() {
