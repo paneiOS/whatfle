@@ -45,7 +45,7 @@ final class DetailCollectionInteractor: PresentableInteractor<DetailCollectionPr
         LoadingIndicatorService.shared.showLoading()
 
         networkService.request(CollectionAPI.getDetailCollection(self.collectionID))
-            .subscribe(onSuccess: { [weak self] result in
+            .subscribe(onSuccess: { [weak self] (result: DetailCollectionModel) in
                 guard let self else { return }
                 self.detailCollectionModel.onNext(result)
             }, onFailure: { error in

@@ -36,7 +36,7 @@ final class CoverImageCell: UICollectionViewCell {
         }
     }
 
-    func drawCell(urlStr: String) {
+    func drawCell(urlStr: String?) {
         self.coverImageView.loadImage(from: urlStr)
     }
 }

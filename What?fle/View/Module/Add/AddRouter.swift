@@ -167,9 +167,8 @@ extension AddRouter: AddRouting {
                 completion?()
                 self.detachChild(router)
                 self.loginRouter = nil
+                self.postLoginAction = nil
             }
-        } else {
-            completion?()
         }
     }
 }

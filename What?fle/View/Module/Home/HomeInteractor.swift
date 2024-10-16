@@ -15,7 +15,8 @@ protocol HomeRouting: ViewableRouting {
     func routeToTotalSearchBar()
     func dismissTotalSearchBar()
     func showLoginRIB()
-    func dismissLoginRIB()
+    func dismissLoginRIB(completion: (() -> Void)?)
+    func proceedToNextScreenAfterLogin()
 }
 
 protocol HomePresentable: Presentable {
@@ -44,10 +45,12 @@ final class HomeInteractor: PresentableInteractor<HomePresentable> {
 }
 
 extension HomeInteractor: HomeInteractable {
-    func proceedToNextScreenAfterLogin() {}
+    func proceedToNextScreenAfterLogin() {
+        self.router?.proceedToNextScreenAfterLogin()
+    }
 
     func dismissLoginRIB() {
-        self.router?.dismissLoginRIB()
+        self.router?.dismissLoginRIB(completion: nil)
     }
 
     func popToDetailCollection() {

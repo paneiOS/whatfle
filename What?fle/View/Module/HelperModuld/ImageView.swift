@@ -39,7 +39,8 @@ final class ImageView: UIImageView {
         }
     }()
 
-    func loadImage(from urlStr: String, placeholder: UIImage? = nil) {
+    func loadImage(from urlStr: String?, placeholder: UIImage? = nil) {
+        guard let urlStr else { return }
         if let placeholder {
             self.image = placeholder
         }
