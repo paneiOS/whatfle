@@ -8,17 +8,13 @@
 import RIBs
 
 protocol RegistLocationDependency: Dependency {
+    var networkService: NetworkServiceDelegate { get }
     var locationUseCase: LocationUseCaseProtocol { get }
-    var userInfo: UserInfo? { get }
 }
 
 final class RegistLocationComponent: Component<RegistLocationDependency> {
     var locationUseCase: LocationUseCaseProtocol {
         return dependency.locationUseCase
-    }
-    
-    var userInfo: UserInfo? {
-        return dependency.userInfo
     }
 }
 
@@ -35,7 +31,7 @@ extension RegistLocationComponent: SelectLocationDependency, CustomAlbumDependen
 // MARK: - Builder
 
 protocol RegistLocationBuildable: Buildable {
-    func build(withListener listener: RegistLocationListener) -> RegistLocationRouting
+    func build(withListener listener: RegistLocationListener, accountID: Int) -> RegistLocationRouting
 }
 
 final class RegistLocationBuilder: Builder<RegistLocationDependency>, RegistLocationBuildable {
@@ -48,13 +44,13 @@ final class RegistLocationBuilder: Builder<RegistLocationDependency>, RegistLoca
         super.init(dependency: dependency)
     }
 
-    func build(withListener listener: RegistLocationListener) -> RegistLocationRouting {
+    func build(withListener listener: RegistLocationListener, accountID: Int) -> RegistLocationRouting {
         let component = RegistLocationComponent(dependency: dependency)
         let viewController = RegistLocationViewController()
         let interactor = RegistLocationInteractor(
             presenter: viewController,
             locationUseCase: component.locationUseCase,
-            accountID: component.userInfo?.id
+            accountID: accountID
         )
         interactor.listener = listener
         viewController.listener = interactor

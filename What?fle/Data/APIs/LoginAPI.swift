@@ -18,7 +18,7 @@ enum LoginAPI: Loginable {
     case signinAgreement([TermsAgreement])
     case snsLogin(LoginRequestModel)
     case updateProfile(UserProfile)
-    
+    case getUserInfo
 
     var requiresLogin: Bool {
         switch self {
@@ -44,6 +44,8 @@ extension LoginAPI: TargetType {
             return basePath + "/account/signin"
         case .updateProfile:
             return basePath + "/account/profile"
+        case .getUserInfo:
+            return basePath + "/account"
         }
     }
 

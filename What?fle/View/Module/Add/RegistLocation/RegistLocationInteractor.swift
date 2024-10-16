@@ -38,7 +38,7 @@ final class RegistLocationInteractor: PresentableInteractor<RegistLocationPresen
     private let locationUseCase: LocationUseCaseProtocol
     private let disposeBag = DisposeBag()
 
-    let accountID: Int?
+    let accountID: Int
     var model: KakaoSearchDocumentsModel?
     let imageArray = BehaviorRelay<[UIImage]>(value: [])
     let isSelectLocation = BehaviorRelay<Bool>(value: false)
@@ -50,7 +50,7 @@ final class RegistLocationInteractor: PresentableInteractor<RegistLocationPresen
     init(
         presenter: RegistLocationPresentable,
         locationUseCase: LocationUseCaseProtocol,
-        accountID: Int?
+        accountID: Int
     ) {
         self.locationUseCase = locationUseCase
         self.accountID = accountID

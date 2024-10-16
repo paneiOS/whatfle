@@ -16,6 +16,7 @@ protocol LoginUseCaseProtocol {
     func loginInWithIDToken(provider: OpenIDConnectCredentials.Provider, idToken: String) -> Single<(Bool, Bool)>
     func sendTermsAgreement(agreements: [TermsAgreement]) -> Single<UserInfo>
     func updateUserProfile(nickname: String, imageData: Data?) -> Single<Void>
+    func getUserInfo() -> Single<UserInfo>
 }
 
 final class LoginUseCase: LoginUseCaseProtocol {
@@ -80,5 +81,9 @@ final class LoginUseCase: LoginUseCaseProtocol {
                 self.loginRepository.sessionManager.saveUserInfo(userInfo)
             })
             .mapToVoid()
+    }
+    
+    func getUserInfo() -> Single<UserInfo> {
+        return self.loginRepository.getUserInfo()
     }
 }

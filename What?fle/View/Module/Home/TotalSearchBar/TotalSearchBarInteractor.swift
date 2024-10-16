@@ -101,6 +101,8 @@ final class TotalSearchBarInteractor: PresentableInteractor<TotalSearchBarPresen
 }
 
 extension TotalSearchBarInteractor: TotalSearchBarInteractable {
+    func proceedToNextScreenAfterLogin() {}
+
     func dismissLoginRIB() {
         self.router?.dismissLoginRIB()
     }

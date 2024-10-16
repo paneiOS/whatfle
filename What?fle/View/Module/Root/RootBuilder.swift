@@ -44,9 +44,6 @@ final class RootComponent: Component<RootDependency> {
 }
 
 extension RootComponent: HomeDependency, AddDependency, MapDependency, RegistLocationDependency {
-    var userInfo: UserInfo? {
-        return networkService.sessionManager.loadUserInfo()
-    }
     var homeBuilder: HomeBuildable {
         return HomeBuilder(dependency: self)
     }

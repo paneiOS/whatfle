@@ -26,6 +26,8 @@ final class AddRouter: ViewableRouter<AddInteractable, AddViewControllable> {
     weak var registCollectionRouter: RegistCollectionRouting?
     weak var editRegistCollectionRouter: RegistCollectionRouting?
 
+    private var postLoginAction: (() -> Void)?
+
     deinit {
         print("\(self) is being deinit")
     }
@@ -44,8 +46,28 @@ final class AddRouter: ViewableRouter<AddInteractable, AddViewControllable> {
 }
 
 extension AddRouter: AddRouting {
+    private func setPostLoginAction(_ action: @escaping () -> Void) {
+        postLoginAction = action
+    }
+
+    private func executePostLoginAction() {
+        postLoginAction?()
+        postLoginAction = nil
+    }
+
+    func proceedToNextScreenAfterLogin() {
+        dismissLoginRIB { [weak self] in
+            guard let self else { return }
+            self.executePostLoginAction()
+        }
+    }
+
     func routeToAddCollection(data: EditSelectedCollectionData?) {
         if !component.networkService.isLogin {
+            self.setPostLoginAction { [weak self] in
+                guard let self else { return }
+                self.routeToAddCollection(data: data)
+            }
             self.showLoginRIB()
         } else {
             if self.addCollectionRouter == nil {
@@ -60,7 +82,10 @@ extension AddRouter: AddRouting {
 
     func routeToRegistLocation() {
         if self.registLocationRouter == nil {
-            let router = self.component.registLocationBuilder.build(withListener: self.interactor)
+            guard let id = self.component.dependency.networkService.sessionManager.loadUserInfo()?.id else {
+                return
+            }
+            let router = self.component.registLocationBuilder.build(withListener: self.interactor, accountID: id)
             self.navigationController.setNavigationBarHidden(true, animated: false)
             self.navigationController.pushViewController(router.viewControllable.uiviewController, animated: true)
             self.attachChild(router)
@@ -80,10 +105,17 @@ extension AddRouter: AddRouting {
 
     func showRegistLocation() {
         if !component.networkService.isLogin {
+            self.setPostLoginAction { [weak self] in
+                guard let self else { return }
+                self.showRegistLocation()
+            }
             self.showLoginRIB()
         } else {
             if self.registLocationRouter == nil {
-                let router = self.component.registLocationBuilder.build(withListener: self.interactor)
+                guard let id = self.component.dependency.networkService.sessionManager.loadUserInfo()?.id else {
+                    return
+                }
+                let router = self.component.registLocationBuilder.build(withListener: self.interactor, accountID: id)
                 self.navigationController.setNavigationBarHidden(true, animated: false)
                 self.navigationController.pushViewController(router.viewControllable.uiviewController, animated: true)
                 self.attachChild(router)
@@ -128,11 +160,16 @@ extension AddRouter: AddRouting {
         }
     }
 
-    func dismissLoginRIB() {
+    func dismissLoginRIB(completion: (() -> Void)?) {
         if let router = self.loginRouter {
-            self.viewController.uiviewController.dismiss(animated: true)
-            self.detachChild(router)
-            self.loginRouter = nil
+            self.viewController.uiviewController.dismiss(animated: true) { [weak self] in
+                guard let self = self else { return }
+                completion?()
+                self.detachChild(router)
+                self.loginRouter = nil
+            }
+        } else {
+            completion?()
         }
     }
 }

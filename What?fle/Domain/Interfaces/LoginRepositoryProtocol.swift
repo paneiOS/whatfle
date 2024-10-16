@@ -18,4 +18,5 @@ protocol LoginRepositoryProtocol {
     func existNickname(nickname: String) -> Single<Bool>
     func uploadImage(imageData: Data, fileName: String) -> Single<String>
     func updateUserProfile(userProfile: UserProfile) -> Single<UserInfo>
+    func getUserInfo() -> Single<UserInfo>
 }

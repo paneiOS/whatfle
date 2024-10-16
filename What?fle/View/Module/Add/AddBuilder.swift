@@ -13,7 +13,6 @@ protocol AddDependency: Dependency {
     var loginUseCase: LoginUseCaseProtocol { get }
     var locationUseCase: LocationUseCaseProtocol { get }
     var collectionUseCase: CollectionUseCaseProtocol { get }
-    var userInfo: UserInfo? { get }
 }
 
 final class AddComponent: Component<AddDependency> {
@@ -24,9 +23,9 @@ final class AddComponent: Component<AddDependency> {
 
 extension AddComponent: RegistLocationDependency, RegistCollectionDependency {
     var userInfo: UserInfo? {
-        return dependency.userInfo
+        return networkService.sessionManager.loadUserInfo()
     }
-    
+
     var locationUseCase: LocationUseCaseProtocol {
         return dependency.locationUseCase
     }

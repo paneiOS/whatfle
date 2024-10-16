@@ -24,6 +24,7 @@ protocol LoginPresentable: Presentable {
 }
 
 protocol LoginListener: AnyObject {
+    func proceedToNextScreenAfterLogin()
     func dismissLoginRIB()
 }
 
@@ -54,14 +55,20 @@ extension LoginInteractor {
         guard !LoadingIndicatorService.shared.isLoading() else { return }
         LoadingIndicatorService.shared.showLoading()
         loginUseCase.loginInWithIDToken(provider: .apple, idToken: idToken)
-            .observe(on: MainScheduler.instance)
-            .subscribe(onSuccess: { [weak self] isSignupRequired, isProfileRequired in
-                guard let self else { return }
+            .flatMap { [weak self] isSignupRequired, isProfileRequired -> Single<UserInfo> in
+                guard let self else { return Single.error(NSError()) }
                 if isSignupRequired {
                     self.router?.pushProfileRIB(isProfileRequired: isProfileRequired)
+                    return Single.error(NSError())
                 } else {
-                    self.listener?.dismissLoginRIB()
+                    return self.loginUseCase.getUserInfo()
                 }
+            }
+            .observe(on: MainScheduler.instance)
+            .subscribe(onSuccess: { [weak self] userInfo in
+                guard let self else { return }
+                SessionManager.shared.saveUserInfo(userInfo)
+                self.listener?.proceedToNextScreenAfterLogin()
             }, onFailure: { error in
                 errorPrint(error)
             }, onDisposed: {

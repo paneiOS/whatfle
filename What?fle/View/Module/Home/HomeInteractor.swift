@@ -44,6 +44,8 @@ final class HomeInteractor: PresentableInteractor<HomePresentable> {
 }
 
 extension HomeInteractor: HomeInteractable {
+    func proceedToNextScreenAfterLogin() {}
+
     func dismissLoginRIB() {
         self.router?.dismissLoginRIB()
     }
