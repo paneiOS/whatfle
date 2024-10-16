@@ -70,4 +70,16 @@ extension String {
     func isValidRegistTag() -> Bool {
         return NSPredicate(format: "SELF MATCHES %@", "^[가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9]*$").evaluate(with: self)
     }
+
+    func toFormattedDateString(fromFormat: String = "yy.MM.dd", toFormat: String = "yyyy-MM-dd") -> String? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = fromFormat
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+
+        guard let date = dateFormatter.date(from: self) else {
+            return nil
+        }
+        dateFormatter.dateFormat = toFormat
+        return dateFormatter.string(from: date)
+    }
 }

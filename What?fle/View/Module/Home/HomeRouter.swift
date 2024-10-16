@@ -23,6 +23,8 @@ final class HomeRouter: ViewableRouter<HomeInteractable, HomeViewControllable> {
     weak var detailCollectionRouter: DetailCollectionRouting?
     weak var totalSearchBarRouter: TotalSearchBarRouting?
 
+    private var postLoginAction: (() -> Void)?
+
     deinit {
         print("\(self) is being deinit")
     }
@@ -41,8 +43,28 @@ final class HomeRouter: ViewableRouter<HomeInteractable, HomeViewControllable> {
 }
 
 extension HomeRouter: HomeRouting {
+    private func setPostLoginAction(_ action: @escaping () -> Void) {
+        postLoginAction = action
+    }
+
+    private func executePostLoginAction() {
+        postLoginAction?()
+        postLoginAction = nil
+    }
+
+    func proceedToNextScreenAfterLogin() {
+        dismissLoginRIB { [weak self] in
+            guard let self else { return }
+            self.executePostLoginAction()
+        }
+    }
+
     func routeToDetailCollection(id: Int) {
         if !component.networkService.isLogin {
+            self.setPostLoginAction { [weak self] in
+                guard let self else { return }
+                self.routeToDetailCollection(id: id)
+            }
             self.showLoginRIB()
         } else {
             if self.detailCollectionRouter == nil {
@@ -96,11 +118,15 @@ extension HomeRouter: HomeRouting {
         }
     }
 
-    func dismissLoginRIB() {
+    func dismissLoginRIB(completion: (() -> Void)?) {
         if let router = self.loginRouter {
-            self.viewController.uiviewController.dismiss(animated: true)
-            self.detachChild(router)
-            self.loginRouter = nil
+            self.viewController.uiviewController.dismiss(animated: true) { [weak self] in
+                guard let self = self else { return }
+                completion?()
+                self.detachChild(router)
+                self.loginRouter = nil
+                self.postLoginAction = nil
+            }
         }
     }
 }

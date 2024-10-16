@@ -132,11 +132,10 @@ extension DetailCollectionViewController: UICollectionViewDataSource, UICollecti
         guard let model else { return UICollectionViewCell() }
         switch indexPath.section {
         case 0:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoverImageCell.reuseIdentifier, for: indexPath) as? CoverImageCell,
-                  let urlStr = model.imageURLs?.first else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoverImageCell.reuseIdentifier, for: indexPath) as? CoverImageCell else {
                 return UICollectionViewCell()
             }
-            cell.drawCell(urlStr: urlStr)
+            cell.drawCell(urlStr: model.imageURLs?.first)
             return cell
         case 1:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DescriptionCell.reuseIdentifier, for: indexPath) as? DescriptionCell else {

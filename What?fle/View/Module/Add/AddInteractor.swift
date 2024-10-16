@@ -18,7 +18,8 @@ protocol AddRouting: ViewableRouting {
     func popToRegistCollection()
     func popToRegistLocation()
     func showLoginRIB()
-    func dismissLoginRIB()
+    func dismissLoginRIB(completion: (() -> Void)?)
+    func proceedToNextScreenAfterLogin()
 }
 
 protocol AddPresentable: Presentable {
@@ -44,6 +45,10 @@ final class AddInteractor: PresentableInteractor<AddPresentable> {
 }
 
 extension AddInteractor: AddInteractable {
+    func proceedToNextScreenAfterLogin() {
+        self.router?.proceedToNextScreenAfterLogin()
+    }
+    
     func popToAddCollection() {
         self.router?.popToAddCollection()
     }
@@ -76,7 +81,7 @@ extension AddInteractor: AddInteractable {
     func dismissAddCollection() {}
 
     func dismissLoginRIB() {
-        self.router?.dismissLoginRIB()
+        self.router?.dismissLoginRIB(completion: nil)
     }
 }
 
