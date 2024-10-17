@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ScrollKeyboardVC: UIViewController {
+class ScrollKeyboardVC: UIViewController, UIGestureRecognizerDelegate {
 
     private var isKeyboardVisible = false
 
@@ -22,7 +22,10 @@ class ScrollKeyboardVC: UIViewController {
 
     private func setupKeyboard() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(keyboardWillHide))
+        tapGesture.cancelsTouchesInView = false
+        tapGesture.delegate = self
+        view.addGestureRecognizer(tapGesture)
     }
 
     @objc private func keyboardWillShow(notification: NSNotification) {
@@ -50,5 +53,9 @@ class ScrollKeyboardVC: UIViewController {
             }
         }
         isKeyboardVisible = false
+    }
+
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        return !(touch.view is UIButton)
     }
 }

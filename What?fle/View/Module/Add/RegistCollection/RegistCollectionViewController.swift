@@ -28,7 +28,7 @@ protocol RegistCollectionPresentableListener: AnyObject {
     func popToRegistCollection()
 }
 
-final class RegistCollectionViewController: UIViewController, RegistCollectionPresentable, RegistCollectionViewControllable {
+final class RegistCollectionViewController: ScrollKeyboardVC, RegistCollectionPresentable, RegistCollectionViewControllable {
     private enum Constants {
         static let contentsWidth: CGFloat = UIApplication.shared.width - 48
     }
@@ -222,7 +222,6 @@ final class RegistCollectionViewController: UIViewController, RegistCollectionPr
         setupUI()
         setupViewBinding()
         setupActionBinding()
-        setupDismissKeyboard()
     }
 
     private func setupUI() {
@@ -509,22 +508,6 @@ extension RegistCollectionViewController {
             .disposed(by: disposeBag)
     }
 }
-
-//extension RegistCollectionViewController: PHPickerViewControllerDelegate {
-//    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-//        picker.dismiss(animated: true)
-//        guard !results.isEmpty else { return }
-//
-//        for itemProvider in results.map({ $0.itemProvider }) where itemProvider.canLoadObject(ofClass: UIImage.self) {
-//            itemProvider.loadObject(ofClass: UIImage.self) { [weak self] image, _ in
-//                guard let self, let image = image as? UIImage, let listener = self.listener else { return }
-//                DispatchQueue.main.async {
-//                    listener.addImage(image)
-//                }
-//            }
-//        }
-//    }
-//}
 
 extension RegistCollectionViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

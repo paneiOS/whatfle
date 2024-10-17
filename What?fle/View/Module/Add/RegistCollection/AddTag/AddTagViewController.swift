@@ -29,11 +29,7 @@ final class AddTagViewController: BottomKeyboardVC, AddTagPresentable, AddTagVie
         return view
     }()
 
-    private let closeButton: UIButton = {
-        let button: UIButton = .init()
-        button.setImage(.Icon.xLineLg, for: .normal)
-        return button
-    }()
+    private let headerView: UIView = .init()
 
     private let titleLabel: UILabel = {
         let label: UILabel = .init()
@@ -44,6 +40,12 @@ final class AddTagViewController: BottomKeyboardVC, AddTagPresentable, AddTagVie
             lineHeight: 28
         )
         return label
+    }()
+
+    private let closeButton: UIButton = {
+        let button: UIButton = .init()
+        button.setImage(.Icon.xLineLg, for: .normal)
+        return button
     }()
 
     private lazy var tagView: TextFieldWithCheckView = {
@@ -151,21 +153,25 @@ extension AddTagViewController {
             $0.height.equalTo(430)
         }
 
-        self.contentsView.addSubview(titleLabel)
-        titleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(40)
-            $0.leading.equalToSuperview().inset(24)
+        self.contentsView.addSubview(self.headerView)
+        self.headerView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalTo(54)
         }
 
-        self.contentsView.addSubview(closeButton)
-        closeButton.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(40)
-            $0.trailing.equalToSuperview().inset(24)
+        self.headerView.addSubviews(self.titleLabel, self.closeButton)
+        self.titleLabel.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.leading.equalToSuperview().inset(16)
+        }
+        self.closeButton.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(16)
         }
 
         self.contentsView.addSubview(tagView)
         tagView.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(24)
+            $0.top.equalTo(headerView.snp.bottom).offset(24)
             $0.leading.trailing.equalToSuperview().inset(24)
         }
 
@@ -192,7 +198,8 @@ extension AddTagViewController {
         self.registedView.addSubview(tagCollectionView)
         tagCollectionView.snp.makeConstraints {
             $0.top.equalTo(registedTagLabel.snp.bottom).offset(8)
-            $0.leading.trailing.bottom.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.lessThanOrEqualToSuperview()
         }
 
         self.contentsView.addSubview(confirmButton)
