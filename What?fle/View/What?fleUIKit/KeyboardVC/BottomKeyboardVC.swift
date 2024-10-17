@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BottomKeyboardVC: UIViewController {
+class BottomKeyboardVC: UIViewController, UIGestureRecognizerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +22,7 @@ class BottomKeyboardVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(keyboardWillHide))
         tapGesture.cancelsTouchesInView = false
+        tapGesture.delegate = self
         view.addGestureRecognizer(tapGesture)
     }
 
@@ -35,5 +36,9 @@ class BottomKeyboardVC: UIViewController {
     @objc private func keyboardWillHide() {
         self.view.endEditing(true)
         self.view.frame.origin.y = 0
+    }
+
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        return !(touch.view is UIButton)
     }
 }
