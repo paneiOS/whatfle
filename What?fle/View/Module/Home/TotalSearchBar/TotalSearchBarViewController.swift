@@ -38,7 +38,7 @@ final class TotalSearchBarViewController: UIViewController, TotalSearchBarPresen
         return view
     }()
 
-    private lazy var searchBarView: SearchBarView = {
+    private lazy var searchBar: SearchBarView = {
         let view: SearchBarView = .init()
         view.searchBar.delegate = self
         return view
@@ -136,18 +136,18 @@ final class TotalSearchBarViewController: UIViewController, TotalSearchBarPresen
     private func setupUI() {
         view.backgroundColor = .white
 
-        self.view.addSubviews(self.searchBarView, self.beforeSearchView, self.afterSearchView)
-        self.searchBarView.snp.makeConstraints {
+        self.view.addSubviews(self.searchBar, self.beforeSearchView, self.afterSearchView)
+        self.searchBar.snp.makeConstraints {
             $0.top.equalToSuperview().inset(UIApplication.shared.statusBarHeight + 8)
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.height.equalTo(48)
         }
         self.beforeSearchView.snp.makeConstraints {
-            $0.top.equalTo(self.searchBarView.snp.bottom).offset(16)
+            $0.top.equalTo(self.searchBar.snp.bottom).offset(16)
             $0.leading.trailing.bottom.equalToSuperview().inset(16)
         }
         self.afterSearchView.snp.makeConstraints {
-            $0.top.equalTo(self.searchBarView.snp.bottom).offset(16)
+            $0.top.equalTo(self.searchBar.snp.bottom).offset(16)
             $0.leading.trailing.bottom.equalToSuperview().inset(16)
         }
 
@@ -203,7 +203,7 @@ final class TotalSearchBarViewController: UIViewController, TotalSearchBarPresen
             })
             .disposed(by: disposeBag)
 
-        self.searchBarView.searchBar.rx.text
+        self.searchBar.searchBar.rx.text
             .subscribe(onNext: { [weak self] text in
                 guard let self else { return }
                 if let text, text.isEmpty {
@@ -214,7 +214,7 @@ final class TotalSearchBarViewController: UIViewController, TotalSearchBarPresen
     }
 
     private func setupActionBinding() {
-        self.searchBarView.closeButton.rx.controlEvent(.touchUpInside)
+        self.searchBar.closeButton.rx.controlEvent(.touchUpInside)
             .subscribe(onNext: { [weak self] in
                 guard let self else { return }
                 self.listener?.dismissTotalSearchBar()
@@ -273,7 +273,7 @@ extension TotalSearchBarViewController: UICollectionViewDelegateFlowLayout, UICo
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let tag = self.listener?.recommendHashTags.value[safe: indexPath.item] else { return }
-        self.searchBarView.searchBar.text = "#" + tag
+        self.searchBar.searchBar.text = "#" + tag
         self.listener?.searchTerm(term: tag)
     }
 }
@@ -285,18 +285,26 @@ extension TotalSearchBarViewController: UITextFieldDelegate {
         self.listener?.searchTerm(term: text)
         return true
     }
+
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        self.searchBar.searchBarView.layer.borderColor = UIColor.Core.primary.cgColor
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        self.searchBar.searchBarView.layer.borderColor = UIColor.lineDefault.cgColor
+    }
 }
 
 extension TotalSearchBarViewController: SearchRecentViewDelegate {
     func searchTerm(term: String) {
-        self.searchBarView.searchBar.text = term
+        self.searchBar.searchBar.text = term
         self.listener?.searchTerm(term: term)
     }
 }
 
 extension TotalSearchBarViewController: SearchResultViewDelegate {
     func didTapTag(tag: String) {
-        self.searchBarView.searchBar.text = "#" + tag
+        self.searchBar.searchBar.text = "#" + tag
         self.listener?.searchTerm(term: tag)
     }
     func didTapDetailCollection(id: Int) {

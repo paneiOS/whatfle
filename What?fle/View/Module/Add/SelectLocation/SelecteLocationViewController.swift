@@ -56,7 +56,7 @@ final class SelectLocationViewController: UIViewController, SelectLocationPresen
         }
     }
 
-    private lazy var searchBarView: SearchBarView = {
+    private lazy var searchBar: SearchBarView = {
         let view: SearchBarView = .init()
         view.setupPlaceholder("장소 검색하기")
         view.delegate = self
@@ -136,19 +136,19 @@ final class SelectLocationViewController: UIViewController, SelectLocationPresen
 extension SelectLocationViewController {
     private func setupUI() {
         view.backgroundColor = .white
-        view.addSubviews(searchBarView, searchResultTableView, recentSearchView)
-        self.searchBarView.snp.makeConstraints {
+        view.addSubviews(searchBar, searchResultTableView, recentSearchView)
+        self.searchBar.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(8)
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.height.equalTo(48)
         }
         self.searchResultTableView.snp.makeConstraints {
-            $0.top.equalTo(self.searchBarView.snp.bottom).offset(12)
+            $0.top.equalTo(self.searchBar.snp.bottom).offset(12)
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(Constants.bottomPadding)
         }
         self.recentSearchView.snp.makeConstraints {
-            $0.top.equalTo(self.searchBarView.snp.bottom).offset(20)
+            $0.top.equalTo(self.searchBar.snp.bottom).offset(20)
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(8)
         }
@@ -205,7 +205,7 @@ extension SelectLocationViewController {
             }
             .disposed(by: disposeBag)
 
-        self.searchBarView.searchBar.rx.text
+        self.searchBar.searchBar.rx.text
             .orEmpty
             .distinctUntilChanged()
             .filter { $0.isEmpty }
@@ -229,11 +229,11 @@ extension SelectLocationViewController {
             })
             .disposed(by: disposeBag)
 
-        self.searchBarView.searchButton.rx.controlEvent(.touchUpInside)
-            .withLatestFrom(searchBarView.searchBar.rx.text.orEmpty)
+        self.searchBar.searchButton.rx.controlEvent(.touchUpInside)
+            .withLatestFrom(searchBar.searchBar.rx.text.orEmpty)
             .do(onNext: { [weak self] _ in
                 guard let self else { return }
-                self.searchBarView.searchBar.endEditing(true)
+                self.searchBar.searchBar.endEditing(true)
             })
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] query in
@@ -246,7 +246,7 @@ extension SelectLocationViewController {
             })
             .disposed(by: disposeBag)
 
-        self.searchBarView.closeButton.rx.controlEvent(.touchUpInside)
+        self.searchBar.closeButton.rx.controlEvent(.touchUpInside)
             .subscribe(onNext: { [weak self] in
                 guard let self else { return }
                 self.listener?.closeView()
@@ -256,11 +256,11 @@ extension SelectLocationViewController {
 
     private func activateSearchBar(state: Bool) {
         if state {
-            searchBarView.totalView.layer.borderColor = UIColor.Core.primary.cgColor
-            searchBarView.searchButtonImageView.tintColor = .black
+            searchBar.totalView.layer.borderColor = UIColor.Core.primary.cgColor
+            searchBar.searchButtonImageView.tintColor = .black
         } else {
-            searchBarView.totalView.layer.borderColor = UIColor.lineDefault.cgColor
-            searchBarView.searchButtonImageView.tintColor = .textExtralight
+            searchBar.totalView.layer.borderColor = UIColor.lineDefault.cgColor
+            searchBar.searchButtonImageView.tintColor = .textExtralight
         }
     }
 
@@ -305,18 +305,20 @@ extension SelectLocationViewController {
 extension SelectLocationViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         self.activateSearchBar(state: true)
-        self.searchBarView.closeButton.isHidden = false
+        self.searchBar.closeButton.isHidden = false
+        self.searchBar.searchBarView.layer.borderColor = UIColor.Core.primary.cgColor
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
         self.activateSearchBar(state: false)
-        self.searchBarView.closeButton.isHidden = true
+        self.searchBar.closeButton.isHidden = true
+        self.searchBar.searchBarView.layer.borderColor = UIColor.lineDefault.cgColor
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         self.activateSearchBar(state: false)
-        self.searchBarView.searchButton.sendActions(for: .touchUpInside)
+        self.searchBar.searchButton.sendActions(for: .touchUpInside)
         return true
     }
 }
@@ -345,7 +347,7 @@ extension SelectLocationViewController: UITableViewDelegate {
         } else if tableView === self.recentTableView {
             if let searchKeyward = listener?.recentKeywordArray.value[indexPath.row] {
                 self.view.endEditing(true)
-                searchBarView.searchBar.text = searchKeyward
+                searchBar.searchBar.text = searchKeyward
                 self.listener?.performSearch(with: searchKeyward, more: false)
                 if self.searchState != .afterSearch {
                     self.searchState = .afterSearch

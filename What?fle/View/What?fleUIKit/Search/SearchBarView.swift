@@ -19,7 +19,7 @@ final class SearchBarView: UIView {
         return stackView
     }()
 
-    private let searchBarView: UIView = {
+    let searchBarView: UIView = {
         let view: UIView = .init()
         view.layer.borderColor = UIColor.lineDefault.cgColor
         view.layer.borderWidth = 1
