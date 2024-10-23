@@ -28,6 +28,12 @@ final class SearchResultViewCell: UICollectionViewCell {
 
     private let subtitleLabel: UILabel = .init()
 
+    private let bottomLineView: UIView = {
+        let view: UIView = .init()
+        view.backgroundColor = .lineExtralight
+        return view
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.setupUI()
@@ -39,7 +45,7 @@ final class SearchResultViewCell: UICollectionViewCell {
     }
 
     private func setupUI() {
-        contentView.addSubviews(self.imageView, self.labelView)
+        contentView.addSubviews(self.imageView, self.labelView, self.bottomLineView)
         self.imageView.snp.makeConstraints {
             $0.leading.equalToSuperview()
             $0.top.bottom.equalToSuperview().inset(16)
@@ -56,6 +62,10 @@ final class SearchResultViewCell: UICollectionViewCell {
         }
         self.subtitleLabel.snp.makeConstraints {
             $0.leading.trailing.bottom.equalToSuperview()
+        }
+        self.bottomLineView.snp.makeConstraints {
+            $0.leading.trailing.bottom.equalToSuperview()
+            $0.height.equalTo(1)
         }
     }
 
