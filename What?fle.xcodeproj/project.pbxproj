@@ -114,6 +114,7 @@
 		396B4B8C2C99B1250034C7DC /* TopCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 396B4B8B2C99B1250034C7DC /* TopCell.swift */; };
 		396B4B8E2C99B5140034C7DC /* SimpleImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 396B4B8D2C99B5140034C7DC /* SimpleImageCell.swift */; };
 		397D666C2C46C3FE0053CDD9 /* UIViewController+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397D666B2C46C3FE0053CDD9 /* UIViewController+Rx.swift */; };
+		398047F82CCFCD60000EAD26 /* DetailImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398047F72CCFCD60000EAD26 /* DetailImageView.swift */; };
 		398341A22C6E5A490083B5F8 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398341A12C6E5A490083B5F8 /* UserInfo.swift */; };
 		398347842BC1819B00C25F63 /* SearchMock.json in Resources */ = {isa = PBXBuildFile; fileRef = 398347832BC1819B00C25F63 /* SearchMock.json */; };
 		398347862BC1862400C25F63 /* RetriveRegistLocationMock.json in Resources */ = {isa = PBXBuildFile; fileRef = 398347852BC1862400C25F63 /* RetriveRegistLocationMock.json */; };
@@ -308,6 +309,7 @@
 		396B4B8B2C99B1250034C7DC /* TopCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopCell.swift; sourceTree = "<group>"; };
 		396B4B8D2C99B5140034C7DC /* SimpleImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleImageCell.swift; sourceTree = "<group>"; };
 		397D666B2C46C3FE0053CDD9 /* UIViewController+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Rx.swift"; sourceTree = "<group>"; };
+		398047F72CCFCD60000EAD26 /* DetailImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailImageView.swift; sourceTree = "<group>"; };
 		398341A12C6E5A490083B5F8 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		398347832BC1819B00C25F63 /* SearchMock.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SearchMock.json; sourceTree = "<group>"; };
 		398347852BC1862400C25F63 /* RetriveRegistLocationMock.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = RetriveRegistLocationMock.json; sourceTree = "<group>"; };
@@ -679,6 +681,7 @@
 				391134182C63CB8300980190 /* SelectLocationCollectionView.swift */,
 				392C1E2C2C6A3DDC00C03D82 /* TriangleView.swift */,
 				393AB6B72C91D3CF008B386A /* ImageGridType.swift */,
+				398047F72CCFCD60000EAD26 /* DetailImageView.swift */,
 			);
 			path = "What?fleUIKit";
 			sourceTree = "<group>";
@@ -1357,6 +1360,7 @@
 				399974172BCFFEDE009AF937 /* RegistCollectionBuilder.swift in Sources */,
 				39195F252CAE5659002F0166 /* SearchRecentView.swift in Sources */,
 				39195F0A2C9FE3BA002F0166 /* SelectButton.swift in Sources */,
+				398047F82CCFCD60000EAD26 /* DetailImageView.swift in Sources */,
 				39EEFD7F2BC22D2300A39833 /* SelectLocationResultCell.swift in Sources */,
 				393900012B961BBA007E58F6 /* RegistLocationInteractor.swift in Sources */,
 				45DD4C7D2C43989C00AA508D /* CollectionDataModel.swift in Sources */,

@@ -10,7 +10,7 @@ import UIKit
 final class PagerImageCell: UICollectionViewCell {
     static let reuseIdentifier = "PagerImageCell"
 
-    private let imageView: ImageView = {
+    let imageView: ImageView = {
         let imageView = ImageView()
         imageView.contentMode = .scaleToFill
         imageView.clipsToBounds = true

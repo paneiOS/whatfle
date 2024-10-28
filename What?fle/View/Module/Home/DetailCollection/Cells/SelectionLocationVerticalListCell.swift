@@ -292,4 +292,17 @@ extension SelectionLocationVerticalListCell: UICollectionViewDataSource, UIColle
             scrollView.setContentOffset(newOffset, animated: false)
         }
     }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? PagerImageCell,
+              let image = cell.imageView.image,
+              let keyWindow = UIApplication.shared.keyWindow else {
+            return
+        }
+        let detailImageView = DetailImageView(image: image)
+        keyWindow.addSubview(detailImageView)
+        detailImageView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+    }
 }
