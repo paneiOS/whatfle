@@ -89,6 +89,19 @@ final class HomeCell: UICollectionViewCell {
         self.setupUI()
         self.setupActionBinding()
     }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        self.titleLabel.attributedText = nil
+        self.subtitleLabel.attributedText = nil
+        self.favoriteButton.isSelected = false
+        self.topLeftImageView.image = .placeholder
+        self.topRightImageView.image = .placeholder
+        self.bottomLeftImageView.image = .placeholder
+        self.bottomRightImageView.image = .placeholder
+        self.userName.attributedText = nil
+    }
 }
 
 extension HomeCell {
