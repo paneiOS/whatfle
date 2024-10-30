@@ -22,6 +22,8 @@ class ScrollKeyboardVC: UIViewController, UIGestureRecognizerDelegate {
 
     private func setupKeyboard() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(keyboardWillHide))
         tapGesture.cancelsTouchesInView = false
         tapGesture.delegate = self
@@ -29,7 +31,7 @@ class ScrollKeyboardVC: UIViewController, UIGestureRecognizerDelegate {
     }
 
     @objc private func keyboardWillShow(notification: NSNotification) {
-        guard !isKeyboardVisible,
+        guard !self.isKeyboardVisible,
               let keyboardHeight = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height,
               let scrollView = self.view.findScrollView(),
               let activeField = self.view.findFirstResponder() else {
@@ -41,18 +43,15 @@ class ScrollKeyboardVC: UIViewController, UIGestureRecognizerDelegate {
             let scrollPoint = CGPoint(x: 0, y: scrollView.contentOffset.y + overlapHeight)
             scrollView.setContentOffset(scrollPoint, animated: true)
         }
-        isKeyboardVisible = true
+        self.isKeyboardVisible = true
     }
 
     @objc private func keyboardWillHide() {
-        if let scrollView = self.view.findScrollView() {
+        if self.isKeyboardVisible, let scrollView = self.view.findScrollView() {
             self.view.endEditing(true)
-            UIView.animate(withDuration: 0.3) {
-                scrollView.contentInset = .zero
-                scrollView.verticalScrollIndicatorInsets = .zero
-            }
+            scrollView.setContentOffset(.zero, animated: false)
         }
-        isKeyboardVisible = false
+        self.isKeyboardVisible = false
     }
 
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
