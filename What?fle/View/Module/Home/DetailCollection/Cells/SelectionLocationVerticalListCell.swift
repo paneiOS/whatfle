@@ -36,6 +36,7 @@ final class SelectionLocationVerticalListCell: UICollectionViewCell {
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.register(EmptyCell.self, forCellWithReuseIdentifier: EmptyCell.reuseIdentifier)
         collectionView.register(PagerImageCell.self, forCellWithReuseIdentifier: PagerImageCell.reuseIdentifier)
         collectionView.contentInset = .zero
         collectionView.scrollIndicatorInsets = .zero
@@ -270,7 +271,7 @@ extension SelectionLocationVerticalListCell: UICollectionViewDataSource, UIColle
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PagerImageCell.reuseIdentifier, for: indexPath) as? PagerImageCell else {
-            return UICollectionViewCell()
+            return collectionView.dequeueReusableCell(withReuseIdentifier: EmptyCell.reuseIdentifier, for: indexPath)
         }
         let imageURLStr = self.imageURLs[indexPath.item]
         cell.drawCell(with: imageURLStr)

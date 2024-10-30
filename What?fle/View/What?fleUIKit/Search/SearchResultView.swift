@@ -29,6 +29,7 @@ final class SearchResultView: UIView {
     private lazy var tagCollectionView: TagCollectionView = {
         let view: TagCollectionView = .init()
         view.setScrollDirection(.horizontal)
+        view.register(EmptyCell.self, forCellWithReuseIdentifier: EmptyCell.reuseIdentifier)
         view.register(BasicTagCell.self, forCellWithReuseIdentifier: BasicTagCell.reuseIdentifier)
         view.delegate = self
         view.dataSource = self
@@ -178,7 +179,9 @@ extension SearchResultView: UICollectionViewDelegateFlowLayout, UICollectionView
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView === self.tagCollectionView {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BasicTagCell.reuseIdentifier, for: indexPath) as? BasicTagCell,
-                  let tag = self.resultData?.resultOfTags[safe: indexPath.item] else { return UICollectionViewCell() }
+                  let tag = self.resultData?.resultOfTags[safe: indexPath.item] else {
+                return collectionView.dequeueReusableCell(withReuseIdentifier: EmptyCell.reuseIdentifier, for: indexPath)
+            }
             cell.view.backgroundColor = .Core.background
             cell.drawLabel(tag: .makeAttributedString(
                 text: tag,
@@ -190,7 +193,7 @@ extension SearchResultView: UICollectionViewDelegateFlowLayout, UICollectionView
         } else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchResultViewCell.reuseIdentifier, for: indexPath) as? SearchResultViewCell,
                   let model = self.resultData?.resultOfCollections[safe: indexPath.item] else {
-                return UICollectionViewCell()
+                return collectionView.dequeueReusableCell(withReuseIdentifier: EmptyCell.reuseIdentifier, for: indexPath)
             }
             cell.drawCell(model: model)
             return cell

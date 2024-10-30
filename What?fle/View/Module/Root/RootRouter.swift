@@ -8,7 +8,7 @@
 import RIBs
 import UIKit
 
-protocol RootInteractable: Interactable, HomeListener, MapListener, AddListener, RegistLocationListener {
+protocol RootInteractable: Interactable, HomeListener, MyPageListener, AddListener, RegistLocationListener {
     var router: RootRouting? { get set }
     var listener: RootListener? { get set }
 }
@@ -47,12 +47,13 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable> {
         let dummyNavigation = UINavigationController()
         dummyNavigation.tabBarItem = tabBarItem(type: .add)
 
-        let mapRouter = component.mapBuilder.build(withListener: interactor)
-        let mapNavigation = UINavigationController(root: mapRouter.viewControllable)
-        mapNavigation.tabBarItem = tabBarItem(type: .map)
-        attachChild(mapRouter)
+        let myPageRouter = component.myPageBuilder.build(withListener: interactor)
+        let myPageNavigation = component.myPageNavigationController
+        myPageNavigation.setNavigationBarHidden(true, animated: false)
+        myPageNavigation.tabBarItem = tabBarItem(type: .myPage)
+        attachChild(myPageRouter)
 
-        let viewControllables = [homeNavigation, dummyNavigation, mapNavigation]
+        let viewControllables = [homeNavigation, dummyNavigation, myPageNavigation]
         viewController.setTabBarViewController(viewControllables, animated: false)
     }
 }
@@ -94,7 +95,7 @@ extension RootRouter: RootRouting {
 // MARK: - enum ItemType
 extension RootRouter {
     private enum ItemType: CaseIterable {
-        case home, add, map
+        case home, add, myPage
 
         var tatile: String {
             switch self {
@@ -102,8 +103,8 @@ extension RootRouter {
                 return "홈"
             case .add:
                 return "추가"
-            case .map:
-                return "지도"
+            case .myPage:
+                return "마이페이지"
             }
         }
 
@@ -113,8 +114,8 @@ extension RootRouter {
                 return .homeLine
             case .add:
                 return .addLine
-            case .map:
-                return .mappinLine
+            case .myPage:
+                return .mypageLine
             }
         }
 
@@ -124,8 +125,8 @@ extension RootRouter {
                 return .homeFilled
             case .add:
                 return .addFilled
-            case .map:
-                return .mappinFilled
+            case .myPage:
+                return .mypageFilled
             }
         }
     }

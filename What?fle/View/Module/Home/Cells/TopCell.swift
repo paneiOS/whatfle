@@ -66,6 +66,7 @@ final class TopCell: UICollectionViewCell {
         )
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.register(EmptyCell.self, forCellWithReuseIdentifier: EmptyCell.reuseIdentifier)
         collectionView.register(SimpleImageCell.self, forCellWithReuseIdentifier: SimpleImageCell.reuseIdentifier)
         collectionView.backgroundColor = .white
         collectionView.showsHorizontalScrollIndicator = false
@@ -153,7 +154,7 @@ extension TopCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayou
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SimpleImageCell.reuseIdentifier, for: indexPath) as? SimpleImageCell,
               let image = self.collections.flatMap({ $0.places })[safe: indexPath.item]?.imageURLs?.first else {
-            return UICollectionViewCell()
+            return collectionView.dequeueReusableCell(withReuseIdentifier: EmptyCell.reuseIdentifier, for: indexPath)
         }
         cell.drawCell(imageURL: image)
         return cell

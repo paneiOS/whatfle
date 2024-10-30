@@ -26,6 +26,7 @@ final class DetailCollectionViewController: UIViewController, DetailCollectionPr
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.register(EmptyCell.self, forCellWithReuseIdentifier: EmptyCell.reuseIdentifier)
         collectionView.register(CoverImageCell.self, forCellWithReuseIdentifier: CoverImageCell.reuseIdentifier)
         collectionView.register(DescriptionCell.self, forCellWithReuseIdentifier: DescriptionCell.reuseIdentifier)
         collectionView.register(SelectionLocationHorizontalCell.self, forCellWithReuseIdentifier: SelectionLocationHorizontalCell.reuseIdentifier)
@@ -129,36 +130,38 @@ extension DetailCollectionViewController: UICollectionViewDataSource, UICollecti
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let model else { return UICollectionViewCell() }
+        guard let model else {
+            return collectionView.dequeueReusableCell(withReuseIdentifier: EmptyCell.reuseIdentifier, for: indexPath)
+        }
         switch indexPath.section {
         case 0:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CoverImageCell.reuseIdentifier, for: indexPath) as? CoverImageCell else {
-                return UICollectionViewCell()
+                return collectionView.dequeueReusableCell(withReuseIdentifier: EmptyCell.reuseIdentifier, for: indexPath)
             }
             cell.drawCell(urlStr: model.imageURLs?.first)
             return cell
         case 1:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DescriptionCell.reuseIdentifier, for: indexPath) as? DescriptionCell else {
-                return UICollectionViewCell()
+                return collectionView.dequeueReusableCell(withReuseIdentifier: EmptyCell.reuseIdentifier, for: indexPath)
             }
             cell.delegate = self
             cell.drawCell(model: model)
             return cell
         case 2:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectionLocationHorizontalCell.reuseIdentifier, for: indexPath) as? SelectionLocationHorizontalCell else {
-                return UICollectionViewCell()
+                return collectionView.dequeueReusableCell(withReuseIdentifier: EmptyCell.reuseIdentifier, for: indexPath)
             }
             cell.drawCell(places: model.places)
             return cell
         case 3:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SelectionLocationVerticalCell.reuseIdentifier, for: indexPath) as? SelectionLocationVerticalCell else {
-                return UICollectionViewCell()
+                return collectionView.dequeueReusableCell(withReuseIdentifier: EmptyCell.reuseIdentifier, for: indexPath)
             }
             cell.delegate = self
             cell.drawCell(places: model.places)
             return cell
         default:
-            return UICollectionViewCell()
+            return collectionView.dequeueReusableCell(withReuseIdentifier: EmptyCell.reuseIdentifier, for: indexPath)
         }
     }
 

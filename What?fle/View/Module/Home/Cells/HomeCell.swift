@@ -36,6 +36,7 @@ final class HomeCell: UICollectionViewCell {
         )
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.register(EmptyCell.self, forCellWithReuseIdentifier: EmptyCell.reuseIdentifier)
         collectionView.register(BasicTagCell.self, forCellWithReuseIdentifier: BasicTagCell.reuseIdentifier)
         collectionView.backgroundColor = .white
         return collectionView
@@ -248,7 +249,9 @@ extension HomeCell: UICollectionViewDelegateFlowLayout, UICollectionViewDataSour
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BasicTagCell.reuseIdentifier, for: indexPath) as? BasicTagCell,
-              let tag = self.tags[safe: indexPath.row] else { return UICollectionViewCell() }
+              let tag = self.tags[safe: indexPath.row] else {
+            return collectionView.dequeueReusableCell(withReuseIdentifier: EmptyCell.reuseIdentifier, for: indexPath)
+        }
         cell.view.backgroundColor = .Core.p100
         cell.drawLabel(tag: .makeAttributedString(
             text: tag,

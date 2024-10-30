@@ -115,6 +115,11 @@
 		396B4B8E2C99B5140034C7DC /* SimpleImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 396B4B8D2C99B5140034C7DC /* SimpleImageCell.swift */; };
 		397D666C2C46C3FE0053CDD9 /* UIViewController+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397D666B2C46C3FE0053CDD9 /* UIViewController+Rx.swift */; };
 		398047F82CCFCD60000EAD26 /* DetailImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398047F72CCFCD60000EAD26 /* DetailImageView.swift */; };
+		398047FE2CD2700F000EAD26 /* MyPageBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398047FA2CD2700F000EAD26 /* MyPageBuilder.swift */; };
+		398047FF2CD2700F000EAD26 /* MyPageInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398047FB2CD2700F000EAD26 /* MyPageInteractor.swift */; };
+		398048002CD2700F000EAD26 /* MyPageRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398047FC2CD2700F000EAD26 /* MyPageRouter.swift */; };
+		398048012CD2700F000EAD26 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398047FD2CD2700F000EAD26 /* MyPageViewController.swift */; };
+		398048032CD2773A000EAD26 /* EmptyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398048022CD2773A000EAD26 /* EmptyCell.swift */; };
 		398341A22C6E5A490083B5F8 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398341A12C6E5A490083B5F8 /* UserInfo.swift */; };
 		398347842BC1819B00C25F63 /* SearchMock.json in Resources */ = {isa = PBXBuildFile; fileRef = 398347832BC1819B00C25F63 /* SearchMock.json */; };
 		398347862BC1862400C25F63 /* RetriveRegistLocationMock.json in Resources */ = {isa = PBXBuildFile; fileRef = 398347852BC1862400C25F63 /* RetriveRegistLocationMock.json */; };
@@ -164,10 +169,6 @@
 		39EBCDF72B8A26B200599D58 /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39EBCDF32B8A26B200599D58 /* AddViewController.swift */; };
 		39EBCDF82B8A26B200599D58 /* AddBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39EBCDF42B8A26B200599D58 /* AddBuilder.swift */; };
 		39EBCDF92B8A26B200599D58 /* AddInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39EBCDF52B8A26B200599D58 /* AddInteractor.swift */; };
-		39EBCDFE2B8A26BF00599D58 /* MapRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39EBCDFA2B8A26BF00599D58 /* MapRouter.swift */; };
-		39EBCDFF2B8A26BF00599D58 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39EBCDFB2B8A26BF00599D58 /* MapViewController.swift */; };
-		39EBCE002B8A26BF00599D58 /* MapBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39EBCDFC2B8A26BF00599D58 /* MapBuilder.swift */; };
-		39EBCE012B8A26BF00599D58 /* MapInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39EBCDFD2B8A26BF00599D58 /* MapInteractor.swift */; };
 		39EBCE0C2B8A484000599D58 /* SelecteLocationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39EBCE082B8A484000599D58 /* SelecteLocationRouter.swift */; };
 		39EBCE0D2B8A484000599D58 /* SelecteLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39EBCE092B8A484000599D58 /* SelecteLocationViewController.swift */; };
 		39EBCE0E2B8A484000599D58 /* SelecteLocationBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39EBCE0A2B8A484000599D58 /* SelecteLocationBuilder.swift */; };
@@ -310,6 +311,11 @@
 		396B4B8D2C99B5140034C7DC /* SimpleImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleImageCell.swift; sourceTree = "<group>"; };
 		397D666B2C46C3FE0053CDD9 /* UIViewController+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Rx.swift"; sourceTree = "<group>"; };
 		398047F72CCFCD60000EAD26 /* DetailImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailImageView.swift; sourceTree = "<group>"; };
+		398047FA2CD2700F000EAD26 /* MyPageBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageBuilder.swift; sourceTree = "<group>"; };
+		398047FB2CD2700F000EAD26 /* MyPageInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageInteractor.swift; sourceTree = "<group>"; };
+		398047FC2CD2700F000EAD26 /* MyPageRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageRouter.swift; sourceTree = "<group>"; };
+		398047FD2CD2700F000EAD26 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
+		398048022CD2773A000EAD26 /* EmptyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyCell.swift; sourceTree = "<group>"; };
 		398341A12C6E5A490083B5F8 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		398347832BC1819B00C25F63 /* SearchMock.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SearchMock.json; sourceTree = "<group>"; };
 		398347852BC1862400C25F63 /* RetriveRegistLocationMock.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = RetriveRegistLocationMock.json; sourceTree = "<group>"; };
@@ -357,10 +363,6 @@
 		39EBCDF32B8A26B200599D58 /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
 		39EBCDF42B8A26B200599D58 /* AddBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBuilder.swift; sourceTree = "<group>"; };
 		39EBCDF52B8A26B200599D58 /* AddInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddInteractor.swift; sourceTree = "<group>"; };
-		39EBCDFA2B8A26BF00599D58 /* MapRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapRouter.swift; sourceTree = "<group>"; };
-		39EBCDFB2B8A26BF00599D58 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
-		39EBCDFC2B8A26BF00599D58 /* MapBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapBuilder.swift; sourceTree = "<group>"; };
-		39EBCDFD2B8A26BF00599D58 /* MapInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapInteractor.swift; sourceTree = "<group>"; };
 		39EBCE082B8A484000599D58 /* SelecteLocationRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelecteLocationRouter.swift; sourceTree = "<group>"; };
 		39EBCE092B8A484000599D58 /* SelecteLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelecteLocationViewController.swift; sourceTree = "<group>"; };
 		39EBCE0A2B8A484000599D58 /* SelecteLocationBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelecteLocationBuilder.swift; sourceTree = "<group>"; };
@@ -640,7 +642,7 @@
 				39333D0E2B88AD81005F295A /* Root */,
 				39333D692B899395005F295A /* Home */,
 				39EBCDF12B8A268B00599D58 /* Add */,
-				39EBCDF02B8A268500599D58 /* Map */,
+				398047F92CD26FFB000EAD26 /* MyPage */,
 				392DAE9C2C4696DB000F2B94 /* CustomAlbum */,
 				3939FFDF2B943612007E58F6 /* HelperModuld */,
 			);
@@ -682,6 +684,7 @@
 				392C1E2C2C6A3DDC00C03D82 /* TriangleView.swift */,
 				393AB6B72C91D3CF008B386A /* ImageGridType.swift */,
 				398047F72CCFCD60000EAD26 /* DetailImageView.swift */,
+				398048022CD2773A000EAD26 /* EmptyCell.swift */,
 			);
 			path = "What?fleUIKit";
 			sourceTree = "<group>";
@@ -776,6 +779,17 @@
 				3961ADDB2BB05CF900977C4B /* LoadingIndicator.swift */,
 			);
 			path = LoadingIndicator;
+			sourceTree = "<group>";
+		};
+		398047F92CD26FFB000EAD26 /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				398047FA2CD2700F000EAD26 /* MyPageBuilder.swift */,
+				398047FB2CD2700F000EAD26 /* MyPageInteractor.swift */,
+				398047FC2CD2700F000EAD26 /* MyPageRouter.swift */,
+				398047FD2CD2700F000EAD26 /* MyPageViewController.swift */,
+			);
+			path = MyPage;
 			sourceTree = "<group>";
 		};
 		3983419D2C6E556A0083B5F8 /* Frameworks */ = {
@@ -976,17 +990,6 @@
 				39E9F0D42C4037500085961C /* TextFieldWithErrorUnderline.swift */,
 			);
 			path = TextFieldWithErrorUnderline;
-			sourceTree = "<group>";
-		};
-		39EBCDF02B8A268500599D58 /* Map */ = {
-			isa = PBXGroup;
-			children = (
-				39EBCDFA2B8A26BF00599D58 /* MapRouter.swift */,
-				39EBCDFB2B8A26BF00599D58 /* MapViewController.swift */,
-				39EBCDFC2B8A26BF00599D58 /* MapBuilder.swift */,
-				39EBCDFD2B8A26BF00599D58 /* MapInteractor.swift */,
-			);
-			path = Map;
 			sourceTree = "<group>";
 		};
 		39EBCDF12B8A268B00599D58 /* Add */ = {
@@ -1224,6 +1227,7 @@
 				39195FFF2BAC51EA00CC7A2E /* RecentSearchCell.swift in Sources */,
 				4540B43B2C3983CF0010E5DF /* TagCollectionView.swift in Sources */,
 				3939FFF52B9451E3007E58F6 /* UIApplication+.swift in Sources */,
+				398048032CD2773A000EAD26 /* EmptyCell.swift in Sources */,
 				39EBCDF92B8A26B200599D58 /* AddInteractor.swift in Sources */,
 				391134042C5BCA0200980190 /* DetailCollectionRouter.swift in Sources */,
 				391134052C5BCA0200980190 /* DetailCollectionViewController.swift in Sources */,
@@ -1264,7 +1268,6 @@
 				397D666C2C46C3FE0053CDD9 /* UIViewController+Rx.swift in Sources */,
 				39A9F4E72C796904007A626B /* UIStackView+.swift in Sources */,
 				39878CFB2C7AEA68004898AD /* UserProfile.swift in Sources */,
-				39EBCE002B8A26BF00599D58 /* MapBuilder.swift in Sources */,
 				39CF56AB2BC0F0A300E718C8 /* AddCollectionInteractor.swift in Sources */,
 				395E22F22C3C242E001BB755 /* AddTagInteractor.swift in Sources */,
 				395E22F02C3C242E001BB755 /* AddTagViewController.swift in Sources */,
@@ -1296,7 +1299,6 @@
 				39878D0F2C7B2EC7004898AD /* LocationAPI.swift in Sources */,
 				392C1E2D2C6A3DDC00C03D82 /* TriangleView.swift in Sources */,
 				39195F2A2CAE8C19002F0166 /* TotalSearchUseCase.swift in Sources */,
-				39EBCDFF2B8A26BF00599D58 /* MapViewController.swift in Sources */,
 				392C1E262C650B3E00C03D82 /* DescriptionCell.swift in Sources */,
 				391960022BAC542B00CC7A2E /* UserDefaultsManager.swift in Sources */,
 				3919BA652B988C0000E2A3CC /* UIView+.swift in Sources */,
@@ -1309,13 +1311,11 @@
 				45AF9E042C6F940B00160AC7 /* KeychainManager.swift in Sources */,
 				39EBCE0E2B8A484000599D58 /* SelecteLocationBuilder.swift in Sources */,
 				392DAEAC2C46A921000F2B94 /* CustomAlbumCameraCell.swift in Sources */,
-				39EBCDFE2B8A26BF00599D58 /* MapRouter.swift in Sources */,
 				3939FFD62B8F6EF3007E58F6 /* AppConfigs.swift in Sources */,
 				39878D002C7AF08C004898AD /* LoginAPI.swift in Sources */,
 				39195F042C9FA39F002F0166 /* ImageView.swift in Sources */,
 				39333D6F2B8993B1005F295A /* HomeViewController.swift in Sources */,
 				39CF56A92BC0F0A300E718C8 /* AddCollectionViewController.swift in Sources */,
-				39EBCE012B8A26BF00599D58 /* MapInteractor.swift in Sources */,
 				39878D152C7B3240004898AD /* LocationUseCase.swift in Sources */,
 				39195F0E2CABE1C8002F0166 /* SearchButtonCell.swift in Sources */,
 				392C1E212C64F55F00C03D82 /* UIImage+Design.swift in Sources */,
@@ -1326,6 +1326,10 @@
 				3939FFFE2B961BBA007E58F6 /* RegistLocationRouter.swift in Sources */,
 				392C1E282C650B7200C03D82 /* SelectionLocationVerticalCell.swift in Sources */,
 				39A81E732BF3BC460009C43F /* CustomError.swift in Sources */,
+				398047FE2CD2700F000EAD26 /* MyPageBuilder.swift in Sources */,
+				398047FF2CD2700F000EAD26 /* MyPageInteractor.swift in Sources */,
+				398048002CD2700F000EAD26 /* MyPageRouter.swift in Sources */,
+				398048012CD2700F000EAD26 /* MyPageViewController.swift in Sources */,
 				39333D732B89A3AA005F295A /* AppComponent.swift in Sources */,
 				39333D142B88AE19005F295A /* RootViewController.swift in Sources */,
 				39F7EF882C8F207500BC4D44 /* RequiresLogin.swift in Sources */,

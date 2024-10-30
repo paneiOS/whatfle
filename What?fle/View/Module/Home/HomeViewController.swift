@@ -33,6 +33,7 @@ final class HomeViewController: UIViewController, HomePresentable, HomeViewContr
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.register(EmptyCell.self, forCellWithReuseIdentifier: EmptyCell.reuseIdentifier)
         collectionView.register(SearchButtonCell.self, forCellWithReuseIdentifier: SearchButtonCell.reuseIdentifier)
         collectionView.register(TopCell.self, forCellWithReuseIdentifier: TopCell.reuseIdentifier)
         collectionView.register(HomeCell.self, forCellWithReuseIdentifier: HomeCell.reuseIdentifier)
@@ -91,17 +92,17 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let homeData = listener?.homeData.value else {
-            return UICollectionViewCell()
+            return collectionView.dequeueReusableCell(withReuseIdentifier: EmptyCell.reuseIdentifier, for: indexPath)
         }
         switch indexPath.section {
         case 0:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchButtonCell.reuseIdentifier, for: indexPath) as? SearchButtonCell else {
-                return UICollectionViewCell()
+                return collectionView.dequeueReusableCell(withReuseIdentifier: EmptyCell.reuseIdentifier, for: indexPath)
             }
             return cell
         case 1:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopCell.reuseIdentifier, for: indexPath) as? TopCell else {
-                return UICollectionViewCell()
+                return collectionView.dequeueReusableCell(withReuseIdentifier: EmptyCell.reuseIdentifier, for: indexPath)
             }
             cell.drawCell(model: homeData.topSection)
             cell.delegate = self
@@ -109,13 +110,13 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         case 2:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCell.reuseIdentifier, for: indexPath) as? HomeCell,
                   let content = homeData.contents[safe: indexPath.item] else {
-                return UICollectionViewCell()
+                return collectionView.dequeueReusableCell(withReuseIdentifier: EmptyCell.reuseIdentifier, for: indexPath)
             }
             cell.delegate = self
             cell.drawCell(model: content)
             return cell
         default:
-            return UICollectionViewCell()
+            return collectionView.dequeueReusableCell(withReuseIdentifier: EmptyCell.reuseIdentifier, for: indexPath)
         }
     }
 

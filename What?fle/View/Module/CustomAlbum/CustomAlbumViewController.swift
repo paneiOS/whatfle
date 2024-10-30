@@ -48,6 +48,7 @@ final class CustomAlbumViewController: UIViewController, CustomAlbumPresentable,
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.allowsMultipleSelection = true
+        collectionView.register(EmptyCell.self, forCellWithReuseIdentifier: EmptyCell.reuseIdentifier)
         collectionView.register(CustomAlbumCameraCell.self, forCellWithReuseIdentifier: CustomAlbumCameraCell.reuseIdentifier)
         collectionView.register(CustomAlbumImageCell.self, forCellWithReuseIdentifier: CustomAlbumImageCell.reuseIdentifier)
         return collectionView
@@ -157,7 +158,7 @@ extension CustomAlbumViewController: UICollectionViewDataSource, UICollectionVie
             cell.drawCell(with: thumbnail, isSingleSelect: self.isSingleSelect)
             return cell
         } else {
-            return UICollectionViewCell()
+            return collectionView.dequeueReusableCell(withReuseIdentifier: EmptyCell.reuseIdentifier, for: indexPath)
         }
     }
 

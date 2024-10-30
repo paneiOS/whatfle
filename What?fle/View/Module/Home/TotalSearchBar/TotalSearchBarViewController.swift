@@ -54,6 +54,7 @@ final class TotalSearchBarViewController: UIViewController, TotalSearchBarPresen
 
     private lazy var tagCollectionView: TagCollectionView = {
         let view: TagCollectionView = .init()
+        view.register(EmptyCell.self, forCellWithReuseIdentifier: EmptyCell.reuseIdentifier)
         view.register(BasicTagCell.self, forCellWithReuseIdentifier: BasicTagCell.reuseIdentifier)
         view.delegate = self
         view.dataSource = self
@@ -247,7 +248,7 @@ extension TotalSearchBarViewController: UICollectionViewDelegateFlowLayout, UICo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BasicTagCell.reuseIdentifier, for: indexPath) as? BasicTagCell,
               let tag = self.listener?.recommendHashTags.value[safe: indexPath.item] else {
-            return UICollectionViewCell()
+            return collectionView.dequeueReusableCell(withReuseIdentifier: EmptyCell.reuseIdentifier, for: indexPath)
         }
         cell.view.backgroundColor = .Core.background
         cell.drawLabel(tag: .makeAttributedString(
