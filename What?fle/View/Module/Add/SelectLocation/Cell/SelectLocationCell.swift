@@ -5,8 +5,9 @@
 //  Created by 이정환 on 3/21/24.
 //
 
-import SnapKit
 import UIKit
+
+import SnapKit
 
 final class SelectLocationCell: UITableViewCell {
     static let reuseIdentifier = "SelectLocationCell"
@@ -21,6 +22,7 @@ final class SelectLocationCell: UITableViewCell {
     }()
 
     private let titleView: UIView = .init()
+
     let titleLabel: UILabel = {
         let label: UILabel = .init()
         label.numberOfLines = 2

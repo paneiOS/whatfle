@@ -43,7 +43,7 @@ final class RootComponent: Component<RootDependency> {
     let myPageNavigationController: UINavigationController = .init()
 }
 
-extension RootComponent: HomeDependency, AddDependency, MyPageDependency, RegistLocationDependency {
+extension RootComponent: HomeDependency, AddDependency, MyPageDependency, RegistLocationDependency, LoginDependency {
     var homeBuilder: HomeBuildable {
         return HomeBuilder(dependency: self)
     }
@@ -58,6 +58,10 @@ extension RootComponent: HomeDependency, AddDependency, MyPageDependency, Regist
 
     var registLocationBuilder: RegistLocationBuildable {
         return RegistLocationBuilder(dependency: self)
+    }
+
+    var loginBuilder: LoginBuildable {
+        return LoginBuilder(dependency: self)
     }
 }
 

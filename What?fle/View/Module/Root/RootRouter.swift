@@ -8,20 +8,25 @@
 import RIBs
 import UIKit
 
-protocol RootInteractable: Interactable, HomeListener, MyPageListener, AddListener, RegistLocationListener {
+protocol RootInteractable: Interactable, HomeListener, MyPageListener, AddListener, RegistLocationListener, LoginListener {
     var router: RootRouting? { get set }
     var listener: RootListener? { get set }
 }
 
 protocol RootViewControllable: ViewControllable {
     func setTabBarViewController(_ viewControllers: [UINavigationController], animated: Bool)
+    func selectMyPageTab()
 }
 
 final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable> {
     private let component: RootComponent
 
     weak var addRouter: AddRouting?
+    weak var myPageRouter: MyPageRouting?
+    weak var loginRouter: LoginRouting?
     weak var registLocationRouter: RegistLocationRouting?
+
+    private var postLoginAction: (() -> Void)?
 
     init(
         interactor: RootInteractable,
@@ -47,7 +52,7 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable> {
         let dummyNavigation = UINavigationController()
         dummyNavigation.tabBarItem = tabBarItem(type: .add)
 
-        let myPageRouter = component.myPageBuilder.build(withListener: interactor)
+        let myPageRouter = component.myPageBuilder.build(withListener: self.interactor)
         let myPageNavigation = component.myPageNavigationController
         myPageNavigation.setNavigationBarHidden(true, animated: false)
         myPageNavigation.tabBarItem = tabBarItem(type: .myPage)
@@ -88,6 +93,58 @@ extension RootRouter: RootRouting {
             self.viewController.uiviewController.dismiss(animated: true)
             self.detachChild(router)
             self.registLocationRouter = nil
+        }
+    }
+
+    private func setPostLoginAction(_ action: @escaping () -> Void) {
+        postLoginAction = action
+    }
+
+    private func executePostLoginAction() {
+        postLoginAction?()
+        postLoginAction = nil
+    }
+
+    func proceedToNextScreenAfterLogin() {
+        self.dismissLoginRIB { [weak self] in
+            guard let self else { return }
+            self.executePostLoginAction()
+        }
+    }
+
+    func routeToMyPage() {
+        if component.networkService.isLogin {
+            self.viewController.selectMyPageTab()
+        } else {
+            self.setPostLoginAction { [weak self] in
+                guard let self else { return }
+                self.routeToMyPage()
+            }
+            self.showLoginRIB()
+        }
+    }
+
+    func showLoginRIB() {
+        if self.loginRouter == nil {
+            let router = self.component.loginBuilder.build(withListener: self.interactor)
+            if let navigationController = router.navigationController {
+                navigationController.modalPresentationStyle = .fullScreen
+                self.viewController.present(navigationController, animated: true)
+                self.attachChild(router)
+                self.loginRouter = router
+            }
+        }
+    }
+
+    func dismissLoginRIB(completion: (() -> Void)?) {
+        if let router = self.loginRouter {
+            self.viewController.uiviewController.dismiss(animated: true) { [weak self] in
+                guard let self = self else { return }
+                completion?()
+                self.detachChild(router)
+                self.loginRouter = nil
+                self.postLoginAction = nil
+            }
         }
     }
 }

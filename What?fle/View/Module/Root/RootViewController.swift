@@ -11,6 +11,7 @@ import UIKit
 
 protocol RootPresentableListener: AnyObject {
     func didSelectAddTab()
+    func didSelectMyPageTab()
 }
 
 final class RootViewController: UITabBarController, RootPresentable {
@@ -43,8 +44,8 @@ extension RootViewController: RootViewControllable {
         self.setViewControllers(viewControllers, animated: animated)
     }
 
-    func getAddNavigationController() -> UINavigationController? {
-        return self.viewControllers?[self.selectedIndex] as? UINavigationController
+    func selectMyPageTab() {
+        selectedIndex = 2
     }
 }
 
@@ -53,10 +54,16 @@ extension RootViewController: UITabBarControllerDelegate {
         _ tabBarController: UITabBarController,
         shouldSelect viewController: UIViewController
     ) -> Bool {
-        if let index = self.viewControllers?.firstIndex(of: viewController), index == 1 {
+        let index = self.viewControllers?.firstIndex(of: viewController)
+        switch index {
+        case 1:
             listener?.didSelectAddTab()
             return false
+        case 2:
+            listener?.didSelectMyPageTab()
+            return SessionManager.shared.isLogin
+        default:
+            return true
         }
-        return true
     }
 }

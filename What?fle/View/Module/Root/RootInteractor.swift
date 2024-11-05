@@ -12,6 +12,9 @@ protocol RootRouting: ViewableRouting {
     func routeToAddTab()
     func dismissRegistLocation()
     func dismissAddTab()
+    func dismissLoginRIB(completion: (() -> Void)?)
+    func proceedToNextScreenAfterLogin()
+    func routeToMyPage()
 }
 
 protocol RootPresentable: Presentable {
@@ -21,6 +24,7 @@ protocol RootPresentable: Presentable {
 protocol RootListener: AnyObject {}
 
 final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteractable, RootPresentableListener, AddListener {
+
     weak var router: RootRouting?
     weak var listener: RootListener?
 
@@ -43,5 +47,17 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
 
     func completeRegistLocation() {
         self.router?.dismissRegistLocation()
+    }
+
+    func proceedToNextScreenAfterLogin() {
+        self.router?.proceedToNextScreenAfterLogin()
+    }
+
+    func dismissLoginRIB() {
+        self.router?.dismissLoginRIB(completion: nil)
+    }
+
+    func didSelectMyPageTab() {
+        self.router?.routeToMyPage()
     }
 }

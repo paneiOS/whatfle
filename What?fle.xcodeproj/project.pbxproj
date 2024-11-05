@@ -105,6 +105,7 @@
 		3939FFFF2B961BBA007E58F6 /* RegistLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3939FFFB2B961BBA007E58F6 /* RegistLocationViewController.swift */; };
 		393AB6B82C91D3CF008B386A /* ImageGridType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393AB6B72C91D3CF008B386A /* ImageGridType.swift */; };
 		39411B352BBC3AC200A54EA7 /* LocationImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39411B342BBC3AC200A54EA7 /* LocationImageCell.swift */; };
+		394D25A22CDA746F0010EB50 /* MyFavoriteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 394D25A12CDA746F0010EB50 /* MyFavoriteCell.swift */; };
 		395E22EF2C3C242E001BB755 /* AddTagRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395E22EB2C3C242E001BB755 /* AddTagRouter.swift */; };
 		395E22F02C3C242E001BB755 /* AddTagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395E22EC2C3C242E001BB755 /* AddTagViewController.swift */; };
 		395E22F12C3C242E001BB755 /* AddTagBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395E22ED2C3C242E001BB755 /* AddTagBuilder.swift */; };
@@ -120,6 +121,7 @@
 		398048002CD2700F000EAD26 /* MyPageRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398047FC2CD2700F000EAD26 /* MyPageRouter.swift */; };
 		398048012CD2700F000EAD26 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398047FD2CD2700F000EAD26 /* MyPageViewController.swift */; };
 		398048032CD2773A000EAD26 /* EmptyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398048022CD2773A000EAD26 /* EmptyCell.swift */; };
+		398048062CD27B52000EAD26 /* ProfileViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398048052CD27B52000EAD26 /* ProfileViewCell.swift */; };
 		398341A22C6E5A490083B5F8 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398341A12C6E5A490083B5F8 /* UserInfo.swift */; };
 		398347842BC1819B00C25F63 /* SearchMock.json in Resources */ = {isa = PBXBuildFile; fileRef = 398347832BC1819B00C25F63 /* SearchMock.json */; };
 		398347862BC1862400C25F63 /* RetriveRegistLocationMock.json in Resources */ = {isa = PBXBuildFile; fileRef = 398347852BC1862400C25F63 /* RetriveRegistLocationMock.json */; };
@@ -301,6 +303,7 @@
 		3939FFFD2B961BBA007E58F6 /* RegistLocationInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistLocationInteractor.swift; sourceTree = "<group>"; };
 		393AB6B72C91D3CF008B386A /* ImageGridType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGridType.swift; sourceTree = "<group>"; };
 		39411B342BBC3AC200A54EA7 /* LocationImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationImageCell.swift; sourceTree = "<group>"; };
+		394D25A12CDA746F0010EB50 /* MyFavoriteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFavoriteCell.swift; sourceTree = "<group>"; };
 		395E22EB2C3C242E001BB755 /* AddTagRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTagRouter.swift; sourceTree = "<group>"; };
 		395E22EC2C3C242E001BB755 /* AddTagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTagViewController.swift; sourceTree = "<group>"; };
 		395E22ED2C3C242E001BB755 /* AddTagBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTagBuilder.swift; sourceTree = "<group>"; };
@@ -316,6 +319,7 @@
 		398047FC2CD2700F000EAD26 /* MyPageRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageRouter.swift; sourceTree = "<group>"; };
 		398047FD2CD2700F000EAD26 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		398048022CD2773A000EAD26 /* EmptyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyCell.swift; sourceTree = "<group>"; };
+		398048052CD27B52000EAD26 /* ProfileViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewCell.swift; sourceTree = "<group>"; };
 		398341A12C6E5A490083B5F8 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		398347832BC1819B00C25F63 /* SearchMock.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SearchMock.json; sourceTree = "<group>"; };
 		398347852BC1862400C25F63 /* RetriveRegistLocationMock.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = RetriveRegistLocationMock.json; sourceTree = "<group>"; };
@@ -784,12 +788,22 @@
 		398047F92CD26FFB000EAD26 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
+				398048042CD27B48000EAD26 /* Cells */,
 				398047FA2CD2700F000EAD26 /* MyPageBuilder.swift */,
 				398047FB2CD2700F000EAD26 /* MyPageInteractor.swift */,
 				398047FC2CD2700F000EAD26 /* MyPageRouter.swift */,
 				398047FD2CD2700F000EAD26 /* MyPageViewController.swift */,
 			);
 			path = MyPage;
+			sourceTree = "<group>";
+		};
+		398048042CD27B48000EAD26 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				398048052CD27B52000EAD26 /* ProfileViewCell.swift */,
+				394D25A12CDA746F0010EB50 /* MyFavoriteCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		3983419D2C6E556A0083B5F8 /* Frameworks */ = {
@@ -1265,6 +1279,7 @@
 				392DAEAE2C46AC2F000F2B94 /* CustomAlbumImageCell.swift in Sources */,
 				39195F232CAE3E8A002F0166 /* SearchTableView.swift in Sources */,
 				39CF56AA2BC0F0A300E718C8 /* AddCollectionBuilder.swift in Sources */,
+				394D25A22CDA746F0010EB50 /* MyFavoriteCell.swift in Sources */,
 				397D666C2C46C3FE0053CDD9 /* UIViewController+Rx.swift in Sources */,
 				39A9F4E72C796904007A626B /* UIStackView+.swift in Sources */,
 				39878CFB2C7AEA68004898AD /* UserProfile.swift in Sources */,
@@ -1350,6 +1365,7 @@
 				39333D702B8993B1005F295A /* HomeBuilder.swift in Sources */,
 				457A8A652C8D6BDF000444AC /* PrimitiveSequence.swift in Sources */,
 				39195F302CAE8D25002F0166 /* TotalSearchAPI.swift in Sources */,
+				398048062CD27B52000EAD26 /* ProfileViewCell.swift in Sources */,
 				39411B352BBC3AC200A54EA7 /* LocationImageCell.swift in Sources */,
 				39333D0D2B87663D005F295A /* UIColor+.swift in Sources */,
 				399974152BCFFEDE009AF937 /* RegistCollectionRouter.swift in Sources */,

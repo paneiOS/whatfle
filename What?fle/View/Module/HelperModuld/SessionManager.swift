@@ -52,7 +52,7 @@ final class SessionManager {
     func saveUserInfo(_ userInfo: UserInfo) {
         try? keychainManager.saveUserInfo(model: userInfo)
     }
-    
+
     func loadUserInfo() -> UserInfo? {
         try? keychainManager.loadUserInfo()
     }

@@ -8,6 +8,14 @@
 import UIKit
 
 extension UIImage {
+    func resized(to size: CGSize) -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(size, false, self.scale)
+        defer { UIGraphicsEndImageContext() }
+        
+        self.draw(in: CGRect(origin: .zero, size: size))
+        return UIGraphicsGetImageFromCurrentImageContext()
+    }
+    
     func resizedImageWithinKilobytes(kilobytes: Double = 10.0) -> Data? {
         guard let imageData = self.jpegData(compressionQuality: 1.0) else { return nil }
 
