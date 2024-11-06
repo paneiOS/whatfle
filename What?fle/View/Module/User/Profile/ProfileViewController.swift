@@ -535,7 +535,7 @@ extension ProfileViewController {
             self.showBottomView()
         }
     }
-    
+
     private func showBottomView() {
         UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseOut], animations: {
             self.bottomView.snp.updateConstraints {

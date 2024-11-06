@@ -48,7 +48,7 @@ extension AddInteractor: AddInteractable {
     func proceedToNextScreenAfterLogin() {
         self.router?.proceedToNextScreenAfterLogin()
     }
-    
+
     func popToAddCollection() {
         self.router?.popToAddCollection()
     }

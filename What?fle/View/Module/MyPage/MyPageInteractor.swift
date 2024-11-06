@@ -6,40 +6,45 @@
 //
 
 import RIBs
+import RxCocoa
 import RxSwift
 
-protocol MyPageRouting: ViewableRouting {
-    // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
-}
+protocol MyPageRouting: ViewableRouting {}
 
 protocol MyPagePresentable: Presentable {
     var listener: MyPagePresentableListener? { get set }
-    // TODO: Declare methods the interactor can invoke the presenter to present data.
 }
 
-protocol MyPageListener: AnyObject {
-    // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
-}
+protocol MyPageListener: AnyObject {}
 
 final class MyPageInteractor: PresentableInteractor<MyPagePresentable>, MyPageInteractable, MyPagePresentableListener {
 
     weak var router: MyPageRouting?
     weak var listener: MyPageListener?
+    private let collectionUseCase: CollectionUseCaseProtocol
+    private let disposeBag = DisposeBag()
 
-    // TODO: Add additional dependencies to constructor. Do not perform any logic
-    // in constructor.
-    override init(presenter: MyPagePresentable) {
+    var myPageDataModel: PublishRelay<MyPageDataModel> = .init()
+
+    init(presenter: MyPagePresentable, collectionUseCase: CollectionUseCaseProtocol) {
+        self.collectionUseCase = collectionUseCase
         super.init(presenter: presenter)
         presenter.listener = self
     }
 
-    override func didBecomeActive() {
-        super.didBecomeActive()
-        // TODO: Implement business logic here.
-    }
+    func loadData() {
+        guard !LoadingIndicatorService.shared.isLoading() else { return }
+        LoadingIndicatorService.shared.showLoading()
 
-    override func willResignActive() {
-        super.willResignActive()
-        // TODO: Pause any business logic.
+        collectionUseCase.getMyPageData()
+            .subscribe(onSuccess: { [weak self] data in
+                guard let self else { return }
+                self.myPageDataModel.accept(data)
+            }, onFailure: { error in
+                errorPrint(error)
+            }, onDisposed: {
+                LoadingIndicatorService.shared.hideLoading()
+            })
+            .disposed(by: disposeBag)
     }
 }

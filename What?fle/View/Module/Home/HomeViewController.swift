@@ -47,7 +47,6 @@ final class HomeViewController: UIViewController, HomePresentable, HomeViewContr
 
         self.setupUI()
         self.setupViewBinding()
-        self.setupActionBinding()
         self.listener?.loadData(more: false)
     }
 
@@ -69,8 +68,6 @@ final class HomeViewController: UIViewController, HomePresentable, HomeViewContr
             })
             .disposed(by: self.disposeBag)
     }
-
-    private func setupActionBinding() {}
 }
 
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {

@@ -10,7 +10,7 @@ import UIKit
 enum ImageGridType: String {
     case twoByTwo = "type1"
 //    case oneByFour = "type2"
-    
+
     var cellHeight: CGFloat {
         switch self {
         case .twoByTwo:
@@ -19,7 +19,6 @@ enum ImageGridType: String {
 //            return 100
         default:
             return UIApplication.shared.width + 38 + 92 + 16
-            
         }
     }
 }

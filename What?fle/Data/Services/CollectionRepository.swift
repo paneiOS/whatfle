@@ -45,4 +45,8 @@ final class CollectionRepository: CollectionRepositoryProtocol {
         return self.networkService.request(CollectionAPI.updateFavorite(id: id, isFavorite: isFavorite))
             .map { _ in () }
     }
+
+    func getMyPageData() -> Single<MyPageDataModel> {
+        return self.networkService.request(MyPageAPI.getMyPageData)
+    }
 }

@@ -64,7 +64,7 @@ final class KeychainManager {
     func delete(service: Service) {
         self.delete(service: service.identifier())
     }
-    
+
     @discardableResult
     private func delete(service: String) -> Bool {
         let query: [String: Any] = [

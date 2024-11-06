@@ -82,7 +82,7 @@ final class LoginUseCase: LoginUseCaseProtocol {
             })
             .mapToVoid()
     }
-    
+
     func getUserInfo() -> Single<UserInfo> {
         return self.loginRepository.getUserInfo()
     }

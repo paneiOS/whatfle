@@ -9,17 +9,19 @@ import UIKit
 
 import RIBs
 import RxSwift
+import RxCocoa
 import SnapKit
 
-protocol MyPagePresentableListener: AnyObject {}
+protocol MyPagePresentableListener: AnyObject {
+    var myPageDataModel: PublishRelay<MyPageDataModel> { get }
+    func loadData()
+}
 
 final class MyPageViewController: UIViewController, MyPagePresentable, MyPageViewControllable, MyFavoriteCellDelegate {
 
     private enum Constants {
         static let cellWidth: CGFloat = UIApplication.shared.width - 32
     }
-
-    weak var listener: MyPagePresentableListener?
 
     private lazy var headerView: UIView = {
         let view: UIView = .init()
@@ -52,23 +54,35 @@ final class MyPageViewController: UIViewController, MyPagePresentable, MyPageVie
     }()
 
     private lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
+        let layout: UICollectionViewFlowLayout = .init()
         layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 24.0
-        layout.sectionInset = .init(top: 24, left: 16, bottom: 24, right: 16)
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        let collectionView: UICollectionView = .init(frame: .zero, collectionViewLayout: layout)
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.contentInset = .init(top: 24, left: 16, bottom: 24, right: 16)
         collectionView.register(EmptyCell.self, forCellWithReuseIdentifier: EmptyCell.reuseIdentifier)
         collectionView.register(ProfileViewCell.self, forCellWithReuseIdentifier: ProfileViewCell.reuseIdentifier)
         collectionView.register(MyFavoriteCell.self, forCellWithReuseIdentifier: MyFavoriteCell.reuseIdentifier)
+        collectionView.register(MyCollectionsCell.self, forCellWithReuseIdentifier: MyCollectionsCell.reuseIdentifier)
+        collectionView.register(MyLocationsCell.self, forCellWithReuseIdentifier: MyLocationsCell.reuseIdentifier)
         return collectionView
     }()
+
+    weak var listener: MyPagePresentableListener?
+    private let disposeBag = DisposeBag()
+    private var model: MyPageDataModel?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.setupUI()
+        self.setupViewBinding()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        self.listener?.loadData()
     }
 
     private func setupUI() {
@@ -84,29 +98,37 @@ final class MyPageViewController: UIViewController, MyPagePresentable, MyPageVie
             $0.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
     }
+
+    private func setupViewBinding() {
+        listener?.myPageDataModel
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] model in
+                guard let self else { return }
+                self.model = model
+                self.collectionView.reloadData()
+            })
+            .disposed(by: self.disposeBag)
+    }
 }
 
 extension MyPageViewController {
     func tapFavoriteLocation() {
         print("관심장소")
     }
-    
+
     func tapFavoriteCollection() {
         print("관심컬렉션")
     }
-    
+
 }
 
 extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2
+        return 4
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        switch section {
-        case 0, 1: return 1
-        default: return 0
-        }
+        return 1
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -125,6 +147,20 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
             }
             cell.delegate = self
             return cell
+        case 2:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyCollectionsCell.reuseIdentifier, for: indexPath) as? MyCollectionsCell,
+                  let collections = self.model?.collections else {
+                return emptyCell
+            }
+            cell.drawCell(model: collections)
+            return cell
+        case 3:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyLocationsCell.reuseIdentifier, for: indexPath) as? MyLocationsCell,
+                  let places = self.model?.places else {
+                return emptyCell
+            }
+            cell.drawCell(model: places)
+            return cell
         default:
             return emptyCell
         }
@@ -136,8 +172,20 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
             return .init(width: Constants.cellWidth, height: 80)
         case 1:
             return .init(width: Constants.cellWidth, height: 103)
+        case 2:
+            return .init(width: Constants.cellWidth, height: 218)
+        case 3:
+            return .init(width: Constants.cellWidth, height: 472)
         default:
             return .zero
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        if section == 0 {
+            return .zero
+        } else {
+            return .init(top: 24, left: 0, bottom: 0, right: 0)
         }
     }
 }

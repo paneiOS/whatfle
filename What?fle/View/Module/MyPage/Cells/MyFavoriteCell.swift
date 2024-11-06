@@ -29,7 +29,7 @@ final class MyFavoriteCell: UICollectionViewCell {
         return view
     }()
 
-    private let favoriteLocationButton: UIButton = {
+    private lazy var favoriteLocationButton: UIButton = {
         let button: UIButton = .init()
         var config: UIButton.Configuration = .plain()
         config.attributedTitle = .init(
@@ -44,10 +44,11 @@ final class MyFavoriteCell: UICollectionViewCell {
         config.imagePlacement = .top
         config.imagePadding = 6
         button.configuration = config
+        button.addTarget(self, action: #selector(tapFavoriteLocation), for: .touchUpInside)
         return button
     }()
 
-    private let favoriteCollectionButton: UIButton = {
+    private lazy var favoriteCollectionButton: UIButton = {
         let button: UIButton = .init()
         var config: UIButton.Configuration = .plain()
         config.attributedTitle = .init(
@@ -62,6 +63,7 @@ final class MyFavoriteCell: UICollectionViewCell {
         config.imagePlacement = .top
         config.imagePadding = 6
         button.configuration = config
+        button.addTarget(self, action: #selector(tapFavoriteCollection), for: .touchUpInside)
         return button
     }()
 
@@ -86,9 +88,6 @@ final class MyFavoriteCell: UICollectionViewCell {
     }
 
     private func setupUI() {
-        favoriteLocationButton.addTarget(self, action: #selector(tapFavoriteLocation), for: .touchUpInside)
-        favoriteCollectionButton.addTarget(self, action: #selector(tapFavoriteCollection), for: .touchUpInside)
-
         self.contentView.addSubviews(self.subView)
         self.subView.snp.makeConstraints {
             $0.edges.equalToSuperview()

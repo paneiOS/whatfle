@@ -39,7 +39,7 @@ extension UIColor {
         case g800
         case g900
         case black
-        
+
         var color: UIColor {
             switch self {
             case .background:

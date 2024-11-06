@@ -11,11 +11,16 @@ import RIBs
 
 protocol MyPageDependency: Dependency {
     var myPageNavigationController: UINavigationController { get }
+    var collectionUseCase: CollectionUseCaseProtocol { get }
 }
 
 final class MyPageComponent: Component<MyPageDependency> {
     var navigationController: UINavigationController {
         return dependency.myPageNavigationController
+    }
+
+    var collectionUseCase: CollectionUseCaseProtocol {
+        return dependency.collectionUseCase
     }
 }
 
@@ -37,7 +42,10 @@ final class MyPageBuilder: Builder<MyPageDependency>, MyPageBuildable {
         let navigationController = component.navigationController
         navigationController.viewControllers = [viewController]
         navigationController.modalPresentationStyle = .overFullScreen
-        let interactor = MyPageInteractor(presenter: viewController)
+        let interactor = MyPageInteractor(
+            presenter: viewController,
+            collectionUseCase: component.collectionUseCase
+        )
         interactor.listener = listener
         return MyPageRouter(
             interactor: interactor,

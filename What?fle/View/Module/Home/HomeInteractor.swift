@@ -29,13 +29,12 @@ final class HomeInteractor: PresentableInteractor<HomePresentable> {
 
     weak var router: HomeRouting?
     weak var listener: HomeListener?
+    private let collectionUseCase: CollectionUseCaseProtocol
+    private let disposeBag = DisposeBag()
 
     var homeData: BehaviorRelay<HomeDataModel?> = .init(value: nil)
     var currentPage: Int = 1
     let pageSize: Int = 20
-
-    private let collectionUseCase: CollectionUseCaseProtocol
-    private let disposeBag = DisposeBag()
 
     init(presenter: HomePresentable, collectionUseCase: CollectionUseCaseProtocol) {
         self.collectionUseCase = collectionUseCase
