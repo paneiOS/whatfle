@@ -9,7 +9,10 @@ import RIBs
 import RxCocoa
 import RxSwift
 
-protocol MyPageRouting: ViewableRouting {}
+protocol MyPageRouting: ViewableRouting {
+    func routeToDetailCollection(id: Int)
+    func popToDetailCollection()
+}
 
 protocol MyPagePresentable: Presentable {
     var listener: MyPagePresentableListener? { get set }
@@ -17,8 +20,7 @@ protocol MyPagePresentable: Presentable {
 
 protocol MyPageListener: AnyObject {}
 
-final class MyPageInteractor: PresentableInteractor<MyPagePresentable>, MyPageInteractable, MyPagePresentableListener {
-
+final class MyPageInteractor: PresentableInteractor<MyPagePresentable>, MyPageInteractable {
     weak var router: MyPageRouting?
     weak var listener: MyPageListener?
     private let collectionUseCase: CollectionUseCaseProtocol
@@ -31,7 +33,9 @@ final class MyPageInteractor: PresentableInteractor<MyPagePresentable>, MyPageIn
         super.init(presenter: presenter)
         presenter.listener = self
     }
+}
 
+extension MyPageInteractor: MyPagePresentableListener {
     func loadData() {
         guard !LoadingIndicatorService.shared.isLoading() else { return }
         LoadingIndicatorService.shared.showLoading()
@@ -46,5 +50,13 @@ final class MyPageInteractor: PresentableInteractor<MyPagePresentable>, MyPageIn
                 LoadingIndicatorService.shared.hideLoading()
             })
             .disposed(by: disposeBag)
+    }
+    
+    func showDetailCollection(id: Int) {
+        self.router?.routeToDetailCollection(id: id)
+    }
+
+    func popToDetailCollection() {
+        self.router?.popToDetailCollection()
     }
 }

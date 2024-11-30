@@ -23,7 +23,6 @@ protocol HomePresentableListener: AnyObject {
 }
 
 final class HomeViewController: UIViewController, HomePresentable, HomeViewControllable {
-
     weak var listener: HomePresentableListener?
     private let disposeBag = DisposeBag()
 

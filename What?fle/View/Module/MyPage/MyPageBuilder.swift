@@ -10,17 +10,28 @@ import UIKit
 import RIBs
 
 protocol MyPageDependency: Dependency {
+    var networkService: NetworkServiceDelegate { get }
     var myPageNavigationController: UINavigationController { get }
     var collectionUseCase: CollectionUseCaseProtocol { get }
 }
 
 final class MyPageComponent: Component<MyPageDependency> {
+    var networkService: NetworkServiceDelegate {
+        return dependency.networkService
+    }
+    
     var navigationController: UINavigationController {
         return dependency.myPageNavigationController
     }
 
     var collectionUseCase: CollectionUseCaseProtocol {
         return dependency.collectionUseCase
+    }
+}
+
+extension MyPageComponent: DetailCollectionDependency {
+    var detailCollectionBuilder: DetailCollectionBuildable {
+        return DetailCollectionBuilder(dependency: self)
     }
 }
 

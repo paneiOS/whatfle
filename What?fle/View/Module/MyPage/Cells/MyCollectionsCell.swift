@@ -7,8 +7,13 @@
 
 import UIKit
 
+protocol MyCollectionsCellDelegate: AnyObject {
+    func showDetailCollection(id: Int)
+}
+
 final class MyCollectionsCell: UICollectionViewCell {
     static let reuseIdentifier = "MyCollectionsCell"
+    weak var delegate: MyCollectionsCellDelegate?
 
     private let headerView: MyPageHeaderView = .init(title: "나의 컬렉션 목록")
 
@@ -80,6 +85,11 @@ extension MyCollectionsCell: UICollectionViewDataSource {
             let collection = model[safe: indexPath.item] else { return emptyCell }
         cell.drawCell(collection: collection)
         return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let id = self.model[safe: indexPath.item]?.id else { return }
+        self.delegate?.showDetailCollection(id: id)
     }
 }
 

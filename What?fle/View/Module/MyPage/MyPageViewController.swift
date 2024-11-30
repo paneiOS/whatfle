@@ -15,6 +15,7 @@ import SnapKit
 protocol MyPagePresentableListener: AnyObject {
     var myPageDataModel: PublishRelay<MyPageDataModel> { get }
     func loadData()
+    func showDetailCollection(id: Int)
 }
 
 final class MyPageViewController: UIViewController, MyPagePresentable, MyPageViewControllable, MyFavoriteCellDelegate {
@@ -152,6 +153,7 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
                   let collections = self.model?.collections else {
                 return emptyCell
             }
+            cell.delegate = self
             cell.drawCell(model: collections)
             return cell
         case 3:
@@ -187,5 +189,11 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
         } else {
             return .init(top: 24, left: 0, bottom: 0, right: 0)
         }
+    }
+}
+
+extension MyPageViewController: MyCollectionsCellDelegate {
+    func showDetailCollection(id: Int) {
+        self.listener?.showDetailCollection(id: id)
     }
 }
