@@ -27,24 +27,7 @@ final class SelectionLocationVerticalListCell: UICollectionViewCell {
 
     weak var delegate: SelectionLocationVerticalListCellDelegate?
 
-    private lazy var pagerCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 0
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.isPagingEnabled = true
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.register(EmptyCell.self, forCellWithReuseIdentifier: EmptyCell.reuseIdentifier)
-        collectionView.register(PagerImageCell.self, forCellWithReuseIdentifier: PagerImageCell.reuseIdentifier)
-        collectionView.contentInset = .zero
-        collectionView.scrollIndicatorInsets = .zero
-        collectionView.alwaysBounceHorizontal = false
-        collectionView.contentInsetAdjustmentBehavior = .never
-        collectionView.bounces = false
-        return collectionView
-    }()
+    private let pagerImageView: PagerImageView = .init()
 
     private let placeInfoView: UIView = .init()
 
@@ -98,21 +81,8 @@ final class SelectionLocationVerticalListCell: UICollectionViewCell {
         return view
     }()
 
-    private let pageControl: UIPageControl = {
-        let pageControl = UIPageControl()
-        pageControl.currentPageIndicatorTintColor = .Core.primary
-        pageControl.pageIndicatorTintColor = .white
-        pageControl.isUserInteractionEnabled = false
-        pageControl.isHidden = true
-        return pageControl
-    }()
-
     private var model: PublishSubject<PlaceRegistration> = .init()
-    private var imageURLs: [String] = [] {
-        didSet {
-            self.pagerCollectionView.reloadData()
-        }
-    }
+
     var index: Int?
 
     private let disposeBag = DisposeBag()
@@ -120,47 +90,26 @@ final class SelectionLocationVerticalListCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        setupUI()
-        bindUI()
+        self.setupUI()
+        self.bindUI()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
 
-        setupUI()
-        bindUI()
-    }
-
-    override func prepareForReuse() {
-        super.prepareForReuse()
-
-        imageURLs.removeAll()
-        pageControl.isHidden = true
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
-        if pagerCollectionView.contentOffset == .zero, imageURLs.count > 21 {
-            let middleGroupStartIndex = (imageURLs.count / 21) * 10
-            let initialOffset = CGPoint(x: pagerCollectionView.frame.width * CGFloat(middleGroupStartIndex), y: 0)
-            pagerCollectionView.setContentOffset(initialOffset, animated: false)
-        }
+        self.setupUI()
+        self.bindUI()
     }
 
     private func setupUI() {
-        contentView.addSubviews(self.pagerCollectionView, self.pageControl, self.placeInfoView, self.profileView)
-        self.pagerCollectionView.snp.makeConstraints {
+        self.contentView.addSubviews(self.pagerImageView, self.placeInfoView, self.profileView)
+        self.pagerImageView.snp.makeConstraints {
             $0.top.leading.trailing.width.equalToSuperview()
             $0.height.equalTo(Constants.Height.pagerCollectionViewHeight)
         }
-        self.pageControl.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.bottom.equalTo(self.placeInfoView.snp.top).offset(-16)
-        }
         self.placeInfoView.addSubviews(self.placeImage, self.titleLabel, self.subTitleLabel, self.favoriteButton)
         self.placeInfoView.snp.makeConstraints {
-            $0.top.equalTo(self.pagerCollectionView.snp.bottom).offset(16)
+            $0.top.equalTo(self.pagerImageView.snp.bottom).offset(16)
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.height.equalTo(Constants.Height.placeInfoViewHeight)
         }
@@ -208,13 +157,7 @@ final class SelectionLocationVerticalListCell: UICollectionViewCell {
     private func bindUI() {
         model.subscribe(onNext: { [weak self] place in
             guard let self else { return }
-            if place.imageURLs.count < 2 {
-                self.imageURLs = place.imageURLs
-            } else {
-                self.imageURLs = Array(repeating: place.imageURLs, count: 21).flatMap { $0 }
-                self.pageControl.numberOfPages = place.imageURLs.count
-                self.pageControl.isHidden = false
-            }
+            self.pagerImageView.configure(with: place.imageURLs)
 
             self.placeImage.image = place.categoryGroupCode.image
             self.titleLabel.attributedText = .makeAttributedString(
@@ -260,50 +203,6 @@ extension SelectionLocationVerticalListCell {
     }
 }
 
-extension SelectionLocationVerticalListCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.imageURLs.count
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PagerImageCell.reuseIdentifier, for: indexPath) as? PagerImageCell else {
-            return collectionView.dequeueReusableCell(withReuseIdentifier: EmptyCell.reuseIdentifier, for: indexPath)
-        }
-        let imageURLStr = self.imageURLs[indexPath.item]
-        cell.drawCell(with: imageURLStr)
-        return cell
-    }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: Constants.Height.pagerCollectionViewHeight)
-    }
-
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        let currentPage = Int(scrollView.contentOffset.x / scrollView.frame.width)
-        let groupSize = imageURLs.count / 21
-        let itemIndex = currentPage % groupSize
-        self.pageControl.currentPage = itemIndex
-        if groupSize * 10 > currentPage || groupSize * 11 <= currentPage {
-            let targetIndex = groupSize * 10 + itemIndex
-            let newOffset = CGPoint(x: scrollView.frame.width * CGFloat(targetIndex), y: scrollView.contentOffset.y)
-            scrollView.setContentOffset(newOffset, animated: false)
-        }
-    }
-
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? PagerImageCell,
-              let image = cell.imageView.image,
-              let keyWindow = UIApplication.shared.keyWindow else {
-            return
-        }
-        let detailImageView = DetailImageView(image: image)
-        keyWindow.addSubview(detailImageView)
-        detailImageView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-    }
+extension SelectionLocationVerticalListCell: PagerImageViewDelegate {
+    func pagerImageView(_ pagerImageView: PagerImageView, didSelectImageAt index: Int) {}
 }

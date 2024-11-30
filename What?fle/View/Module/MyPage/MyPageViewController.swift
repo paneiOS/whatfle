@@ -16,6 +16,7 @@ protocol MyPagePresentableListener: AnyObject {
     var myPageDataModel: PublishRelay<MyPageDataModel> { get }
     func loadData()
     func showDetailCollection(id: Int)
+    func showDetailLocation(model: HomeDataModel.Collection.Place)
 }
 
 final class MyPageViewController: UIViewController, MyPagePresentable, MyPageViewControllable, MyFavoriteCellDelegate {
@@ -161,6 +162,7 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
                   let places = self.model?.places else {
                 return emptyCell
             }
+            cell.delegate = self
             cell.drawCell(model: places)
             return cell
         default:
@@ -195,5 +197,11 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
 extension MyPageViewController: MyCollectionsCellDelegate {
     func showDetailCollection(id: Int) {
         self.listener?.showDetailCollection(id: id)
+    }
+}
+
+extension MyPageViewController: MyLocationsCellDelegate {
+    func showDetailLocation(model: HomeDataModel.Collection.Place) {
+        self.listener?.showDetailLocation(model: model)
     }
 }

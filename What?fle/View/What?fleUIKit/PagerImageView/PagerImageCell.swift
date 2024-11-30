@@ -17,6 +17,11 @@ final class PagerImageCell: UICollectionViewCell {
         return imageView
     }()
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.imageView.image = nil
+    }
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -35,6 +40,6 @@ final class PagerImageCell: UICollectionViewCell {
     }
 
     func drawCell(with urlStr: String) {
-        imageView.loadImage(from: urlStr)
+        imageView.loadImage(from: urlStr, placeholder: .placehold)
     }
 }

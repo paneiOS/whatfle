@@ -87,7 +87,7 @@ final class DetailCollectionViewController: UIViewController, DetailCollectionPr
             $0.edges.equalToSuperview()
         }
         self.customNavigationBar.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.top.equalTo(self.view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(54)
         }

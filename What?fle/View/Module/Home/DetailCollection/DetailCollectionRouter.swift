@@ -6,7 +6,6 @@
 //
 
 import RIBs
-import UIKit
 
 protocol DetailCollectionInteractable: Interactable {
     var router: DetailCollectionRouting? { get set }

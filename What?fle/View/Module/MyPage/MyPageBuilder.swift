@@ -19,7 +19,7 @@ final class MyPageComponent: Component<MyPageDependency> {
     var networkService: NetworkServiceDelegate {
         return dependency.networkService
     }
-    
+
     var navigationController: UINavigationController {
         return dependency.myPageNavigationController
     }
@@ -32,6 +32,12 @@ final class MyPageComponent: Component<MyPageDependency> {
 extension MyPageComponent: DetailCollectionDependency {
     var detailCollectionBuilder: DetailCollectionBuildable {
         return DetailCollectionBuilder(dependency: self)
+    }
+}
+
+extension MyPageComponent: DetailLocationDependency {
+    var detailLocationBuilder: DetailLocationBuildable {
+        return DetailLocationBuilder(dependency: self)
     }
 }
 

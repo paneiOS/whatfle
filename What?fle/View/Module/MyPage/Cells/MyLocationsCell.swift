@@ -7,14 +7,19 @@
 
 import UIKit
 
+protocol MyLocationsCellDelegate: AnyObject {
+    func showDetailLocation(model: HomeDataModel.Collection.Place)
+}
+
 final class MyLocationsCell: UICollectionViewCell {
     private enum Constants {
         static let cellWidth: CGFloat = UIApplication.shared.width - 32
     }
 
+    weak var delegate: MyLocationsCellDelegate?
     static let reuseIdentifier = "MyLocationsCell"
 
-    private let headerView: MyPageHeaderView = .init(title: "나의 컬렉션 목록")
+    private let headerView: MyPageHeaderView = .init(title: "최근 체크인 장소")
 
     private lazy var collectionView: UICollectionView = {
         let layout: UICollectionViewFlowLayout = .init()
@@ -84,6 +89,11 @@ extension MyLocationsCell: UICollectionViewDataSource {
             let place = model[safe: indexPath.item] else { return emptyCell }
         cell.drawCell(place: place)
         return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let model = self.model[safe: indexPath.item] else { return }
+        self.delegate?.showDetailLocation(model: model)
     }
 }
 
