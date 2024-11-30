@@ -50,8 +50,8 @@ final class ImageView: UIImageView {
             switch result {
             case .success(let response):
                 self?.image = response.image
-            case .failure:
-                break
+            case .failure(let error):
+                print("pane_error", error)
             }
         }
     }

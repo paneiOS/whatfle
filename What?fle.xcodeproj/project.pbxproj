@@ -44,6 +44,11 @@
 		391960022BAC542B00CC7A2E /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391960012BAC542B00CC7A2E /* UserDefaultsManager.swift */; };
 		3919BA652B988C0000E2A3CC /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3919BA642B988C0000E2A3CC /* UIView+.swift */; };
 		3919BA6C2B9A1D2800E2A3CC /* ViewControllable+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3919BA6B2B9A1D2800E2A3CC /* ViewControllable+.swift */; };
+		391E84422CFB1E33005F5A3D /* DetailLocationBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391E843E2CFB1E33005F5A3D /* DetailLocationBuilder.swift */; };
+		391E84432CFB1E33005F5A3D /* DetailLocationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391E84402CFB1E33005F5A3D /* DetailLocationRouter.swift */; };
+		391E84442CFB1E33005F5A3D /* DetailLocationInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391E843F2CFB1E33005F5A3D /* DetailLocationInteractor.swift */; };
+		391E84452CFB1E33005F5A3D /* DetailLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391E84412CFB1E33005F5A3D /* DetailLocationViewController.swift */; };
+		391E84482CFB27D3005F5A3D /* PagerImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391E84472CFB27D3005F5A3D /* PagerImageView.swift */; };
 		392C1E212C64F55F00C03D82 /* UIImage+Design.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392C1E202C64F55F00C03D82 /* UIImage+Design.swift */; };
 		392C1E242C650B0500C03D82 /* CoverImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392C1E232C650B0500C03D82 /* CoverImageCell.swift */; };
 		392C1E262C650B3E00C03D82 /* DescriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392C1E252C650B3E00C03D82 /* DescriptionCell.swift */; };
@@ -249,6 +254,11 @@
 		391960012BAC542B00CC7A2E /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		3919BA642B988C0000E2A3CC /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		3919BA6B2B9A1D2800E2A3CC /* ViewControllable+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewControllable+.swift"; sourceTree = "<group>"; };
+		391E843E2CFB1E33005F5A3D /* DetailLocationBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailLocationBuilder.swift; sourceTree = "<group>"; };
+		391E843F2CFB1E33005F5A3D /* DetailLocationInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailLocationInteractor.swift; sourceTree = "<group>"; };
+		391E84402CFB1E33005F5A3D /* DetailLocationRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailLocationRouter.swift; sourceTree = "<group>"; };
+		391E84412CFB1E33005F5A3D /* DetailLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailLocationViewController.swift; sourceTree = "<group>"; };
+		391E84472CFB27D3005F5A3D /* PagerImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagerImageView.swift; sourceTree = "<group>"; };
 		392C1E202C64F55F00C03D82 /* UIImage+Design.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Design.swift"; sourceTree = "<group>"; };
 		392C1E232C650B0500C03D82 /* CoverImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoverImageCell.swift; sourceTree = "<group>"; };
 		392C1E252C650B3E00C03D82 /* DescriptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionCell.swift; sourceTree = "<group>"; };
@@ -481,6 +491,40 @@
 			path = Search;
 			sourceTree = "<group>";
 		};
+		391E843D2CFB1E19005F5A3D /* DetailLocation */ = {
+			isa = PBXGroup;
+			children = (
+				391E843E2CFB1E33005F5A3D /* DetailLocationBuilder.swift */,
+				391E843F2CFB1E33005F5A3D /* DetailLocationInteractor.swift */,
+				391E84402CFB1E33005F5A3D /* DetailLocationRouter.swift */,
+				391E84412CFB1E33005F5A3D /* DetailLocationViewController.swift */,
+			);
+			path = DetailLocation;
+			sourceTree = "<group>";
+		};
+		391E84462CFB27A2005F5A3D /* PagerImageView */ = {
+			isa = PBXGroup;
+			children = (
+				391E84472CFB27D3005F5A3D /* PagerImageView.swift */,
+				392C1E312C6BAFEA00C03D82 /* PagerImageCell.swift */,
+			);
+			path = PagerImageView;
+			sourceTree = "<group>";
+		};
+		391E84492CFB645E005F5A3D /* MyCollections */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = MyCollections;
+			sourceTree = "<group>";
+		};
+		391E844A2CFB646D005F5A3D /* MyLocations */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = MyLocations;
+			sourceTree = "<group>";
+		};
 		392C1E222C650AFA00C03D82 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -489,7 +533,6 @@
 				392C1E292C651BAA00C03D82 /* SelectionLocationHorizontalCell.swift */,
 				392C1E272C650B7200C03D82 /* SelectionLocationVerticalCell.swift */,
 				392C1E2E2C6A41B200C03D82 /* SelectionLocationVerticalListCell.swift */,
-				392C1E312C6BAFEA00C03D82 /* PagerImageCell.swift */,
 				39195F0D2CABE1C8002F0166 /* SearchButtonCell.swift */,
 			);
 			path = Cells;
@@ -682,6 +725,7 @@
 		3939FFCC2B8DFD0E007E58F6 /* What?fleUIKit */ = {
 			isa = PBXGroup;
 			children = (
+				391E84462CFB27A2005F5A3D /* PagerImageView */,
 				39195EFF2C9F2CF5002F0166 /* KeyboardVC */,
 				39A740F12C9E6B4F00BED80B /* FavoriteButton */,
 				39A9F4ED2C799D15007A626B /* TextField */,
@@ -801,7 +845,10 @@
 		398047F92CD26FFB000EAD26 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
+				391E844A2CFB646D005F5A3D /* MyLocations */,
+				391E84492CFB645E005F5A3D /* MyCollections */,
 				398048042CD27B48000EAD26 /* Cells */,
+				391E843D2CFB1E19005F5A3D /* DetailLocation */,
 				398047FA2CD2700F000EAD26 /* MyPageBuilder.swift */,
 				398047FB2CD2700F000EAD26 /* MyPageInteractor.swift */,
 				398047FC2CD2700F000EAD26 /* MyPageRouter.swift */,
@@ -1291,6 +1338,7 @@
 				3939FFDE2B90D430007E58F6 /* SelectLocationModel.swift in Sources */,
 				39CF56A82BC0F0A300E718C8 /* AddCollectionRouter.swift in Sources */,
 				392C1E3D2C6DBF3100C03D82 /* LoginRouter.swift in Sources */,
+				391E84482CFB27D3005F5A3D /* PagerImageView.swift in Sources */,
 				392C1E3E2C6DBF3100C03D82 /* LoginViewController.swift in Sources */,
 				392C1E3F2C6DBF3100C03D82 /* LoginBuilder.swift in Sources */,
 				395D3E6F2CDBB952000E064B /* MyLocationsCell.swift in Sources */,
@@ -1326,6 +1374,10 @@
 				392DAEA32C4696FF000F2B94 /* CustomAlbumBuilder.swift in Sources */,
 				39EF11B82BBAE182000E1996 /* Array+.swift in Sources */,
 				456B09D42BB9566C00920C54 /* CustomTextView.swift in Sources */,
+				391E84422CFB1E33005F5A3D /* DetailLocationBuilder.swift in Sources */,
+				391E84432CFB1E33005F5A3D /* DetailLocationRouter.swift in Sources */,
+				391E84442CFB1E33005F5A3D /* DetailLocationInteractor.swift in Sources */,
+				391E84452CFB1E33005F5A3D /* DetailLocationViewController.swift in Sources */,
 				393900002B961BBA007E58F6 /* RegistLocationBuilder.swift in Sources */,
 				39878D192C7B52A4004898AD /* CollectionAPI.swift in Sources */,
 				392C1E2A2C651BAA00C03D82 /* SelectionLocationHorizontalCell.swift in Sources */,

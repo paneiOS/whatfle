@@ -12,6 +12,8 @@ import RxSwift
 protocol MyPageRouting: ViewableRouting {
     func routeToDetailCollection(id: Int)
     func popToDetailCollection()
+    func routeToDetailLocation(model: HomeDataModel.Collection.Place)
+    func popToDetailLocation()
 }
 
 protocol MyPagePresentable: Presentable {
@@ -51,12 +53,20 @@ extension MyPageInteractor: MyPagePresentableListener {
             })
             .disposed(by: disposeBag)
     }
-    
+
     func showDetailCollection(id: Int) {
         self.router?.routeToDetailCollection(id: id)
     }
 
     func popToDetailCollection() {
         self.router?.popToDetailCollection()
+    }
+
+    func showDetailLocation(model: HomeDataModel.Collection.Place) {
+        self.router?.routeToDetailLocation(model: model)
+    }
+
+    func popToDetailLocation() {
+        self.router?.popToDetailLocation()
     }
 }
