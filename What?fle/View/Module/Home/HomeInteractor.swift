@@ -102,8 +102,8 @@ extension HomeInteractor: HomePresentableListener {
             .disposed(by: disposeBag)
     }
 
-    func updateFavorite(id: Int, isFavorite: Bool) {
-        collectionUseCase.updateFavorite(id: id, isFavorite: isFavorite)
+    func updateFavoriteCollection(id: Int, isFavorite: Bool) {
+        collectionUseCase.updateFavoriteCollection(id: id, isFavorite: isFavorite)
             .subscribe(onSuccess: {})
             .disposed(by: disposeBag)
     }

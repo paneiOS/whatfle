@@ -17,7 +17,9 @@ protocol MyPagePresentableListener: AnyObject {
     func loadData()
     func showDetailCollection(id: Int)
     func showDetailLocation(model: HomeDataModel.Collection.Place)
+    func showMyLocations()
     func showMyCollections()
+    func updateFavoriteCollection(id: Int, isFavorite: Bool)
 }
 
 final class MyPageViewController: UIViewController, MyPagePresentable, MyPageViewControllable, MyFavoriteCellDelegate {
@@ -116,7 +118,7 @@ final class MyPageViewController: UIViewController, MyPagePresentable, MyPageVie
 
 extension MyPageViewController {
     func tapFavoriteLocation() {
-//        self.listener?.showMyCollections()
+        self.listener?.showMyLocations()
     }
 
     func tapFavoriteCollection() {
@@ -200,6 +202,10 @@ extension MyPageViewController: MyCollectionsCellDelegate {
         self.listener?.showDetailCollection(id: id)
     }
 
+    func showMyLocations() {
+        self.listener?.showMyLocations()
+    }
+
     func showMyCollections() {
         self.listener?.showMyCollections()
     }
@@ -208,5 +214,9 @@ extension MyPageViewController: MyCollectionsCellDelegate {
 extension MyPageViewController: MyLocationsCellDelegate {
     func showDetailLocation(model: HomeDataModel.Collection.Place) {
         self.listener?.showDetailLocation(model: model)
+    }
+
+    func didTapFavoriteButton(id: Int, isFavorite: Bool) {
+        self.listener?.updateFavoriteCollection(id: id, isFavorite: isFavorite)
     }
 }

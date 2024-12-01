@@ -15,6 +15,7 @@ protocol MyPageRouting: ViewableRouting {
     func routeToDetailLocation(model: HomeDataModel.Collection.Place)
     func popToDetailLocation()
     func routeToMyCollections()
+    func routeToMyLocations()
     func popToMyContents()
 }
 
@@ -72,11 +73,27 @@ extension MyPageInteractor: MyPagePresentableListener {
         self.router?.popToDetailLocation()
     }
 
+    func showMyLocations() {
+        self.router?.routeToMyLocations()
+    }
+
     func showMyCollections() {
         self.router?.routeToMyCollections()
     }
 
     func popToMyContents() {
         self.router?.popToMyContents()
+    }
+
+    func updateFavoriteLocation(id: Int, isFavorite: Bool) {
+        collectionUseCase.updateFavoriteLocation(id: id, isFavorite: isFavorite)
+            .subscribe(onSuccess: {})
+            .disposed(by: disposeBag)
+    }
+
+    func updateFavoriteCollection(id: Int, isFavorite: Bool) {
+        collectionUseCase.updateFavoriteCollection(id: id, isFavorite: isFavorite)
+            .subscribe(onSuccess: {})
+            .disposed(by: disposeBag)
     }
 }

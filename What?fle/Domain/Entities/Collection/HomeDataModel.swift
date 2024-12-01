@@ -146,6 +146,8 @@ struct HomeDataModel: Decodable {
             let roadAddress: String
             let categoryGroupCode: String?
 
+            var isFavorite: Bool = false
+
             enum CodingKeys: String, CodingKey {
                 case id, address, latitude, longitude
                 case accountID = "accountId"

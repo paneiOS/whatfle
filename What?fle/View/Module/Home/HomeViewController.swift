@@ -16,7 +16,7 @@ protocol HomePresentableListener: AnyObject {
     var homeData: BehaviorRelay<HomeDataModel?> { get }
     var currentPage: Int { get }
     func loadData(more: Bool)
-    func updateFavorite(id: Int, isFavorite: Bool)
+    func updateFavoriteCollection(id: Int, isFavorite: Bool)
     func showDetailCollection(id: Int)
     func showLoginRIB()
     func showTotalSearchBar()
@@ -182,7 +182,7 @@ extension HomeViewController: UIScrollViewDelegate {
 }
 
 extension HomeViewController: HomeCellDelegate {
-    func didTapFavoriteButton(id: Int, isFavorite: Bool) {
-        listener?.updateFavorite(id: id, isFavorite: isFavorite)
+    func didTapFavoriteCollection(id: Int, isFavorite: Bool) {
+        listener?.updateFavoriteCollection(id: id, isFavorite: isFavorite)
     }
 }
