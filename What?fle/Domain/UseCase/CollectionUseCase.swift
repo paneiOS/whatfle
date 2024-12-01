@@ -16,6 +16,7 @@ protocol CollectionUseCaseProtocol {
     func registCollection(collection: CollectionData, imageData: Data?) -> Single<Response>
     func updateFavorite(id: Int, isFavorite: Bool) -> Single<Void>
     func getMyPageData() -> Single<MyPageDataModel>
+    func getMyFavoriteCollection() -> Single<[HomeDataModel.Collection]>
 }
 
 final class CollectionUseCase: CollectionUseCaseProtocol {
@@ -74,5 +75,9 @@ final class CollectionUseCase: CollectionUseCaseProtocol {
 
     func getMyPageData() -> Single<MyPageDataModel> {
         return collectionRepository.getMyPageData()
+    }
+    
+    func getMyFavoriteCollection() -> Single<[HomeDataModel.Collection]> {
+        return collectionRepository.getMyFavoriteCollection()
     }
 }

@@ -7,8 +7,11 @@
 
 import UIKit
 
+import RxSwift
+
 protocol MyCollectionsCellDelegate: AnyObject {
     func showDetailCollection(id: Int)
+    func showMyCollections()
 }
 
 final class MyCollectionsCell: UICollectionViewCell {
@@ -37,14 +40,18 @@ final class MyCollectionsCell: UICollectionViewCell {
         }
     }
 
+    private let disposeBag = DisposeBag()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
+        setupActionBinding()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupUI()
+        setupActionBinding()
     }
 
     private func setupUI() {
@@ -61,6 +68,15 @@ final class MyCollectionsCell: UICollectionViewCell {
 
     func drawCell(model: [HomeDataModel.Collection]) {
         self.model = model
+    }
+
+    func setupActionBinding() {
+        self.headerView.moreButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                guard let self else { return }
+                self.delegate?.showMyCollections()
+            })
+            .disposed(by: disposeBag)
     }
 }
 

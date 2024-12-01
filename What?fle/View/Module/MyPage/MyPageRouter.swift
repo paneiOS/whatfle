@@ -9,7 +9,7 @@ import UIKit
 
 import RIBs
 
-protocol MyPageInteractable: Interactable, DetailCollectionListener, DetailLocationListener {
+protocol MyPageInteractable: Interactable, DetailCollectionListener, DetailLocationListener, MyContentsListener {
     var router: MyPageRouting? { get set }
     var listener: MyPageListener? { get set }
 }
@@ -22,6 +22,7 @@ final class MyPageRouter: ViewableRouter<MyPageInteractable, MyPageViewControlla
 
     weak var detailCollectionRouter: DetailCollectionRouting?
     weak var detailLocationRouter: DetailLocationRouting?
+    weak var myContentsRouter: MyContentsRouting?
 
     deinit {
         print("\(self) is being deinit")
@@ -76,6 +77,36 @@ extension MyPageRouter: MyPageRouting {
             self.navigationController.popViewController(animated: true)
             self.detachChild(router)
             self.detailLocationRouter = nil
+        }
+    }
+
+    func routeToMyLocations() {
+        if self.myContentsRouter == nil {
+            let router = self.component.myContentsBuilder.build(withListener: self.interactor, initialIndex: 0)
+            router.viewControllable.uiviewController.hidesBottomBarWhenPushed = true
+            self.navigationController.setNavigationBarHidden(true, animated: false)
+            self.navigationController.pushViewController(router.viewControllable.uiviewController, animated: true)
+            self.attachChild(router)
+            self.myContentsRouter = router
+        }
+    }
+
+    func routeToMyCollections() {
+        if self.myContentsRouter == nil {
+            let router = self.component.myContentsBuilder.build(withListener: self.interactor, initialIndex: 1)
+            router.viewControllable.uiviewController.hidesBottomBarWhenPushed = true
+            self.navigationController.setNavigationBarHidden(true, animated: false)
+            self.navigationController.pushViewController(router.viewControllable.uiviewController, animated: true)
+            self.attachChild(router)
+            self.myContentsRouter = router
+        }
+    }
+
+    func popToMyContents() {
+        if let router = self.myContentsRouter {
+            self.navigationController.popViewController(animated: true)
+            self.detachChild(router)
+            self.myContentsRouter = nil
         }
     }
 }

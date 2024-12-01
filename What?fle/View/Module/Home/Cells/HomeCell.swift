@@ -191,25 +191,20 @@ extension HomeCell {
 
     func drawCell(model: HomeDataModel.Content) {
         self.tag = model.collection.id
-
         self.tags = model.collection.hashtags.map { $0.hashtagName }
-
-        self.favoriteButton.isSelected = model.collection.isFavoriate
-
+        self.favoriteButton.isSelected = model.collection.isFavorite
         self.titleLabel.attributedText = .makeAttributedString(
             text: model.collection.title,
             font: .title20XBD,
             textColor: .textDefault,
             lineHeight: 28
         )
-
         self.subtitleLabel.attributedText = .makeAttributedString(
             text: model.collection.description,
             font: .caption13MD,
             textColor: .textLight,
             lineHeight: 20
         )
-
         let imageViews = [
             self.topLeftImageView,
             self.topRightImageView,
@@ -230,6 +225,43 @@ extension HomeCell {
             textColor: .textExtralight,
             lineHeight: 20
         )
+    }
+
+    func drawCell(model: HomeDataModel.Collection) {
+        self.tag = model.id
+        self.tags = model.hashtags.map { $0.hashtagName }
+        self.favoriteButton.isSelected = model.isFavorite
+        self.titleLabel.attributedText = .makeAttributedString(
+            text: model.title,
+            font: .title20XBD,
+            textColor: .textDefault,
+            lineHeight: 28
+        )
+        self.subtitleLabel.attributedText = .makeAttributedString(
+            text: model.description,
+            font: .caption13MD,
+            textColor: .textLight,
+            lineHeight: 20
+        )
+        let imageViews = [
+            self.topLeftImageView,
+            self.topRightImageView,
+            self.bottomLeftImageView,
+            self.bottomRightImageView
+        ]
+        for (idx, imageURL) in (model.places.compactMap { $0.imageURLs?.first }).enumerated() {
+            guard idx < 5 else { return }
+            imageViews[idx].loadImage(from: imageURL)
+        }
+        if let userInfo = SessionManager.shared.loadUserInfo() {
+            self.profileImageView.loadImage(from: userInfo.profileImagePath)
+            self.userName.attributedText = .makeAttributedString(
+                text: userInfo.nickname ?? "",
+                font: .body14MD,
+                textColor: .textExtralight,
+                lineHeight: 20
+            )
+        }
     }
 
     private func setupActionBinding() {

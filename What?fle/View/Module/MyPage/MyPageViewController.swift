@@ -17,6 +17,7 @@ protocol MyPagePresentableListener: AnyObject {
     func loadData()
     func showDetailCollection(id: Int)
     func showDetailLocation(model: HomeDataModel.Collection.Place)
+    func showMyCollections()
 }
 
 final class MyPageViewController: UIViewController, MyPagePresentable, MyPageViewControllable, MyFavoriteCellDelegate {
@@ -102,7 +103,7 @@ final class MyPageViewController: UIViewController, MyPagePresentable, MyPageVie
     }
 
     private func setupViewBinding() {
-        listener?.myPageDataModel
+        self.listener?.myPageDataModel
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] model in
                 guard let self else { return }
@@ -115,11 +116,11 @@ final class MyPageViewController: UIViewController, MyPagePresentable, MyPageVie
 
 extension MyPageViewController {
     func tapFavoriteLocation() {
-        print("관심장소")
+//        self.listener?.showMyCollections()
     }
 
     func tapFavoriteCollection() {
-        print("관심컬렉션")
+        self.listener?.showMyCollections()
     }
 
 }
@@ -197,6 +198,10 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
 extension MyPageViewController: MyCollectionsCellDelegate {
     func showDetailCollection(id: Int) {
         self.listener?.showDetailCollection(id: id)
+    }
+
+    func showMyCollections() {
+        self.listener?.showMyCollections()
     }
 }
 

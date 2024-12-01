@@ -153,7 +153,7 @@ final class DetailLocationViewController: UIViewController, DetailLocationPresen
                 self.listener?.popToDetailLocation()
             })
             .disposed(by: disposeBag)
-        
+
         let fittingSize = CGSize(width: self.descriptionTextView.frame.width, height: 80)
         let size = self.descriptionTextView.sizeThatFits(fittingSize)
         self.descriptionTextView.snp.updateConstraints {

@@ -41,6 +41,12 @@ extension MyPageComponent: DetailLocationDependency {
     }
 }
 
+extension MyPageComponent: MyContentsDependency {
+    var myContentsBuilder: MyContentsBuildable {
+        return MyContentsBuilder(dependency: self)
+    }
+}
+
 // MARK: - Builder
 
 protocol MyPageBuildable: Buildable {
