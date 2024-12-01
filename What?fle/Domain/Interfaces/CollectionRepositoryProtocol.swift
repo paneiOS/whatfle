@@ -18,4 +18,5 @@ protocol CollectionRepositoryProtocol {
     func uploadImage(imageData: Data, fileName: String) -> Single<String>
     func updateFavorite(id: Int, isFavorite: Bool) -> Single<Void>
     func getMyPageData() -> Single<MyPageDataModel>
+    func getMyFavoriteCollection() -> Single<[HomeDataModel.Collection]>
 }

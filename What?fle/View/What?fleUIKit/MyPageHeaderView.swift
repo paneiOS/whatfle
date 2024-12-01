@@ -12,7 +12,7 @@ import SnapKit
 final class MyPageHeaderView: UIView {
     private let titleLabel: UILabel = .init()
 
-    private let moreButton: UIButton = {
+    let moreButton: UIButton = {
         let button: UIButton = .init()
         var config: UIButton.Configuration = .plain()
         config.attributedTitle = .init(

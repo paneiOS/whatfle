@@ -173,6 +173,11 @@
 		39CF56AA2BC0F0A300E718C8 /* AddCollectionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CF56A62BC0F0A300E718C8 /* AddCollectionBuilder.swift */; };
 		39CF56AB2BC0F0A300E718C8 /* AddCollectionInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CF56A72BC0F0A300E718C8 /* AddCollectionInteractor.swift */; };
 		39CF56AF2BC0FD8D00E718C8 /* CustomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CF56AE2BC0FD8D00E718C8 /* CustomNavigationBar.swift */; };
+		39D44BA02CFC06DE008E7AD6 /* MyContentsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D44B9D2CFC06DE008E7AD6 /* MyContentsInteractor.swift */; };
+		39D44BA12CFC06DE008E7AD6 /* MyContentsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D44B9C2CFC06DE008E7AD6 /* MyContentsBuilder.swift */; };
+		39D44BA22CFC06DE008E7AD6 /* MyContentsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D44B9E2CFC06DE008E7AD6 /* MyContentsRouter.swift */; };
+		39D44BA32CFC06DE008E7AD6 /* MyContentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D44B9F2CFC06DE008E7AD6 /* MyContentsViewController.swift */; };
+		39D44BA52CFC29FF008E7AD6 /* SegmentedTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D44BA42CFC29FF008E7AD6 /* SegmentedTabView.swift */; };
 		39D562B72BD69A9C00111E9C /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 39D562B62BD69A9C00111E9C /* .swiftlint.yml */; };
 		39DE4ED42C89D1F500930ED2 /* DebugUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39DE4ED32C89D1F500930ED2 /* DebugUtils.swift */; };
 		39E9F0CF2C402C670085961C /* TextFieldWithUnderlineDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E9F0CE2C402C670085961C /* TextFieldWithUnderlineDelegate.swift */; };
@@ -380,6 +385,11 @@
 		39CF56A62BC0F0A300E718C8 /* AddCollectionBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCollectionBuilder.swift; sourceTree = "<group>"; };
 		39CF56A72BC0F0A300E718C8 /* AddCollectionInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCollectionInteractor.swift; sourceTree = "<group>"; };
 		39CF56AE2BC0FD8D00E718C8 /* CustomNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBar.swift; sourceTree = "<group>"; };
+		39D44B9C2CFC06DE008E7AD6 /* MyContentsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyContentsBuilder.swift; sourceTree = "<group>"; };
+		39D44B9D2CFC06DE008E7AD6 /* MyContentsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyContentsInteractor.swift; sourceTree = "<group>"; };
+		39D44B9E2CFC06DE008E7AD6 /* MyContentsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyContentsRouter.swift; sourceTree = "<group>"; };
+		39D44B9F2CFC06DE008E7AD6 /* MyContentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyContentsViewController.swift; sourceTree = "<group>"; };
+		39D44BA42CFC29FF008E7AD6 /* SegmentedTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedTabView.swift; sourceTree = "<group>"; };
 		39D562B62BD69A9C00111E9C /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		39DE4ED32C89D1F500930ED2 /* DebugUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugUtils.swift; sourceTree = "<group>"; };
 		39E9F0CE2C402C670085961C /* TextFieldWithUnderlineDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldWithUnderlineDelegate.swift; sourceTree = "<group>"; };
@@ -509,20 +519,6 @@
 				392C1E312C6BAFEA00C03D82 /* PagerImageCell.swift */,
 			);
 			path = PagerImageView;
-			sourceTree = "<group>";
-		};
-		391E84492CFB645E005F5A3D /* MyCollections */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = MyCollections;
-			sourceTree = "<group>";
-		};
-		391E844A2CFB646D005F5A3D /* MyLocations */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = MyLocations;
 			sourceTree = "<group>";
 		};
 		392C1E222C650AFA00C03D82 /* Cells */ = {
@@ -746,6 +742,7 @@
 				398047F72CCFCD60000EAD26 /* DetailImageView.swift */,
 				398048022CD2773A000EAD26 /* EmptyCell.swift */,
 				39A2AFA02CDB93B50048B39F /* MyPageHeaderView.swift */,
+				39D44BA42CFC29FF008E7AD6 /* SegmentedTabView.swift */,
 			);
 			path = "What?fleUIKit";
 			sourceTree = "<group>";
@@ -845,8 +842,7 @@
 		398047F92CD26FFB000EAD26 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
-				391E844A2CFB646D005F5A3D /* MyLocations */,
-				391E84492CFB645E005F5A3D /* MyCollections */,
+				39D44B9B2CFC06BB008E7AD6 /* MyContents */,
 				398048042CD27B48000EAD26 /* Cells */,
 				391E843D2CFB1E19005F5A3D /* DetailLocation */,
 				398047FA2CD2700F000EAD26 /* MyPageBuilder.swift */,
@@ -1051,6 +1047,17 @@
 				39CBE1152BC6289D003CB3F0 /* SplashInteractor.swift */,
 			);
 			path = Splash;
+			sourceTree = "<group>";
+		};
+		39D44B9B2CFC06BB008E7AD6 /* MyContents */ = {
+			isa = PBXGroup;
+			children = (
+				39D44B9C2CFC06DE008E7AD6 /* MyContentsBuilder.swift */,
+				39D44B9D2CFC06DE008E7AD6 /* MyContentsInteractor.swift */,
+				39D44B9E2CFC06DE008E7AD6 /* MyContentsRouter.swift */,
+				39D44B9F2CFC06DE008E7AD6 /* MyContentsViewController.swift */,
+			);
+			path = MyContents;
 			sourceTree = "<group>";
 		};
 		39E9F0CB2C402C170085961C /* TextFieldWithUnderline */ = {
@@ -1424,6 +1431,7 @@
 				39F7EF882C8F207500BC4D44 /* RequiresLogin.swift in Sources */,
 				39333D712B8993B1005F295A /* HomeInteractor.swift in Sources */,
 				39171CFD2BF664BF00DF5B8D /* SwitchView.swift in Sources */,
+				39D44BA52CFC29FF008E7AD6 /* SegmentedTabView.swift in Sources */,
 				3939FFD82B8F750D007E58F6 /* NetworkService.swift in Sources */,
 				396B4B8E2C99B5140034C7DC /* SimpleImageCell.swift in Sources */,
 				39878D1B2C7B541D004898AD /* CollectionRepository.swift in Sources */,
@@ -1469,6 +1477,10 @@
 				39195F2E2CAE8CDC002F0166 /* TotalSearchRepository.swift in Sources */,
 				39F7EF8D2C90965B00BC4D44 /* BasicTagCell.swift in Sources */,
 				392DAEB02C46B5AF000F2B94 /* UIViewController+.swift in Sources */,
+				39D44BA02CFC06DE008E7AD6 /* MyContentsInteractor.swift in Sources */,
+				39D44BA12CFC06DE008E7AD6 /* MyContentsBuilder.swift in Sources */,
+				39D44BA22CFC06DE008E7AD6 /* MyContentsRouter.swift in Sources */,
+				39D44BA32CFC06DE008E7AD6 /* MyContentsViewController.swift in Sources */,
 				3939FFFF2B961BBA007E58F6 /* RegistLocationViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

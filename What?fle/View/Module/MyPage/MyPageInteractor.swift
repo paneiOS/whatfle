@@ -14,6 +14,8 @@ protocol MyPageRouting: ViewableRouting {
     func popToDetailCollection()
     func routeToDetailLocation(model: HomeDataModel.Collection.Place)
     func popToDetailLocation()
+    func routeToMyCollections()
+    func popToMyContents()
 }
 
 protocol MyPagePresentable: Presentable {
@@ -68,5 +70,13 @@ extension MyPageInteractor: MyPagePresentableListener {
 
     func popToDetailLocation() {
         self.router?.popToDetailLocation()
+    }
+
+    func showMyCollections() {
+        self.router?.routeToMyCollections()
+    }
+
+    func popToMyContents() {
+        self.router?.popToMyContents()
     }
 }

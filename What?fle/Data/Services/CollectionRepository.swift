@@ -49,4 +49,10 @@ final class CollectionRepository: CollectionRepositoryProtocol {
     func getMyPageData() -> Single<MyPageDataModel> {
         return self.networkService.request(MyPageAPI.getMyPageData)
     }
+
+    func getMyFavoriteCollection() -> Single<[HomeDataModel.Collection]> {
+        return self.networkService.request(MyPageAPI.getMyFavoriteCollection)
+    }
+
+//    func getMyFavoriteLocation() -> Single<HomeDataModel>
 }

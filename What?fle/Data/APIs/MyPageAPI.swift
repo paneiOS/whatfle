@@ -11,6 +11,8 @@ import Moya
 
 enum MyPageAPI: Loginable {
     case getMyPageData
+    case getMyFavoriteCollection
+    case getMyFavoriteLocation
 
     var requiresLogin: Bool {
         switch self {
@@ -30,6 +32,10 @@ extension MyPageAPI: TargetType {
         switch self {
         case .getMyPageData:
             return basePath + "/mypage"
+        case .getMyFavoriteCollection:
+            return basePath + "/favorite/collection/all"
+        case .getMyFavoriteLocation:
+            return basePath + "/favorite/place/all"
         }
     }
 
@@ -65,6 +71,8 @@ extension MyPageAPI: TargetType {
                 return Data()
             }
             return data
+        default:
+            return Data()
         }
     }
 }
