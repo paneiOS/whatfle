@@ -13,6 +13,7 @@ enum MyPageAPI: Loginable {
     case getMyPageData
     case getMyFavoriteCollection
     case getMyFavoriteLocation
+    case getMyFavoriteLocationIDs
 
     var requiresLogin: Bool {
         switch self {
@@ -36,6 +37,8 @@ extension MyPageAPI: TargetType {
             return basePath + "/favorite/collection/all"
         case .getMyFavoriteLocation:
             return basePath + "/favorite/place/all"
+        case .getMyFavoriteLocationIDs:
+            return basePath + "/favorite/place/ids/all"
         }
     }
 

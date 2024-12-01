@@ -15,6 +15,7 @@ protocol DetailCollectionPresentableListener: AnyObject {
     var detailCollectionModel: PublishSubject<DetailCollectionModel> { get }
     func retriveDetailCollection()
     func popToDetailCollection()
+    func updateFavoriteLocation(id: Int, isFavorite: Bool)
 }
 
 final class DetailCollectionViewController: UIViewController, DetailCollectionPresentable, DetailCollectionViewControllable {
@@ -175,6 +176,10 @@ extension DetailCollectionViewController: SelectionLocationVerticalCellDelegate 
         if self.cellHeights[safe: 3] != height {
             self.cellHeights[3] =  height
         }
+    }
+
+    func updateFavoriteLocation(id: Int, isFavorite: Bool) {
+        self.listener?.updateFavoriteLocation(id: id, isFavorite: isFavorite)
     }
 }
 

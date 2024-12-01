@@ -11,6 +11,7 @@ import UIKit
 
 protocol SelectionLocationVerticalCellDelegate: AnyObject {
     func cell(_ cell: SelectionLocationVerticalCell, didUpdateHeight height: CGFloat)
+    func updateFavoriteLocation(id: Int, isFavorite: Bool)
 }
 
 final class SelectionLocationVerticalCell: UICollectionViewCell {
@@ -82,6 +83,10 @@ extension SelectionLocationVerticalCell: SelectionLocationVerticalListCellDelega
     func cell(_ cell: SelectionLocationVerticalListCell, didUpdateHeight height: CGFloat, at index: Int) {
         cellHeights[index] = height
         let totalHeight = cellHeights.values.reduce(0, +) + CGFloat(cellHeights.count + 1) * 24.0
-        delegate?.cell(self, didUpdateHeight: totalHeight)
+        self.delegate?.cell(self, didUpdateHeight: totalHeight)
+    }
+
+    func didTapFavoriteLocation(id: Int, isFavorite: Bool) {
+        self.delegate?.updateFavoriteLocation(id: id, isFavorite: isFavorite)
     }
 }

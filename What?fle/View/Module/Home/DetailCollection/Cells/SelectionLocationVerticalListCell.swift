@@ -12,6 +12,7 @@ import RxCocoa
 
 protocol SelectionLocationVerticalListCellDelegate: AnyObject {
     func cell(_ cell: SelectionLocationVerticalListCell, didUpdateHeight height: CGFloat, at index: Int)
+    func didTapFavoriteLocation(id: Int, isFavorite: Bool)
 }
 
 final class SelectionLocationVerticalListCell: UICollectionViewCell {
@@ -57,6 +58,7 @@ final class SelectionLocationVerticalListCell: UICollectionViewCell {
     private let favoriteButton: UIButton = {
         let button: UIButton = .init()
         button.setImage(.Icon.favoriteOff, for: .normal)
+        button.setImage(.Icon.favoriteOn, for: .selected)
         return button
     }()
 
@@ -92,6 +94,7 @@ final class SelectionLocationVerticalListCell: UICollectionViewCell {
 
         self.setupUI()
         self.bindUI()
+        self.setupActionBinding()
     }
 
     required init?(coder: NSCoder) {
@@ -99,6 +102,7 @@ final class SelectionLocationVerticalListCell: UICollectionViewCell {
 
         self.setupUI()
         self.bindUI()
+        self.setupActionBinding()
     }
 
     private func setupUI() {
@@ -187,12 +191,26 @@ final class SelectionLocationVerticalListCell: UICollectionViewCell {
             if let index = self.index {
                 self.updateTotalHeight(profileViewHeight: profileViewHeight, at: index)
             }
+            if let id = place.id {
+                self.tag = id
+            }
+            self.favoriteButton.isSelected = place.isFavorite
         }).disposed(by: disposeBag)
     }
 
     func drawCell(model: PlaceRegistration, at index: Int) {
         self.index = index
         self.model.onNext(model)
+    }
+
+    private func setupActionBinding() {
+        self.favoriteButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                guard let self else { return }
+                self.favoriteButton.isSelected.toggle()
+                self.delegate?.didTapFavoriteLocation(id: self.tag, isFavorite: self.favoriteButton.isSelected)
+            })
+            .disposed(by: disposeBag)
     }
 }
 
