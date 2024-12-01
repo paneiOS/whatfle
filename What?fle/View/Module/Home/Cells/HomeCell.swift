@@ -11,7 +11,7 @@ import RxCocoa
 import RxSwift
 
 protocol HomeCellDelegate: AnyObject {
-    func didTapFavoriteButton(id: Int, isFavorite: Bool)
+    func didTapFavoriteCollection(id: Int, isFavorite: Bool)
 }
 
 final class HomeCell: UICollectionViewCell {
@@ -268,7 +268,7 @@ extension HomeCell {
         self.favoriteButton.rx.controlEvent(.touchUpInside)
             .subscribe(onNext: { [weak self] in
                 guard let self else { return }
-                self.delegate?.didTapFavoriteButton(id: self.tag, isFavorite: self.favoriteButton.isSelected)
+                self.delegate?.didTapFavoriteCollection(id: self.tag, isFavorite: self.favoriteButton.isSelected)
             })
             .disposed(by: disposeBag)
     }

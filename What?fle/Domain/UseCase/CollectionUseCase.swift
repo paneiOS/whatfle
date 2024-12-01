@@ -14,8 +14,10 @@ protocol CollectionUseCaseProtocol {
     func getHomeData(page: Int, pageSize: Int) -> Single<HomeDataModel>
     func getRecommendHashtag() -> Single<[RecommendHashTagModel]>
     func registCollection(collection: CollectionData, imageData: Data?) -> Single<Response>
-    func updateFavorite(id: Int, isFavorite: Bool) -> Single<Void>
+    func updateFavoriteLocation(id: Int, isFavorite: Bool) -> Single<Void>
+    func updateFavoriteCollection(id: Int, isFavorite: Bool) -> Single<Void>
     func getMyPageData() -> Single<MyPageDataModel>
+    func getMyFavoriteLocation() -> Single<[HomeDataModel.Collection.Place]>
     func getMyFavoriteCollection() -> Single<[HomeDataModel.Collection]>
 }
 
@@ -69,14 +71,22 @@ final class CollectionUseCase: CollectionUseCaseProtocol {
         }
     }
 
-    func updateFavorite(id: Int, isFavorite: Bool) -> Single<Void> {
-        self.collectionRepository.updateFavorite(id: id, isFavorite: isFavorite)
+    func updateFavoriteLocation(id: Int, isFavorite: Bool) -> Single<Void> {
+        self.collectionRepository.updateFavoriteLocation(id: id, isFavorite: isFavorite)
+    }
+
+    func updateFavoriteCollection(id: Int, isFavorite: Bool) -> Single<Void> {
+        self.collectionRepository.updateFavoriteCollection(id: id, isFavorite: isFavorite)
     }
 
     func getMyPageData() -> Single<MyPageDataModel> {
         return collectionRepository.getMyPageData()
     }
-    
+
+    func getMyFavoriteLocation() -> Single<[HomeDataModel.Collection.Place]> {
+        return collectionRepository.getMyFavoriteLocation()
+    }
+
     func getMyFavoriteCollection() -> Single<[HomeDataModel.Collection]> {
         return collectionRepository.getMyFavoriteCollection()
     }

@@ -40,9 +40,14 @@ final class CollectionRepository: CollectionRepositoryProtocol {
     func registCollection(collection: CollectionDataModel) -> Single<Response> {
         return self.networkService.request(CollectionAPI.registCollectionData(collection))
     }
+    
+    func updateFavoriteLocation(id: Int, isFavorite: Bool) -> Single<Void> {
+        return self.networkService.request(CollectionAPI.updateFavoriteLocation(id: id, isFavorite: isFavorite))
+            .map { _ in () }
+    }
 
-    func updateFavorite(id: Int, isFavorite: Bool) -> Single<Void> {
-        return self.networkService.request(CollectionAPI.updateFavorite(id: id, isFavorite: isFavorite))
+    func updateFavoriteCollection(id: Int, isFavorite: Bool) -> Single<Void> {
+        return self.networkService.request(CollectionAPI.updateFavoriteCollection(id: id, isFavorite: isFavorite))
             .map { _ in () }
     }
 
@@ -50,9 +55,11 @@ final class CollectionRepository: CollectionRepositoryProtocol {
         return self.networkService.request(MyPageAPI.getMyPageData)
     }
 
+    func getMyFavoriteLocation() -> Single<[HomeDataModel.Collection.Place]> {
+        return self.networkService.request(MyPageAPI.getMyFavoriteLocation)
+    }
+
     func getMyFavoriteCollection() -> Single<[HomeDataModel.Collection]> {
         return self.networkService.request(MyPageAPI.getMyFavoriteCollection)
     }
-
-//    func getMyFavoriteLocation() -> Single<HomeDataModel>
 }

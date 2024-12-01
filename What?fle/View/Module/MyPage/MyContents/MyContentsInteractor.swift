@@ -23,6 +23,7 @@ final class MyContentsInteractor: PresentableInteractor<MyContentsPresentable>, 
     private let collectionUseCase: CollectionUseCaseProtocol
     private let disposeBag = DisposeBag()
 
+    var myFavoritePlaces: BehaviorRelay<[HomeDataModel.Collection.Place]> = .init(value: [])
     var myFavoriteCollections: BehaviorRelay<[HomeDataModel.Collection]> = .init(value: [])
 
     weak var router: MyContentsRouting?
@@ -40,34 +41,50 @@ final class MyContentsInteractor: PresentableInteractor<MyContentsPresentable>, 
 }
 
 extension MyContentsInteractor: MyContentsPresentableListener {
-    func retriveMyFavoriteCollection() {
+    func retriveMyFavorites() {
         guard !LoadingIndicatorService.shared.isLoading() else { return }
         LoadingIndicatorService.shared.showLoading()
 
-        collectionUseCase.getMyFavoriteCollection()
-            .subscribe(onSuccess: { [weak self] data in
-                guard let self else { return }
-                let updatedData = data.map { collection -> HomeDataModel.Collection in
+        Single.zip(
+            collectionUseCase.getMyFavoriteLocation().map { data in
+                data.map { place -> HomeDataModel.Collection.Place in
+                    var modifiedPlace = place
+                    modifiedPlace.isFavorite = true
+                    return modifiedPlace
+                }
+            },
+            collectionUseCase.getMyFavoriteCollection().map { data in
+                data.map { collection -> HomeDataModel.Collection in
                     var modifiedCollection = collection
                     modifiedCollection.isFavorite = true
                     return modifiedCollection
                 }
-
-                self.myFavoriteCollections.accept(updatedData)
-            }, onFailure: { error in
-                errorPrint(error)
-            }, onDisposed: {
-                LoadingIndicatorService.shared.hideLoading()
-            })
-            .disposed(by: disposeBag)
+            }
+        )
+        .subscribe(onSuccess: { [weak self] places, collections in
+            guard let self else { return }
+            self.myFavoritePlaces.accept(places)
+            self.myFavoriteCollections.accept(collections)
+        }, onFailure: { error in
+            errorPrint(error)
+        }, onDisposed: {
+            LoadingIndicatorService.shared.hideLoading()
+        })
+        .disposed(by: disposeBag)
     }
 
     func popToMyContents() {
         listener?.popToMyContents()
     }
 
-    func updateFavorite(id: Int, isFavorite: Bool) {
-        collectionUseCase.updateFavorite(id: id, isFavorite: isFavorite)
+    func updateFavoriteLocation(id: Int, isFavorite: Bool) {
+        collectionUseCase.updateFavoriteLocation(id: id, isFavorite: isFavorite)
+            .subscribe(onSuccess: {})
+            .disposed(by: disposeBag)
+    }
+
+    func updateFavoriteCollection(id: Int, isFavorite: Bool) {
+        collectionUseCase.updateFavoriteCollection(id: id, isFavorite: isFavorite)
             .subscribe(onSuccess: {})
             .disposed(by: disposeBag)
     }

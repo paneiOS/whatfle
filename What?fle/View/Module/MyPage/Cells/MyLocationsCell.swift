@@ -7,8 +7,12 @@
 
 import UIKit
 
+import RxSwift
+
 protocol MyLocationsCellDelegate: AnyObject {
     func showDetailLocation(model: HomeDataModel.Collection.Place)
+    func showMyLocations()
+    func didTapFavoriteButton(id: Int, isFavorite: Bool)
 }
 
 final class MyLocationsCell: UICollectionViewCell {
@@ -41,14 +45,18 @@ final class MyLocationsCell: UICollectionViewCell {
         }
     }
 
+    private let disposeBag = DisposeBag()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
+        setupActionBinding()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupUI()
+        setupActionBinding()
     }
 
     private func setupUI() {
@@ -66,6 +74,15 @@ final class MyLocationsCell: UICollectionViewCell {
     func drawCell(model: [HomeDataModel.Collection.Place]) {
         self.model = model
     }
+
+    func setupActionBinding() {
+        self.headerView.moreButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                guard let self else { return }
+                self.delegate?.showMyLocations()
+            })
+            .disposed(by: disposeBag)
+    }
 }
 
 extension MyLocationsCell: UICollectionViewDelegateFlowLayout {
@@ -75,10 +92,6 @@ extension MyLocationsCell: UICollectionViewDelegateFlowLayout {
 }
 
 extension MyLocationsCell: UICollectionViewDataSource {
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return model.count
     }
@@ -87,7 +100,8 @@ extension MyLocationsCell: UICollectionViewDataSource {
         let emptyCell = collectionView.dequeueReusableCell(withReuseIdentifier: EmptyCell.reuseIdentifier, for: indexPath)
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyLocationSubCell.reuseIdentifier, for: indexPath) as? MyLocationSubCell,
             let place = model[safe: indexPath.item] else { return emptyCell }
-        cell.drawCell(place: place)
+        cell.drawCell(place: place, isFavorite: false)
+        cell.delegate = self
         return cell
     }
 
@@ -95,6 +109,16 @@ extension MyLocationsCell: UICollectionViewDataSource {
         guard let model = self.model[safe: indexPath.item] else { return }
         self.delegate?.showDetailLocation(model: model)
     }
+}
+
+extension MyLocationsCell: MyLocationSubCellDelegate {
+    func didTapFavoriteLocation(id: Int, isFavorite: Bool) {
+        self.delegate?.didTapFavoriteButton(id: id, isFavorite: isFavorite)
+    }
+}
+
+protocol MyLocationSubCellDelegate: AnyObject {
+    func didTapFavoriteLocation(id: Int, isFavorite: Bool)
 }
 
 final class MyLocationSubCell: UICollectionViewCell {
@@ -106,25 +130,32 @@ final class MyLocationSubCell: UICollectionViewCell {
         view.layer.masksToBounds = true
         return view
     }()
-
     private let subView: UIView = .init()
-
     private let label: UILabel = .init()
-
     private let subLabel: UILabel = .init()
+    private let favoriteButton: FavoriteButton = {
+        let button: FavoriteButton = .init()
+        button.isHidden = true
+        return button
+    }()
+    private let disposeBag = DisposeBag()
+
+    weak var delegate: MyLocationSubCellDelegate?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
+        setupActionBinding()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupUI()
+        setupActionBinding()
     }
 
     private func setupUI() {
-        self.contentView.addSubviews(self.imageView, self.subView)
+        self.contentView.addSubviews(self.imageView, self.subView, self.favoriteButton)
         self.imageView.snp.makeConstraints {
             $0.top.leading.bottom.equalToSuperview().inset(12)
             $0.size.equalTo(64)
@@ -132,7 +163,8 @@ final class MyLocationSubCell: UICollectionViewCell {
 
         self.subView.addSubviews(self.label, self.subLabel)
         self.label.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
+            $0.top.leading.equalToSuperview()
+            $0.trailing.equalTo(self.favoriteButton.snp.leading)
         }
         self.subLabel.snp.makeConstraints {
             $0.top.equalTo(self.label.snp.bottom).offset(8)
@@ -144,9 +176,14 @@ final class MyLocationSubCell: UICollectionViewCell {
             $0.leading.equalTo(self.imageView.snp.trailing).offset(12)
             $0.trailing.equalToSuperview().inset(12)
         }
+        self.favoriteButton.snp.makeConstraints {
+            $0.centerY.trailing.equalToSuperview()
+            $0.size.equalTo(32)
+        }
     }
 
-    func drawCell(place: HomeDataModel.Collection.Place) {
+    func drawCell(place: HomeDataModel.Collection.Place, isFavorite: Bool) {
+        self.tag = place.id
         self.label.attributedText = .makeAttributedString(
             text: place.placeName,
             font: .body14XBD,
@@ -160,5 +197,16 @@ final class MyLocationSubCell: UICollectionViewCell {
             lineHeight: 20
         )
         self.imageView.loadImage(from: place.imageURLs?.first)
+        self.favoriteButton.isHidden = !isFavorite
+        self.favoriteButton.isSelected = isFavorite
+    }
+
+    private func setupActionBinding() {
+        self.favoriteButton.rx.controlEvent(.touchUpInside)
+            .subscribe(onNext: { [weak self] in
+                guard let self else { return }
+                self.delegate?.didTapFavoriteLocation(id: self.tag, isFavorite: self.favoriteButton.isSelected)
+            })
+            .disposed(by: disposeBag)
     }
 }
