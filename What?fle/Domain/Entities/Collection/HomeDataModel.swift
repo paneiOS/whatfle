@@ -73,7 +73,7 @@ struct HomeDataModel: Decodable {
 
         init(from decoder: any Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.type = ImageGridType(rawValue: try container.decode(String.self, forKey: .type)) ?? .twoByTwo
+            self.type = ImageGridType(rawValue: try container.decode(String.self, forKey: .type)) ?? .type1
             self.collection = try container.decode(Collection.self, forKey: .collection)
             self.account = try container.decode(Account.self, forKey: .account)
         }
