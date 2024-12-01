@@ -20,6 +20,8 @@ struct PlaceRegistration: Codable {
     var longitude: Double
     var categoryGroupCode: CategoryGroupCode
 
+    var isFavorite: Bool = false
+
     var isEmptyImageURLs: Bool {
         self.imageURLs.isEmpty
     }

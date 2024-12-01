@@ -19,7 +19,7 @@ struct DetailCollectionModel: Decodable {
     let imageURLs: [String]?
     let isActiveCover: Bool
     let hashtags: [Hashtag]
-    let places: [PlaceRegistration]
+    var places: [PlaceRegistration]
 
     enum CodingKeys: String, CodingKey {
         case id
