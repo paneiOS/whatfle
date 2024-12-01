@@ -8,28 +8,31 @@
 import UIKit
 
 enum ImageGridType: String {
-    case twoByTwo = "type1"
-//    case oneByFour = "type2"
+    case none
+    case type1
+    case type2
+    case type3
+    case type4
 
     var cellHeight: CGFloat {
         switch self {
-        case .twoByTwo:
-            return UIApplication.shared.width + 38 + 92 + 16
-//        case .oneByFour:
-//            return 100
+        case .type3:
+            return 298
+        case .type4:
+            return 378
         default:
             return UIApplication.shared.width + 38 + 92 + 16
         }
     }
-}
 
-//final class ImageView: UIImageView {
-//
-//    override init(image: UIImage? = .placehold) {
-//        super.init(image: image)
-//    }
-//
-//    required init?(coder: NSCoder) {
-//        super.init(coder: coder)
-//    }
-//}
+    var imageHeight: CGFloat {
+        switch self {
+        case .type3:
+            120
+        case .type4:
+            200
+        default:
+            UIApplication.shared.width
+        }
+    }
+}

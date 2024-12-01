@@ -16,7 +16,7 @@ protocol HomeCellDelegate: AnyObject {
 
 final class HomeCell: UICollectionViewCell {
     private enum Constants {
-        static let imageWidth: CGFloat = (UIApplication.shared.width - 32) / 2
+        static let imageWidth: CGFloat = floor((UIApplication.shared.width - 32) / 2)
     }
 
     static let reuseIdentifier = "HomeCell"
@@ -48,10 +48,6 @@ final class HomeCell: UICollectionViewCell {
     private let favoriteButton: FavoriteButton = .init()
 
     private let totalImageView: UIView = .init()
-    private let topLeftImageView: ImageView = .init()
-    private let topRightImageView: ImageView = .init()
-    private let bottomLeftImageView: ImageView = .init()
-    private let bottomRightImageView: ImageView = .init()
 
     private let profileView: UIView = .init()
     private let profileImageView: ImageView = {
@@ -97,10 +93,6 @@ final class HomeCell: UICollectionViewCell {
         self.titleLabel.attributedText = nil
         self.subtitleLabel.attributedText = nil
         self.favoriteButton.isSelected = false
-        self.topLeftImageView.image = .placeholder
-        self.topRightImageView.image = .placeholder
-        self.bottomLeftImageView.image = .placeholder
-        self.bottomRightImageView.image = .placeholder
         self.userName.attributedText = nil
     }
 }
@@ -109,7 +101,7 @@ extension HomeCell {
     private func setupUI() {
         contentView.addSubviews(self.totalView, self.bottomLineView)
         self.totalView.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview().inset(19)
+            $0.top.equalToSuperview().inset(19)
             $0.leading.trailing.equalToSuperview()
         }
 
@@ -144,31 +136,6 @@ extension HomeCell {
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(Constants.imageWidth * 2)
         }
-
-        self.totalImageView.addSubviews(
-            self.topLeftImageView,
-            self.topRightImageView,
-            self.bottomLeftImageView,
-            self.bottomRightImageView
-        )
-
-        self.topLeftImageView.snp.makeConstraints {
-            $0.top.leading.equalToSuperview()
-            $0.size.equalTo(Constants.imageWidth)
-        }
-        self.topRightImageView.snp.makeConstraints {
-            $0.top.trailing.equalToSuperview()
-            $0.size.equalTo(Constants.imageWidth)
-        }
-        self.bottomLeftImageView.snp.makeConstraints {
-            $0.bottom.leading.equalToSuperview()
-            $0.size.equalTo(Constants.imageWidth)
-        }
-        self.bottomRightImageView.snp.makeConstraints {
-            $0.bottom.trailing.equalToSuperview()
-            $0.size.equalTo(Constants.imageWidth)
-        }
-
         self.profileView.addSubviews(self.profileImageView, self.userName)
         self.profileView.snp.makeConstraints {
             $0.top.equalTo(self.totalImageView.snp.bottom).offset(8)
@@ -194,7 +161,7 @@ extension HomeCell {
         self.tags = model.collection.hashtags.map { $0.hashtagName }
         self.favoriteButton.isSelected = model.collection.isFavorite
         self.titleLabel.attributedText = .makeAttributedString(
-            text: model.collection.title,
+            text: model.collection.title + model.type.rawValue,
             font: .title20XBD,
             textColor: .textDefault,
             lineHeight: 28
@@ -205,20 +172,8 @@ extension HomeCell {
             textColor: .textLight,
             lineHeight: 20
         )
-        let imageViews = [
-            self.topLeftImageView,
-            self.topRightImageView,
-            self.bottomLeftImageView,
-            self.bottomRightImageView
-        ]
-        for (idx, imageURL) in (model.collection.places.compactMap { $0.imageURLs?.first }).enumerated() {
-            guard idx < 5 else { return }
-            imageViews[idx].loadImage(from: imageURL)
-        }
-
-        if let imageURL = model.account.imageURL {
-            self.profileImageView.loadImage(from: imageURL)
-        }
+        let imageURLs = model.collection.places.compactMap { $0.imageURLs?.first }
+        self.makeImageGrid(with: imageURLs, type: model.type)
         self.userName.attributedText = .makeAttributedString(
             text: model.account.nickname,
             font: .body14MD,
@@ -243,16 +198,8 @@ extension HomeCell {
             textColor: .textLight,
             lineHeight: 20
         )
-        let imageViews = [
-            self.topLeftImageView,
-            self.topRightImageView,
-            self.bottomLeftImageView,
-            self.bottomRightImageView
-        ]
-        for (idx, imageURL) in (model.places.compactMap { $0.imageURLs?.first }).enumerated() {
-            guard idx < 5 else { return }
-            imageViews[idx].loadImage(from: imageURL)
-        }
+        let imageURLs = model.places.compactMap { $0.imageURLs?.first }
+        self.makeImageGrid(with: imageURLs, type: .type1)
         if let userInfo = SessionManager.shared.loadUserInfo() {
             self.profileImageView.loadImage(from: userInfo.profileImagePath)
             self.userName.attributedText = .makeAttributedString(
@@ -271,6 +218,99 @@ extension HomeCell {
                 self.delegate?.didTapFavoriteCollection(id: self.tag, isFavorite: self.favoriteButton.isSelected)
             })
             .disposed(by: disposeBag)
+    }
+
+    private func makeImageGrid(with imageURLs: [String], type: ImageGridType) {
+        self.totalImageView.subviews.forEach { $0.removeFromSuperview() }
+        if imageURLs.isEmpty {
+            self.addSingleImage(image: .placehold ,height: type.imageHeight)
+            return
+        }
+        if imageURLs.count < 4, let imageURL = imageURLs.first {
+            self.addSingleImage(imageURL: imageURL, height: type.imageHeight)
+            return
+        }
+        let imageViews = createImageViews(from: imageURLs)
+           switch type {
+           case .type1:
+               applyTypeDoubleLayout(with: imageViews)
+               updateHeight(Constants.imageWidth * 2)
+           case .type2:
+               applyTypeDoubleLayout(with: imageViews, isRadious: true)
+               updateHeight(Constants.imageWidth * 2)
+           case .type3:
+               applyType3Layout(with: imageViews)
+               updateHeight(120)
+           case .type4:
+               addSingleImage(imageURL: imageURLs.first, height: type.imageHeight)
+           default:
+               addSingleImage(imageURL: imageURLs.first, height: Constants.imageWidth * 2)
+           }
+    }
+
+    private func applyTypeDoubleLayout(with imageViews: [ImageView], isRadious: Bool = false) {
+        guard imageViews.count >= 4 else { return }
+        let size = Constants.imageWidth
+        imageViews[0...3].enumerated().forEach { index, imageView in
+            totalImageView.addSubview(imageView)
+            if isRadious {
+                imageView.layer.cornerRadius = size / 2
+                imageView.clipsToBounds = true
+            }
+            imageView.snp.makeConstraints {
+                $0.size.equalTo(size)
+                switch index {
+                case 0: $0.top.leading.equalToSuperview()
+                case 1: $0.top.trailing.equalToSuperview()
+                case 2: $0.bottom.leading.equalToSuperview()
+                case 3: $0.bottom.trailing.equalToSuperview()
+                default: break
+                }
+            }
+        }
+    }
+
+    private func applyType3Layout(with imageViews: [ImageView]) {
+        let width = self.totalImageView.bounds.width / 4
+        for (index, imageView) in imageViews.enumerated() {
+            self.totalImageView.addSubview(imageView)
+            imageView.snp.makeConstraints {
+                $0.top.equalToSuperview()
+                $0.height.equalTo(ImageGridType.type3.imageHeight)
+                $0.width.equalToSuperview().dividedBy(4)
+                $0.leading.equalTo(CGFloat(index) * width)
+            }
+        }
+    }
+
+    private func addSingleImage(imageURL: String? = nil, image: UIImage? = nil, height: CGFloat) {
+        let imageView = ImageView()
+        if let imageURL = imageURL {
+            imageView.loadImage(from: imageURL, placeholder: .placehold)
+        } else if let image = image {
+            imageView.image = image
+        }
+        totalImageView.addSubview(imageView)
+        imageView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        updateHeight(height)
+    }
+
+    private func updateHeight(_ height: CGFloat) {
+        self.totalImageView.snp.updateConstraints {
+            $0.height.equalTo(height)
+        }
+    }
+
+    private func createImageViews(from imageURLs: [String]) -> [ImageView] {
+        return imageURLs.map {
+            let imageView = ImageView()
+            imageView.loadImage(from: $0, placeholder: .placehold)
+            imageView.contentMode = .scaleAspectFill
+            imageView.clipsToBounds = true
+            return imageView
+        }
     }
 }
 

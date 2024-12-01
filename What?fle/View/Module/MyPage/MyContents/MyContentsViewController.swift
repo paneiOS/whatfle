@@ -185,7 +185,7 @@ extension MyContentsViewController: UICollectionViewDataSource, UICollectionView
         if collectionView === self.locationsView {
             return .init(width: collectionView.bounds.width - 32, height: 88)
         } else {
-            return CGSize(width: collectionView.bounds.width - 32, height: ImageGridType.twoByTwo.cellHeight)
+            return CGSize(width: collectionView.bounds.width - 32, height: ImageGridType.type1.cellHeight)
         }
     }
 }
