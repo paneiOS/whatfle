@@ -104,6 +104,7 @@ final class AddTagViewController: BottomKeyboardVC, AddTagPresentable, AddTagVie
         let collectionView: TagCollectionView = .init()
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.register(EmptyCell.self, forCellWithReuseIdentifier: EmptyCell.reuseIdentifier)
         collectionView.register(TagCell.self, forCellWithReuseIdentifier: TagCell.reuseIdentifier)
         collectionView.backgroundColor = .white
         return collectionView
@@ -275,7 +276,9 @@ extension AddTagViewController: UICollectionViewDelegateFlowLayout, UICollection
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TagCell.reuseIdentifier, for: indexPath) as? TagCell,
-              let cellType = self.tags[safe: indexPath.row] else { return UICollectionViewCell() }
+              let cellType = self.tags[safe: indexPath.row] else {
+            return collectionView.dequeueReusableCell(withReuseIdentifier: EmptyCell.reuseIdentifier, for: indexPath)
+        }
         cell.delegate = self
         cell.drawCell(cellType: cellType)
         return cell

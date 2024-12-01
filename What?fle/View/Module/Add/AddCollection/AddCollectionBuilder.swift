@@ -30,7 +30,7 @@ extension AddCollectionComponent: RegistCollectionDependency {
     var userInfo: UserInfo? {
         return dependency.userInfo
     }
-    
+
     var registCollectionBuilder: RegistCollectionBuildable {
         return RegistCollectionBuilder(dependency: self)
     }

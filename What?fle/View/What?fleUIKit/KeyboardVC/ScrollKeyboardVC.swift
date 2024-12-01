@@ -23,7 +23,7 @@ class ScrollKeyboardVC: UIViewController, UIGestureRecognizerDelegate {
     private func setupKeyboard() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
+
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(keyboardWillHide))
         tapGesture.cancelsTouchesInView = false
         tapGesture.delegate = self

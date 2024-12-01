@@ -16,5 +16,9 @@ protocol CollectionRepositoryProtocol {
     func getRecommendHashtag() -> Single<[RecommendHashTagModel]>
     func registCollection(collection: CollectionDataModel) -> Single<Response>
     func uploadImage(imageData: Data, fileName: String) -> Single<String>
-    func updateFavorite(id: Int, isFavorite: Bool) -> Single<Void>
+    func updateFavoriteLocation(id: Int, isFavorite: Bool) -> Single<Void>
+    func updateFavoriteCollection(id: Int, isFavorite: Bool) -> Single<Void>
+    func getMyPageData() -> Single<MyPageDataModel>
+    func getMyFavoriteLocation() -> Single<[HomeDataModel.Collection.Place]>
+    func getMyFavoriteCollection() -> Single<[HomeDataModel.Collection]>
 }

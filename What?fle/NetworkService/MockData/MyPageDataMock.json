@@ -1,0 +1,774 @@
+{
+    "collections": [
+        {
+            "id": 72,
+            "accountId": 185,
+            "title": "ㄹ",
+            "description": "ㅁㄴㅇㄹ",
+            "createdAt": "2024-10-17T10:46:58.4+00:00",
+            "updatedAt": null,
+            "deletedAt": null,
+            "isPublic": false,
+            "imageUrls": [
+                "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/collection/efa9bffa-ed75-4736-8e5d-d4535225599f"
+            ],
+            "isActiveCover": true,
+            "hashtags": [
+                {
+                    "id": 77,
+                    "hashtagName": "ㅇㄹ"
+                },
+                {
+                    "id": 78,
+                    "hashtagName": "ㄹㅇㄴ"
+                },
+                {
+                    "id": 79,
+                    "hashtagName": "태그추가"
+                },
+                {
+                    "id": 80,
+                    "hashtagName": "추천태그에요"
+                },
+                {
+                    "id": 81,
+                    "hashtagName": "전구"
+                },
+                {
+                    "id": 178,
+                    "hashtagName": "내퓨ㅜ"
+                }
+            ],
+            "places": [
+                {
+                    "id": 132,
+                    "address": "경기 수원시 영통구 망포동 342",
+                    "latitude": 37.2442101024982,
+                    "longitude": 127.058861983954,
+                    "accountId": 185,
+                    "createdAt": "2024-10-16T23:36:26.065+00:00",
+                    "deletedAt": null,
+                    "imageUrls": [
+                        "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/place/1411a71d-e910-4347-9883-b00690aee9ed"
+                    ],
+                    "placeName": "빽돈 망포점",
+                    "updatedAt": null,
+                    "visitDate": "2024-10-17",
+                    "description": "ㅁㅁ",
+                    "roadAddress": "경기 수원시 영통구 영통로200번길 42",
+                    "categoryGroupCode": "FD6"
+                },
+                {
+                    "id": 130,
+                    "address": "제주특별자치도 제주시 도두이동 1679",
+                    "latitude": 33.509249662484564,
+                    "longitude": 126.47665114830023,
+                    "accountId": 185,
+                    "createdAt": "2024-10-16T23:35:50.583+00:00",
+                    "deletedAt": null,
+                    "imageUrls": [
+                        "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/place/616192b6-24c2-4629-b72a-f6105f80c547"
+                    ],
+                    "placeName": "빽다방베이커리 제주사수점",
+                    "updatedAt": null,
+                    "visitDate": "2024-10-17",
+                    "description": "ㄹㄹ",
+                    "roadAddress": "제주특별자치도 제주시 서해안로 291-5",
+                    "categoryGroupCode": "CE7"
+                },
+                {
+                    "id": 127,
+                    "address": "서울 관악구 봉천동 1602-18",
+                    "latitude": 37.4799119952814,
+                    "longitude": 126.954301415673,
+                    "accountId": 185,
+                    "createdAt": "2024-10-16T14:05:42.29+00:00",
+                    "deletedAt": null,
+                    "imageUrls": [
+                        "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/place/aa9c52b9-fd43-47f1-9155-8670d39d4a6c"
+                    ],
+                    "placeName": "빽돈 샤로수길점",
+                    "updatedAt": null,
+                    "visitDate": "2024-10-16",
+                    "description": "ㅁㅁ",
+                    "roadAddress": "서울 관악구 관악로16길 32-2",
+                    "categoryGroupCode": "FD6"
+                },
+                {
+                    "id": 125,
+                    "address": "서울 송파구 방이동 70",
+                    "latitude": 37.51348991657128,
+                    "longitude": 127.10984673262884,
+                    "accountId": 185,
+                    "createdAt": "2024-10-16T14:04:56.655+00:00",
+                    "deletedAt": null,
+                    "imageUrls": [
+                        "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/place/cb9174a2-1e7a-4043-add9-61db3adf69b9"
+                    ],
+                    "placeName": "빽돈 방이점",
+                    "updatedAt": null,
+                    "visitDate": "2024-10-16",
+                    "description": "네",
+                    "roadAddress": "서울 송파구 올림픽로32길 29",
+                    "categoryGroupCode": "FD6"
+                }
+            ]
+        },
+        {
+            "id": 72,
+            "accountId": 185,
+            "title": "ㄹ",
+            "description": "ㅁㄴㅇㄹ",
+            "createdAt": "2024-10-17T10:46:58.4+00:00",
+            "updatedAt": null,
+            "deletedAt": null,
+            "isPublic": false,
+            "imageUrls": [
+                "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/collection/efa9bffa-ed75-4736-8e5d-d4535225599f"
+            ],
+            "isActiveCover": true,
+            "hashtags": [
+                {
+                    "id": 77,
+                    "hashtagName": "ㅇㄹ"
+                },
+                {
+                    "id": 78,
+                    "hashtagName": "ㄹㅇㄴ"
+                },
+                {
+                    "id": 79,
+                    "hashtagName": "태그추가"
+                },
+                {
+                    "id": 80,
+                    "hashtagName": "추천태그에요"
+                },
+                {
+                    "id": 81,
+                    "hashtagName": "전구"
+                },
+                {
+                    "id": 178,
+                    "hashtagName": "내퓨ㅜ"
+                }
+            ],
+            "places": [
+                {
+                    "id": 132,
+                    "address": "경기 수원시 영통구 망포동 342",
+                    "latitude": 37.2442101024982,
+                    "longitude": 127.058861983954,
+                    "accountId": 185,
+                    "createdAt": "2024-10-16T23:36:26.065+00:00",
+                    "deletedAt": null,
+                    "imageUrls": [
+                        "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/place/1411a71d-e910-4347-9883-b00690aee9ed"
+                    ],
+                    "placeName": "빽돈 망포점",
+                    "updatedAt": null,
+                    "visitDate": "2024-10-17",
+                    "description": "ㅁㅁ",
+                    "roadAddress": "경기 수원시 영통구 영통로200번길 42",
+                    "categoryGroupCode": "FD6"
+                },
+                {
+                    "id": 130,
+                    "address": "제주특별자치도 제주시 도두이동 1679",
+                    "latitude": 33.509249662484564,
+                    "longitude": 126.47665114830023,
+                    "accountId": 185,
+                    "createdAt": "2024-10-16T23:35:50.583+00:00",
+                    "deletedAt": null,
+                    "imageUrls": [
+                        "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/place/616192b6-24c2-4629-b72a-f6105f80c547"
+                    ],
+                    "placeName": "빽다방베이커리 제주사수점",
+                    "updatedAt": null,
+                    "visitDate": "2024-10-17",
+                    "description": "ㄹㄹ",
+                    "roadAddress": "제주특별자치도 제주시 서해안로 291-5",
+                    "categoryGroupCode": "CE7"
+                },
+                {
+                    "id": 127,
+                    "address": "서울 관악구 봉천동 1602-18",
+                    "latitude": 37.4799119952814,
+                    "longitude": 126.954301415673,
+                    "accountId": 185,
+                    "createdAt": "2024-10-16T14:05:42.29+00:00",
+                    "deletedAt": null,
+                    "imageUrls": [
+                        "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/place/aa9c52b9-fd43-47f1-9155-8670d39d4a6c"
+                    ],
+                    "placeName": "빽돈 샤로수길점",
+                    "updatedAt": null,
+                    "visitDate": "2024-10-16",
+                    "description": "ㅁㅁ",
+                    "roadAddress": "서울 관악구 관악로16길 32-2",
+                    "categoryGroupCode": "FD6"
+                },
+                {
+                    "id": 125,
+                    "address": "서울 송파구 방이동 70",
+                    "latitude": 37.51348991657128,
+                    "longitude": 127.10984673262884,
+                    "accountId": 185,
+                    "createdAt": "2024-10-16T14:04:56.655+00:00",
+                    "deletedAt": null,
+                    "imageUrls": [
+                        "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/place/cb9174a2-1e7a-4043-add9-61db3adf69b9"
+                    ],
+                    "placeName": "빽돈 방이점",
+                    "updatedAt": null,
+                    "visitDate": "2024-10-16",
+                    "description": "네",
+                    "roadAddress": "서울 송파구 올림픽로32길 29",
+                    "categoryGroupCode": "FD6"
+                }
+            ]
+        },
+        {
+            "id": 72,
+            "accountId": 185,
+            "title": "ㄹ",
+            "description": "ㅁㄴㅇㄹ",
+            "createdAt": "2024-10-17T10:46:58.4+00:00",
+            "updatedAt": null,
+            "deletedAt": null,
+            "isPublic": false,
+            "imageUrls": [
+                "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/collection/efa9bffa-ed75-4736-8e5d-d4535225599f"
+            ],
+            "isActiveCover": true,
+            "hashtags": [
+                {
+                    "id": 77,
+                    "hashtagName": "ㅇㄹ"
+                },
+                {
+                    "id": 78,
+                    "hashtagName": "ㄹㅇㄴ"
+                },
+                {
+                    "id": 79,
+                    "hashtagName": "태그추가"
+                },
+                {
+                    "id": 80,
+                    "hashtagName": "추천태그에요"
+                },
+                {
+                    "id": 81,
+                    "hashtagName": "전구"
+                },
+                {
+                    "id": 178,
+                    "hashtagName": "내퓨ㅜ"
+                }
+            ],
+            "places": [
+                {
+                    "id": 132,
+                    "address": "경기 수원시 영통구 망포동 342",
+                    "latitude": 37.2442101024982,
+                    "longitude": 127.058861983954,
+                    "accountId": 185,
+                    "createdAt": "2024-10-16T23:36:26.065+00:00",
+                    "deletedAt": null,
+                    "imageUrls": [
+                        "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/place/1411a71d-e910-4347-9883-b00690aee9ed"
+                    ],
+                    "placeName": "빽돈 망포점",
+                    "updatedAt": null,
+                    "visitDate": "2024-10-17",
+                    "description": "ㅁㅁ",
+                    "roadAddress": "경기 수원시 영통구 영통로200번길 42",
+                    "categoryGroupCode": "FD6"
+                },
+                {
+                    "id": 130,
+                    "address": "제주특별자치도 제주시 도두이동 1679",
+                    "latitude": 33.509249662484564,
+                    "longitude": 126.47665114830023,
+                    "accountId": 185,
+                    "createdAt": "2024-10-16T23:35:50.583+00:00",
+                    "deletedAt": null,
+                    "imageUrls": [
+                        "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/place/616192b6-24c2-4629-b72a-f6105f80c547"
+                    ],
+                    "placeName": "빽다방베이커리 제주사수점",
+                    "updatedAt": null,
+                    "visitDate": "2024-10-17",
+                    "description": "ㄹㄹ",
+                    "roadAddress": "제주특별자치도 제주시 서해안로 291-5",
+                    "categoryGroupCode": "CE7"
+                },
+                {
+                    "id": 127,
+                    "address": "서울 관악구 봉천동 1602-18",
+                    "latitude": 37.4799119952814,
+                    "longitude": 126.954301415673,
+                    "accountId": 185,
+                    "createdAt": "2024-10-16T14:05:42.29+00:00",
+                    "deletedAt": null,
+                    "imageUrls": [
+                        "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/place/aa9c52b9-fd43-47f1-9155-8670d39d4a6c"
+                    ],
+                    "placeName": "빽돈 샤로수길점",
+                    "updatedAt": null,
+                    "visitDate": "2024-10-16",
+                    "description": "ㅁㅁ",
+                    "roadAddress": "서울 관악구 관악로16길 32-2",
+                    "categoryGroupCode": "FD6"
+                },
+                {
+                    "id": 125,
+                    "address": "서울 송파구 방이동 70",
+                    "latitude": 37.51348991657128,
+                    "longitude": 127.10984673262884,
+                    "accountId": 185,
+                    "createdAt": "2024-10-16T14:04:56.655+00:00",
+                    "deletedAt": null,
+                    "imageUrls": [
+                        "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/place/cb9174a2-1e7a-4043-add9-61db3adf69b9"
+                    ],
+                    "placeName": "빽돈 방이점",
+                    "updatedAt": null,
+                    "visitDate": "2024-10-16",
+                    "description": "네",
+                    "roadAddress": "서울 송파구 올림픽로32길 29",
+                    "categoryGroupCode": "FD6"
+                }
+            ]
+        },
+        {
+            "id": 72,
+            "accountId": 185,
+            "title": "ㄹ",
+            "description": "ㅁㄴㅇㄹ",
+            "createdAt": "2024-10-17T10:46:58.4+00:00",
+            "updatedAt": null,
+            "deletedAt": null,
+            "isPublic": false,
+            "imageUrls": [
+                "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/collection/efa9bffa-ed75-4736-8e5d-d4535225599f"
+            ],
+            "isActiveCover": true,
+            "hashtags": [
+                {
+                    "id": 77,
+                    "hashtagName": "ㅇㄹ"
+                },
+                {
+                    "id": 78,
+                    "hashtagName": "ㄹㅇㄴ"
+                },
+                {
+                    "id": 79,
+                    "hashtagName": "태그추가"
+                },
+                {
+                    "id": 80,
+                    "hashtagName": "추천태그에요"
+                },
+                {
+                    "id": 81,
+                    "hashtagName": "전구"
+                },
+                {
+                    "id": 178,
+                    "hashtagName": "내퓨ㅜ"
+                }
+            ],
+            "places": [
+                {
+                    "id": 132,
+                    "address": "경기 수원시 영통구 망포동 342",
+                    "latitude": 37.2442101024982,
+                    "longitude": 127.058861983954,
+                    "accountId": 185,
+                    "createdAt": "2024-10-16T23:36:26.065+00:00",
+                    "deletedAt": null,
+                    "imageUrls": [
+                        "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/place/1411a71d-e910-4347-9883-b00690aee9ed"
+                    ],
+                    "placeName": "빽돈 망포점",
+                    "updatedAt": null,
+                    "visitDate": "2024-10-17",
+                    "description": "ㅁㅁ",
+                    "roadAddress": "경기 수원시 영통구 영통로200번길 42",
+                    "categoryGroupCode": "FD6"
+                },
+                {
+                    "id": 130,
+                    "address": "제주특별자치도 제주시 도두이동 1679",
+                    "latitude": 33.509249662484564,
+                    "longitude": 126.47665114830023,
+                    "accountId": 185,
+                    "createdAt": "2024-10-16T23:35:50.583+00:00",
+                    "deletedAt": null,
+                    "imageUrls": [
+                        "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/place/616192b6-24c2-4629-b72a-f6105f80c547"
+                    ],
+                    "placeName": "빽다방베이커리 제주사수점",
+                    "updatedAt": null,
+                    "visitDate": "2024-10-17",
+                    "description": "ㄹㄹ",
+                    "roadAddress": "제주특별자치도 제주시 서해안로 291-5",
+                    "categoryGroupCode": "CE7"
+                },
+                {
+                    "id": 127,
+                    "address": "서울 관악구 봉천동 1602-18",
+                    "latitude": 37.4799119952814,
+                    "longitude": 126.954301415673,
+                    "accountId": 185,
+                    "createdAt": "2024-10-16T14:05:42.29+00:00",
+                    "deletedAt": null,
+                    "imageUrls": [
+                        "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/place/aa9c52b9-fd43-47f1-9155-8670d39d4a6c"
+                    ],
+                    "placeName": "빽돈 샤로수길점",
+                    "updatedAt": null,
+                    "visitDate": "2024-10-16",
+                    "description": "ㅁㅁ",
+                    "roadAddress": "서울 관악구 관악로16길 32-2",
+                    "categoryGroupCode": "FD6"
+                },
+                {
+                    "id": 125,
+                    "address": "서울 송파구 방이동 70",
+                    "latitude": 37.51348991657128,
+                    "longitude": 127.10984673262884,
+                    "accountId": 185,
+                    "createdAt": "2024-10-16T14:04:56.655+00:00",
+                    "deletedAt": null,
+                    "imageUrls": [
+                        "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/place/cb9174a2-1e7a-4043-add9-61db3adf69b9"
+                    ],
+                    "placeName": "빽돈 방이점",
+                    "updatedAt": null,
+                    "visitDate": "2024-10-16",
+                    "description": "네",
+                    "roadAddress": "서울 송파구 올림픽로32길 29",
+                    "categoryGroupCode": "FD6"
+                }
+            ]
+        },
+        {
+            "id": 72,
+            "accountId": 185,
+            "title": "ㄹ",
+            "description": "ㅁㄴㅇㄹ",
+            "createdAt": "2024-10-17T10:46:58.4+00:00",
+            "updatedAt": null,
+            "deletedAt": null,
+            "isPublic": false,
+            "imageUrls": [
+                "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/collection/efa9bffa-ed75-4736-8e5d-d4535225599f"
+            ],
+            "isActiveCover": true,
+            "hashtags": [
+                {
+                    "id": 77,
+                    "hashtagName": "ㅇㄹ"
+                },
+                {
+                    "id": 78,
+                    "hashtagName": "ㄹㅇㄴ"
+                },
+                {
+                    "id": 79,
+                    "hashtagName": "태그추가"
+                },
+                {
+                    "id": 80,
+                    "hashtagName": "추천태그에요"
+                },
+                {
+                    "id": 81,
+                    "hashtagName": "전구"
+                },
+                {
+                    "id": 178,
+                    "hashtagName": "내퓨ㅜ"
+                }
+            ],
+            "places": [
+                {
+                    "id": 132,
+                    "address": "경기 수원시 영통구 망포동 342",
+                    "latitude": 37.2442101024982,
+                    "longitude": 127.058861983954,
+                    "accountId": 185,
+                    "createdAt": "2024-10-16T23:36:26.065+00:00",
+                    "deletedAt": null,
+                    "imageUrls": [
+                        "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/place/1411a71d-e910-4347-9883-b00690aee9ed"
+                    ],
+                    "placeName": "빽돈 망포점",
+                    "updatedAt": null,
+                    "visitDate": "2024-10-17",
+                    "description": "ㅁㅁ",
+                    "roadAddress": "경기 수원시 영통구 영통로200번길 42",
+                    "categoryGroupCode": "FD6"
+                },
+                {
+                    "id": 130,
+                    "address": "제주특별자치도 제주시 도두이동 1679",
+                    "latitude": 33.509249662484564,
+                    "longitude": 126.47665114830023,
+                    "accountId": 185,
+                    "createdAt": "2024-10-16T23:35:50.583+00:00",
+                    "deletedAt": null,
+                    "imageUrls": [
+                        "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/place/616192b6-24c2-4629-b72a-f6105f80c547"
+                    ],
+                    "placeName": "빽다방베이커리 제주사수점",
+                    "updatedAt": null,
+                    "visitDate": "2024-10-17",
+                    "description": "ㄹㄹ",
+                    "roadAddress": "제주특별자치도 제주시 서해안로 291-5",
+                    "categoryGroupCode": "CE7"
+                },
+                {
+                    "id": 127,
+                    "address": "서울 관악구 봉천동 1602-18",
+                    "latitude": 37.4799119952814,
+                    "longitude": 126.954301415673,
+                    "accountId": 185,
+                    "createdAt": "2024-10-16T14:05:42.29+00:00",
+                    "deletedAt": null,
+                    "imageUrls": [
+                        "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/place/aa9c52b9-fd43-47f1-9155-8670d39d4a6c"
+                    ],
+                    "placeName": "빽돈 샤로수길점",
+                    "updatedAt": null,
+                    "visitDate": "2024-10-16",
+                    "description": "ㅁㅁ",
+                    "roadAddress": "서울 관악구 관악로16길 32-2",
+                    "categoryGroupCode": "FD6"
+                },
+                {
+                    "id": 125,
+                    "address": "서울 송파구 방이동 70",
+                    "latitude": 37.51348991657128,
+                    "longitude": 127.10984673262884,
+                    "accountId": 185,
+                    "createdAt": "2024-10-16T14:04:56.655+00:00",
+                    "deletedAt": null,
+                    "imageUrls": [
+                        "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/place/cb9174a2-1e7a-4043-add9-61db3adf69b9"
+                    ],
+                    "placeName": "빽돈 방이점",
+                    "updatedAt": null,
+                    "visitDate": "2024-10-16",
+                    "description": "네",
+                    "roadAddress": "서울 송파구 올림픽로32길 29",
+                    "categoryGroupCode": "FD6"
+                }
+            ]
+        },
+        {
+            "id": 72,
+            "accountId": 185,
+            "title": "ㄹ",
+            "description": "ㅁㄴㅇㄹ",
+            "createdAt": "2024-10-17T10:46:58.4+00:00",
+            "updatedAt": null,
+            "deletedAt": null,
+            "isPublic": false,
+            "imageUrls": [
+                "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/collection/efa9bffa-ed75-4736-8e5d-d4535225599f"
+            ],
+            "isActiveCover": true,
+            "hashtags": [
+                {
+                    "id": 77,
+                    "hashtagName": "ㅇㄹ"
+                },
+                {
+                    "id": 78,
+                    "hashtagName": "ㄹㅇㄴ"
+                },
+                {
+                    "id": 79,
+                    "hashtagName": "태그추가"
+                },
+                {
+                    "id": 80,
+                    "hashtagName": "추천태그에요"
+                },
+                {
+                    "id": 81,
+                    "hashtagName": "전구"
+                },
+                {
+                    "id": 178,
+                    "hashtagName": "내퓨ㅜ"
+                }
+            ],
+            "places": [
+                {
+                    "id": 132,
+                    "address": "경기 수원시 영통구 망포동 342",
+                    "latitude": 37.2442101024982,
+                    "longitude": 127.058861983954,
+                    "accountId": 185,
+                    "createdAt": "2024-10-16T23:36:26.065+00:00",
+                    "deletedAt": null,
+                    "imageUrls": [
+                        "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/place/1411a71d-e910-4347-9883-b00690aee9ed"
+                    ],
+                    "placeName": "빽돈 망포점",
+                    "updatedAt": null,
+                    "visitDate": "2024-10-17",
+                    "description": "ㅁㅁ",
+                    "roadAddress": "경기 수원시 영통구 영통로200번길 42",
+                    "categoryGroupCode": "FD6"
+                },
+                {
+                    "id": 130,
+                    "address": "제주특별자치도 제주시 도두이동 1679",
+                    "latitude": 33.509249662484564,
+                    "longitude": 126.47665114830023,
+                    "accountId": 185,
+                    "createdAt": "2024-10-16T23:35:50.583+00:00",
+                    "deletedAt": null,
+                    "imageUrls": [
+                        "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/place/616192b6-24c2-4629-b72a-f6105f80c547"
+                    ],
+                    "placeName": "빽다방베이커리 제주사수점",
+                    "updatedAt": null,
+                    "visitDate": "2024-10-17",
+                    "description": "ㄹㄹ",
+                    "roadAddress": "제주특별자치도 제주시 서해안로 291-5",
+                    "categoryGroupCode": "CE7"
+                },
+                {
+                    "id": 127,
+                    "address": "서울 관악구 봉천동 1602-18",
+                    "latitude": 37.4799119952814,
+                    "longitude": 126.954301415673,
+                    "accountId": 185,
+                    "createdAt": "2024-10-16T14:05:42.29+00:00",
+                    "deletedAt": null,
+                    "imageUrls": [
+                        "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/place/aa9c52b9-fd43-47f1-9155-8670d39d4a6c"
+                    ],
+                    "placeName": "빽돈 샤로수길점",
+                    "updatedAt": null,
+                    "visitDate": "2024-10-16",
+                    "description": "ㅁㅁ",
+                    "roadAddress": "서울 관악구 관악로16길 32-2",
+                    "categoryGroupCode": "FD6"
+                },
+                {
+                    "id": 125,
+                    "address": "서울 송파구 방이동 70",
+                    "latitude": 37.51348991657128,
+                    "longitude": 127.10984673262884,
+                    "accountId": 185,
+                    "createdAt": "2024-10-16T14:04:56.655+00:00",
+                    "deletedAt": null,
+                    "imageUrls": [
+                        "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/place/cb9174a2-1e7a-4043-add9-61db3adf69b9"
+                    ],
+                    "placeName": "빽돈 방이점",
+                    "updatedAt": null,
+                    "visitDate": "2024-10-16",
+                    "description": "네",
+                    "roadAddress": "서울 송파구 올림픽로32길 29",
+                    "categoryGroupCode": "FD6"
+                }
+            ]
+        }
+    ],
+    "places": [
+        {
+            "id": 132,
+            "accountId": 185,
+            "description": "ㅁㅁ",
+            "visitDate": "2024-10-17",
+            "placeName": "빽돈 망포점",
+            "address": "경기 수원시 영통구 망포동 342",
+            "latitude": 37.2442101024982,
+            "longitude": 127.058861983954,
+            "createdAt": "2024-10-16T23:36:26.065+00:00",
+            "updatedAt": null,
+            "deletedAt": null,
+            "roadAddress": "경기 수원시 영통구 영통로200번길 42",
+            "imageUrls": [
+                "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/place/1411a71d-e910-4347-9883-b00690aee9ed"
+            ],
+            "categoryGroupCode": "FD6"
+        },
+        {
+            "id": 131,
+            "accountId": 185,
+            "description": "ㅁㅇㄹㅊ",
+            "visitDate": "2024-10-17",
+            "placeName": "빽돈 신논현점",
+            "address": "서울 강남구 논현동 164-13",
+            "latitude": 37.5077812009677,
+            "longitude": 127.02368342436,
+            "createdAt": "2024-10-16T23:36:01.495+00:00",
+            "updatedAt": null,
+            "deletedAt": null,
+            "roadAddress": "서울 강남구 학동로2길 58",
+            "imageUrls": [],
+            "categoryGroupCode": "FD6"
+        },
+        {
+            "id": 130,
+            "accountId": 185,
+            "description": "ㄹㄹ",
+            "visitDate": "2024-10-17",
+            "placeName": "빽다방베이커리 제주사수점",
+            "address": "제주특별자치도 제주시 도두이동 1679",
+            "latitude": 33.509249662484564,
+            "longitude": 126.47665114830023,
+            "createdAt": "2024-10-16T23:35:50.583+00:00",
+            "updatedAt": null,
+            "deletedAt": null,
+            "roadAddress": "제주특별자치도 제주시 서해안로 291-5",
+            "imageUrls": [
+                "https://zzfghrhtmemsirwljiei.supabase.co/storage/v1/object/public/place/616192b6-24c2-4629-b72a-f6105f80c547"
+            ],
+            "categoryGroupCode": "CE7"
+        },
+        {
+            "id": 129,
+            "accountId": 185,
+            "description": "ㄹㄹ",
+            "visitDate": "2024-10-17",
+            "placeName": "빽찐라면",
+            "address": "서울 동작구 상도1동 390",
+            "latitude": 37.5014477452177,
+            "longitude": 126.949552009383,
+            "createdAt": "2024-10-16T23:35:22.66+00:00",
+            "updatedAt": null,
+            "deletedAt": null,
+            "roadAddress": "서울 동작구 상도로 295",
+            "imageUrls": [],
+            "categoryGroupCode": "FD6"
+        },
+        {
+            "id": 128,
+            "accountId": 185,
+            "description": "ㅇ",
+            "visitDate": "2024-10-17",
+            "placeName": "빽다방베이커리 제주사수점",
+            "address": "제주특별자치도 제주시 도두이동 1679",
+            "latitude": 33.509249662484564,
+            "longitude": 126.47665114830023,
+            "createdAt": "2024-10-16T23:35:10.641+00:00",
+            "updatedAt": null,
+            "deletedAt": null,
+            "roadAddress": "제주특별자치도 제주시 서해안로 291-5",
+            "imageUrls": [],
+            "categoryGroupCode": "CE7"
+        }
+    ]
+}

@@ -21,7 +21,7 @@ final class RegistCollectionComponent: Component<RegistCollectionDependency> {
     var collectionUseCase: CollectionUseCaseProtocol {
         return dependency.collectionUseCase
     }
-    
+
     var userInfo: UserInfo? {
         return dependency.userInfo
     }

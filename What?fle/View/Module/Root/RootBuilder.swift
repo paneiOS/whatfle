@@ -40,10 +40,10 @@ final class RootComponent: Component<RootDependency> {
     }
 
     let homeNavigationController: UINavigationController = .init()
-    let mapNavigationController: UINavigationController = .init()
+    let myPageNavigationController: UINavigationController = .init()
 }
 
-extension RootComponent: HomeDependency, AddDependency, MapDependency, RegistLocationDependency {
+extension RootComponent: HomeDependency, AddDependency, MyPageDependency, RegistLocationDependency, LoginDependency {
     var homeBuilder: HomeBuildable {
         return HomeBuilder(dependency: self)
     }
@@ -52,12 +52,16 @@ extension RootComponent: HomeDependency, AddDependency, MapDependency, RegistLoc
         return AddBuilder(dependency: self)
     }
 
-    var mapBuilder: MapBuildable {
-        return MapBuilder(dependency: self)
+    var myPageBuilder: MyPageBuildable {
+        return MyPageBuilder(dependency: self)
     }
 
     var registLocationBuilder: RegistLocationBuildable {
         return RegistLocationBuilder(dependency: self)
+    }
+
+    var loginBuilder: LoginBuildable {
+        return LoginBuilder(dependency: self)
     }
 }
 

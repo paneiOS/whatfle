@@ -11,7 +11,7 @@ import RxCocoa
 import RxSwift
 
 protocol HomeCellDelegate: AnyObject {
-    func didTapFavoriteButton(id: Int, isFavorite: Bool)
+    func didTapFavoriteCollection(id: Int, isFavorite: Bool)
 }
 
 final class HomeCell: UICollectionViewCell {
@@ -36,6 +36,7 @@ final class HomeCell: UICollectionViewCell {
         )
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.register(EmptyCell.self, forCellWithReuseIdentifier: EmptyCell.reuseIdentifier)
         collectionView.register(BasicTagCell.self, forCellWithReuseIdentifier: BasicTagCell.reuseIdentifier)
         collectionView.backgroundColor = .white
         return collectionView
@@ -190,25 +191,20 @@ extension HomeCell {
 
     func drawCell(model: HomeDataModel.Content) {
         self.tag = model.collection.id
-
         self.tags = model.collection.hashtags.map { $0.hashtagName }
-
-        self.favoriteButton.isSelected = model.collection.isFavoriate
-
+        self.favoriteButton.isSelected = model.collection.isFavorite
         self.titleLabel.attributedText = .makeAttributedString(
             text: model.collection.title,
             font: .title20XBD,
             textColor: .textDefault,
             lineHeight: 28
         )
-
         self.subtitleLabel.attributedText = .makeAttributedString(
             text: model.collection.description,
             font: .caption13MD,
             textColor: .textLight,
             lineHeight: 20
         )
-
         let imageViews = [
             self.topLeftImageView,
             self.topRightImageView,
@@ -231,11 +227,48 @@ extension HomeCell {
         )
     }
 
+    func drawCell(model: HomeDataModel.Collection) {
+        self.tag = model.id
+        self.tags = model.hashtags.map { $0.hashtagName }
+        self.favoriteButton.isSelected = model.isFavorite
+        self.titleLabel.attributedText = .makeAttributedString(
+            text: model.title,
+            font: .title20XBD,
+            textColor: .textDefault,
+            lineHeight: 28
+        )
+        self.subtitleLabel.attributedText = .makeAttributedString(
+            text: model.description,
+            font: .caption13MD,
+            textColor: .textLight,
+            lineHeight: 20
+        )
+        let imageViews = [
+            self.topLeftImageView,
+            self.topRightImageView,
+            self.bottomLeftImageView,
+            self.bottomRightImageView
+        ]
+        for (idx, imageURL) in (model.places.compactMap { $0.imageURLs?.first }).enumerated() {
+            guard idx < 5 else { return }
+            imageViews[idx].loadImage(from: imageURL)
+        }
+        if let userInfo = SessionManager.shared.loadUserInfo() {
+            self.profileImageView.loadImage(from: userInfo.profileImagePath)
+            self.userName.attributedText = .makeAttributedString(
+                text: userInfo.nickname ?? "",
+                font: .body14MD,
+                textColor: .textExtralight,
+                lineHeight: 20
+            )
+        }
+    }
+
     private func setupActionBinding() {
         self.favoriteButton.rx.controlEvent(.touchUpInside)
             .subscribe(onNext: { [weak self] in
                 guard let self else { return }
-                self.delegate?.didTapFavoriteButton(id: self.tag, isFavorite: self.favoriteButton.isSelected)
+                self.delegate?.didTapFavoriteCollection(id: self.tag, isFavorite: self.favoriteButton.isSelected)
             })
             .disposed(by: disposeBag)
     }
@@ -248,7 +281,9 @@ extension HomeCell: UICollectionViewDelegateFlowLayout, UICollectionViewDataSour
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BasicTagCell.reuseIdentifier, for: indexPath) as? BasicTagCell,
-              let tag = self.tags[safe: indexPath.row] else { return UICollectionViewCell() }
+              let tag = self.tags[safe: indexPath.row] else {
+            return collectionView.dequeueReusableCell(withReuseIdentifier: EmptyCell.reuseIdentifier, for: indexPath)
+        }
         cell.view.backgroundColor = .Core.p100
         cell.drawLabel(tag: .makeAttributedString(
             text: tag,

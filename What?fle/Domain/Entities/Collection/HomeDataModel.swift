@@ -99,7 +99,7 @@ struct HomeDataModel: Decodable {
         let hashtags: [Hashtag]
         let places: [Place]
 
-        var isFavoriate: Bool = false
+        var isFavorite: Bool = false
 
         enum CodingKeys: String, CodingKey {
             case id
@@ -122,7 +122,7 @@ struct HomeDataModel: Decodable {
             self.isActiveCover = data.isActiveCover
             self.hashtags = data.hashtags
             self.places = data.places
-            self.isFavoriate = isFavorite
+            self.isFavorite = isFavorite
         }
 
         struct Hashtag: Decodable {
@@ -145,6 +145,8 @@ struct HomeDataModel: Decodable {
             let description: String
             let roadAddress: String
             let categoryGroupCode: String?
+
+            var isFavorite: Bool = false
 
             enum CodingKeys: String, CodingKey {
                 case id, address, latitude, longitude

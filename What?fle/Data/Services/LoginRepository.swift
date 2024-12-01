@@ -72,7 +72,7 @@ final class LoginRepository: LoginRepositoryProtocol {
     func updateUserProfile(userProfile: UserProfile) -> Single<UserInfo> {
         return networkService.request(LoginAPI.updateProfile(userProfile))
     }
-    
+
     func getUserInfo() -> Single<UserInfo> {
         return networkService.request(LoginAPI.getUserInfo)
     }

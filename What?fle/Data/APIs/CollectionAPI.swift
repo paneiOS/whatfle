@@ -15,7 +15,8 @@ enum CollectionAPI: Loginable {
     case getAllMyCollectionIDsWithFavorite
     case getHomeData(page: Int, pageSize: Int)
     case getRecommendHashtag
-    case updateFavorite(id: Int, isFavorite: Bool)
+    case updateFavoriteLocation(id: Int, isFavorite: Bool)
+    case updateFavoriteCollection(id: Int, isFavorite: Bool)
 
     var requiresLogin: Bool {
         switch self {
@@ -45,7 +46,9 @@ extension CollectionAPI: TargetType {
             return basePath + "/hashtag/recommend"
         case .registCollectionData:
             return basePath + "/collection"
-        case .updateFavorite:
+        case .updateFavoriteLocation:
+            return basePath + "/favorite/place"
+        case .updateFavoriteCollection:
             return basePath + "/favorite/collection"
         }
     }
@@ -54,7 +57,7 @@ extension CollectionAPI: TargetType {
         switch self {
         case .registCollectionData:
             return .post
-        case .updateFavorite:
+        case .updateFavoriteLocation, .updateFavoriteCollection:
             return .put
         default:
             return .get
@@ -70,7 +73,12 @@ extension CollectionAPI: TargetType {
             )
         case .registCollectionData(let model):
             return .requestJSONEncodable(model)
-        case .updateFavorite(let id, let isFavorite):
+        case .updateFavoriteLocation(let id, let isFavorite):
+            return .requestParameters(
+                parameters: ["placeId": id, "isFavorite": isFavorite ? "true" : " false"],
+                encoding: URLEncoding.queryString
+            )
+        case .updateFavoriteCollection(let id, let isFavorite):
             return .requestParameters(
                 parameters: ["collectionId": id, "isFavorite": isFavorite ? "true" : " false"],
                 encoding: URLEncoding.queryString

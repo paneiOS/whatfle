@@ -67,9 +67,11 @@ final class NetworkService: NetworkServiceDelegate {
                     continue
                 }
 
+                /*
                 logPrint("현재 상태", change.event)
                 logPrint("현재 유저", change.session?.user)
                 logPrint("현재 유저메타데이터", change.session?.user.userMetadata)
+                 */
 
                 switch change.event {
                 case .initialSession:

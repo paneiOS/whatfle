@@ -8,20 +8,25 @@
 import RIBs
 import UIKit
 
-protocol RootInteractable: Interactable, HomeListener, MapListener, AddListener, RegistLocationListener {
+protocol RootInteractable: Interactable, HomeListener, MyPageListener, AddListener, RegistLocationListener, LoginListener {
     var router: RootRouting? { get set }
     var listener: RootListener? { get set }
 }
 
 protocol RootViewControllable: ViewControllable {
     func setTabBarViewController(_ viewControllers: [UINavigationController], animated: Bool)
+    func selectMyPageTab()
 }
 
 final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable> {
     private let component: RootComponent
 
     weak var addRouter: AddRouting?
+    weak var myPageRouter: MyPageRouting?
+    weak var loginRouter: LoginRouting?
     weak var registLocationRouter: RegistLocationRouting?
+
+    private var postLoginAction: (() -> Void)?
 
     init(
         interactor: RootInteractable,
@@ -47,12 +52,13 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable> {
         let dummyNavigation = UINavigationController()
         dummyNavigation.tabBarItem = tabBarItem(type: .add)
 
-        let mapRouter = component.mapBuilder.build(withListener: interactor)
-        let mapNavigation = UINavigationController(root: mapRouter.viewControllable)
-        mapNavigation.tabBarItem = tabBarItem(type: .map)
-        attachChild(mapRouter)
+        let myPageRouter = component.myPageBuilder.build(withListener: self.interactor)
+        let myPageNavigation = component.myPageNavigationController
+        myPageNavigation.setNavigationBarHidden(true, animated: false)
+        myPageNavigation.tabBarItem = tabBarItem(type: .myPage)
+        attachChild(myPageRouter)
 
-        let viewControllables = [homeNavigation, dummyNavigation, mapNavigation]
+        let viewControllables = [homeNavigation, dummyNavigation, myPageNavigation]
         viewController.setTabBarViewController(viewControllables, animated: false)
     }
 }
@@ -89,12 +95,64 @@ extension RootRouter: RootRouting {
             self.registLocationRouter = nil
         }
     }
+
+    private func setPostLoginAction(_ action: @escaping () -> Void) {
+        postLoginAction = action
+    }
+
+    private func executePostLoginAction() {
+        postLoginAction?()
+        postLoginAction = nil
+    }
+
+    func proceedToNextScreenAfterLogin() {
+        self.dismissLoginRIB { [weak self] in
+            guard let self else { return }
+            self.executePostLoginAction()
+        }
+    }
+
+    func routeToMyPage() {
+        if component.networkService.isLogin {
+            self.viewController.selectMyPageTab()
+        } else {
+            self.setPostLoginAction { [weak self] in
+                guard let self else { return }
+                self.routeToMyPage()
+            }
+            self.showLoginRIB()
+        }
+    }
+
+    func showLoginRIB() {
+        if self.loginRouter == nil {
+            let router = self.component.loginBuilder.build(withListener: self.interactor)
+            if let navigationController = router.navigationController {
+                navigationController.modalPresentationStyle = .fullScreen
+                self.viewController.present(navigationController, animated: true)
+                self.attachChild(router)
+                self.loginRouter = router
+            }
+        }
+    }
+
+    func dismissLoginRIB(completion: (() -> Void)?) {
+        if let router = self.loginRouter {
+            self.viewController.uiviewController.dismiss(animated: true) { [weak self] in
+                guard let self = self else { return }
+                completion?()
+                self.detachChild(router)
+                self.loginRouter = nil
+                self.postLoginAction = nil
+            }
+        }
+    }
 }
 
 // MARK: - enum ItemType
 extension RootRouter {
     private enum ItemType: CaseIterable {
-        case home, add, map
+        case home, add, myPage
 
         var tatile: String {
             switch self {
@@ -102,8 +160,8 @@ extension RootRouter {
                 return "홈"
             case .add:
                 return "추가"
-            case .map:
-                return "지도"
+            case .myPage:
+                return "마이페이지"
             }
         }
 
@@ -113,8 +171,8 @@ extension RootRouter {
                 return .homeLine
             case .add:
                 return .addLine
-            case .map:
-                return .mappinLine
+            case .myPage:
+                return .mypageLine
             }
         }
 
@@ -124,8 +182,8 @@ extension RootRouter {
                 return .homeFilled
             case .add:
                 return .addFilled
-            case .map:
-                return .mappinFilled
+            case .myPage:
+                return .mypageFilled
             }
         }
     }
